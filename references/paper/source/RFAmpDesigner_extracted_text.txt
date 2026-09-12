@@ -1,0 +1,1459 @@
+
+
+===== PAGE 1 =====
+1
+RFAmpDesigner: A Self-Evolving Multi-Agent LLM Framework for
+Automated Radio Frequency Amplifier Design
+Hang Lu, Guochang Li, Qianyu Chen, Huiyan Gao, Shaogang Wang, Graduate Student Member, IEEE
+Xuanyu He, Yiwei Liu, Gaopeng Chen, Nayu Li, Xiaokang Qi, Chunyi Song Member, IEEE and
+Zhiwei Xu, Senior Member, IEEE
+Abstract—Automating radio frequency (RF) amplifier design for electronic design automation (EDA) has never ceased,
+remains challenging because existing methods suffer from the either to broaden the design space in pursuit of peak per-
+curse of dimensionality, weak use of domain knowledge, and
+formance or to enhance iteration efficiency and minimize
+poor transferability, leading to low data efficiency. Meanwhile,
+time-to-market. At present, EDA tools for digital and analog
+although large language models (LLMs) have shown promise in
+many scientific domains, applying them directly to RF sizing is circuit design have reached a relatively mature stage. However,
+nontrivial due to the numerical nature of circuit optimization and automation for radio frequency (RF) circuit design remains in
+the reliance on domain-specific design flows. To address this, this its early development phase [1].
+paper proposes RFAmpDesigner, a multi-agent framework that
+This gap arises from two principal challenges: parameter
+automates RF amplifier sizing. It introduces a resource-allocation
+sizing and passive component modeling. First, the design of
+middleware that reframes high-dimensional parameter tuning
+as a low-dimensional resource distribution problem, making it RF circuits, particularly wideband implementations, requires
+easier to inject sizing knowledge into general-purpose LLMs. achieving multi-objective trade-offs while maintaining the
+The framework also follows standard design practice, enabling desired operating bandwidth. Compared to digital and low-
+LLMs to distinguish between high- and low-cost actions and
+frequency analog circuits, this inherent complexity results
+search in parallel. To realize a self-evolving optimization process,
+in a sparse distribution of feasible solutions. Second, the
+the framework employs retrieval-augmented generation (RAG)
+to reuse past knowledge and experience from memory base. high operating frequencies cause the physical dimensions
+As a proof of concept, we apply RFAmpDesigner to low noise of passive components to approach the signal wavelength,
+amplifiers of varying complexity. The experimental results show leading to pronounced distributed effects and parasitic loss.
+that it can automatically synthesize designs with fractional
+Simulation models in standard process design kit (PDK) often
+bandwidths ranging from 10% to 80% and center frequencies
+fail to maintain accuracy under such conditions, compelling
+from 10 GHz to 50 GHz. To the best of our knowledge, this work
+develops the first LLM-driven approach for RF amplifier sizing designers to rely on time-consuming full-wave electromagnetic
+that operates on design concepts instead of treating netlists as (EM) simulations. Taken together, these challenges necessitate
+text, offering a novel solution to mitigate data scarcity in RF that EDA algorithms navigate a sparsely populated solution
+design.
+space, requiring extensive exploration through iterative and
+Index Terms—Agentic workflow, design automation, large computationally intensive electromagnetic and circuit simula-
+language models, radio frequency integrated circuits tions to identify feasible designs. This significantly increases
+the complexity and computational burden associated with de-
+veloping robust EDA methodologies for RF circuit design. The
+I. INTRODUCTION
+subsequent discussion elaborates on prior efforts addressing (i)
+T HE chip industry relentlessly pursues both peak perfor-
+active parameter sizing and (ii) passive-component physical
+mance and maximal efficiency. As a result, the demand
+design.
+To address the first active parameter sizing challenge,
+This paragraph of the first footnote will contain the date on which you
+submitted your paper for review. This work was supported by the Donghai existing approaches can be categorized into two categories:
+Laboratory (Grant no. DH-2023QD0004), by the National Natural Science optimization-based methods [2]–[5] and learning-based meth-
+Foundation of China, Key Project No.62434008, by the National Key Research
+ods [6]–[9]. Commercial tools such as Keysight ADS [10]
+and Development Program of China under Grant No. 2023YFB4403304,
+supported by the Fundamental Research Funds for the Central Universities integrate several gradient-based and stochastic search algo-
+226-2025-00003. (Corresponding authors: Chunyi Song; Zhiwei Xu.) rithms (e.g. simulated annealing, particle swarm) to facilitate
+Hang Lu, Qianyu Chen, Huiyan Gao, Shaogang Wang, Xuanyu He,
+the circuit design process. Population-based methods, such
+Yiwei Liu, Gaopeng Chen, Xiaokang Qi and Zhiwei Xu are with the
+State Key Laboratory of Ocean Sensing (& Institute of Fundamental and as nondominated sorting genetic algorithm (NSGA-II), have
+Transdisciplinary Research, the Institute of Marine Electronics and Intelligent been employed to optimize each sub-block individually and
+Systems, Ocean College,), Zhejiang University, Zhoushan, 316021, China,
+assemble pareto-optimal fronts (POFs) in a bottom-up manner
+and also with the Engineering Research Center of Oceanic Sensing Technol-
+ogyand Equipment, Ministry of Education, Zhoushan 316021, China (email: [2], [3]. Bayesian optimization [5] treats circuit sizing as an
+xuzw@zju.edu.cn). expensive black-box function and employs Gaussian Processes
+Nayu Li and Chunyi Song are with the Donghai Laboratory, Zhoushan
+(GP) to construct surrogate models to reduce computation cost.
+316021, China, and also with the State Key Laboratory of Ocean Sensing
+(& Institute of Fundamental and Transdisciplinary Research, the Institute On the learning side, neural networks have been trained to
+of Marine Electronics and Intelligent Systems, Ocean College,), Zhejiang automate physical parameter sizing of transformers [7] and
+University, Zhoushan, 316021, China (e-mail: linayu@zju.edu.cn).
+distributed circuits [8]. Recent reinforcement learning (RL)
+Guochang Li is with College of Computer Science, Zhejiang University,
+Hangzhou, China (e-mail: gcli@zju.edu.cn). approaches employ graph embeddings to represent circuits
+6202
+yaM
+11
+]RA.sc[
+1v39001.5062:viXra
+
+
+===== PAGE 2 =====
+2
+Gradient Population Surrogate Model Language Model Tools ality impairs algorithmic efficiency and reward acquisition.
+Based Based Based
+In contrast, LLMs leverage tools to exploit human sizing
+expertise and reformulate the task as a hierarchy of lower-
+Actor-Critic Agent dimensional subproblems.
+Optimization RL LLM Dimension 2: Candidate Refinement. Optimization meth-
+ods typically generate either isolated solutions or Pareto fronts,
+POF with no mechanism for refining prior candidate solution us-
+ing domain expertise. Although RL-based methods generate
+Isolated Data Points Design Trajectory Design Trajectory sequential trajectories, these are rarely interpretable to hu-
+High-dimensional search High-dimensional search L pr o o w b - l d e i m m s e n b s y i o u n s a in l g s u to b o - ls man designers. Compared with them, LLM-driven approaches
+No refinement Iterative refinement Iterative refinement leverage domain expertise to augment each decision with
+explicit reasoning, thereby enhancing both interpretability and
+Start from scratch No more costly training Adapt over time
+design professionalism.
+No human involved No human involved Copilot with human Dimension 3: Knowledge Transferability. Optimization
+approaches solve each task from scratch, with no mechanism
+Fig. 1. Conceptual overview of widely adopted methodologies in RF circuits
+to retain knowledge. RL partially alleviates this by embed-
+design and this work.
+ding knowledge in value or policy networks, yet changes in
+design-space dimensionality still demand extensive retraining.
+and learn policies that refine designs iteratively [9]. Despite Whereas, LLM-driven methods employ memory modules to
+these advances, both categories typically rely on extensive recall prior solutions and learns from human-provided circuit-
+simulations or dedicated datasets, which limit their scalability level reasoning examples how to reuse them for new designs,
+and adaptability in practical RF design. thereby offering a degree of generalization even under varia-
+As for the second challenge of physical design of passive tions in the solution space dimensionality.
+microwave component, various methods have been proposed Dimension 4: Human-in-the-loop. Optimization and RL
+since the 1960s [11]. Among these, techniques that have methods run in closed loops without human intervention, leav-
+stood the test of time include space mapping [12] and neural ing domain knowledge underutilized and often incurring long
+networks [13]. Space mapping is an optimization method- runtime even near feasible designs. On the other hand, LLM-
+ology that aims to achieve a satisfactory solution with a based approaches naturally support user interaction, enabling
+minimal number of computationally expensive high-fidelity the direct incorporation of human expertise.
+model evaluations. It iteratively refines low-fidelity surrogate In summary, the four-dimension comparison highlights that
+models with simulations through parameter mapping. Re- LLM-based methods offer clear advantages over optimization
+cently, various variants of neural network, such as feedforward and RL approaches in terms of dimension reduction, knowl-
+neural networks (FNN) [14], recurrent neural networks (RNN) edge utilization, and transferability. Consequently, recent stud-
+[15], and convolutional neural networks (CNN) [16], have ies have explored their use in EDA tasks, which can be broadly
+been used to construct surrogate models for critical passive categorized into two main directions: topology synthesis and
+components, including on-chip inductors [17], input/output parameter sizing. Specifically, topology synthesis works utilize
+matching networks in power amplifiers [18], [19], filters [20] the generative capabilities of LLMs to produce circuit netlists,
+and antennas [21]. Overall, surrogate-based approaches have which typically require subsequent optimization to strictly
+proven effective in replacing EM solvers for modeling indi- meet user specifications [23]–[29]. In contrast, parameter
+vidual passive components. Nevertheless, the mapping from sizing approaches leverage the reasoning capabilities of LLMs
+physical dimensions to electrical performance is inherently to assist optimization algorithms by refining search spaces
+non-injective, which prevents direct physical realization from [30]–[33]. In addition, other studies have investigated LLMs as
+performance specifications. As a result, optimization- or RL- copilots for tasks such as layout design [34]. However, current
+based pipelines remain indispensable for completing the phys- approaches have two common limitations for our setting. First,
+ical design. RF design is seldom addressed, where frequency shaping
+The limited efficiency of existing methods call for ap- increases the effective design dimensionality and rewards are
+proaches that can leverage domain knowledge, perform com- often sparse, making optimization more difficult. Second,
+plex reasoning, and transfer across tasks. Large language direct manipulation of netlists by the LLM is required, which
+models (LLMs) naturally possess these capabilities and have can hinder the practical deployment of smaller models.
+already transformed a range of scientific domains [22]. To fur- When addressing the highly specialized task of RF amplifier
+ther substantiate the necessity of applying LLMs to RF design parameter sizing, relying solely on the internal knowledge of
+automation, a systematic comparison among optimization- LLMs and generic multi-step reasoning proves insufficient.
+based, RL-based, and LLM-driven methods is provided in Three challenges underlie this limitation: (i) the parameter
+Fig. 1. Their advantages and disadvantages are summarized space is high-dimensional and strongly coupled, a complex-
+at the bottom along the four dimensions shown below. ity that even human experts struggle to fully interpret and
+Dimension 1: Search Dimensionality. Conventional op- write accurate prompts to guide LLMs; (ii) circuit design
+timization and RL methods directly search the full high- is inherently an optimization problem, where sparse domain
+dimensional parameter space, where the curse of dimension- knowledge is in numerical format which cannot be effec-
+
+
+===== PAGE 3 =====
+3
+Design workflow Active Active Active Netlist and
+text parameters parameters parameters simulation
+results
+Agent decide Meet Y
+the current
+P L D o o e w a s d e i r g R n B a u g n d o d g a e l X : t , , dis a tr n ib d u g t a io in n of A si c z t i i n v g e Im m p a e tc d h a i n n c g e Pl B an a n n i d n g e F v u a ll l u c a h t a io in n goal? Des (n ig e n tl i r s e t s & ults
+fL~fH, Gain, each stages and &passive &passive N simulation)
+NF, IP1 biasing parameters parameters Details of
+(partial) simulation
+Candidates
+Two-Tier Multi-Agent Framework[Sec. II-C] 𝑿 ∈ 𝑹𝟑𝟎 Search Tool
+Multiple reasoning paths Action
+Mode 1 Search Refine … Refine Active Sizing Load&Source
+ReasoningObservation [Stage 1] Pull [Stage 2]
+RFAmpSeacher
+Tool Middleware[Sec. II-B]
+Memory Search … Refine
+Mode 2 Action Refine Tool
+Memory Refine … Search
+RFAmpManager
+Refine RFAmpRefiner
+ReasoningObservation Ban
+[S
+d
+t a
+P
+g
+la
+e
+n
+3
+n
+]
+ing Run
+[S
+S
+ta
+im
+ge
+u l
+4
+a
+]
+tion
+Pick and Store summary
+Store Candidates Topology & Knowledge Preparation[Sec. II-A]
+RAG Pcell and Netlist Python+Ocean to run Power-Performance
+Memory Base[KB and EB] Candidate Queue Creation test bench Database
+Fig. 2. (up) The proposed design workflow of LLM. (down) Architecture of RFAmpDesigner: The workflow starts with the Topology and knowledge
+preparation (yellow block, Sec. II-A), which provides the initial design context. It then proceeds to the Resource-allocation multi-fidelity tool middleware
+(green block, Sec. II-B), which manages tool calls for agents. Finally, the Two-Tier multi-agent framework (blue block, Sec. II-C) iteratively uses tools and
+simulation feedbacks to guide the sizing process.
+tively encoded into model parameters; and (iii) in expert-
+intensive domains, well-established design pipelines already Candidate X = [X 1 , X 2,1 , X 2,2 , X 2,3 , X 3 ] ∈ R30
+exist, making it impractical for LLMs to start from scratch X = [W , W , W , V , V , V ]
+1 1 2 3 GS,1 GS,2 GS,3
+and autonomously orchestrate efficient search paths.
+X = [k , L , L , R , R , C , C ]
+2,i 1,i 1,i 2,i 1,i 2,i 1,i 2,i
+To address these challenges, this paper makes the following
+X = [L , L , L ]
+3 par g s
+core contributions:
+1) This paper proposes RFAmpDesigner, a self-evolving
+multi-agent framework that represents the first LLM-
+driven approach that performs specification-driven RF
+amplifier parameter sizing via a resource-allocation tool
+middleware without operating directly on netlists.
+2) RFAmpDesigner introduces, for the first time, a novel
+tool middleware that abstracts circuit optimization as
+resource allocation to reduce dimension, embedding
+domain-specific sizing knowledge into general LLMs,
+enabling LLMs of different sizes to be applied directly
+in RF design automation.
+3) RFAmpDesigner consists of three agents, collaborating
+in a two-tier workflow aligned with established circuit
+design pipelines, which enables parallel execution and
+efficient searching and refining.
+4) RFAmpDesigner employs retrieval-augmented genera-
+tion (RAG) to reuse past knowledge and experience,
+enhancing the efficiency of data utilization during self-
+evolving optimization.
+The rest of this paper is organized as follows. Section II
+demonstrates the framework of RFAmpDesigner. Section III
+presents the experimental results. Section IV concludes the
+paper.
+R F
+V
+IN
+G 1
+L
+L
+p
+g
+a r
+V B 1
+L s V V D D B 2 V B 3 R L C L
+Fig. 3. Topology used in experiments for proof of concept.
+II. FRAMEWORK OF RFAMPDESIGNER
+As shown in the upper part of Fig. 2, we propose a design
+workflow that enables an LLM to tune circuit parameters in
+a human-like manner, i.e., by iteratively making concept-level
+decisions rather than directly manipulating high-dimensional
+netlist variables. The LLM outputs textual design intents,
+which are progressively compiled by our tool middleware
+(highlighted in the green block) into an executable netlist.
+The generated netlist is then simulated, and the resulting
+detailed performance report is fed back to the LLM to support
+reflection and subsequent refinement. Concretely, the overall
+framework comprises three core modules:
+Topology and knowledge preparation. Once topology and
+process technology are specified, the corresponding scripts,
+prompts, and expert knowledge are fixed, providing the foun-
+
+
+===== PAGE 4 =====
+4
+TABLE I
+DESIGN TOOLS OVERVIEW.
+Name Format Documentation
+Active sizing Input Inputs a list of power ratios of each stages, e.g. [0.4, 0.3, 0.3] means that the first, second and third
+& biasing <power_ratio_list> stages use 40 percents, 30 percents and 30 percents of the given power constraints respectively.
+Output Outputs all possible combinations of active parameters in a list. Each item is a dictionary containing
+<active_params_dict_list> the width, bias voltage, transconductance, dc current, and input/output impedance of each stages.
+Impedance Input Takes a list of active parameters and performs source and load matching for critical performance
+matching <active_params_dict> stages to satisfy user-specified performance requirements. Optionally accepts NF headroom and
+[NF_headroom] Gain require to constrain noise figure and gain.
+[Gain_require]
+Output Optimizes according to user-specified requirements, gain constraints, and headroom. Returns the
+<passive_params_cpstages> optimized passive parameters of the critical performance stages together with the corresponding
+<sim_result_cpstages> simulation results.
+Band Input Uses a low-fidelity computation method based on the positions of interleaved peaks to achieve the re-
+planning <active_params_dict> quired gain and ripple within the specified operating bandwidth. Optionally accepts Gain require list
+<gain_list> to constrain gain distribution of each stages.
+[Gain_req_list]
+Output After completing optimization, it outputs the passive parameter dictionary of the remaining stages
+<passive_params_dict> together with the low-fidelity theoretical gain dictionary.
+<cal_gain_dict>
+Fullchain Input Receives a circuit dictionary, invokes the simulator to perform full-chain evaluation.
+evaluation <wholechain_active_dict>
+<wholechain_passive_dict>
+Output After completing simulation, it returns the true simulation results for both small-signal and large-
+<sim_results_dict> signal analyses.
+* Required arguments are enclosed in <> and optional arguments are in []
+dation for subsequent tool and agent construction. The discussion now turns to the passive components. For
+Resource-allocation multi-fidelity tool middleware. Act- a given allowable ripple, wider bandwidth requires higher-
+ing as an abstraction layer between the LLM and commercial order passive networks, which typically incurs greater losses
+EDA tools, the middleware reformulates RF amplifier design at microwave and millimeter-wave frequencies. Among the
+as a resource-allocation problem—distributing current across fourth-order coupled-resonator networks commonly used to
+active devices and gain across passive networks via two design interconnect two gain stages, magnetically coupled resonators
+tools: Search Tool and Refine Tool. This formulation reduces (MCRs) have gained particular traction due to their compact
+problem dimensionality enables models of varying scales to footprint and inherent support for both dc biasing and ac
+function effectively within this vertical domain. coupling [35].
+Multi-agent framework. This part introduces two oper- To construct design tools, an expert knowledge database
+ational modes of RFAmpDesigner: Autonomous Search and about active device is constructed based on the TSMC N65
+Self-Evolving Retrieve-and-Refine. Three agents collaborate in PDK, shown in the yellow block of Fig. 2 at the bottom
+alignment with human design pipelines to balance exhaustive right. Cadence parameterized cells are developed for differ-
+searching with lightweight refinement, thereby meeting user ential common-source stages with neutralization capacitors
+queries, summarizing and reusing past experience. and single-ended cascode stages, enabling batch layout gen-
+eration. Calibre DRC/LVS/PEX are then employed to ex-
+A. Topology and Knowledge Preparation
+tract layout parasitics and generate post-layout netlists. To
+To verify the framework, a classic LNA topology is em- unify device characterization with respect to power consump-
+ployed as the design target, as shown in Fig. 3. The active com- tion, automated OCEAN and shell scripts are developed for
+ponents are first considered. In the design of multi-stage RF batch circuit simulations, yielding lookup tables that record
+amplifiers, a primary challenge stems from the circuit’s non- power consumption across device sizes and bias voltages. The
+ideal unilateral characteristics, which cause coupling effects same methodology is further applied to capture input/output
+whereby modifications in one stage inevitably influence the impedances and equivalent transconductance when driving a
+behavior of others. This interdependence substantially compli- 50 Ω load for later use. The final dataset encompasses cascode
+cates the design process. To alleviate such effects, differential devices with dimensions ranging from 45 µm to 180 µm in
+common-source amplifiers with neutralization capacitors have 9 µm increments, differential common-source devices from
+become a classic choice in microwave and millimeter-wave ap- 45 µm to 117 µm in 9 µm steps and bias voltages from 300 mV
+plications. For receiver front-ends, the noise figure (NF) is the mV to 500 mV in 25 mV increments.
+dominant performance metric. To balance noise performance
+with input matching, source-degeneration inductance is com-
+B. Resource-allocation Multi-fidelity Tool Middleware
+monly employed to provide local negative feedback. The first
+stage adopts a single-ended cascode topology, which obviates Consider a practical case of designing the three-stage LNA
+the need for a broadband balun in the input network, thereby shown in Fig. 3, where the design space spans 30 parame-
+avoiding noise degradation and reducing power consumption. ters. To minimize noise, a human designer would typically
+
+
+===== PAGE 5 =====
+5
+TABLE II In RF amplifiers, different performance metrics are primar-
+VARIABLE RANGES FOR STAGE 2 AND STAGE 3 OPTIMIZATION ily determined by different stages. Take LNA for example, the
+noise figure is predominantly determined by the first stage.
+Stage 2 Stage 3
+Variables Ranges Variables Ranges Other metrics, such as linearity, tend to exhibit a loosely
+k [0.1, 0.7] k [0.1, 0.8] proportional relationship with transistor size and bias. To
+L1(pH) [100, 1000] ω0(GHz) [ωL, ωH]
+reduce computational complexity, the tool categorizes active
+L2(pH) [100, 1000] Q0 [0.1, 8]
+R1(Ω) [100, 1000] C(fF ) [C2, 200] stages into critical and non-critical groups. For each group,
+R2(Ω) [100, 1000] only two extreme configurations—the largest and the smallest
+C1(fF ) [0, 50]
+device realizations—are retained. Consequently, each current
+C2(fF ) [0, 50]
+Ls(pH) [0, 150] allocation produces four representative candidate active device
+configurations.
+Y11 2) Stage 2: Impedance Matching for Critical Perfor-
+k
+mance Stages
+The second stage focuses on impedance matching for
+Is V
+critical performance stages. In LNA, the tool employs a
+I11
+VB particle swarm optimization algorithm to minimize the noise
+Rs Cs R2 C2
+figure and input return loss (S ) by designing the in-
+11
+Fig. 4. The lumped model of MCR. put matching network and the first-stage balun. The opti-
+mization parameters include seven balun-related variables,
+namely k, L , L , R , R , C , C , together with the source-
+1 2 1 2 1 2
+perform load-pull and source-pull analyses on the first stage degeneration inductor L . The ranges of these variables are
+s
+to determine the optimal impedance conditions. If linearity summarized in Table II.
+constraints are also imposed, gain must be redistributed across
+stages through the joint adjustment of both active and passive
+(cid:0) (cid:1)
+components. This example illustrates a central difficulty in NF violation = max 0, NF sim − (NF user − 0.2)
+RF design: human sizing expertise is concept-driven, often S = max (cid:0) 0, S + 20 (cid:1)
+11,violation 11,sim
+involving simultaneous adjustments of coupled parameters. Yet
+cost = 1000 × NF + 1000 × S (1)
+violation 11,violation
+parameter–performance relationships are inherently numerical,
+and direct manipulation of such values is a weakness of LLMs, Due to the inherent difficulty of analytically modeling input
+making them difficult to express as effective prompts. impedance and noise figure, the tool adopts a high-fidelity
+To address these difficulties, a novel tool middleware is simulation-driven approach. For each candidate design, it first
+developed grounded in circuit design principles, shown in the invokes an OCEAN script to simulate the first two stages of
+green block of Fig. 2 at the middle right. The middleware de- the amplifier without the input matching network. This step
+couples the problem and reformulates it as a Six-dimensional extracts the input impedance of the first-stage transistor. The
+resource allocation problem. This abstraction allows domain tool then applies a low-fidelity, theory-based method derived
+knowledge and design heuristics to be encoded as deterministic from smith chart principles to compute the L-type matching
+rules and illustrative examples, which can then be leveraged by network values (L and L ) that achieve perfect matching
+par g
+LLMs. To ensure transparency and reproducibility, documen- at the center frequency. Subsequently, another OCEAN sim-
+tation for the complete toolset has been developed. As shown ulation that includes the input matching network is executed
+in Table I, it provides a systematic overview of each tool’s to evaluate the NF and S at the center frequency.
+sim 11,sim
+functionality together with its input–output specifications. In The cost function is calculated according to the user’s noise
+the following sections, a stage-by-stage explanation of how the requirements (NF ) as defined in (1). Within a limited
+user
+middleware transforms this abstract formulation into concrete number of iterations, the algorithm yields a feasible solution
+circuit parameters is presented. of passive component values that satisfy the performance
+1) Stage 1: Active Device Sizing and Bias Selection constraints for the critical stage.
+The first stage focuses on determining transistor widths and 3) Stage 3: Frequency Bandwidth Planning The third
+bias voltages. The tool takes as input a current allocation list stage focuses on planning the frequency response of the entire
+specifying the fraction of the total current budget assigned signal chain. Ideally, one would desire a filter with perfect
+to each active stage. Based on this budget and the allocation passband transmission and complete stopband rejection. How-
+ratios provided by the LLM agent, the allowable current ever, fourier theory dictates that such a frequency response is
+for each stage is computed. The corresponding device size- unattainable in practice, and chebyshev filters are commonly
+voltage pairs are then retrieved from the aforementioned expert adopted as practical approximations. The staggered MCRs are
+knowledge database. For a given current, multiple realizations employed to implement the filter. The lumped model of the
+may exist, such as a large transistor with low bias or a MCR, shown in Fig. 4, has been extensively studied in prior
+small transistor with high bias. By enumerating all possible work [36], [37]. The source to drive the MCR is modeled as
+combinations across stages, the tool generates the feasible an ideal current source in parallel with an RC parallel network
+active device configurations corresponding to the specified (R ||C ), while the load is represented by R ||C . Recall that
+S S 2 2
+current allocation. the transconductance values in our database were characterized
+
+
+===== PAGE 6 =====
+6
+Calculation load impedances as single-point values. This simplification
+40.00 Sim_wo_cali
+Sim_w_cali introduces an approximate 3% deviation between theoretical
+30.00 2.5dB and simulated results for a single MCR. In cascaded config-
+)B
+d urations, the broadband response arises from the interleaving
+( n ia 20.00 3.3dB of several MCRs, while the sharper stopband edges further
+G
+10.00 amplify this deviation at higher frequencies. As illustrated
+in Fig. 5a, the theoretically calculated cascaded gain (black
+0.00
+curve) diverges significantly from the simulated result (red
+20.00 25.00 30.00 35.00 40.00
+Frequency (GHz)
+curve), with the gain at higher frequencies dropping beyond
+(a)
+the 3-dB constraint of ripple.
+To resolve this issue, a multi-fidelity approach is employed.
+In this strategy, a limited number of simulations are incorpo-
+501.69
+88% reduction rated into the theoretical calculations, and the residual between
+58.38 Multi-fidelity based simulation and theory is iteratively fed back into subsequent
+Simulation based
+computations until the final simulated result satisfies the design
+0 200 CPU Time (s) 400 600
+constraints. As shown by the blue curve in Fig. 5a, this cali-
+(b)
+bration process successfully reduces the gain ripple to within
+Fig. 5. (a) MCR frequency response: calculation vs. simulation (with/without
+calibration); (b) Time Consumption: full simulation vs. multi-fidelity. 3 dB. Compared with a purely simulation-based approach, the
+proposed multi-fidelity method achieves an 88% reduction in
+runtime, as demonstrated in Fig. 5b.
+under a 50Ω load. When the load is replaced by an MCR, the
+4) Stage 4: Full-Chain Performance Evaluation and
+voltage response of each gain stage is calculated according to
+Refinement
+(3).
+By the end of stage 3, a promising candidate that satisfies
+the power, band and gain requirements has been identified.
+gain = max (cid:0) 0, |gain − min(gain )| − 3 (cid:1) The next stage involves high-fidelity simulation to evaluate
+violation user cal
+(cid:0) (cid:1) whether this candidate meets the specifications for noise figure
+ripple = max 0, max(gain ) − min(gain ) − 3
+violation cal cal and linearity. The tool performs fullchain small signal, S-
+cost = 1000 × gain + 1000 × ripple
+violation violation parameter, and harmonic balance simulations using precon-
+(2)
+figured OCEAN scripts. Based on the outcomes, the LLM
+Building on this model, the tool adopts a simulated anneal- agent selects appropriate refinement tools depending on which
+ing algorithm to optimize the fullchain frequency response. performance metric fails to meet the target.
+The optimization variables include four parameters for each The agent applies a staged backtracking policy. If noise
+MCR stage, namely k, ω , Q , C with their ranges summa- falls short, it re-runs stages 2–4 and increases the noise
+0 0
+rized in Table II. For each candidate design, the fullchain figure headroom (initially 0.2) in proportion to the observed
+voltage frequency response (gain ) is obtained by combining degradation. If linearity is the bottleneck, it either (i) re-
+cal
+the simulated voltage response of the critical performance plans the passband in stage 3 with tighter gain-distribution
+components from stage 2 with the theoretically calculated constraints or (ii) re-runs stage 2-4 with global gain constraints
+responses of the MCR stages (gain ). The cost function is across all MCRs to find a better candidate. If specifications are
+cal
+then evaluated based on the gain requirement (gain ) and still unmet, the agent escalates to stage 1 to reallocate bias
+user
+a ripple constraint of 3dB, as defined in (2). After efficient current and regenerate candidate designs.
+search process, a simple binary search maps MCR parameters
+C. Multi-Agent Framework
+to the corresponding physical design.
+In our calculations, the tool adopts the symmetric case of This section presents the design rationale, applicable sce-
+the MCR to derive equation (3) and represents the source and narios, and technical details of two operating modes of our
+(1 − k2)Q2s4 + 2(1 − k2)Qω s3 + (1 − k2 + 2Q2)ω2s2 + 2Qω3s + Q2ω4
+Y (s) = 0 0 0 0
+11 (1 − k2)R ω Qs3 + (1 − k2)R ω2s2 + R ω3Q
+S 0 S 0 S 0
+(cid:0) (cid:1)
+1 ℑ Y
+11
+R = , C =
+L ℜ (cid:0) Y (cid:1) L s
+11
+√
+kQω3 R R s
+Z (s) = 0 S 2
+21 (1 − k2)Q2s4 + 2(1 − k2)Qω s3 + (1 − k2 + 2Q2)ω2s2 + 2Qω3s + Q2ω4
+0 0 0 0
+50 R C s + R + 50 R (R C s + 1)
+I (s) = g S S S S L L
+11 m R R R (C + C )s + R + R
+S S L S L S L
+I (s) Z (s)
+V (s) = 11 21 . (3)
+2
+
+
+===== PAGE 7 =====
+7
+User Query RFAmpManager <think>…This task is nf hard or linearity hard. From
+I want to design a 3-stage RF Amp Searcher the insights from EB, when I want a gain1 of 12dB,
+working from 27GHz to 33GHz whose the mag nf headroom should be 0.15*NF_req…
+load is 1787.0ohm and 62.0fF. I want to </think><tools><search>power_ratio_list=[0.4,0.3,0.
+use 30.0mA to achieve 25.0dB gain, 3], gain1=12dB, NF_headroom=0.75dB</tools>
+3.5dB Noise Figure and -15.0dBm IP1dB. <observation>The result candidate has a nf1 of 3dB
+Plan
+a IP1dB of -7dBm and it compresses… </obs>
+KB Template Format
+Step1: Retrieve candidates from
+power | gain | power_ratio_list| gain
+Knowledge Base.
+distribution | NF1 | NF | IP1_1 | IP1_2
+Step2: Retrieve insights from <think>…The candidate has a nf1 of 3dB… The
+| IP1_3 | IP1 | params_dict Refiner
+Experience Base NF_req is 5dB. From the insights from EB, the gain2
+EB Template Format Step3: Use <refine_candidate> should no less than 6dB… </think>
+x dB NF1 and y dB gain1 leads to z to refine the most promising one <tools><refine>gain2=6dB, gain3=2dB </tools>
+dB NF. The headroom shoud be a% Step4: Use <search_candidate> <observation><failed>The result has a nf of 4.6dB,
+All stages are compressing, x, y ,z of to search new candidates a IP1 of -22dBm, ac gain of 21dB, ac ripple of 1dB…
+IP1_n and a, b, c of gain_n leads to Step5: update KB and EB and </obs>…<answer>The refinement is failed, the
+IP1 of m dBm. output a final report reason is the gain1 is large …</answer>
+Fig. 6. Proposed multi-agent framework and template formats of each part.
+agent system: Autonomous Search Mode and Self-Evolving The design rationale is twofold. First, in cascaded RF am-
+Retrieve-and-Refine Mode. In common RF design practice, plifiers, the input and output stages are most critical: the
+the early phase for a new technology node or topology first stage dominates the overall noise figure, whereas the
+emphasizes coarse-to-fine exploration to delineate the feasible last stage governs large-signal linearity; both therefore require
+region and establish upper bounds under given constraints; high-fidelity evaluation, which is computationally expensive.
+once sufficient knowledge has accumulated, prior design points Second, bandwidth planning can be executed efficiently using
+are exploited to make tighter trade-offs via data-driven retrieval low-fidelity, model-guided optimization. Decoupling the costly
+and local refinement. This workflow is widely adopted in evaluation of critical components from the faster refinement
+academic practice [38], [39]. Inspired by this, RFAmpDesigner stage improves parallelism and end-to-end efficiency. Based
+instantiates two complementary modes: the autonomous search on user requirements, RFAmpManager ranks candidates along
+mode operationalizes the exploratory phase, whereas the self- three axes—noise figure, linearity, and large-signal behav-
+evolving retrieve-and-refine mode operationalizes the exploita- ior—and schedules refinement. It then updates the candidate
+tive phase by retrieving relevant exemplars and iteratively priorities using the sub-agent’s summary reports to decide the
+refining them under stricter specifications. next action.
+1) Mode 1: Autonomous Search Mode RFAmpDesigner b) RFAmpSearcher: The sub-agent takes as input a
+is a multi-agent collaboration framework for RF amplifier search instruction and the current candidate queue S and out-
+design via user-driven goal decomposition and tool invocation. puts a set of newly identified candidates ∆S. For a three-stage
+The framework adopts a two-tier architecture with a central LNA, the “critical stage” comprises the first-stage transistor
+primary agent and two stateless sub-agents. The primary agent with its input/output matching networks together with the
+interacts with the user, maintains conversational context, and second-stage transistor loading the first stage. RFAmpSearcher
+manages system state. Acting as an orchestrator, it decomposes executes a tool-integrated, ReAct-style step-by-step procedure
+the design task into specialized subtasks and delegates them with self-reflection, conditioned on user requirements and the
+to the appropriate sub-agents. The sub-agents are specialized current search state. It first proposes a power-budget split for
+modules with their own toolchains and a standardized I/O the first two stages; for each split, it enumerates two extreme
+schema. They are invoked in a stateless manner—each call device-sizing configurations at the PDK bounds (maximal and
+is independent and retains no conversational memory—which minimal feasible options). For each active-device size, two
+enables parallel execution and fault isolation. Within each variants of critical-stage synthesis are solved: one with an
+invocation, every agent executes a ReAct-based [40] multi- explicit gain constraint and one unconstrained. The resulting
+turn loop that interleaves reasoning with tool calls under the candidates are returned to RFAmpManager for evaluation and
+standardized schema. Each agent supports autonomous early downstream refinement.
+termination of its current task. Formats of conversations are
+c) RFAmpRefiner: The sub-agent receives a promising
+demonstrated in Fig. 6. Details of these agents are presented
+candidate from RFAmpManager, performs continuous refine-
+next.
+ment, and returns both a finalized design (if any) and a
+a) RFAmpManager: Given a user query specifying the structured summary report. For a three-stage LNA, the remain-
+number of stages, operating band, load impedance at the center ing decision variables include the third-stage power budget
+frequency, power budget, target small-signal gain, and the and the gain allocation between the second and third stages.
+noise figure and linearity at the center frequency, RFAmpMan- The agent likewise executes a tool-integrated reasoning loop,
+ager decomposes the task into two subtasks: (i) searching for iteratively updating these variables based on circuit-simulation
+promising candidates for the critical stages and (ii) continu- feedback. Refinement proceeds until any of the following
+ously refining a selected candidate. The agent’s state space S stopping criteria is triggered: (i) all user-specified constraints
+is a priority queue of candidate critical modules; the action are satisfied within prescribed tolerances; (ii) simulation or
+space A = {SEARCHCANDIDATES, REFINECANDIDATE}. iteration budgets are exhausted. If the candidate is deemed
+
+
+===== PAGE 8 =====
+8
+TABLE III
+THE LNA DESIGN BENCHMARK 30.00 Spec1 Spec2 Spec3 6.00
+S21
+Specs (G f H c z) fBW P (m ow A e ) r G (d a B in ) ( N dB F ) I ( P dB 1d m B ) 20.00 5.00 Spec3
+S
+S
+S
+S S
+1
+2
+3
+4 5
+1
+3
+5
+3 3
+0
+0
+0
+0 0
+2
+2
+2
+1 6
+0
+0
+0
+0 0
+%
+%
+%
+% %
+3
+3
+3
+3 3
+0
+0
+0
+0 0
+2
+2
+2
+2 2
+5
+5
+0
+5 5
+≤
+≤
+≤
+≤ ≤
+5
+5
+5
+5 5
+≥
+≥
+≥
+≥ ≥
+-
+-
+-
+- -
+2
+2
+2
+2 2
+5
+5
+0
+5 5
+)B d(
+retem
+araP
+S -
+1
+1
+0
+0
+0.
+.
+.
+0
+0
+0
+0
+0
+0 )B d(
+retem
+araP
+S 2
+3
+4
+.
+.
+.
+0
+0
+0
+0
+0
+0
+Spec1
+Spec2
+Spec7
+S6 30 80% 30 20 ≤5 ≥-20 -20.00
+NF
+S7 30 20% 30 25 ≤2.5 ≥-25 -30.00 S11 1.00 NFmin
+S8 30 20% 15 25 ≤5 ≥-25 5 15 25 35 45 55 5 15 25 35 45 55
+Frequency (GHz) Frequency (GHz)
+S9 30 20% 30 25 ≤5 ≥-15
+(a) (b)
+S10 30 20% 30 25 ≤3.5 ≥-15
+30.00 25.00
+21 - 39 GHz
+27 - 33 GHz
+20.00
+infeasible under the given constraints, RFAmpRefiner termi- S21 18 - 42 GHz 20.00
+nates early and returns a failure report. The summary report )B10.00
+r
+v
+e
+e
+n
+i
+c
+o
+a
+o
+l
+b
+a
+r
+l
+t
+d
+i
+e
+n
+s
+d
+g
+c
+a
+o
+R
+n
+s
+F
+s
+u
+A
+t
+c
+r
+m
+c
+a
+e
+i
+p
+n
+s
+M
+t
+s
+s
+a
+w
+fl
+n
+a
+i
+a
+t
+g
+h
+g
+,
+e
+m
+r
+a
+a
+t
+t
+t
+g
+o
+a
+n
+in
+i
+u
+t
+e
+u
+p
+d
+d
+d
+e
+a
+p
+s
+te
+,
+e
+a
+rf
+p
+n
+o
+r
+d
+r
+io
+m
+b
+r
+r
+a
+i
+i
+t
+n
+e
+ie
+c
+f
+s
+e
+fa
+a
+i
+m
+l
+n
+u
+d
+e
+r
+t
+e
+r
+s
+i
+r
+c
+c
+e
+s
+h
+a
+,
+e
+s
+d
+o
+a
+u
+n
+n
+l
+s
+y
+e
+,
+d(
+retem
+araP
+S-1
+0
+0
+.
+.
+0
+0
+0
+0
+S
+S
+S
+p
+p
+pe
+e
+e
+c
+c
+c4
+5
+6
+)B
+d(
+n iaG1
+1
+0
+5
+.
+.
+0
+0
+0
+0
+subsequent actions. -20.00 S11 5.00
+Spec1
+2) Mode 2: Self-Evolving Retrieve-and-Refine Mode Spec9
+-30.00 0.00
+In the search mode, the system maintains persistent memory 5 15 25 35 45 55 -40 -30 -20 -10 0
+Frequency (GHz) Input_Power (dBm)
+that records factual design knowledge accumulated during (c) (d)
+exploration. Concretely, RFAmpSearcher and RFAmpRefiner
+Fig. 7. Design results of Spec 1-9: a) S11 and S22 of Spec 1-3; b) NF,
+persist candidate configurations together with full-chain circuit NFmin of Spec 1-3 and 7; c) S11 and S22 of Spec 4-6; d) Gain vs. Input
+parameters and their measured performance metrics as struc- power of Spec 1, 9.
+tured records (JSON-like) in a Knowledge Base (KB). The KB
+serves as the foundation for the retrieve-and-refine mode. In
+robust across different LLM backbones. Latency and cost are
+addition, RFAmpRefiner stores derived indicators—including
+analyzed for industrial deployment. A final section discusses
+the system noise figure, first-stage noise figure, per-stage input
+the generality and migration of the proposed abstraction.
+1dB compression point (IP1dB), and the per-stage gain distri-
+bution—into an Experience Base (EB) using predefined tem-
+plates. These EB records provide actionable guidance when A. Experiment Settings
+high-fidelity evaluation is unavailable or cost-prohibitive. 1) Implementation details: All three agents are imple-
+In the retrieve-and-refine mode, the same three agents mented in Python and, for controlled comparison, execute
+collaborate as in search mode, augmented with RAG. Upon reasoning sequentially. The tool framework invokes Cadence
+receiving a new user query, RFAmpManager queries the KB OCEAN scripts via python–shell interfaces for circuit simula-
+to retrieve top-k design points most similar to the target tions and employs particle swarm optimization and simulated
+specifications. The retrieved points are preloaded into the annealing from scikit-opt to solve sub-optimization tasks.
+candidate queue as priors for refinement. If refinement of All circuit simulations are performed using Cadence Spectre.
+all preloaded candidates fail to satisfy the constraints within Experiments run on a Linux workstation with two AMD
+budget, RFAmpSearcher is re-invoked to expand the candidate EPYC 7763 (64 cores each).
+set. Meanwhile, the EB is used for screening and pruning: 2) Benchmark: A custom benchmark of ten tasks with
+it (i) provides initialization hints (e.g., recommended power varying difficulty is constructed shown in Table III. Tasks 1–3
+splits and per-stage gain budgets) and (ii) provides insights fix the fractional bandwidth at 20% and vary the center
+that estimate constraint headroom for each candidate. Agents frequency from 10 to 50 GHz. Tasks 4–6 fix the center
+can reorder the queue and prune candidates in reasoning, frequency at 30 GHz and vary the fractional bandwidth from
+concentrating high-fidelity simulation on promising options. 10% to 80%. Task 7 targets a lower noise figure; Task 8
+By combining KB-based retrieval with EB-based screening, imposes a tighter power budget. Task 9 requires output 1dB
+the system improves data efficiency and end-to-end runtime compression point (OP1dB) of 9 dBm, and Task 10 combines
+while preserving accuracy. low NF with high OP1dB. Prior studies on LNAs with
+comparable structures [41], [42] report typical OP1dB around
+III. EXPERIMENTS AND PERFORMANCE ANALYSIS 0 dBm, making Tasks 9–10 particularly challenging. Unless
+This section evaluates RFAmpDesigner on wideband LNA otherwise specified, the amplifier has three stages and the load
+design. Comparisons with established baselines validate the is modeled as 1787 Ω ∥ 62 fF.
+effectiveness of this work. Ablation studies isolate the contri- 3) Baselines and metrics: For tasks 1–8 (low difficulty),
+butions of the tool middleware and each module of the frame- RFAmpDesigner are evaluated against several categories of
+work. Backbone-swap experiments show that the workflow is baselines: (i) vanilla Bayesian Optimization (BO) [43] and
+
+
+===== PAGE 9 =====
+9
+TABLE IV
+EXPERIMENT RESULTS OF THE FIRST 8 TASKS
+Spec GA-vanilla BO-vanilla GA-subtool BO-subtool AnalogCoder ADO-LLM Our tool
+pass Avg pass Avg pass Avg pass Avg pass Avg pass Avg pass Avg
+@1 Time(s) @1 Time(s) @1 Time(s) @1 Time(s) @1 Time(s) @1 Time(s) @1 Time(s)
+S1 2/5 1684 2/5 2114 5/5 771 5/5 659 4/5 72 5/5 517 5/5 655
+S2 0/5 - 1/5 1615 3/5 928 3/5 1722 2/5 253 5/5 1406 5/5 620
+S3 0/5 - 0/5 - 0/5 - 0/5 - 0/5 - 0/5 - 3/5 2307
+S4 3/5 2006 4/5 1962 4/5 1133 4/5 2007 2/5 104 4/5 363 5/5 682
+S5 0/5 - 0/5 - 0/5 - 0/5 - 0/5 - 0/5 - 4/5 904
+S6 0/5 - 0/5 - 0/5 - 0/5 - 0/5 - 0/5 - 2/5 765
+S7 0/5 - 0/5 - 1/5 725 0/5 - 1/5 502 3/5 1274 3/5 1401
+S8 0/5 - 0/5 - 0/5 - 0/5 - 0/5 - 2/5 1922 5/5 760
+* - indicates that the baseline failed to complete the task within the time limit.
+4000 First, four state-of-the-art frontier models are evaluated, in-
+GA
+BO cluding GPT-5.1, Claude-Sonnet-4.5, Gemini-2.5-Flash, and
+Ours DeepSeek-V3.2 to benchmark the performance and cost-
++68% +107%
+3000 ADO -46% -70% +39%
+-69% effectiveness of our framework. Second, to investigate the
++168%
+-90% impact of model scale and specialized fine-tuning, two models
+)s( em2000 + -8 1 5 5 % 4% + -8 3 5 0 % 4% + -9 8 1 0 % % from the Qwen3 family [47] are adopted: Qwen3-Coder-480B-
+iT A35B-Instruct (mid-scale of activated 35B; code-oriented and
++ -7 9 0 4 % % + 195% fine-tuned for tool use) and Qwen3-30B-A3B-Instruct (small-
+-78%
+1000 + -6 4 . . 8 8 % % + -1 5 1 .6 .7 % % + -1 1 0 3 . . 4 8 % % s la c t a t l e e r o s f et a t c in ti g va p te r d ob 3 e B s ; t n h o e d m e o d d ic e a l t ’ e s d a t b o i o li l t - y us t e o fi u n n e- d t e u r n s i t n a g n ) d . T an h d e
+operationalize complex RF-circuit concepts under concurrent
+0 constraints on parameter count and tool-use capability.
+Spec1 Spec2 Spec4
+Fig. 8. Mean completion time with max-min variation range (%) across tasks.
+B. LNA Design Examples
+To demonstrate the capability of the proposed RFAmpDe-
+Genetic Algorithms (GA) [44] performing flat-search in the signer for wideband RF amplifier design, the results of the first
+original 18-dimensional space; (ii) tool-enhanced BO and GA, eight tasks are summarized in Fig. 7. Fig. 7a and 7b present
+which utilize our Stage2 sub-tools to operate in a reduced the S-parameters, NF, and NF min for the first three tasks,
+16-dimensional space; (iii) AnalogCoder [26], a prompt-based confirming strong frequency scalability from 10 to 50GHz.
+LLM design method; and (iv) ADO-LLM [30], an LLM-based Fig. 7b further reports the NF and NF min of Spec 7 under
+optimizer. This comparison is designed to highlight how the a stringent low-NF requirement. Fig.7c illustrates the S 11
+proposed tool middleware accelerates search efficiency by and S 21 responses of Specs 4–6, showing that the framework
+reducing design dimensionality and densifying sparse rewards. accommodates user-specified bandwidths from 10% to 80%,
+For tasks 9–10 (high difficulty), BO, GA and ADO are aug- thereby demonstrating both practicality and customizability.
+mented with the proposed design tools (replacing the agentic Finally, Fig. 7d depicts the IP1dB curve of Spec 1. To the
+reasoning) to isolate the contribution of the tool middleware best of our knowledge, this represents the first demonstration
+from that of the multi-agent framework. Reinforcement learn- of agile and customizable frequency- and bandwidth-aware
+ing methods are excluded from our baseline comparisons: design for multi-stage wideband RF amplifiers.
+while effective in other analog design settings [45], [46], the
+extreme reward sparsity and data scarcity in wideband RF C. Performance and Ablation Study
+design lead to prohibitive training costs and high inference 1) Effectiveness of the tool middleware: Table IV sum-
+latency (e.g., frequency bandwidth planning alone requires marizes the first eight tasks. Since the cost is defined by
+around 5 million training steps, and inference still takes at least task completion rather than a single FoM (thus admitting
+50 steps). Three primary metrics are reported: (i) average wall- multiple optima), the evaluation is simplified by fixing the
+clock time to a feasible solution, (ii) pass@1 success rate over power distribution to a balanced ratio of [0.4, 0.3, 0.3], with
+five independent runs (distinct random seeds), and (iii) token a one-hour timeout. The tasks are analyzed in three clusters:
+consumption for all LLM-based methods to evaluate compu- Specs 1–3, 4–6, and 7–8. As center frequency rises, bandwidth
+tational overhead. All methods are constrained by identical widens, and power/noise constraints tighten, tasks difficulty
+simulation budgets and stopping criteria. increase and feasible regions become sparser. Accordingly,
+4) Agent backbones: To evaluate the robustness and scala- all methods show lower success rates and longer runtimes.
+bility of RFAmpDesigner across different LLM architectures, BO and GA degrade most rapidly, as they neither encode RF
+we employ a diverse set of backbones ranging from fron- priors (e.g., high-frequency scaling of L/C, transformer-based
+tier closed-source models to specialized open-source variants. passband flattening, or first-stage gain constraints for NF) nor
+
+
+===== PAGE 10 =====
+10
+TABLE V
+EXPERIMENT RESULTS OF THE LAST 2 TASKS
+Methods S9 S10
+pass Avg Time Avg Prompt Avg Completion pass Avg Time Avg Prompt Avg Completion
+@1 (s) Tokens Tokens @1 (s) Tokens Tokens
+GA-wtool 3/5 9993 - - 1/5 11576 - -
+BO-wtool 2/5 7625 - - 3/5 10700 - -
+AnalogCoder(GPT-4o) 0/5 - 167468 11371 0/5 - 19338 11721
+ADO-LLM(GPT-4o) 0/5 - 226495 19773 1/5 14884 162433 10688
+ADO-LLM-wtool(GPT-4o) 3/5 5786 1093 590 2/5 6706 1099 633
+Ours-Gemini-2.5-Flash 5/5 4521 36215 5005 3/5 2014 18840 2609
+Ours-DeepSeek-V3.2 5/5 6114 62388 5652 5/5 6788 71939 6576
+Ours-GPT-5.1 5/5 5611 62069 4963 3/5 13064 126893 9106
+Ours-Claude-Sonnet-4.5 5/5 4785 25759 3986 5/5 6577 40136 5398
+Ours-Claude-Sonnet-4.5
+5/5 6024 161150 6816 5/5 8308 55785 3658
+(Single Agent)
+Ours-Claude-Sonnet-4.5
+4/5 8681 8200 2719 2/5 16015 15135 3672
+(without Refiner)
+Ours-Claude-Sonnet-4.5
+5/5 10411 92489 3344 3/5 13816 96341 3364
+(without ReAct)
+Ours-Claude-Sonnet-4.5
+5/5 6100 8643 2399 5/5 6469 81884 7828
+(with EB)
+Ours-Qwen3-480B-A35B 4/5 5624 47623 2254 3/5 8302 29488 2344
+Ours-Qwen3-30B-A3B 2/5 3926 65454 2953 1/5 2670 7454 1805
+exploit stage-aware decomposition, and they are reliable only 10
+Spec9_search Spec10_search
+on the easiest cases (Specs 1, 2, and 4). 8
+Spec9_refine Spec10_refine
+Across methods, the progression from vanilla BO/GA s e 6
+search (18-D) to sub-tool-equipped BO/GA search (16-D), and m iT 4
+2
+finally to our full tool middleware shows a consistent trend:
+0
+reducing dimensionality and densifying rewards improves suc-
+cess rates while shortening completion time. This indicates that
+the proposed middleware effectively mitigates reward sparsity,
+which is particularly severe under the wideband “frequency- 10
+Spec9_search
+shaping” requirements.
+8 Spec10_search
+Among LLM-based baselines, AnalogCoder is efficient on Spec9_refine
+s 6
+narrow-band tasks (Specs 1, 2, and 4), achieving nearly e m Spec10_refine
+iT 4
+3× shorter completion time than GA/BO and ADO-LLM,
+2
+suggesting that prompt-based reasoning can provide strong
+0
+initial points. However, its reduced success rate on harder tasks Multi-Agent Single-Agent No Refiner No ReAct Multi-Agent
+Settings with EB
+implies that prompts alone are insufficient for navigating com-
+plex high-performance design landscapes. In contrast, ADO- Fig. 9. Mean number of search and refine per seed of different models
+LLM benefits substantially from sub-tools and consistently (up); Mean number of search and refine per seed of different configuration of
+RFAmpDesigner (down).
+outperforms vanilla BO/GA in success rate, supporting that
+LLMs can also steer optimization via high-level reasoning
+when paired with appropriate tooling.
+Finally, Fig. 8 compares mean completion time and variance middleware, the tasks become solvable, but the success rate
+for Specs 1, 2, and 4. Our framework exhibits the best runtime remains below 60%, and the average completion time is no
+stability, with deviations capped at 25% (relative to BO, GA, less than 2.1 hours, suggesting that tooling alone is insufficient
+and ADO-LLM), while maintaining the highest success rates without expert reasoning for directional search and pruning.
+and the lowest average completion time on most tasks. Overall, Moreover, the direct LLM-based design approach (ADO-LLM)
+these results highlight how reward sparsity fundamentally performs poorly. For example, GPT-4o without tools achieves
+limits conventional optimizers in RF design, and demonstrate 0% success on Spec 9 despite consuming over 226k prompt
+that the proposed tool middleware improves both robustness tokens. Even with tools (ADO-LLM), single-step prompting
+and efficiency across difficulty regimes. is still inferior to our framework in both success rate and
+2) Validity and ablation of the multi-agent framework: Ta- convergence speed. These comparisons indicate that the chal-
+ble V reports the results on the more challenging Specs 9–10, lenge of RF circuit design lies not only in parameter tuning,
+where the timeout is extended to five hours. Under this setting, but high-level reasoning required to navigate sparse feasible
+flat-search baselines (GA and BO) failed to find any feasible regions, which our framework addresses through structured
+designs. We therefore replace them with tool-equipped variants agentic decomposition.
+to isolate the effect of the multi-agent framework. With the RFAmpDesigner remains reliable across frontier LLMs. On
+
+
+===== PAGE 11 =====
+11
+10000 10000 30
+Ours Ours Ours
+GA GA GA
+BO BO BO
+5.5x Sample Efficiency
+1000 1000
+s 20
+p e tS s p e
+n o ita lu 100 tS n o ita 100 M o F
+m lu
+iS m
+iS 10
+10 10
+1 1 0
+0 1 2 3 4 5 6 1 2 3 4 5 6 10 100 1000 10000
+Tasks ID Task ID Simulation Steps
+Fig. 10. Cumulative simulation cost with error bar over 5 seeds (left); Average Fig. 11. FoM Evolution vs. Simulation Cost.
+per-task simulation cost over 5 seeds (right).
+structure substantially reduces reasoning burden and improves
+Spec 9, all four leading models reach 100% success rate with
+token efficiency by agentic decomposition.
+comparable runtimes, though GPT-5.1 and DeepSeek-V3.2
+Ablation 2: Effect of the Refiner. Removing the Refiner
+incur higher token overhead. On Spec 10, Gemini-2.5-Flash
+loop causes a pronounced degradation, especially on Spec 10
+and GPT-5.1 drop to 60% success, whereas Claude-Sonnet-
+where success drops from 100% to 40%. Although token
+4.5 and DeepSeek-V3.2 maintain 100%. Notably, DeepSeek-
+usage decreases (as the Refiner is the main token contributor),
+V3.2 consumes significantly more prompt tokens than Claude-
+search becomes less effective. Fig. 9 shows the refinement
+Sonnet-4.5. Fig. 9 further compares numbers of search and
+iterations nearly double, approaching the GA baseline. This
+refine operations. The search iterations are broadly similar
+suggests that, without expert-guided refinement and pruning,
+across LLM-based methods and increase with task difficulty.
+the workflow largely collapses into unguided stochastic search.
+In contrast, all LLM-based methods require markedly fewer
+refine iterations than the baselines, suggesting that LLMs can Ablation 3: Reasoning Mode. The ”without ReAct” variant
+leverage limited refinement feedback to prune unpromising exhibits a significant increase in average time and a lower suc-
+candidates. Overall, Claude-Sonnet-4.5 offers the best balance cess rate on Spec 10. This validates that the ”Thought-Action”
+among success rate, runtime, and token cost. reasoning chain is crucial for the agents to interpret simulation
+The robustness of RFAmpDesigner to backbone size is also feedback and adjust optimization strategies dynamically.
+evaluated using two open-source models: Qwen3-30B-A3B- Ablation 4: Role of the Experience Base (EB). While
+Instruct-2507 and Qwen3-Coder-480B-A35B-Instruct-2025- the inclusion of EB yields only minor changes in overall
+07-22. Larger models achieve higher success rates, while success rate and wall-clock time on these tasks, it consistently
+runtime shows no consistent trend and is largely driven by improves internal efficiency. In particular, EB reduces the
+the quality of the critical-stage candidates generated during number of refinement iterations by at least 40%, even when
+search. Although the activated 3B Qwen3-30B-A3B-Instruct compared to the Claude-Sonnet-4.5 backbone, which already
+model yields the fewest refine iterations, trajectory inspection exhibits the lowest iteration count among all models. Retrieved
+shows frequent formatting failures and misconceptions about historical design traces provide an effective pruning signal,
+complex circuit concepts. In contrast, Qwen3-Coder-480B- enabling faster convergence with fewer redundant trials.
+A35B-Instruct performs comparably to Claude-Sonnet-4.5. 3) Evaluation of self-evolution mechanism: To evaluate
+These results suggest that stronger reasoning and tool-use ca- the efficacy of the self-evolution mechanism, we construct a
+pabilities are crucial for stable agent–environment interaction. sequential design challenge based on the narrow-band setting
+Small models struggle with reasoning on complex concepts, of Spec 4. Specifically, we define a series of tasks with
+and models without tool-use fine-tuning behave inconsistently. progressively increasing gain requirements (from 20 to 45dB),
+Therefore, a 30B tool-finetuned model is a practical starting while using the same Figure of Merit (FoM) definition as in
+point for subsequent supervised fine-tuning and reinforcement [48].
+learning. As shown in the left of Fig. 10, the proposed agent
+Finally, to substantiate the necessity of the Man- avoids the exponential cost growth observed in GA and BO
+ager–Searcher–Refiner structure, ablation studies are con- (clearly visible on the logarithmic scale), and instead exhibits
+ducted using Claude-Sonnet-4.5 as the backbone. a near-linear in cumulative cost. The underlying mechanism
+Ablation 1: Multi-Agent vs Single-Agent. The Single- is revealed by the ”sawtooth” pattern in the right of Fig. 10.
+Agent variant achieves a comparable success rate, but con- Unlike the baselines, which degrade monotonically due to
+sumes far more prompt tokens. For example, its prompt token the cold-start issue across tasks, our agent alternates between
+consumption on Spec 9 (161k) is more than 6 times higher than exploration (peaks when encountering new constraints) and
+our proposed framework (25k). This indicates that multi-agent exploitation (valleys enabled by memory reuse). Notably, the
+
+
+===== PAGE 12 =====
+12
+TABLE VI performance targets (e.g., P out , efficiency) and implementing
+COMPARISON OF EFFECTIVE LATENCY AND MONETARY COST ACROSS PA-specific stage tools with the output stage typically becom-
+DIFFERENT BACKBONES
+ing the critical stage. Preceding stages reduce to driver-like
+Model S9 S10 design (cf. Spec 9,10). (iii) Topology changes: the workflow
+Eff Eff Cost Eff Eff Cost is unchanged, but tool implementations must be updated to
+Latency(s) (USD) Latency(s) (USD)
+match new schematic templates. We include this discussion
+Gemini-2.5-Flash 4521 0.023 3356 0.020
+DeepSeek-V3.2 6114 0.018 6788 0.020 to clarify the engineering workload. A full PA or single-end
+GPT-5.1 5611 0.127 21773 0.416 amplifier benchmark is left for future work due to space.
+Claude-Sonnet-4.5 4785 0.137 6577 0.201
+Qwen3-480B-A35B 7030 0.061 13837 0.056
+IV. CONCLUSION
+Qwen3-30B-A3B 9815 0.021 13352 0.008
+ADO-LLM - - 74420 2.56 This paper presents RFAmpDesigner, an end-to-end LLM-
+* - means the method fails to deliver feasible solutions based framework for automated RF amplifier parameter sizing,
+* Effective latency and cost are calculated by dividing the pass@1 rate. demonstrated on low-noise amplifiers from specifications to
+schematics. The key idea is a multi-fidelity tool middleware
+that turns sizing into a resource-allocation problem, making
+agent solves harder tasks (e.g., Task 4) significantly faster
+domain knowledge easier to apply for LLMs and improving
+than the preceding exploration phases, indicating that the
+optimization in high-dimensional, sparse-feedback settings.
+agent is effectively transferring evolved knowledge rather than
+On top of this, a two-tier, three-agent workflow separates
+restarting from scratch.
+heavy simulation tasks from lightweight reasoning to enable
+Importantly, this acceleration does not come at the expense
+efficient search and refinement. By integrating a knowledge
+of design quality. Fig. 11 shows the evolution of FoM across
+base and an experience base via retrieval, the framework
+the tasks. The proposed agent consistently converges to FoM
+supports a self-improving loop and better sample efficiency.
+values comparable to or exceeding those of the baselines
+While this work is a proof of concept, the same abstraction is
+with lower variance. As annotated in Fig. 11, the faster
+applicable to other amplifier types and can be extended toward
+convergence corresponds to a 5.5× improvement in sample
+more diverse topologies and more complete design flows.
+efficiency. Overall, these results support that the self-evolution
+mechanism improves both efficiency and solution quality by ACKNOWLEDGMENTS
+enabling more effective reuse of accumulated experience when
+The authors acknowledge the use of ChatGPT solely to
+navigating the Pareto front.
+refine the sentence structure and grammar of the manuscript.
+4) Analysis of computational cost: To assess deployment
+The authors reviewed and edited the content as needed and
+feasibility, we analyze the trade-off between computational
+take full responsibility for the content of the publication.
+overhead and performance across different backbone models.
+Table VI reports the effective latency and monetary cost REFERENCES
+for each setting. Here, effective latency includes both LLM
+[1] I. Guven, M. Parlak, D. Lederer, and C. D. Vleeschouwer, “Ai-driven
+inference time and the runtime of external simulation tools, integrated circuit design: A survey of techniques, challenges, and op-
+and thus reflects the end-to-end wall-clock time of a complete portunities,” IEEE Access, pp. 1–1, 2025.
+[2] S. Yin, R. Wang, J. Zhang, X. Liu, and Y. Wang, “Automatic design for
+design run.
+w-band front-end system via bottom-up sizing and layout generation,”
+The results indicate that the framework is cost-effective IEEE Transactions on Computer-Aided Design of Integrated Circuits
+in practice. Even with LLM inference, the average monetary and Systems, vol. 43, no. 3, pp. 705–715, 2024.
+[3] F. Passos, M. Chanca, E. Roca, R. Castro-Lo´pez, and F. V. Ferna´ndez,
+cost is below $0.5 per successful design. This low cost is
+“Synthesis of mm-wave wideband receivers in 28-nm cmos technology
+primarily attributed to the improved sample efficiency. The for automotive radar applications,” IEEE Transactions on Computer-
+LLM’s ability to think before execution drastically prunes the Aided Design of Integrated Circuits and Systems, vol. 39, no. 12, pp.
+4375–4384, 2020.
+search space, avoiding thousands of redundant simulations
+[4] B. Liu, D. Zhao, P. Reynaert, and G. G. E. Gielen, “Gaspad: A general
+that traditional baselines would otherwise require. Overall, and efficient mm-wave integrated circuit synthesis method based on
+the framework provides measurable gains in robustness and surrogate model assisted evolutionary algorithm,” IEEE Transactions on
+Computer-Aided Design of Integrated Circuits and Systems, vol. 33,
+convergence with only modest additional inference overhead,
+no. 2, pp. 169–182, 2014.
+making it economically viable for iterative RF design work- [5] W. Lyu, F. Yang, C. Yan, D. Zhou, and X. Zeng, “Multi-objective
+flows. bayesian optimization for analog/rf circuit synthesis,” in 2018 55th
+ACM/ESDA/IEEE Design Automation Conference (DAC), 2018, pp. 1–6.
+[6] M. Pirrone, E. Dall’Anese, and T. W. Barton, “Data-driven optimization
+D. Discussion about Generality and Migration strategies for tunable rf systems,” IEEE Transactions on Microwave
+Theory and Techniques, vol. 72, no. 3, pp. 1919–1931, 2024.
+The proposed method is build on a stage-wise interface:
+[7] D. Lee, G. Shin, S. Lee, K. Kim, T.-H. Oh, and H.-J. Song, “Neural-
+the LLM proposes resource budgets (e.g., gain/current/noise/- network-based automated synthesis of transformer matching circuits
+linearity margins) and the optimizer tunes circuit parameters for rf amplifier design,” IEEE Transactions on Microwave Theory and
+Techniques, vol. 70, no. 11, pp. 4726–4739, 2022.
+within the search space defined by each stage tool. This
+[8] G. Zhang, H. He, and D. Katabi, “Circuit-GNN: Graph neural
+design makes the framework less tied to a specific circuit networks for distributed circuit design,” in Proceedings of the 36th
+instance. (i) Multi-stage circuits: adding stages mainly increase International Conference on Machine Learning, ser. Proceedings of
+Machine Learning Research, K. Chaudhuri and R. Salakhutdinov, Eds.,
+the number of budgets. The same decision loop is reused.
+vol. 97. PMLR, 09–15 Jun 2019, pp. 7364–7373. [Online]. Available:
+(ii) Power amplifiers: migration mainly requires changing the https://proceedings.mlr.press/v97/zhang19e.html
+
+
+===== PAGE 13 =====
+13
+[9] W. Cao, M. Benosman, X. Zhang, and R. Ma, “Domain knowledge- Conference on Artificial Intelligence and Thirty-Seventh Conference
+infused deep learning for automated analog/radio-frequency circuit on Innovative Applications of Artificial Intelligence and Fifteenth
+parameter optimization,” in Proceedings of the 59th ACM/IEEE Symposium on Educational Advances in Artificial Intelligence, ser.
+Design Automation Conference, ser. DAC ’22. New York, NY, USA: AAAI’25/IAAI’25/EAAI’25. AAAI Press, 2025. [Online]. Available:
+Association for Computing Machinery, 2022, p. 1015–1020. [Online]. https://doi.org/10.1609/aaai.v39i1.32016
+Available: https://doi.org/10.1145/3489517.3530501 [27] H. Zhang, S. Sun, Y. Lin, R. Wang, and J. Bian, “Analogxpert:
+[10] K. Technologies, Advanced Design System (ADS), Keysight Tech- Automating analog topology synthesis by incorporating circuit design
+nologies, 2025, version 2025, Available: https://www.keysight.com/find/ expertise into large language models,” in 2025 International Symposium
+eesof-ads. of Electronics Design Automation (ISEDA), 2025, pp. 772–777.
+[11] J. E. Rayas-Sa´nchez, S. Koziel, and J. W. Bandler, “Advanced rf and [28] J. Gao, W. Cao, J. Yang, and X. Zhang, “Analoggenie: A generative
+microwave design optimization: A journey and a vision of future trends,” engine for automatic discovery of analog circuit topologies,” in The
+IEEE Journal of Microwaves, vol. 1, no. 1, pp. 481–493, 2021. Thirteenth International Conference on Learning Representations, 2025.
+[12] J. Bandler, R. Biernacki, S. H. Chen, P. Grobelny, and R. Hemmers, [Online]. Available: https://openreview.net/forum?id=jCPak79Kev
+“Space mapping technique for electromagnetic optimization,” IEEE [29] P.-H. Chen, Y.-S. Lin, W.-C. Lee, T.-Y. Leu, P.-H. Hsu, A. Dissanayake,
+Transactions on Microwave Theory and Techniques, vol. 42, no. 12, S. Oh, and C.-S. Chiu, “Menter: A fully-automated multi-agent
+pp. 2536–2544, 1994. workflow for end-to-end rf/analog circuits netlist design,” 2025.
+[13] H. Kabir, Y. Wang, M. Yu, and Q.-J. Zhang, “Neural network inverse [Online]. Available: https://arxiv.org/abs/2505.22990
+modeling and applications to microwave filter design,” IEEE Transac-
+[30] Y. Yin, Y. Wang, B. Xu, and P. Li, ADO-LLM: Analog Design Bayesian
+tions on Microwave Theory and Techniques, vol. 56, no. 4, pp. 867–879,
+Optimization with In-Context Learning of Large Language Models.
+2008.
+New York, NY, USA: Association for Computing Machinery, 2025.
+[14] S. Er, E. Liu, M. Chen, Y. Li, Y. Liu, T. Zhao, and H. Wang, “Deep
+[Online]. Available: https://doi.org/10.1145/3676536.3676816
+learning assisted end-to-end synthesis of mm-wave passive networks
+[31] D. V. Kochar, H. Wang, A. Chandrakasan, and X. Zhang, “Ledro:
+with 3d em structures: A study on a transformer-based matching
+Llm-enhanced design space reduction and optimization for analog
+network,” in 2021 IEEE MTT-S International Microwave Symposium
+circuits,” 2025. [Online]. Available: https://arxiv.org/abs/2411.12930
+(IMS), 2021, pp. 66–69.
+[32] C. Liu, W. Chen, H. Xu, Y. Du, J. Yang, and L. Du, “A large
+[15] D. Munzer, S. Er, M. Chen, Y. Li, N. S. Mannem, T. Zhao, and H. Wang,
+language model-based multi-agent framework for analog circuits’
+“Residual network based direct synthesis of em structures: A study on
+sizing relationships extraction,” 2025. [Online]. Available: https:
+one-to-one transformers,” in 2020 IEEE Radio Frequency Integrated
+//arxiv.org/abs/2506.18424
+Circuits Symposium (RFIC), 2020, pp. 143–146.
+[16] H. Chae, H. Yu, S. Li, and D. Z. Pan, “Pulserf: Physics augmented [33] M. Ahmadzadeh, K. Chen, and G. Gielen, “Anaflow: Agentic
+ml modeling and synthesis for high-frequency rfic design,” in llm-based workflow for reasoning-driven explainable and sample-
+Proceedings of the 43rd IEEE/ACM International Conference on efficient analog circuit sizing,” 2025. [Online]. Available: https:
+Computer-Aided Design, ser. ICCAD ’24. New York, NY, USA: //arxiv.org/abs/2511.03697
+Association for Computing Machinery, 2025. [Online]. Available: [34] B. Liu, H. Zhang, X. Gao, Z. Kong, X. Tang, Y. Lin, R. Wang, and
+https://doi.org/10.1145/3676536.3676768 R. Huang, “Layoutcopilot: An llm-powered multi-agent collaborative
+[17] J. Wei, W. Chen, Y. Gong, Q. Wu, G. Lu, W. Gao, L. Wang, M. Li, and framework for interactive analog layout design,” 2025. [Online].
+H. Wang, “Highly efficient automatic synthesis of a millimeter-wave on- Available: https://arxiv.org/abs/2406.18873
+chip deformable spiral inductor using a hybrid knowledge-guided and [35] M. Vigilante and P. Reynaert, “On the design of wideband transformer-
+data-driven technique,” IEEE Transactions on Computer-Aided Design based fourth order matching networks for E -band receivers in 28-nm
+of Integrated Circuits and Systems, vol. 42, no. 12, pp. 4413–4422, 2023. cmos,” IEEE Journal of Solid-State Circuits, vol. 52, no. 8, pp. 2071–
+[18] E. A. Karahan, Z. Liu, and K. Sengupta, “Deep-learning-based inverse- 2082, 2017.
+designed millimeter-wave passives and power amplifiers,” IEEE Journal [36] H. Jia, C. C. Prawoto, B. Chi, Z. Wang, and C. P. Yue, “A full ka-band
+of Solid-State Circuits, vol. 58, no. 11, pp. 3074–3088, 2023. power amplifier with 32.9% pae and 15.3-dbm power in 65-nm cmos,”
+[19] J. Zhou, E. A. Karahan, S. Ghozzy, Z. Liu, H. Jalili, and K. Sengupta, IEEE Transactions on Circuits and Systems I: Regular Papers, vol. 65,
+“25.3 ai-enabled design space discovery and end-to-end synthesis for no. 9, pp. 2657–2668, 2018.
+rfics with reinforcement learning and inverse methods demonstrating [37] R. Singh, S. Mondal, and J. Paramesh, “A millimeter-wave receiver using
+mm-wave/sub-thz pas between 30 and 120ghz,” in 2025 IEEE Interna- a wideband low-noise amplifier with one-port coupled resonator loads,”
+tional Solid-State Circuits Conference (ISSCC), vol. 68, 2025, pp. 1–3. IEEE Transactions on Microwave Theory and Techniques, vol. 68, no. 9,
+[20] J. Jin, C. Zhang, F. Feng, W. Na, J. Ma, and Q.-J. Zhang, “Deep pp. 3794–3803, 2020.
+neural network technique for high-dimensional microwave modeling [38] H. Wang, LNA Survey, ETH Zurich, 2025, available: https://ideas.ethz.
+and applications to parameter extraction of microwave filters,” IEEE ch/Surveys/lna-survey.html.
+Transactions on Microwave Theory and Techniques, vol. 67, no. 10, pp. [39] H. Wang, PA Survey, ETH Zurich, 2025, available: https://ideas.ethz.ch/
+4140–4155, 2019. Surveys/pa-survey.html.
+[21] P. Naseri and S. V. Hum, “A generative machine learning-based approach
+[40] S. Yao, J. Zhao, D. Yu, N. Du, I. Shafran, K. Narasimhan, and Y. Cao,
+for inverse design of multilayer metasurfaces,” IEEE Transactions on
+“React: Synergizing reasoning and acting in language models,” arXiv
+Antennas and Propagation, vol. 69, no. 9, pp. 5725–5739, 2021.
+preprint arXiv:2210.03629, 2022.
+[22] K. Ding, J. Yu, J. Huang, Y. Yang, Q. Zhang, and H. Chen, “Scitoolagent:
+[41] J.-H. Kim, J.-T. Son, J.-T. Lim, H.-W. Choi, and C.-Y. Kim, “Ultralow
+a knowledge-graph-driven scientific agent for multitool integration,”
+noise figure and broadband cmos lna with three-winding transformer
+Nature Computational Science, pp. 1–11, 2025.
+and large transistor,” IEEE Transactions on Microwave Theory and
+[23] C.-C. Chang, Y. Shen, S. Fan, J. Li, S. Zhang, N. Cao, Y. Chen,
+Techniques, vol. 72, no. 5, pp. 2734–2744, 2024.
+and X. Zhang, “Lamagic: language-model-based topology generation
+[42] H. Chen, H. Zhu, L. Wu, W. Che, and Q. Xue, “A wideband cmos
+for analog integrated circuits,” in Proceedings of the 41st International
+lna using transformer-based input matching and pole-tuning technique,”
+Conference on Machine Learning, ser. ICML’24. JMLR.org, 2024.
+IEEE Transactions on Microwave Theory and Techniques, vol. 69, no. 7,
+[24] Z. Chen, J. Huang, Y. Liu, F. Yang, L. Shang, D. Zhou, and X. Zeng,
+pp. 3335–3347, 2021.
+“Artisan: Automated operational amplifier design via domain-specific
+large language model,” in Proceedings of the 61st ACM/IEEE Design [43] F. Nogueira, “Bayesian Optimization: Open source constrained
+Automation Conference, ser. DAC ’24. New York, NY, USA: global optimization tool for Python,” 2014–. [Online]. Available:
+Association for Computing Machinery, 2024. [Online]. Available: https://github.com/bayesian-optimization/BayesianOptimization
+https://doi.org/10.1145/3649329.3655903 [44] G. Guo, “scikit-opt,” GitHub repository, 2017, [Online]. Available: https:
+[25] J. Shen, Z. Chen, J. Zhuang, J. Huang, F. Yang, L. Shang, Z. Bi, //github.com/guofei9987/scikit-opt.
+C. Yan, D. Zhou, and X. Zeng, “Atelier: An automated analog circuit [45] K. Settaluri, A. Haj-Ali, Q. Huang, K. Hakhamaneshi, and B. Nikolic,
+design framework via multiple large language model-based agents,” “Autockt: Deep reinforcement learning of analog circuit designs,” in
+IEEE Transactions on Computer-Aided Design of Integrated Circuits 2020 Design, Automation & Test in Europe Conference & Exhibition
+and Systems, pp. 1–1, 2025. (DATE), 2020, pp. 490–495.
+[26] Y. Lai, S. Lee, G. Chen, S. Poddar, M. Hu, D. Z. Pan, [46] M. Choi, Y. Choi, K. Lee, and S. Kang, “Reinforcement learning-based
+and P. Luo, “Analogcoder: analog circuit design via training- analog circuit optimizer using gm/id for sizing,” in 2023 60th ACM/IEEE
+free code generation,” in Proceedings of the Thirty-Ninth AAAI Design Automation Conference (DAC), 2023, pp. 1–6.
+
+
+===== PAGE 14 =====
+14
+[47] A. Yang, A. Li, B. Yang, B. Zhang, B. Hui, B. Zheng, B. Yu, C. Gao, Gaopeng Chen (Member, IEEE) received the B.S.
+C. Huang, C. Lv et al., “Qwen3 technical report,” arXiv preprint from the University of Science and Technology
+arXiv:2505.09388, 2025. of China, and Ph.D. degree from the Institute of
+[48] B. Lin, A. Ruffino, N. Villaggi, T.-Y. Huang, C. Chu, and H. Wang, “V- Microelectronics of the Chinese Academy of Sci-
+/e-band joint-feeding gate/source broadband lna with three-line coupler ences, in microelectronics. He has held industry
+for simultaneous noise/power matching,” IEEE Journal of Solid-State positions with RDA Micro-electronics Inc. and Etra
+Circuits, pp. 1–12, 2025. Semiconductors, where he managed the R&D teams
+to develop microwave and millimeter wave ICs for
+Hang Lu (Graduate Student Member, IEEE) re-
+cellular phones and base stations. Currently, he is
+ceived the B.S. degree from Zhejiang University,
+working on the next generation integrated sensing
+Hangzhou, China, in 2021. He is currently pursu-
+and communication circuits and systems.
+ing the Ph.D. degree with the institute of marine
+electronics and intelligent systems, Ocean College
+Zhejiang University, Zhoushan, 316021 China. His Nayu Li (Member, IEEE) received the B.S. degree
+research interests include Agent-based analog, RF in information engineering from College of Infor-
+and millimeter-wave integrated circuits design au- mation Science and Electronic Engineering, Zhe-
+tomation. jiang University, Hangzhou, China, in 2017, and the
+Ph.D. degree in ocean technology and engineering
+from Ocean College, Zhejiang University, Zhoushan,
+Guochang Li (Graduate Student Member, IEEE)
+China, in 2022. He is currently a research fellow
+received the B.S. degrees from Zhejiang University,
+with the Donghai Laboratory, Zhoushan, China, and
+China, in 2021. He is currently studying for the Ph.D
+also with the Institute of Marine Electronics and In-
+degree in Zhejiang University. His research interests
+telligent Systems, Ocean College, Zhejiang Univer-
+include Automated program repair and Agent-based
+sity, Zhoushan, China. His research interests include
+Software Engineering.
+analog, RF, and millimeter-wave integrated circuits in silicon technologies. Dr.
+Li was a recipient of the 2024 IEEE MTT-S International Wireless Symposium
+(IWS) FLASH Competition Second Place Winner and was a co-recipient
+of the 2023 IEEE MTT-S International Microwave Symposium (IMS) Best
+Student Paper Award (Third Place), and the 2024 IEEE Radio Frequency
+Qianyu Chen (Member, IEEE) is currently pursuing Integrated Circuits (RFIC) Symposium Best Student Paper Award Finalist.
+the B.S. degree in Zhejiang University, Hangzhou,
+China. Her research interests include multi-agent Xiaokang Qi (Member, IEEE) received the B.S. de-
+systems and agentic workflow frameworks for RF gree from the School of Electronics and Information,
+circuit optimization and design automation. Northwestern Polytechnical University, Xian, China,
+in 2013, and the Ph.D. degree from the College
+of Information Science and Electronics Engineering,
+Zhejiang University, Hangzhou, China, in 2018. He
+became a Researcher with the Ocean College, Zhe-
+jiang University, in 2020. His current research inter-
+ests include mm-wave communication and sensing
+Huiyan Gao (Graduate Student Member, IEEE)
+systems, RF theory, and navigation algorithms.
+received the B.S. degree in 2018 and Ph.D de-
+gree in 2024 from Zhejiang University, Hangzhou,
+China. His research interests include analog, RF
+and millimeter-wave integrated circuits in silicon Chunyi Song (Member, IEEE) received the Ph.D.
+technologies. degree in electronic and communication engineering
+from Waseda University, Tokyo, Japan. He was a
+Research Associate with Waseda University, from
+2007 to 2009. He then joined the National Institute
+of Information and Communications Technology
+(NICT), Japan, as a Researcher, from 2009 to 2013,
+Shaogang Wang (Graduate Student Member, IEEE) and as a Senior Researcher, in 2014. Since 2014,
+received the B.S. degree from Northwestern Poly- he has been with Zhejiang University, China, as an
+technical University, Xi’an, China, in 2018. He Associate Professor, where he is also serving as the
+is currently pursuing the Ph.D. degree with the Vice Director of The Engineering Research Center
+institute of marine electronics and intelligent sys- of Oceanic Sensing Technology and Equipment, Ministry of Education.
+tems, Ocean College Zhejiang University, Zhoushan, He was elected to the Thousand Talents Program of Zhejiang Province, in
+316021 China. His current research interests include 2016, and a Core Member of Leading Innovative Team of Zhejiang, in 2018.
+RF and millimeter-wave integrated circuits for wire-
+less communications and phased-array systems.
+Zhiwei Xu (Senior Member, IEEE) received the
+B.S.and M.S. degrees from Fudan University, Shang-
+Xuanyu He (Graduate Student Member, IEEE) re- hai, China, in 1997 and 2000, respectively, all in
+ceived the B.E. degree from the College of Elec- electrical engineering, and the Ph.D. degree in elec-
+tronic and Information Engineering, Beijng Jiaotong trical engineering from the University of California
+University, Beijing, China, in 2023. He is currently at Los Angeles, Los Angeles, CA, USA, in 2003. He
+pursuing the M.E. degree at the Ocean College, Insti- has held industry positions with G-Plus Inc., SST
+tute of Marine Electronics and Intelligent Systems, Communications, Conexant Systems, NXP Semi-
+Zhejiang University, Zhoushan, China. His research conductors, and HRL Laboratories, where he led
+interests include radio frequency integrated circuit the development for wireless LAN and SoC solution
+(RFIC) design and RFIC EDA. for proprietary wireless multimedia systems, CMOS
+cellular transceiver, Multimedia over Cable (MoCA) system and TV tuners,
+various aspects of millimeter- and sub-millimeter-wave integrated circuits and
+Yiwei Liu (Graduate Student Member, IEEE) re-
+systems, software defined radios, high-speed ADC, and ultralow power analog
+ceived the B.S. degrees from Zhejiang University,
+VLSI. He is currently a Professor with Zhejiang University, Hangzhou, China,
+Hangzhou, China, in 2023. He is currently studying
+where he is researching on integrated circuits and systems for Internet-of-
+for the Ph.D degree in Zhejiang University. His re-
+Things and communication applications.
+search interests include analog, RF, and millimeter-
+wave integrated circuits in silicon technologies. Re-
+cently he is doing researches on deep learning As-
+sisted RF Circuit Design.
