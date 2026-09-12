@@ -76,6 +76,8 @@ python -m pytest tests -q
 
 ## 2. 阶段 2：整理你的 OTA 自动化工程资产
 
+> 实现状态（2026-09-12）：代码级迁移已完成。已增加通用远程执行器、PSFASCII reader、私有配置模板和模拟测试；真实 SSH/Cadence 探测留到阶段 3，在填写本地私有配置后执行。详见 `docs/ota_to_lna_migration_notes.md`。
+
 ### 2.1 目标
 
 把你之前“折叠共源共栅全差分 OTA 自动扫参”的可复用能力拆出来，形成 RF 项目可迁移清单。

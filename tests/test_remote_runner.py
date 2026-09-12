@@ -1,0 +1,149 @@
+from __future__ import annotations
+
+import subprocess
+from pathlib import Path
+
+import pytest
+
+from orfadc.cadence.remote_runner import RemoteCadenceConfig, RemoteRunner, load_remote_config
+
+
+class FakeExecutor:
+    def __init__(self) -> None:
+        self.calls: list[list[str]] = []
+        self.uploaded = b""
+
+    def __call__(self, argv: list[str], **_: object) -> subprocess.CompletedProcess[str]:
+        self.calls.append(list(argv))
+        if argv[0] == "scp":
+            if "@eda-host.example:" in argv[-1]:
+                self.uploaded = Path(argv[-2]).read_bytes()
+            else:
+                Path(argv[-1]).write_bytes(self.uploaded)
+        stdout = ""
+        if argv[0] == "ssh" and "tool.ocean" in argv[-1]:
+            stdout = (
+                "user=edauser\n"
+                "host=eda-host.example\n"
+                "pwd=/home/edauser\n"
+                "tool.ocean=/opt/cadence/bin/ocean\n"
+                "tool.spectre=/opt/cadence/bin/spectre\n"
+                "tool.virtuoso=\n"
+            )
+        return subprocess.CompletedProcess(argv, 0, stdout=stdout, stderr="")
+
+
+def test_remote_command_uses_batch_mode_and_redacts_identity(tmp_path: Path) -> None:
+    identity = tmp_path / "key"
+    identity.write_text("test-only", encoding="utf-8")
+    executor = FakeExecutor()
+    runner = RemoteRunner(
+        RemoteCadenceConfig(
+            host="eda-host.example",
+            user="edauser",
+            identity_file=identity,
+            remote_root="/home/edauser/orfadc",
+        ),
+        executor=executor,
+    )
+
+    result = runner.run_remote(["pwd"], cwd="/home/edauser/orfadc")
+
+    assert result.ok
+    assert "BatchMode=yes" in result.argv
+    assert "<identity-file>" in result.argv
+    assert str(identity.resolve()) not in result.argv
+    assert executor.calls[0][0] == "ssh"
+    assert "cd /home/edauser/orfadc && pwd" in executor.calls[0][-1]
+
+
+def test_probe_returns_tool_availability() -> None:
+    executor = FakeExecutor()
+    runner = RemoteRunner(
+        RemoteCadenceConfig(
+            host="eda-host.example",
+            user="edauser",
+            remote_root="/home/edauser/orfadc",
+        ),
+        executor=executor,
+    )
+
+    payload = runner.probe()
+
+    assert payload["status"] == "ok"
+    assert payload["user"] == "edauser"
+    assert payload["tools"]["ocean"]["found"] is True
+    assert payload["tools"]["spectre"]["path"] == "/opt/cadence/bin/spectre"
+    assert payload["tools"]["virtuoso"]["found"] is False
+
+
+def test_transfer_round_trip_compares_hashes(tmp_path: Path) -> None:
+    source = tmp_path / "probe.txt"
+    source.write_text("Open-RFAmpDesigner-Cadence\n", encoding="utf-8")
+    downloaded = tmp_path / "downloaded" / "probe.txt"
+    executor = FakeExecutor()
+    runner = RemoteRunner(
+        RemoteCadenceConfig(
+            host="eda-host.example",
+            user="edauser",
+            remote_root="/home/edauser/orfadc",
+        ),
+        executor=executor,
+    )
+
+    payload = runner.verify_transfer(source, downloaded)
+
+    assert payload["status"] == "ok"
+    assert payload["source_sha256"] == payload["downloaded_sha256"]
+    assert downloaded.read_bytes() == source.read_bytes()
+
+
+def test_config_loader_requires_private_host_and_user(tmp_path: Path) -> None:
+    config_path = tmp_path / "remote.yaml"
+    config_path.write_text(
+        "remote:\n  host: null\n  user: null\n",
+        encoding="utf-8",
+    )
+
+    with pytest.raises(ValueError, match="remote.host"):
+        load_remote_config(config_path)
+
+
+def test_insecure_host_key_mode_is_rejected() -> None:
+    with pytest.raises(ValueError, match="strict_host_key_checking"):
+        RemoteCadenceConfig(
+            host="eda-host.example",
+            user="edauser",
+            strict_host_key_checking="no",
+        )
+
+
+def test_remote_target_and_path_injection_are_rejected() -> None:
+    with pytest.raises(ValueError, match="host or user"):
+        RemoteCadenceConfig(host="-oProxyCommand=bad", user="edauser")
+
+    runner = RemoteRunner(
+        RemoteCadenceConfig(host="eda-host.example", user="edauser"),
+        executor=FakeExecutor(),
+    )
+    with pytest.raises(ValueError, match="unsupported characters"):
+        runner.download("/tmp/result;touch_bad", Path("unused"))
+    with pytest.raises(ValueError, match="must not contain"):
+        runner.download("/tmp/../private", Path("unused"))
+
+
+def test_timeout_is_returned_as_structured_failure() -> None:
+    def timeout_executor(argv: list[str], **_: object) -> subprocess.CompletedProcess[str]:
+        raise subprocess.TimeoutExpired(argv, 5, output="partial")
+
+    runner = RemoteRunner(
+        RemoteCadenceConfig(host="eda-host.example", user="edauser"),
+        executor=timeout_executor,
+    )
+
+    result = runner.run_remote(["sleep", "10"], timeout_seconds=5)
+
+    assert result.returncode == 124
+    assert result.ok is False
+    assert result.stdout == "partial"
+    assert "timed out" in result.stderr

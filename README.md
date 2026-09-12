@@ -34,6 +34,10 @@ python src\orfadc\experiments\run_spec.py --spec S1 --dry-run
 python -m pytest tests -q
 ```
 
+## 远程 Cadence 接口
+
+OTA 项目中经过验证的 SSH、SCP、OCEAN 调用和 PSFASCII 解析能力已迁移为通用模块。配置和验证步骤见 `docs/ota_to_lna_migration_notes.md`；真实主机、用户、私钥和 Cadence 路径只能写入被 Git 忽略的 `config/remote_cadence.local.yaml`。
+
 ## 推荐阅读顺序
 
 1. `docs/00_index.md`
