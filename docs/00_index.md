@@ -14,6 +14,7 @@
 - `ota_to_lna_migration_notes.md`：原 OTA 工程的 SSH/OCEAN/PSFASCII 能力迁移说明、接口和安全边界。
 - `10_detailed_prompts.md`：每个阶段可直接复制给 Codex/LLM 的详细提示词。
 - `11_multi_agent_explained.md`：多智能体专题总入口，详细内容已拆分到 `agent_system/` 子目录。
+- `12_cadence_environment_validation.md`：SSH/SCP/Spectre/OCEAN 实机验证状态、证据和剩余人工动作。
 - `agent_system/`：原论文多智能体机制、本项目 agent 实现、LLM 接入、论文差异和后续提示词的专题文档。
 - `project_history/`：从原 Codex 对话任务迁移的聊天记录、继续任务指南、旧 README 和迁移清单。
 

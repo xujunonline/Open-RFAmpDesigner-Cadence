@@ -121,6 +121,8 @@ Open-RFAmpDesigner-Cadence/
 
 ## 3. 阶段 3：Cadence RF 环境准备
 
+> 实现状态（2026-09-12）：SSH、SCP 和 Spectre 实机验证已通过；OCEAN 需要用户先登录来宾 GNOME，建立 `DISPLAY=:1` 后复验。详见 `docs/12_cadence_environment_validation.md`。
+
 ### 3.1 目标
 
 确认 Linux/Cadence 环境能运行 RF 仿真，而不仅是 OTA 的 AC/DC 仿真。

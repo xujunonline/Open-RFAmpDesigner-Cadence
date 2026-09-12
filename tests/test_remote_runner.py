@@ -109,6 +109,23 @@ def test_config_loader_requires_private_host_and_user(tmp_path: Path) -> None:
         load_remote_config(config_path)
 
 
+def test_config_loader_reads_ocean_graph_mode(tmp_path: Path) -> None:
+    config_path = tmp_path / "remote.yaml"
+    config_path.write_text(
+        "remote:\n"
+        "  host: eda-host.example\n"
+        "  user: edauser\n"
+        "  work_root: /home/edauser/orfadc\n"
+        "cadence:\n"
+        "  ocean_nograph: false\n",
+        encoding="utf-8",
+    )
+
+    config = load_remote_config(config_path)
+
+    assert config.ocean_nograph is False
+
+
 def test_insecure_host_key_mode_is_rejected() -> None:
     with pytest.raises(ValueError, match="strict_host_key_checking"):
         RemoteCadenceConfig(

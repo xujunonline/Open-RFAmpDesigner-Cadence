@@ -1,3 +1,8 @@
-; Template only.
-; Check that design variables, ports, analyses and output paths are defined before launching long simulations.
+; Minimal OCEAN/SKILL interpreter smoke test.
+; This script does not open a PDK, library, cell, or simulation result.
 
+reportPort=outfile("verify_design_report.txt" "w")
+fprintf(reportPort "status=ok\n")
+fprintf(reportPort "engine=ocean_skill\n")
+close(reportPort)
+exit()

@@ -119,3 +119,5 @@ python -m orfadc.cadence.verify_remote `
 ## 7. 本阶段验收边界
 
 本阶段完成的是“可测试的远程执行与 PSFASCII 基础层”。在真实私有配置和远程探测尚未成功前，不能声称 Cadence 已接通；在 RF testbench 尚未运行前，也不能声称已经得到 S 参数、NF 或压缩点结果。
+
+2026-09-12 已补充实机验收：SSH 探测、SCP 往返哈希和 Spectre 启动均成功。OCEAN 仍依赖来宾 GNOME 图形会话，状态和复验步骤见 `docs/12_cadence_environment_validation.md`。

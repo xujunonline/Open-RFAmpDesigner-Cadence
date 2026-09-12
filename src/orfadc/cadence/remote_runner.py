@@ -31,6 +31,7 @@ class RemoteCadenceConfig:
     scp_bin: str = "scp"
     ocean_bin: str = "ocean"
     spectre_bin: str = "spectre"
+    ocean_nograph: bool = True
     display: str | None = None
     xauthority: str | None = None
     connect_timeout_seconds: int = 10
@@ -99,6 +100,7 @@ def load_remote_config(path: Path) -> RemoteCadenceConfig:
         scp_bin=str(remote.get("scp_bin", "scp")),
         ocean_bin=str(cadence.get("ocean_bin", "ocean")),
         spectre_bin=str(cadence.get("spectre_bin", "spectre")),
+        ocean_nograph=_boolean(cadence.get("ocean_nograph", True), "cadence.ocean_nograph"),
         display=_optional_string(cadence.get("display")),
         xauthority=_optional_string(cadence.get("xauthority")),
         connect_timeout_seconds=int(remote.get("connect_timeout_seconds", 10)),
@@ -257,7 +259,7 @@ class RemoteRunner:
         local_script: Path,
         *,
         run_name: str,
-        nograph: bool = True,
+        nograph: bool | None = None,
         local_log: Path | None = None,
     ) -> dict[str, Any]:
         if not re.fullmatch(r"[A-Za-z0-9_.-]+", run_name):
@@ -286,7 +288,8 @@ class RemoteRunner:
         if self.config.xauthority:
             command.append(f"XAUTHORITY={self.config.xauthority}")
         command.append(self.config.ocean_bin)
-        if nograph:
+        use_nograph = self.config.ocean_nograph if nograph is None else nograph
+        if use_nograph:
             command.append("-nograph")
         command.extend(["-restore", local_script.name, "-log", remote_log])
         ocean_result = self.run_remote(command, cwd=remote_dir)
@@ -375,6 +378,12 @@ def _optional_string(value: Any) -> str | None:
         return None
     text = str(value).strip()
     return text or None
+
+
+def _boolean(value: Any, field_name: str) -> bool:
+    if not isinstance(value, bool):
+        raise ValueError(f"{field_name} must be true or false")
+    return value
 
 
 def _validate_remote_path(path: str, *, require_absolute: bool) -> None:
