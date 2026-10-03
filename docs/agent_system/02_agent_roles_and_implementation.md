@@ -1,5 +1,7 @@
 ﻿## 8. 多智能体如何“生成”
 
+本文件中的 JSON、指标和 Python 片段用于解释接口与待实现设计，不是当前可运行的完整 agent loop，也不是 LNA 实测结果。实际进度见 `docs/16_implementation_status.md`。
+
 “生成智能体”不是自动凭空生成程序，而是你定义四件事：
 
 1. **角色**：这个 agent 负责什么，不负责什么。
@@ -272,50 +274,29 @@ Candidate 最好逐步扩展为：
 
 #### 8A.1.6 Manager 的最小 Python 实现
 
-第一版不需要复杂优先队列，直接 list 排序即可：
+当前 MVP 使用 FIFO 和有限预算，实际接口为：
 
 ```python
-class Manager:
-    def __init__(self):
-        self.queue = []
-        self.completed = []
-        self.failed = []
-
-    def add_candidates(self, candidates):
-        self.queue.extend(candidates)
-        self.queue.sort(key=lambda c: getattr(c, "priority", 0.0), reverse=True)
-
-    def next_action(self):
-        if self.completed:
-            return "StopSuccess"
-        if not self.queue:
-            return "SearchCandidates"
-        return "RefineCandidate"
-
-    def pop_best_candidate(self):
-        if not self.queue:
-            return None
-        self.queue.sort(key=lambda c: getattr(c, "priority", 0.0), reverse=True)
-        return self.queue.pop(0)
-
-    def update_candidate(self, candidate):
-        if candidate.status == "accepted":
-            self.completed.append(candidate)
-        elif candidate.status in {"infeasible", "budget_exhausted"}:
-            self.failed.append(candidate)
-        else:
-            self.queue.append(candidate)
+manager = Manager(max_searches=1, max_evaluations=1)
+manager.search_candidates(spec, seed=0)
+candidate = manager.pop_candidate()  # Consume one evaluation slot.
+refined = manager.record_result(candidate, run_dir, spec)
+assert refined.status != "accepted"  # Raw fullchain re-extraction is not implemented.
 ```
+
+`next_action()` 在队列为空时给 `SearchCandidates`，有候选且有预算时给 `EvaluateCandidate`，候选已取出等待后端结果时给 `AwaitEvaluation`，预算结束时给 `Stop`。只有一条 pending 评估；当前实现已持久化 trace、journal 和候选快照。带证据质量的优先级、`StopSuccess`、失败变异后重新入队和已验收的 accepted/completed 列表仍属后续实现，不能把上面的 MVP 描述为论文完整 Manager。
+
+实现进度补充：持久化事件/journal 与候选快照已另行实现；可选 `LLMManagerPolicy` 仅能在**已有队列**中选择下一评估 ID，`QueuePriority` 由 journal 审计并支持派发前恢复，详见 `docs/92_stage11_llm_manager_priority_contract.md`。默认仍 FIFO；完整 Search/Refine/Stop 模型调度、失败变异与合格 LNA 采纳仍未实现。以上旧 MVP 示例用于解释初始状态，不能作为当前能力清单。
 
 #### 8A.1.7 Manager 的验收测试
 
 至少测试：
 
 - 队列为空时返回 `SearchCandidates`；
-- 队列非空时返回 `RefineCandidate`；
-- 有 accepted candidate 时返回 `StopSuccess`；
-- `pop_best_candidate()` 取出 priority 最高的候选；
-- `update_candidate()` 能把 accepted 放入 completed。
+- 队列非空且有预算时返回 `EvaluateCandidate`；
+- 取出候选后返回 `AwaitEvaluation`，回传后按预算转到下一动作；
+- 重复 ID、不匹配的 spec/seed 和错位回传被拒绝；
+- 未来补测优先级、`StopSuccess`、失败变异与持久化 trace。
 
 ### 8A.2 RFAmpSearcher：候选搜索智能体
 
@@ -579,45 +560,9 @@ Refiner 不应该：
 
 #### 8A.3.6 Refiner 的最小 Python 实现
 
-当前项目已有：
+当前代码入口是 `Refiner.refine(candidate, result, spec)`，其中 `result` 应由受控仿真 backend 从原始产物构造，而不是由 LLM 填写。它先运行指标 envelope 校验，核对候选 ID、seed、spec、频带、Cadence 来源与 DC/SP/noise/compression 分析，再调用本地 `fullchain_violations` **重算**五项违规量。`refine_from_run` 可额外核对同一运行目录的文件哈希，并让失败候选得到回溯建议。缺测、来源不符、仅有模型声称的 `pass/total_violation` 或未独立重提取的“零违规”都只能返回 `needs_evaluation`。当前**没有任何可达的 `accepted` 分支**；只有在真实 fullchain backend 从原始数据重算并验证后，才允许补上这个分支。不能把 mock 测试说成 agent 闭环完成。
 
-```python
-class Refiner:
-    def refine(self, candidate, violations):
-        if violations.get("nf_violation", 0.0) > 0:
-            candidate.status = "retry_stage2"
-        elif violations.get("gain_violation", 0.0) > 0:
-            candidate.status = "retry_stage3"
-        elif violations.get("ip1db_violation", 0.0) > 0:
-            candidate.status = "retry_stage1_or_stage3"
-        else:
-            candidate.status = "accepted"
-        return candidate
-```
-
-下一步应扩展：
-
-```python
-def refine(self, candidate, violations):
-    nf = violations.get("nf_violation", 0.0)
-    s11 = violations.get("s11_violation", 0.0)
-    gain = violations.get("gain_violation", 0.0)
-    ripple = violations.get("ripple_violation", 0.0)
-    ip1 = violations.get("ip1db_violation", 0.0)
-    power = violations.get("power_violation", 0.0)
-
-    if nf == s11 == gain == ripple == ip1 == power == 0:
-        return accept(candidate)
-    if nf > 0 and ip1 > 0:
-        return retry_stage1_or_stage3(candidate)
-    if nf > 0 or s11 > 0:
-        return retry_stage2(candidate)
-    if gain > 0 or ripple > 0:
-        return retry_stage3(candidate)
-    if ip1 > 0 or power > 0:
-        return retry_stage1(candidate)
-    return mark_infeasible(candidate)
-```
+后续应补充：可追溯的后端原始产物绑定；NF 与 IP1dB 同时失败时的联合回溯；由仿真频率曲线计算而非信任输入字段的 ripple violation；失败次数/预算停止规则、candidate history 和 Manager 队列。结果 JSON 的字段校验无法单独证明仿真真实性，Manager 不得把 LLM 提交的指标直接送入 Refiner。
 
 #### 8A.3.7 Refiner 的验收测试
 
@@ -627,7 +572,7 @@ def refine(self, candidate, violations):
 - S11 fail -> `retry_stage2`；
 - gain/ripple fail -> `retry_stage3`；
 - IP1dB fail -> `retry_stage1_or_stage3`；
-- 全部 violation 为 0 -> `accepted`；
+- 当前零违规 mock/文件哈希清单 -> `needs_evaluation`；将来原始数据独立重提取和后端来源均验收通过 -> 才允许 `accepted`；
 - 连续失败次数超过阈值 -> `infeasible`；
 - 每次 refine 都向 candidate history 写入原因。
 

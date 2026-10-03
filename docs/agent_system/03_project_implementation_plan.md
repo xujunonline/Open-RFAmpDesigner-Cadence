@@ -63,14 +63,14 @@ memory = JsonlMemory(...)
 while budget_not_exhausted:
     action = manager.next_action()
     if action == "SearchCandidates":
-        candidates = searcher.search(spec, seed)
-        manager.add_candidates(candidates)
-    elif action == "RefineCandidate":
-        candidate = manager.pop_best_candidate()
-        metrics = fullchain_eval(candidate)
-        violations = compute_violations(metrics, spec)
-        refined = refiner.refine(candidate, violations)
-        manager.update_queue(refined)
+        manager.search_candidates(spec, seed)
+    elif action == "EvaluateCandidate":
+        candidate = manager.pop_candidate()
+        run_dir = backend.run(candidate)  # Planned: not implemented yet.
+        refined = manager.record_result(candidate, run_dir, spec, refiner)
+        # Planned: revise parameters before requeueing a failed candidate.
+    elif action == "AwaitEvaluation":
+        wait_for_backend_or_record_failure()
     elif action == "Stop":
         break
 ```
@@ -81,6 +81,8 @@ dry-run 下：
 - fullchain_eval 返回 `status=dry_run`；
 - Refiner 不允许接受为真实 pass；
 - agent_trace 仍然记录完整流程。
+
+上面的 `backend.run`、`wait_for_backend_or_record_failure` 和可执行的 `run_agent_loop.py` 仍是设计目标，不是当前仓库已经提供的函数。当前 Manager 的预算/去重/单 pending 转移仅有 mock 测试；详见 `docs/26_deterministic_manager_mvp.md`。
 
 ## 11. 真实 LLM 接入方案
 

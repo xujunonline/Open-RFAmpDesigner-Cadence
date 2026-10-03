@@ -11,6 +11,7 @@ from orfadc.cadence.psfascii_reader import (
     parse_complex_trace,
     parse_dc_values,
     parse_scalar_trace,
+    parse_struct_values,
     subtract_complex_traces,
     unwrap_degrees,
 )
@@ -55,6 +56,24 @@ END
 
     assert values["out"] == pytest.approx(0.55)
     assert values["VDD:p"] == pytest.approx(-66e-6)
+
+
+def test_parse_structured_operating_point(tmp_path: Path) -> None:
+    path = tmp_path / "dcOpInfo.info"
+    path.write_text(
+        'TYPE\n"bsim4" STRUCT(\n"vds" FLOAT DOUBLE PROP(\n)\n'
+        '"vdsat" FLOAT DOUBLE PROP(\n)\n"region" INT BYTE PROP(\n)\n) PROP(\n)\n'
+        'VALUE\n"M1" "bsim4" (\n0.81\n0.16\n2\n) PROP(\n)\nEND\n',
+        encoding="utf-8",
+    )
+    assert parse_struct_values(path, instance="M1", struct_type="bsim4") == {
+        "vds": pytest.approx(0.81),
+        "vdsat": pytest.approx(0.16),
+        "region": pytest.approx(2),
+    }
+    path.write_text(path.read_text(encoding="utf-8").replace("0.16\n", ""), encoding="utf-8")
+    with pytest.raises(ValueError, match="incomplete"):
+        parse_struct_values(path, instance="M1", struct_type="bsim4")
 
 
 def test_differential_trace_and_crossing_interpolation() -> None:

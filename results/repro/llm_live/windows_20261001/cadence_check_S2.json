@@ -1,0 +1,145 @@
+{
+  "spec": "S2",
+  "seed": 0,
+  "probe": {
+    "status": "ok",
+    "connection": {
+      "action": "ssh",
+      "argv": [
+        "ssh",
+        "-p",
+        "22",
+        "-o",
+        "BatchMode=yes",
+        "-o",
+        "ConnectTimeout=10",
+        "-o",
+        "StrictHostKeyChecking=accept-new",
+        "-i",
+        "<identity-file>",
+        "-o",
+        "IdentitiesOnly=yes",
+        "userone@192.168.44.128",
+        "bash -lc 'timeout --signal=TERM --kill-after=3s 290s bash -lc '\"'\"'printf '\"'\"'\"'\"'\"'\"'\"'\"'user=%s\\n'\"'\"'\"'\"'\"'\"'\"'\"' \"$(id -un)\"\nprintf '\"'\"'\"'\"'\"'\"'\"'\"'host=%s\\n'\"'\"'\"'\"'\"'\"'\"'\"' \"$(hostname -f 2>/dev/null || hostname)\"\nprintf '\"'\"'\"'\"'\"'\"'\"'\"'pwd=%s\\n'\"'\"'\"'\"'\"'\"'\"'\"' \"$PWD\"\nfound=\"$(command -v spectre 2>/dev/null || true)\"; printf '\"'\"'\"'\"'\"'\"'\"'\"'tool.spectre=%s\\n'\"'\"'\"'\"'\"'\"'\"'\"' \"$found\"'\"'\"''"
+      ],
+      "returncode": 0,
+      "stdout": "user=userone\nhost=localhost\npwd=/home/userone\ntool.spectre=/opt/eda/cadence/SPECTRE251/bin/spectre\n",
+      "stderr": "",
+      "ok": true
+    },
+    "user": "userone",
+    "host": "localhost",
+    "pwd": "/home/userone",
+    "tools": {
+      "spectre": {
+        "found": true,
+        "path": "/opt/eda/cadence/SPECTRE251/bin/spectre"
+      }
+    }
+  },
+  "remote_dir": "/home/userone/open_rfampdesigner_runs/repro_20261001T160812_aa567c",
+  "surrogate_design_pass": true,
+  "cases": {
+    "critical_fc": {
+      "max_abs_delta": {
+        "gain_db": 1.3990586467116373e-11,
+        "s11_db": 3.390567826500046e-10,
+        "nf_db": 3.4727776210274897e-12,
+        "nfmin_db": 3.6295411121045618e-12,
+        "ip1db_dbm": 0.3046600836926423
+      },
+      "spectre_at_fc": {
+        "gain_db": 17.801658592328643,
+        "s11_db": -39.570942596440204,
+        "nf_db": 3.411499813158916,
+        "nfmin_db": 3.382109605689545
+      },
+      "engine_at_fc": {
+        "gain_db": 17.801658592342633,
+        "s11_db": -39.57094259610115,
+        "nf_db": 3.411499813155443,
+        "nfmin_db": 3.3821096056859155
+      },
+      "ip1db": {
+        "spectre": -20.254217749237057,
+        "engine": -20.5588778329297
+      }
+    },
+    "fullchain": {
+      "max_abs_delta": {
+        "gain_db": 8.43805025851907e-11,
+        "s11_db": 5.27656141002808e-10,
+        "nf_db": 3.19211324040225e-11,
+        "nfmin_db": 3.292655037512304e-11,
+        "ip1db_dbm": 0.1890987176182648
+      },
+      "spectre_at_fc": {
+        "gain_db": 27.32604779584699,
+        "s11_db": -40.585767142283764,
+        "nf_db": 4.143979801755558,
+        "nfmin_db": 4.12350953685486
+      },
+      "engine_at_fc": {
+        "gain_db": 27.32604779585941,
+        "s11_db": -40.58576714187615,
+        "nf_db": 4.143979801750104,
+        "nfmin_db": 4.123509536849247
+      },
+      "ip1db": {
+        "spectre": -22.37341840313733,
+        "engine": -22.562517120755594
+      },
+      "spectre_band_metrics": {
+        "gain_fc_db": 27.32604779584699,
+        "gain_min_db": 25.270424926797638,
+        "gain_max_db": 27.344474701571567,
+        "ripple_db": 2.074049774773929,
+        "s11_fc_db": -40.585767142283764,
+        "s11_max_inband_db": -23.782128872453118,
+        "nf_fc_db": 4.143979801755558,
+        "nfmin_fc_db": 4.12350953685486,
+        "nf_max_inband_db": 4.617869221339583,
+        "ip1db_dbm": -22.37341840313733
+      }
+    }
+  },
+  "sensitivity_physical_cdb": {
+    "max_abs_delta": {
+      "gain_db": 1.8190062948403707,
+      "s11_db": 18.5156442517016,
+      "nf_db": 1.8186590304125119,
+      "nfmin_db": 1.7376643947271617
+    },
+    "spectre_at_fc": {
+      "gain_db": 26.889013383771776,
+      "s11_db": -22.893358984787593,
+      "nf_db": 4.429756626087041,
+      "nfmin_db": 4.391996790950849
+    },
+    "ip1db_dbm": -21.950338084933616,
+    "spectre_band_metrics": {
+      "gain_fc_db": 26.889013383771776,
+      "gain_min_db": 24.92449872978907,
+      "gain_max_db": 26.898194442995408,
+      "ripple_db": 1.973695713206336,
+      "s11_fc_db": -22.893358984787593,
+      "s11_max_inband_db": -18.192356092555332,
+      "nf_fc_db": 4.429756626087041,
+      "nfmin_fc_db": 4.391996790950849,
+      "nf_max_inband_db": 4.97470291740679,
+      "ip1db_dbm": -21.950338084933616
+    }
+  },
+  "tolerance": {
+    "gain_db": 0.2,
+    "s11_db": 1.0,
+    "nf_db": 0.2,
+    "nfmin_db": 0.3,
+    "ip1db_dbm": 0.5
+  },
+  "agree": true,
+  "spectre_calls": 3,
+  "spectre_wall_s": 24.6,
+  "local_evidence": "F:\\Open-RFAmpDesigner-Cadence\\results\\runs\\repro_cadence\\20261001T160812_aa567c",
+  "wall_s": 35.5
+}

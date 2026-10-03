@@ -2,6 +2,8 @@
 
 > 依据：项目论文原文 `references/paper/RFAmpDesigner.pdf`、中文译文 `references/paper/RFAmpDesigner_中文翻译.md`、已有聊天记录，以及本轮核对的官方开源仓库页面。本文档服务于工程 `Open-RFAmpDesigner-Cadence`，目标是形成可执行、可教学、可继续编码的实现方案。
 
+本文中用于讲解 JSON/schema 的候选数值、`pass: true` 与耗时均为示意数据，不是本项目的 Cadence 实测。当前实测状态以 `docs/16_implementation_status.md` 和 `docs/audits/` 为准。论文 Table III 表头使用 IP1dB；p.8 正文讨论 S9/S10 时另称 OP1dB=9 dBm，二者口径冲突，本项目暂按表中 IP1dB 阈值建配置，并单独保留 OP1dB 指标。
+
 ## 1. 项目背景
 
 RFAmpDesigner 解决的问题是 RF 放大器参数 sizing 自动化。传统模拟电路自动设计通常把 W/L、偏置、电容、电阻等变量直接交给优化器搜索；但 RF 放大器尤其是宽带 LNA，会同时受输入匹配、输出匹配、噪声、增益、线性度、功耗、寄生和无源网络频率响应影响，直接在原始参数空间搜索非常低效。

@@ -19,12 +19,15 @@ def load_yaml(path: Path) -> dict[str, Any]:
 
 def load_specs(path: Path) -> list[Spec]:
     data = load_yaml(path)
-    return [Spec(**item) for item in data.get("specs", [])]
+    specs = [Spec(**item) for item in data.get("specs", [])]
+    identifiers = [spec.id for spec in specs]
+    if len(identifiers) != len(set(identifiers)):
+        raise ValueError("duplicate spec id in specs configuration")
+    return specs
 
 
 def write_json(path: Path, payload: Any) -> None:
+    serialized = json.dumps(payload, ensure_ascii=False, indent=2, allow_nan=False) + "\n"
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("w", encoding="utf-8") as fh:
-        json.dump(payload, fh, ensure_ascii=False, indent=2)
-        fh.write("\n")
-
+        fh.write(serialized)

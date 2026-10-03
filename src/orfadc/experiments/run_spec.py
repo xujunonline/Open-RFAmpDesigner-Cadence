@@ -18,6 +18,8 @@ def main() -> int:
     parser.add_argument("--seed", type=int, default=0)
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args()
+    if not args.dry_run:
+        parser.error("this entry point only supports --dry-run; no Cadence simulation is run")
 
     project_root = Path(__file__).resolve().parents[3]
     specs_path = project_root / "config" / "specs_table_iii.yaml"

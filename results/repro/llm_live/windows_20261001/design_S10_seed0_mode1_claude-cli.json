@@ -1,0 +1,4205 @@
+{
+ "spec": "S10",
+ "seed": 0,
+ "mode": 1,
+ "policy": "llm-claude-cli",
+ "success": false,
+ "report": {
+  "cid": "C052",
+  "success": false,
+  "did": "D055",
+  "metrics": {
+   "gain_fc_db": 23.3835,
+   "gain_min_db": 23.2474,
+   "gain_max_db": 25.1365,
+   "ripple_db": 1.8891,
+   "s11_fc_db": -41.1221,
+   "s11_max_inband_db": -15.7045,
+   "nf_fc_db": 4.1436,
+   "nfmin_fc_db": 4.1379,
+   "nf_max_inband_db": 4.51,
+   "ip1db_dbm": -21.5488,
+   "power_ma": 28.6744
+  },
+  "violations": {
+   "gain": 0.0,
+   "ripple": 0.0,
+   "nf": 0.6436,
+   "ip1db": 6.5488,
+   "s11": 0.0,
+   "power": 0.0
+  },
+  "bottleneck": "ip1db:stage3",
+  "steps": 1,
+  "reason": "Full-chain IP1dB is -21.55 dBm vs -15 dBm required. Stage 3 (55% of current) compresses first by current clipping at -17.78 dBm alone. Stage 2 is also current-clipped at -17.28 dBm alone, and the stage-1 estimate was already -18.79 dBm. Moving gain out of stage 3 would worsen NF (4.14 dB vs 3.5 dB; stage 2 + MCR2 gain is only 1.54 dB), and the critical-stage gain cannot fix stage 3's clipping. Stage 1 needs to reallocate current toward stages 3 and 2, or the 30 mA budget is insufficient."
+ },
+ "sims": {
+  "hf_critical": 9288,
+  "hf_full": 43,
+  "lf": 11133,
+  "hf_total": 9331,
+  "equiv_time_s": 5182.27,
+  "cpu_s": 36.388
+ },
+ "n_search": 9,
+ "n_refine": 9,
+ "splits_tried": [
+  [
+   0.35,
+   0.15,
+   0.5
+  ],
+  [
+   0.4,
+   0.3,
+   0.3
+  ],
+  [
+   0.3,
+   0.4,
+   0.3
+  ],
+  [
+   0.3,
+   0.25,
+   0.45
+  ],
+  [
+   0.3,
+   0.2,
+   0.5
+  ],
+  [
+   0.25,
+   0.2,
+   0.55
+  ],
+  [
+   0.25,
+   0.15,
+   0.6
+  ],
+  [
+   0.2,
+   0.15,
+   0.65
+  ],
+  [
+   0.3,
+   0.15,
+   0.55
+  ]
+ ],
+ "design": {
+  "active": [
+   {
+    "kind": "cascode",
+    "w_um": 54.0,
+    "vb_v": 0.5,
+    "stage_current_ma": 6.632189572859222
+   },
+   {
+    "kind": "diff",
+    "w_um": 54.0,
+    "vb_v": 0.425,
+    "stage_current_ma": 5.96443440351781
+   },
+   {
+    "kind": "diff",
+    "w_um": 108.0,
+    "vb_v": 0.45,
+    "stage_current_ma": 16.077753718786912
+   }
+  ],
+  "ls_ph": 106.13358345699305,
+  "lg_ph": 145.03189901204075,
+  "lpar_ph": 543.5253869027034,
+  "mcr1": {
+   "k": 0.27379665160310407,
+   "l1_h": 6.206281007218291e-10,
+   "l2_h": 1e-09,
+   "r1_ohm": 940.0270229048009,
+   "r2_ohm": 553.7161117012614,
+   "c1_f": 1.2968685677212572e-14,
+   "c2_f": 4.499319023428027e-14,
+   "q_ind": 15.0,
+   "f_loss_hz": 30000000000.0,
+   "flags": [],
+   "l1_ph": 620.6281007218291,
+   "l2_ph": 1000.0000000000001,
+   "c1_ff": 12.968685677212571,
+   "c2_ff": 44.99319023428027
+  },
+  "mcr2": {
+   "k": 0.49429517223027775,
+   "l1_h": 1.7120395683594635e-10,
+   "l2_h": 1.7120395683594635e-10,
+   "r1_ohm": 88.9191105863129,
+   "r2_ohm": 79.43963846401827,
+   "c1_f": 1.2523959580421722e-13,
+   "c2_f": 3.9077195804217215e-14,
+   "q_ind": 15.0,
+   "f_loss_hz": 30591104306.815258,
+   "flags": [],
+   "l1_ph": 171.20395683594634,
+   "l2_ph": 171.20395683594634,
+   "c1_ff": 125.23959580421722,
+   "c2_ff": 39.07719580421721
+  },
+  "mcr3": {
+   "k": 0.396182190499101,
+   "l1_h": 1.6827304896431034e-10,
+   "l2_h": 1.6827304896431034e-10,
+   "r1_ohm": Infinity,
+   "r2_ohm": 443.70746540143665,
+   "c1_f": 1.2233596545011108e-13,
+   "c2_f": 1.246607654501111e-13,
+   "q_ind": 15.0,
+   "f_loss_hz": 28335009852.290154,
+   "flags": [
+    "q0_unattainable_pri"
+   ],
+   "l1_ph": 168.27304896431033,
+   "l2_ph": 168.27304896431033,
+   "c1_ff": 122.33596545011109,
+   "c2_ff": 124.66076545011111
+  },
+  "power_ma": 28.674377695163944,
+  "meta": {}
+ },
+ "sweep": {
+  "f_ghz": [
+   15.0,
+   16.125,
+   17.25,
+   18.375,
+   19.5,
+   20.625,
+   21.75,
+   22.875,
+   24.0,
+   25.125,
+   26.25,
+   27.0,
+   27.3,
+   27.375,
+   27.6,
+   27.9,
+   28.2,
+   28.5,
+   28.8,
+   29.1,
+   29.4,
+   29.625,
+   29.7,
+   30.0,
+   30.3,
+   30.6,
+   30.75,
+   30.900000000000002,
+   31.200000000000003,
+   31.500000000000004,
+   31.800000000000004,
+   31.875,
+   32.1,
+   32.400000000000006,
+   32.7,
+   33.0,
+   33.00000000000001,
+   34.125,
+   35.25,
+   36.375,
+   37.5,
+   38.625,
+   39.75,
+   40.875,
+   42.0,
+   43.125,
+   44.25,
+   45.375,
+   46.5,
+   47.625,
+   48.75,
+   49.875,
+   51.0,
+   52.125,
+   53.25,
+   54.375,
+   55.5,
+   56.625,
+   57.75,
+   58.875,
+   60.0
+  ],
+  "gain_db": [
+   9.569618958891281,
+   12.90035909171348,
+   14.841365043062595,
+   16.643076669688842,
+   18.8888071804896,
+   21.75304604815018,
+   25.215525769938843,
+   28.526834280618797,
+   29.354373004789515,
+   27.78397626779253,
+   26.04417777107004,
+   25.136482073086306,
+   24.833818910906587,
+   24.763308726262984,
+   24.5637650118559,
+   24.324736255313603,
+   24.115106193206604,
+   23.933251866733094,
+   23.77756125013392,
+   23.646418735097434,
+   23.538178689541418,
+   23.471004349862525,
+   23.451133319727113,
+   23.3834787934174,
+   23.333282182353955,
+   23.298450808765207,
+   23.2860926022991,
+   23.27670470186057,
+   23.265551817103287,
+   23.26226422402729,
+   23.263851486879897,
+   23.26463182900887,
+   23.267024959161677,
+   23.268143977178667,
+   23.26313270242183,
+   23.247356002139426,
+   23.24735600213943,
+   22.98855571895551,
+   22.057392126341373,
+   19.911309756569572,
+   16.529182767442457,
+   12.532642277719091,
+   8.45381757299174,
+   4.50639680972211,
+   0.7330359173528387,
+   -2.8816761940639757,
+   -6.364393640687036,
+   -9.73687653098078,
+   -13.012200915727913,
+   -16.195945649539635,
+   -19.288976994497148,
+   -22.290120941150136,
+   -25.198025496707498,
+   -28.012147936061915,
+   -30.733090284900012,
+   -33.36255442134092,
+   -35.903126708749774,
+   -38.35802018556741,
+   -40.73083810578744,
+   -43.02538276933011,
+   -45.24551273665095
+  ],
+  "s11_db": [
+   -4.157914823240053,
+   -4.885464259171651,
+   -5.628256619696895,
+   -6.427162664357983,
+   -7.306046012233091,
+   -8.273915534753502,
+   -9.344933266770232,
+   -10.546738183936945,
+   -11.925607342239086,
+   -13.566996303711479,
+   -15.641757120068727,
+   -17.42998398765254,
+   -18.285629958535885,
+   -18.515788450006458,
+   -19.251965885715304,
+   -20.360693486287502,
+   -21.65850709645423,
+   -23.218248963782138,
+   -25.162722367940837,
+   -27.72289959306251,
+   -31.408429971960516,
+   -35.65875249926741,
+   -37.54932054673082,
+   -41.122083915910075,
+   -33.407694115868466,
+   -28.73036465874627,
+   -27.039101327932883,
+   -25.608374536726792,
+   -23.280251161647065,
+   -21.431152476626224,
+   -19.905113799983706,
+   -19.562916506183544,
+   -18.614560601751172,
+   -17.5058410912848,
+   -16.543877452699412,
+   -15.70448732000347,
+   -15.704487320003473,
+   -13.394030154352507,
+   -12.040734904537496,
+   -11.316999937470786,
+   -10.983629027849249,
+   -10.870585566976922,
+   -10.869395278274052,
+   -10.916129493128164,
+   -10.975180399665314,
+   -11.027959232473759,
+   -11.065785849033198,
+   -11.085600738169072,
+   -11.087423346740561,
+   -11.07285705373906,
+   -11.0442179776229,
+   -11.004036779793573,
+   -10.954783894534836,
+   -10.898728104473683,
+   -10.83787378414353,
+   -10.773943469384871,
+   -10.708385406664178,
+   -10.642393736896485,
+   -10.57693393670821,
+   -10.512769237220507,
+   -10.450485664565232
+  ],
+  "nf_db": [
+   4.732270261828129,
+   4.274171329777045,
+   4.079619474590441,
+   4.017948835492645,
+   4.019351603540119,
+   4.048019752385163,
+   4.085124996051285,
+   4.120081114338755,
+   4.146535624785325,
+   4.160853435353967,
+   4.161996603565761,
+   4.156430481251207,
+   4.153209375464303,
+   4.1523452383535115,
+   4.149659369054245,
+   4.145988138842037,
+   4.142443026097441,
+   4.139314896807617,
+   4.13694209726163,
+   4.135714410027825,
+   4.136076883563367,
+   4.137693080503045,
+   4.138533371378712,
+   4.143649574552831,
+   4.152055335993675,
+   4.16444588886992,
+   4.172370603174446,
+   4.181581719282028,
+   4.204286670365324,
+   4.233443899242927,
+   4.269989308676816,
+   4.2803940306390205,
+   4.3149021217732395,
+   4.369192360019455,
+   4.433885129117218,
+   4.510001815443798,
+   4.510001815443797,
+   4.913511636135059,
+   5.53314520432639,
+   6.385417059148044,
+   7.454734199707235,
+   8.701403388751336,
+   10.077494867515043,
+   11.540086552686716,
+   13.057229862798032,
+   14.608108142586158,
+   16.180538409371657,
+   17.76800045695295,
+   19.3671454293396,
+   20.976019691886414,
+   22.592949863685984,
+   24.21595132704608,
+   25.842513464063423,
+   27.46962843934075,
+   29.093952253925433,
+   30.712013391795217,
+   32.32041245046622,
+   33.91598172082391,
+   35.49589361458531,
+   37.057719919418474,
+   38.599450702339134
+  ],
+  "nfmin_db": [
+   3.5350469202846746,
+   3.307360931626696,
+   3.2801844890081537,
+   3.3552521835766083,
+   3.475943555016761,
+   3.6108139697626362,
+   3.7422209557718453,
+   3.859900505589562,
+   3.957693146545758,
+   4.032130485263093,
+   4.082193688116265,
+   4.102881830883929,
+   4.10868758706705,
+   4.109945077144603,
+   4.113294612379252,
+   4.116888076833155,
+   4.119689517894519,
+   4.121960789001416,
+   4.12400823876618,
+   4.12618705903739,
+   4.128905711277105,
+   4.1315770722165555,
+   4.132630304752742,
+   4.1378887564192315,
+   4.145274511270312,
+   4.15544954458548,
+   4.161809153220119,
+   4.169146306619863,
+   4.187168210664713,
+   4.210388214400666,
+   4.239745012307163,
+   4.2481588401966555,
+   4.276236356546561,
+   4.320909070008958,
+   4.374845422736618,
+   4.43914572304598,
+   4.43914572304598,
+   4.790874316492681,
+   5.353112281197872,
+   6.151303716417434,
+   7.176569311557084,
+   8.391741415479814,
+   9.747820707354188,
+   11.199047804370931,
+   12.7104297674418,
+   14.258674835747936,
+   15.829869352106204,
+   17.41640222360589,
+   19.014298729053493,
+   20.621288541850515,
+   22.23557597894834,
+   23.85517101192672,
+   25.47762436405788,
+   27.10002452543825,
+   28.719138929584624,
+   30.331610343051906,
+   31.934149133011495,
+   33.52368863022664,
+   35.09749134341416,
+   36.65320724517357,
+   38.18889244331441
+  ]
+ },
+ "trace": [
+  {
+   "t": 0.0,
+   "agent": "manager",
+   "event": "plan",
+   "sims": {
+    "hf_critical": 0,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 0,
+    "equiv_time_s": 0.0,
+    "cpu_s": 0.0
+   },
+   "mode": 1,
+   "hints": {},
+   "policy": "llm-claude-cli"
+  },
+  {
+   "t": 0.017,
+   "agent": "searcher",
+   "event": "active_sizing",
+   "sims": {
+    "hf_critical": 0,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 0,
+    "equiv_time_s": 0.0,
+    "cpu_s": 0.0
+   },
+   "split": [
+    0.35,
+    0.15,
+    0.5
+   ],
+   "status": "ok",
+   "n": 4
+  },
+  {
+   "t": 0.421,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 129,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 129,
+    "equiv_time_s": 64.5,
+    "cpu_s": 0.355
+   },
+   "cid": "C000",
+   "origin": "search",
+   "power_ratio_list": [
+    0.35,
+    0.15,
+    0.5
+   ],
+   "config_id": "crit_large__noncrit_large",
+   "nf_cp_db": 3.713,
+   "s11_cp_db": -23.21,
+   "gain_cp_db": 20.14,
+   "ip1db_cp_dbm": -24.77,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": null,
+   "score": 0.0
+  },
+  {
+   "t": 0.777,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 258,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 258,
+    "equiv_time_s": 129.0,
+    "cpu_s": 0.697
+   },
+   "cid": "C001",
+   "origin": "search",
+   "power_ratio_list": [
+    0.35,
+    0.15,
+    0.5
+   ],
+   "config_id": "crit_large__noncrit_large",
+   "nf_cp_db": 3.707,
+   "s11_cp_db": -34.96,
+   "gain_cp_db": 19.38,
+   "ip1db_cp_dbm": -24.02,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": 11.0,
+   "score": 0.0
+  },
+  {
+   "t": 1.147,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 387,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 387,
+    "equiv_time_s": 193.5,
+    "cpu_s": 1.052
+   },
+   "cid": "C002",
+   "origin": "search",
+   "power_ratio_list": [
+    0.35,
+    0.15,
+    0.5
+   ],
+   "config_id": "crit_large__noncrit_small",
+   "nf_cp_db": 3.941,
+   "s11_cp_db": -29.41,
+   "gain_cp_db": 18.92,
+   "ip1db_cp_dbm": -23.58,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": null,
+   "score": 0.0
+  },
+  {
+   "t": 1.513,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 516,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 516,
+    "equiv_time_s": 258.0,
+    "cpu_s": 1.402
+   },
+   "cid": "C003",
+   "origin": "search",
+   "power_ratio_list": [
+    0.35,
+    0.15,
+    0.5
+   ],
+   "config_id": "crit_large__noncrit_small",
+   "nf_cp_db": 3.875,
+   "s11_cp_db": -22.52,
+   "gain_cp_db": 18.74,
+   "ip1db_cp_dbm": -23.43,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": 11.0,
+   "score": 0.0
+  },
+  {
+   "t": 1.867,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 645,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 645,
+    "equiv_time_s": 322.5,
+    "cpu_s": 1.742
+   },
+   "cid": "C004",
+   "origin": "search",
+   "power_ratio_list": [
+    0.35,
+    0.15,
+    0.5
+   ],
+   "config_id": "crit_small__noncrit_large",
+   "nf_cp_db": 2.356,
+   "s11_cp_db": -30.17,
+   "gain_cp_db": 31.86,
+   "ip1db_cp_dbm": -31.22,
+   "stage2_feasible": true,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": null,
+   "score": 0.0
+  },
+  {
+   "t": 2.223,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 774,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 774,
+    "equiv_time_s": 387.0,
+    "cpu_s": 2.084
+   },
+   "cid": "C005",
+   "origin": "search",
+   "power_ratio_list": [
+    0.35,
+    0.15,
+    0.5
+   ],
+   "config_id": "crit_small__noncrit_large",
+   "nf_cp_db": 3.308,
+   "s11_cp_db": -41.74,
+   "gain_cp_db": 20.55,
+   "ip1db_cp_dbm": -20.19,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": 11.0,
+   "score": 0.0
+  },
+  {
+   "t": 2.596,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 903,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 903,
+    "equiv_time_s": 451.5,
+    "cpu_s": 2.441
+   },
+   "cid": "C006",
+   "origin": "search",
+   "power_ratio_list": [
+    0.35,
+    0.15,
+    0.5
+   ],
+   "config_id": "crit_small__noncrit_small",
+   "nf_cp_db": 2.076,
+   "s11_cp_db": -36.16,
+   "gain_cp_db": 32.0,
+   "ip1db_cp_dbm": -31.32,
+   "stage2_feasible": true,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": null,
+   "score": 0.0
+  },
+  {
+   "t": 2.969,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 1032,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 1032,
+    "equiv_time_s": 516.0,
+    "cpu_s": 2.799
+   },
+   "cid": "C007",
+   "origin": "search",
+   "power_ratio_list": [
+    0.35,
+    0.15,
+    0.5
+   ],
+   "config_id": "crit_small__noncrit_small",
+   "nf_cp_db": 3.052,
+   "s11_cp_db": -25.12,
+   "gain_cp_db": 20.62,
+   "ip1db_cp_dbm": -21.43,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": 11.0,
+   "score": 0.0
+  },
+  {
+   "t": 2.969,
+   "agent": "manager",
+   "event": "refine_candidate",
+   "sims": {
+    "hf_critical": 1032,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 1032,
+    "equiv_time_s": 516.0,
+    "cpu_s": 2.799
+   },
+   "cid": "C005",
+   "origin": "search",
+   "power_ratio_list": [
+    0.35,
+    0.15,
+    0.5
+   ],
+   "config_id": "crit_small__noncrit_large",
+   "nf_cp_db": 3.308,
+   "s11_cp_db": -41.74,
+   "gain_cp_db": 20.55,
+   "ip1db_cp_dbm": -20.19,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": 11.0,
+   "score": -4.867
+  },
+  {
+   "t": 3.052,
+   "agent": "refiner",
+   "event": "evaluate",
+   "sims": {
+    "hf_critical": 1032,
+    "hf_full": 3,
+    "lf": 136,
+    "hf_total": 1035,
+    "equiv_time_s": 552.27,
+    "cpu_s": 2.818
+   },
+   "cid": "C005",
+   "did": "D008",
+   "passed": false,
+   "violations": {
+    "gain": 0.0,
+    "ripple": 0.0,
+    "nf": 0.926,
+    "ip1db": 8.5329,
+    "s11": 0.0,
+    "power": 0.0
+   },
+   "metrics": {
+    "gain_fc_db": 23.2761,
+    "gain_min_db": 23.2761,
+    "gain_max_db": 24.1935,
+    "ripple_db": 0.9174,
+    "s11_fc_db": -40.0672,
+    "s11_max_inband_db": -25.9299,
+    "nf_fc_db": 4.426,
+    "nfmin_fc_db": 4.3899,
+    "nf_max_inband_db": 4.9722,
+    "ip1db_dbm": -23.5329,
+    "power_ma": 27.1327
+   }
+  },
+  {
+   "t": 20.762,
+   "agent": "refiner",
+   "event": "decide",
+   "sims": {
+    "hf_critical": 1032,
+    "hf_full": 3,
+    "lf": 136,
+    "hf_total": 1035,
+    "equiv_time_s": 552.27,
+    "cpu_s": 2.818
+   },
+   "cid": "C005",
+   "action": "fail",
+   "bottleneck": "ip1db:stage2",
+   "reason": "Chain IP1dB is -23.53 dBm vs a -15 dBm spec (8.5 dB short). Stage 2 compresses first (current_clip, -20.59 dBm alone) on 15% of the 30 mA budget, and stage 3 is close behind (-20.13 dBm). NF is also over spec (4.43/4.97 dB vs 3.5 dB) with NFmin at 4.39 dB, so lowering gain_require_db would raise NF further; Stage 2 was already infeasible (nf_cp 3.31 dB, ip1db_cp -20.19 dBm). Escalate to Stage 1 to move current into stage 2 (and the critical stage) instead of the crit_small/noncrit_large split."
+  },
+  {
+   "t": 20.762,
+   "agent": "manager",
+   "event": "refine_report",
+   "sims": {
+    "hf_critical": 1032,
+    "hf_full": 3,
+    "lf": 136,
+    "hf_total": 1035,
+    "equiv_time_s": 552.27,
+    "cpu_s": 2.818
+   },
+   "cid": "C005",
+   "success": false,
+   "did": "D008",
+   "metrics": {
+    "gain_fc_db": 23.2761,
+    "gain_min_db": 23.2761,
+    "gain_max_db": 24.1935,
+    "ripple_db": 0.9174,
+    "s11_fc_db": -40.0672,
+    "s11_max_inband_db": -25.9299,
+    "nf_fc_db": 4.426,
+    "nfmin_fc_db": 4.3899,
+    "nf_max_inband_db": 4.9722,
+    "ip1db_dbm": -23.5329,
+    "power_ma": 27.1327
+   },
+   "violations": {
+    "gain": 0.0,
+    "ripple": 0.0,
+    "nf": 0.926,
+    "ip1db": 8.5329,
+    "s11": 0.0,
+    "power": 0.0
+   },
+   "bottleneck": "ip1db:stage2",
+   "steps": 1,
+   "reason": "Chain IP1dB is -23.53 dBm vs a -15 dBm spec (8.5 dB short). Stage 2 compresses first (current_clip, -20.59 dBm alone) on 15% of the 30 mA budget, and stage 3 is close behind (-20.13 dBm). NF is also over spec (4.43/4.97 dB vs 3.5 dB) with NFmin at 4.39 dB, so lowering gain_require_db would raise NF further; Stage 2 was already infeasible (nf_cp 3.31 dB, ip1db_cp -20.19 dBm). Escalate to Stage 1 to move current into stage 2 (and the critical stage) instead of the crit_small/noncrit_large split."
+  },
+  {
+   "t": 20.763,
+   "agent": "searcher",
+   "event": "active_sizing",
+   "sims": {
+    "hf_critical": 1032,
+    "hf_full": 3,
+    "lf": 136,
+    "hf_total": 1035,
+    "equiv_time_s": 552.27,
+    "cpu_s": 2.818
+   },
+   "split": [
+    0.4,
+    0.3,
+    0.3
+   ],
+   "status": "ok",
+   "n": 4
+  },
+  {
+   "t": 21.21,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 1161,
+    "hf_full": 3,
+    "lf": 136,
+    "hf_total": 1164,
+    "equiv_time_s": 616.77,
+    "cpu_s": 3.246
+   },
+   "cid": "C009",
+   "origin": "search",
+   "power_ratio_list": [
+    0.4,
+    0.3,
+    0.3
+   ],
+   "config_id": "crit_large__noncrit_large",
+   "nf_cp_db": 3.128,
+   "s11_cp_db": -27.57,
+   "gain_cp_db": 25.67,
+   "ip1db_cp_dbm": -23.73,
+   "stage2_feasible": true,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": null,
+   "score": 0.0
+  },
+  {
+   "t": 21.624,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 1290,
+    "hf_full": 3,
+    "lf": 136,
+    "hf_total": 1293,
+    "equiv_time_s": 681.27,
+    "cpu_s": 3.644
+   },
+   "cid": "C010",
+   "origin": "search",
+   "power_ratio_list": [
+    0.4,
+    0.3,
+    0.3
+   ],
+   "config_id": "crit_large__noncrit_large",
+   "nf_cp_db": 3.312,
+   "s11_cp_db": -21.32,
+   "gain_cp_db": 22.14,
+   "ip1db_cp_dbm": -20.33,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": 11.0,
+   "score": 0.0
+  },
+  {
+   "t": 22.043,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 1419,
+    "hf_full": 3,
+    "lf": 136,
+    "hf_total": 1422,
+    "equiv_time_s": 745.77,
+    "cpu_s": 4.046
+   },
+   "cid": "C011",
+   "origin": "search",
+   "power_ratio_list": [
+    0.4,
+    0.3,
+    0.3
+   ],
+   "config_id": "crit_large__noncrit_small",
+   "nf_cp_db": 3.107,
+   "s11_cp_db": -24.96,
+   "gain_cp_db": 29.4,
+   "ip1db_cp_dbm": -27.58,
+   "stage2_feasible": true,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": null,
+   "score": 0.0
+  },
+  {
+   "t": 22.46,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 1548,
+    "hf_full": 3,
+    "lf": 136,
+    "hf_total": 1551,
+    "equiv_time_s": 810.27,
+    "cpu_s": 4.446
+   },
+   "cid": "C012",
+   "origin": "search",
+   "power_ratio_list": [
+    0.4,
+    0.3,
+    0.3
+   ],
+   "config_id": "crit_large__noncrit_small",
+   "nf_cp_db": 3.325,
+   "s11_cp_db": -20.03,
+   "gain_cp_db": 20.31,
+   "ip1db_cp_dbm": -18.66,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": 11.0,
+   "score": 0.0
+  },
+  {
+   "t": 22.849,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 1677,
+    "hf_full": 3,
+    "lf": 136,
+    "hf_total": 1680,
+    "equiv_time_s": 874.77,
+    "cpu_s": 4.82
+   },
+   "cid": "C013",
+   "origin": "search",
+   "power_ratio_list": [
+    0.4,
+    0.3,
+    0.3
+   ],
+   "config_id": "crit_small__noncrit_large",
+   "nf_cp_db": 2.116,
+   "s11_cp_db": -42.64,
+   "gain_cp_db": 33.15,
+   "ip1db_cp_dbm": -26.26,
+   "stage2_feasible": true,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": null,
+   "score": 0.0
+  },
+  {
+   "t": 23.264,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 1806,
+    "hf_full": 3,
+    "lf": 136,
+    "hf_total": 1809,
+    "equiv_time_s": 939.27,
+    "cpu_s": 5.218
+   },
+   "cid": "C014",
+   "origin": "search",
+   "power_ratio_list": [
+    0.4,
+    0.3,
+    0.3
+   ],
+   "config_id": "crit_small__noncrit_large",
+   "nf_cp_db": 3.299,
+   "s11_cp_db": -37.52,
+   "gain_cp_db": 22.08,
+   "ip1db_cp_dbm": -16.39,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": 11.0,
+   "score": 0.0
+  },
+  {
+   "t": 23.684,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 1935,
+    "hf_full": 3,
+    "lf": 136,
+    "hf_total": 1938,
+    "equiv_time_s": 1003.77,
+    "cpu_s": 5.621
+   },
+   "cid": "C015",
+   "origin": "search",
+   "power_ratio_list": [
+    0.4,
+    0.3,
+    0.3
+   ],
+   "config_id": "crit_small__noncrit_small",
+   "nf_cp_db": 2.02,
+   "s11_cp_db": -32.73,
+   "gain_cp_db": 35.21,
+   "ip1db_cp_dbm": -28.34,
+   "stage2_feasible": true,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": null,
+   "score": 0.0
+  },
+  {
+   "t": 24.072,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 2064,
+    "hf_full": 3,
+    "lf": 136,
+    "hf_total": 2067,
+    "equiv_time_s": 1068.27,
+    "cpu_s": 5.993
+   },
+   "cid": "C016",
+   "origin": "search",
+   "power_ratio_list": [
+    0.4,
+    0.3,
+    0.3
+   ],
+   "config_id": "crit_small__noncrit_small",
+   "nf_cp_db": 3.314,
+   "s11_cp_db": -33.17,
+   "gain_cp_db": 21.55,
+   "ip1db_cp_dbm": -16.45,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": 11.0,
+   "score": 0.0
+  },
+  {
+   "t": 24.072,
+   "agent": "manager",
+   "event": "refine_candidate",
+   "sims": {
+    "hf_critical": 2064,
+    "hf_full": 3,
+    "lf": 136,
+    "hf_total": 2067,
+    "equiv_time_s": 1068.27,
+    "cpu_s": 5.993
+   },
+   "cid": "C009",
+   "origin": "search",
+   "power_ratio_list": [
+    0.4,
+    0.3,
+    0.3
+   ],
+   "config_id": "crit_large__noncrit_large",
+   "nf_cp_db": 3.128,
+   "s11_cp_db": -27.57,
+   "gain_cp_db": 25.67,
+   "ip1db_cp_dbm": -23.73,
+   "stage2_feasible": true,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": null,
+   "score": -2.995
+  },
+  {
+   "t": 24.601,
+   "agent": "refiner",
+   "event": "evaluate",
+   "sims": {
+    "hf_critical": 2064,
+    "hf_full": 7,
+    "lf": 1220,
+    "hf_total": 2071,
+    "equiv_time_s": 1118.44,
+    "cpu_s": 6.019
+   },
+   "cid": "C009",
+   "did": "D017",
+   "passed": false,
+   "violations": {
+    "gain": 0.0,
+    "ripple": 0.475,
+    "nf": 0.21,
+    "ip1db": 12.1083,
+    "s11": 0.0,
+    "power": 0.0
+   },
+   "metrics": {
+    "gain_fc_db": 26.2657,
+    "gain_min_db": 24.2625,
+    "gain_max_db": 27.7375,
+    "ripple_db": 3.475,
+    "s11_fc_db": -26.1515,
+    "s11_max_inband_db": -24.4561,
+    "nf_fc_db": 3.71,
+    "nfmin_fc_db": 3.4383,
+    "nf_max_inband_db": 4.7391,
+    "ip1db_dbm": -27.1083,
+    "power_ma": 29.1042
+   }
+  },
+  {
+   "t": 42.201,
+   "agent": "refiner",
+   "event": "decide",
+   "sims": {
+    "hf_critical": 2064,
+    "hf_full": 7,
+    "lf": 1220,
+    "hf_total": 2071,
+    "equiv_time_s": 1118.44,
+    "cpu_s": 6.019
+   },
+   "cid": "C009",
+   "action": "fail",
+   "bottleneck": "ip1db:stage2",
+   "reason": "Stage 2 compresses first at -25.77 dBm with current_clip at 0.0325 V swing, and stage 3 clips at -21.18 dBm. Total IP1dB is -27.11 dBm versus the -15 dBm target, a 12.1 dB gap. Cutting the critical gain cannot recover about 11 dB in stage 2 and 6 dB in stage 3 without breaking NF (already 0.21 dB over) and the 25 dB gain. The current power allocation [0.4, 0.3, 0.3] gives stages 2 and 3 too little current. Stage 1 should reallocate more current to stages 2 and 3, or move to a different config."
+  },
+  {
+   "t": 42.201,
+   "agent": "manager",
+   "event": "refine_report",
+   "sims": {
+    "hf_critical": 2064,
+    "hf_full": 7,
+    "lf": 1220,
+    "hf_total": 2071,
+    "equiv_time_s": 1118.44,
+    "cpu_s": 6.019
+   },
+   "cid": "C009",
+   "success": false,
+   "did": "D017",
+   "metrics": {
+    "gain_fc_db": 26.2657,
+    "gain_min_db": 24.2625,
+    "gain_max_db": 27.7375,
+    "ripple_db": 3.475,
+    "s11_fc_db": -26.1515,
+    "s11_max_inband_db": -24.4561,
+    "nf_fc_db": 3.71,
+    "nfmin_fc_db": 3.4383,
+    "nf_max_inband_db": 4.7391,
+    "ip1db_dbm": -27.1083,
+    "power_ma": 29.1042
+   },
+   "violations": {
+    "gain": 0.0,
+    "ripple": 0.475,
+    "nf": 0.21,
+    "ip1db": 12.1083,
+    "s11": 0.0,
+    "power": 0.0
+   },
+   "bottleneck": "ip1db:stage2",
+   "steps": 1,
+   "reason": "Stage 2 compresses first at -25.77 dBm with current_clip at 0.0325 V swing, and stage 3 clips at -21.18 dBm. Total IP1dB is -27.11 dBm versus the -15 dBm target, a 12.1 dB gap. Cutting the critical gain cannot recover about 11 dB in stage 2 and 6 dB in stage 3 without breaking NF (already 0.21 dB over) and the 25 dB gain. The current power allocation [0.4, 0.3, 0.3] gives stages 2 and 3 too little current. Stage 1 should reallocate more current to stages 2 and 3, or move to a different config."
+  },
+  {
+   "t": 51.015,
+   "agent": "searcher",
+   "event": "active_sizing",
+   "sims": {
+    "hf_critical": 2064,
+    "hf_full": 7,
+    "lf": 1220,
+    "hf_total": 2071,
+    "equiv_time_s": 1118.44,
+    "cpu_s": 6.019
+   },
+   "split": [
+    0.3,
+    0.4,
+    0.3
+   ],
+   "status": "ok",
+   "n": 4
+  },
+  {
+   "t": 51.475,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 2193,
+    "hf_full": 7,
+    "lf": 1220,
+    "hf_total": 2200,
+    "equiv_time_s": 1182.94,
+    "cpu_s": 6.46
+   },
+   "cid": "C018",
+   "origin": "search",
+   "power_ratio_list": [
+    0.3,
+    0.4,
+    0.3
+   ],
+   "config_id": "crit_large__noncrit_large",
+   "nf_cp_db": 3.418,
+   "s11_cp_db": -25.67,
+   "gain_cp_db": 27.16,
+   "ip1db_cp_dbm": -22.59,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": null,
+   "score": 0.0
+  },
+  {
+   "t": 51.898,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 2322,
+    "hf_full": 7,
+    "lf": 1220,
+    "hf_total": 2329,
+    "equiv_time_s": 1247.44,
+    "cpu_s": 6.866
+   },
+   "cid": "C019",
+   "origin": "search",
+   "power_ratio_list": [
+    0.3,
+    0.4,
+    0.3
+   ],
+   "config_id": "crit_large__noncrit_large",
+   "nf_cp_db": 3.68,
+   "s11_cp_db": -25.06,
+   "gain_cp_db": 21.38,
+   "ip1db_cp_dbm": -17.23,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": 11.0,
+   "score": 0.0
+  },
+  {
+   "t": 52.326,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 2451,
+    "hf_full": 7,
+    "lf": 1220,
+    "hf_total": 2458,
+    "equiv_time_s": 1311.94,
+    "cpu_s": 7.277
+   },
+   "cid": "C020",
+   "origin": "search",
+   "power_ratio_list": [
+    0.3,
+    0.4,
+    0.3
+   ],
+   "config_id": "crit_large__noncrit_small",
+   "nf_cp_db": 3.482,
+   "s11_cp_db": -21.27,
+   "gain_cp_db": 28.14,
+   "ip1db_cp_dbm": -23.97,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": null,
+   "score": 0.0
+  },
+  {
+   "t": 52.738,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 2580,
+    "hf_full": 7,
+    "lf": 1220,
+    "hf_total": 2587,
+    "equiv_time_s": 1376.44,
+    "cpu_s": 7.673
+   },
+   "cid": "C021",
+   "origin": "search",
+   "power_ratio_list": [
+    0.3,
+    0.4,
+    0.3
+   ],
+   "config_id": "crit_large__noncrit_small",
+   "nf_cp_db": 3.702,
+   "s11_cp_db": -22.9,
+   "gain_cp_db": 23.48,
+   "ip1db_cp_dbm": -19.12,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": 11.0,
+   "score": 0.0
+  },
+  {
+   "t": 53.135,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 2709,
+    "hf_full": 7,
+    "lf": 1220,
+    "hf_total": 2716,
+    "equiv_time_s": 1440.94,
+    "cpu_s": 8.054
+   },
+   "cid": "C022",
+   "origin": "search",
+   "power_ratio_list": [
+    0.3,
+    0.4,
+    0.3
+   ],
+   "config_id": "crit_small__noncrit_large",
+   "nf_cp_db": 1.99,
+   "s11_cp_db": -39.62,
+   "gain_cp_db": 34.94,
+   "ip1db_cp_dbm": -26.53,
+   "stage2_feasible": true,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": null,
+   "score": 0.0
+  },
+  {
+   "t": 53.522,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 2838,
+    "hf_full": 7,
+    "lf": 1220,
+    "hf_total": 2845,
+    "equiv_time_s": 1505.44,
+    "cpu_s": 8.425
+   },
+   "cid": "C023",
+   "origin": "search",
+   "power_ratio_list": [
+    0.3,
+    0.4,
+    0.3
+   ],
+   "config_id": "crit_small__noncrit_large",
+   "nf_cp_db": 3.114,
+   "s11_cp_db": -31.14,
+   "gain_cp_db": 22.53,
+   "ip1db_cp_dbm": -17.16,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": 11.0,
+   "score": 0.0
+  },
+  {
+   "t": 53.929,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 2967,
+    "hf_full": 7,
+    "lf": 1220,
+    "hf_total": 2974,
+    "equiv_time_s": 1569.94,
+    "cpu_s": 8.816
+   },
+   "cid": "C024",
+   "origin": "search",
+   "power_ratio_list": [
+    0.3,
+    0.4,
+    0.3
+   ],
+   "config_id": "crit_small__noncrit_small",
+   "nf_cp_db": 2.015,
+   "s11_cp_db": -43.65,
+   "gain_cp_db": 34.32,
+   "ip1db_cp_dbm": -25.91,
+   "stage2_feasible": true,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": null,
+   "score": 0.0
+  },
+  {
+   "t": 54.312,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 3096,
+    "hf_full": 7,
+    "lf": 1220,
+    "hf_total": 3103,
+    "equiv_time_s": 1634.44,
+    "cpu_s": 9.183
+   },
+   "cid": "C025",
+   "origin": "search",
+   "power_ratio_list": [
+    0.3,
+    0.4,
+    0.3
+   ],
+   "config_id": "crit_small__noncrit_small",
+   "nf_cp_db": 3.308,
+   "s11_cp_db": -33.9,
+   "gain_cp_db": 20.81,
+   "ip1db_cp_dbm": -15.86,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": 11.0,
+   "score": 0.0
+  },
+  {
+   "t": 54.312,
+   "agent": "manager",
+   "event": "refine_candidate",
+   "sims": {
+    "hf_critical": 3096,
+    "hf_full": 7,
+    "lf": 1220,
+    "hf_total": 3103,
+    "equiv_time_s": 1634.44,
+    "cpu_s": 9.183
+   },
+   "cid": "C025",
+   "origin": "search",
+   "power_ratio_list": [
+    0.3,
+    0.4,
+    0.3
+   ],
+   "config_id": "crit_small__noncrit_small",
+   "nf_cp_db": 3.308,
+   "s11_cp_db": -33.9,
+   "gain_cp_db": 20.81,
+   "ip1db_cp_dbm": -15.86,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": 11.0,
+   "score": -2.779
+  },
+  {
+   "t": 54.959,
+   "agent": "refiner",
+   "event": "evaluate",
+   "sims": {
+    "hf_critical": 3096,
+    "hf_full": 12,
+    "lf": 2485,
+    "hf_total": 3108,
+    "equiv_time_s": 1696.97,
+    "cpu_s": 9.216
+   },
+   "cid": "C025",
+   "did": "D026",
+   "passed": false,
+   "violations": {
+    "gain": 0.0,
+    "ripple": 1.0623,
+    "nf": 0.6775,
+    "ip1db": 8.3016,
+    "s11": 0.0,
+    "power": 0.0
+   },
+   "metrics": {
+    "gain_fc_db": 24.7384,
+    "gain_min_db": 22.8442,
+    "gain_max_db": 26.9065,
+    "ripple_db": 4.0623,
+    "s11_fc_db": -34.3897,
+    "s11_max_inband_db": -18.7303,
+    "nf_fc_db": 4.1775,
+    "nfmin_fc_db": 4.1615,
+    "nf_max_inband_db": 4.4758,
+    "ip1db_dbm": -23.3016,
+    "power_ma": 27.5229
+   }
+  },
+  {
+   "t": 76.633,
+   "agent": "refiner",
+   "event": "decide",
+   "sims": {
+    "hf_critical": 3096,
+    "hf_full": 12,
+    "lf": 2485,
+    "hf_total": 3108,
+    "equiv_time_s": 1696.97,
+    "cpu_s": 9.216
+   },
+   "cid": "C025",
+   "action": "fail",
+   "bottleneck": "ip1db:stage3",
+   "reason": "Stage 3 compresses first (current_clip, ip1db_if_alone=-22.45 dBm vs -15 dBm spec). An 8.3 dB IP1dB shortfall would need about 7.5 dB less gain before stage 3 (g0+g2 from about 14.5 to about 7 dB) and about 18 dB from stage 3 alone at 30 GHz with power_ratio 0.3. That is not achievable and would make the existing 0.68 dB NF violation worse (NFmin 4.16 dB > 3.5 dB; stage2 infeasible). Escalate to Stage 1 to give stage 3 more current or choose a different config."
+  },
+  {
+   "t": 76.633,
+   "agent": "manager",
+   "event": "refine_report",
+   "sims": {
+    "hf_critical": 3096,
+    "hf_full": 12,
+    "lf": 2485,
+    "hf_total": 3108,
+    "equiv_time_s": 1696.97,
+    "cpu_s": 9.216
+   },
+   "cid": "C025",
+   "success": false,
+   "did": "D026",
+   "metrics": {
+    "gain_fc_db": 24.7384,
+    "gain_min_db": 22.8442,
+    "gain_max_db": 26.9065,
+    "ripple_db": 4.0623,
+    "s11_fc_db": -34.3897,
+    "s11_max_inband_db": -18.7303,
+    "nf_fc_db": 4.1775,
+    "nfmin_fc_db": 4.1615,
+    "nf_max_inband_db": 4.4758,
+    "ip1db_dbm": -23.3016,
+    "power_ma": 27.5229
+   },
+   "violations": {
+    "gain": 0.0,
+    "ripple": 1.0623,
+    "nf": 0.6775,
+    "ip1db": 8.3016,
+    "s11": 0.0,
+    "power": 0.0
+   },
+   "bottleneck": "ip1db:stage3",
+   "steps": 1,
+   "reason": "Stage 3 compresses first (current_clip, ip1db_if_alone=-22.45 dBm vs -15 dBm spec). An 8.3 dB IP1dB shortfall would need about 7.5 dB less gain before stage 3 (g0+g2 from about 14.5 to about 7 dB) and about 18 dB from stage 3 alone at 30 GHz with power_ratio 0.3. That is not achievable and would make the existing 0.68 dB NF violation worse (NFmin 4.16 dB > 3.5 dB; stage2 infeasible). Escalate to Stage 1 to give stage 3 more current or choose a different config."
+  },
+  {
+   "t": 86.157,
+   "agent": "searcher",
+   "event": "active_sizing",
+   "sims": {
+    "hf_critical": 3096,
+    "hf_full": 12,
+    "lf": 2485,
+    "hf_total": 3108,
+    "equiv_time_s": 1696.97,
+    "cpu_s": 9.216
+   },
+   "split": [
+    0.3,
+    0.25,
+    0.45
+   ],
+   "status": "ok",
+   "n": 4
+  },
+  {
+   "t": 86.643,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 3225,
+    "hf_full": 12,
+    "lf": 2485,
+    "hf_total": 3237,
+    "equiv_time_s": 1761.47,
+    "cpu_s": 9.681
+   },
+   "cid": "C027",
+   "origin": "search",
+   "power_ratio_list": [
+    0.3,
+    0.25,
+    0.45
+   ],
+   "config_id": "crit_large__noncrit_large",
+   "nf_cp_db": 3.461,
+   "s11_cp_db": -25.54,
+   "gain_cp_db": 26.18,
+   "ip1db_cp_dbm": -24.51,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": null,
+   "score": 0.0
+  },
+  {
+   "t": 87.163,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 3354,
+    "hf_full": 12,
+    "lf": 2485,
+    "hf_total": 3366,
+    "equiv_time_s": 1825.97,
+    "cpu_s": 10.18
+   },
+   "cid": "C028",
+   "origin": "search",
+   "power_ratio_list": [
+    0.3,
+    0.25,
+    0.45
+   ],
+   "config_id": "crit_large__noncrit_large",
+   "nf_cp_db": 3.637,
+   "s11_cp_db": -25.46,
+   "gain_cp_db": 21.88,
+   "ip1db_cp_dbm": -20.36,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": 11.0,
+   "score": 0.0
+  },
+  {
+   "t": 87.808,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 3483,
+    "hf_full": 12,
+    "lf": 2485,
+    "hf_total": 3495,
+    "equiv_time_s": 1890.47,
+    "cpu_s": 10.799
+   },
+   "cid": "C029",
+   "origin": "search",
+   "power_ratio_list": [
+    0.3,
+    0.25,
+    0.45
+   ],
+   "config_id": "crit_large__noncrit_small",
+   "nf_cp_db": 3.256,
+   "s11_cp_db": -44.18,
+   "gain_cp_db": 27.41,
+   "ip1db_cp_dbm": -25.76,
+   "stage2_feasible": true,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": null,
+   "score": 0.0
+  },
+  {
+   "t": 88.421,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 3612,
+    "hf_full": 12,
+    "lf": 2485,
+    "hf_total": 3624,
+    "equiv_time_s": 1954.97,
+    "cpu_s": 11.388
+   },
+   "cid": "C030",
+   "origin": "search",
+   "power_ratio_list": [
+    0.3,
+    0.25,
+    0.45
+   ],
+   "config_id": "crit_large__noncrit_small",
+   "nf_cp_db": 3.819,
+   "s11_cp_db": -26.67,
+   "gain_cp_db": 20.36,
+   "ip1db_cp_dbm": -18.95,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": 11.0,
+   "score": 0.0
+  },
+  {
+   "t": 88.906,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 3741,
+    "hf_full": 12,
+    "lf": 2485,
+    "hf_total": 3753,
+    "equiv_time_s": 2019.47,
+    "cpu_s": 11.853
+   },
+   "cid": "C031",
+   "origin": "search",
+   "power_ratio_list": [
+    0.3,
+    0.25,
+    0.45
+   ],
+   "config_id": "crit_small__noncrit_large",
+   "nf_cp_db": 2.015,
+   "s11_cp_db": -40.05,
+   "gain_cp_db": 33.86,
+   "ip1db_cp_dbm": -28.9,
+   "stage2_feasible": true,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": null,
+   "score": 0.0
+  },
+  {
+   "t": 89.471,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 3870,
+    "hf_full": 12,
+    "lf": 2485,
+    "hf_total": 3882,
+    "equiv_time_s": 2083.97,
+    "cpu_s": 12.396
+   },
+   "cid": "C032",
+   "origin": "search",
+   "power_ratio_list": [
+    0.3,
+    0.25,
+    0.45
+   ],
+   "config_id": "crit_small__noncrit_large",
+   "nf_cp_db": 3.266,
+   "s11_cp_db": -40.75,
+   "gain_cp_db": 20.47,
+   "ip1db_cp_dbm": -16.91,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": 11.0,
+   "score": 0.0
+  },
+  {
+   "t": 90.099,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 3999,
+    "hf_full": 12,
+    "lf": 2485,
+    "hf_total": 4011,
+    "equiv_time_s": 2148.47,
+    "cpu_s": 12.998
+   },
+   "cid": "C033",
+   "origin": "search",
+   "power_ratio_list": [
+    0.3,
+    0.25,
+    0.45
+   ],
+   "config_id": "crit_small__noncrit_small",
+   "nf_cp_db": 2.025,
+   "s11_cp_db": -38.93,
+   "gain_cp_db": 34.24,
+   "ip1db_cp_dbm": -29.33,
+   "stage2_feasible": true,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": null,
+   "score": 0.0
+  },
+  {
+   "t": 90.576,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 4128,
+    "hf_full": 12,
+    "lf": 2485,
+    "hf_total": 4140,
+    "equiv_time_s": 2212.97,
+    "cpu_s": 13.455
+   },
+   "cid": "C034",
+   "origin": "search",
+   "power_ratio_list": [
+    0.3,
+    0.25,
+    0.45
+   ],
+   "config_id": "crit_small__noncrit_small",
+   "nf_cp_db": 3.302,
+   "s11_cp_db": -36.8,
+   "gain_cp_db": 22.47,
+   "ip1db_cp_dbm": -19.74,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": 11.0,
+   "score": 0.0
+  },
+  {
+   "t": 90.576,
+   "agent": "manager",
+   "event": "refine_candidate",
+   "sims": {
+    "hf_critical": 4128,
+    "hf_full": 12,
+    "lf": 2485,
+    "hf_total": 4140,
+    "equiv_time_s": 2212.97,
+    "cpu_s": 13.455
+   },
+   "cid": "C032",
+   "origin": "search",
+   "power_ratio_list": [
+    0.3,
+    0.25,
+    0.45
+   ],
+   "config_id": "crit_small__noncrit_large",
+   "nf_cp_db": 3.266,
+   "s11_cp_db": -40.75,
+   "gain_cp_db": 20.47,
+   "ip1db_cp_dbm": -16.91,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": 11.0,
+   "score": -3.161
+  },
+  {
+   "t": 90.787,
+   "agent": "refiner",
+   "event": "evaluate",
+   "sims": {
+    "hf_critical": 4128,
+    "hf_full": 15,
+    "lf": 2869,
+    "hf_total": 4143,
+    "equiv_time_s": 2249.74,
+    "cpu_s": 13.477
+   },
+   "cid": "C032",
+   "did": "D035",
+   "passed": false,
+   "violations": {
+    "gain": 0.0,
+    "ripple": 0.0,
+    "nf": 2.2736,
+    "ip1db": 4.5044,
+    "s11": 0.0,
+    "power": 0.0
+   },
+   "metrics": {
+    "gain_fc_db": 22.8933,
+    "gain_min_db": 22.3767,
+    "gain_max_db": 23.8157,
+    "ripple_db": 1.439,
+    "s11_fc_db": -40.6449,
+    "s11_max_inband_db": -23.2503,
+    "nf_fc_db": 5.7736,
+    "nfmin_fc_db": 5.7703,
+    "nf_max_inband_db": 6.3391,
+    "ip1db_dbm": -19.5044,
+    "power_ma": 27.3596
+   }
+  },
+  {
+   "t": 108.804,
+   "agent": "refiner",
+   "event": "decide",
+   "sims": {
+    "hf_critical": 4128,
+    "hf_full": 15,
+    "lf": 2869,
+    "hf_total": 4143,
+    "equiv_time_s": 2249.74,
+    "cpu_s": 13.477
+   },
+   "cid": "C032",
+   "action": "rerun_stage3",
+   "gain_user_db": 25,
+   "gain_req_list": [
+    11.0,
+    4.0,
+    10.0
+   ],
+   "why": "NF excess (+2.27 dB, nf~nfmin) comes from low pre-stage-2 gain (6.88 dB vs 11 dB) and lossy stage2+MCR2 (-1.30 dB). Restore 11 dB to the stage-2 gate, require +4 dB from stage2+MCR2, and cut stage 3 from 17.3 to 10 dB. This suppresses later-stage noise and relieves the heavily loaded stage 3. Stage 3 currently compresses first (-15.60 dBm if alone, total IP1dB -19.50 dBm), so linearity must be re-checked after this run."
+  },
+  {
+   "t": 109.568,
+   "agent": "refiner",
+   "event": "evaluate",
+   "sims": {
+    "hf_critical": 4128,
+    "hf_full": 19,
+    "lf": 4365,
+    "hf_total": 4147,
+    "equiv_time_s": 2300.73,
+    "cpu_s": 13.503
+   },
+   "cid": "C032",
+   "did": "D036",
+   "passed": false,
+   "violations": {
+    "gain": 0.3518,
+    "ripple": 0.2994,
+    "nf": 0.2194,
+    "ip1db": 7.8074,
+    "s11": 0.0,
+    "power": 0.0
+   },
+   "metrics": {
+    "gain_fc_db": 22.1572,
+    "gain_min_db": 21.6482,
+    "gain_max_db": 24.9476,
+    "ripple_db": 3.2994,
+    "s11_fc_db": -40.2211,
+    "s11_max_inband_db": -23.3262,
+    "nf_fc_db": 3.7194,
+    "nfmin_fc_db": 3.711,
+    "nf_max_inband_db": 4.2966,
+    "ip1db_dbm": -22.8074,
+    "power_ma": 27.3596
+   }
+  },
+  {
+   "t": 127.637,
+   "agent": "refiner",
+   "event": "decide",
+   "sims": {
+    "hf_critical": 4128,
+    "hf_full": 19,
+    "lf": 4365,
+    "hf_total": 4147,
+    "equiv_time_s": 2300.73,
+    "cpu_s": 13.503
+   },
+   "cid": "C032",
+   "action": "fail",
+   "bottleneck": "ip1db:stage3",
+   "reason": "Stage 3 is current-limited at -21.3 dBm input-referred, 7.8 dB short of the overall -15 dBm target. Moving gain into stage 3's own load would need about 6.3 dB less gain before it, so stage 3 would have to deliver about 20 dB, which a current-clipped stage at the current 0.45 power share cannot do. Stage 2 also compresses at -16.2 dBm, and NF (3.72 dB vs 3.5 dB) leaves no room to cut stage-1 gain. The power split needs to be redone in Stage 1 to give stage 3 (and stage 2) more current."
+  },
+  {
+   "t": 127.637,
+   "agent": "manager",
+   "event": "refine_report",
+   "sims": {
+    "hf_critical": 4128,
+    "hf_full": 19,
+    "lf": 4365,
+    "hf_total": 4147,
+    "equiv_time_s": 2300.73,
+    "cpu_s": 13.503
+   },
+   "cid": "C032",
+   "success": false,
+   "did": "D036",
+   "metrics": {
+    "gain_fc_db": 22.1572,
+    "gain_min_db": 21.6482,
+    "gain_max_db": 24.9476,
+    "ripple_db": 3.2994,
+    "s11_fc_db": -40.2211,
+    "s11_max_inband_db": -23.3262,
+    "nf_fc_db": 3.7194,
+    "nfmin_fc_db": 3.711,
+    "nf_max_inband_db": 4.2966,
+    "ip1db_dbm": -22.8074,
+    "power_ma": 27.3596
+   },
+   "violations": {
+    "gain": 0.3518,
+    "ripple": 0.2994,
+    "nf": 0.2194,
+    "ip1db": 7.8074,
+    "s11": 0.0,
+    "power": 0.0
+   },
+   "bottleneck": "ip1db:stage3",
+   "steps": 2,
+   "reason": "Stage 3 is current-limited at -21.3 dBm input-referred, 7.8 dB short of the overall -15 dBm target. Moving gain into stage 3's own load would need about 6.3 dB less gain before it, so stage 3 would have to deliver about 20 dB, which a current-clipped stage at the current 0.45 power share cannot do. Stage 2 also compresses at -16.2 dBm, and NF (3.72 dB vs 3.5 dB) leaves no room to cut stage-1 gain. The power split needs to be redone in Stage 1 to give stage 3 (and stage 2) more current."
+  },
+  {
+   "t": 139.204,
+   "agent": "searcher",
+   "event": "active_sizing",
+   "sims": {
+    "hf_critical": 4128,
+    "hf_full": 19,
+    "lf": 4365,
+    "hf_total": 4147,
+    "equiv_time_s": 2300.73,
+    "cpu_s": 13.503
+   },
+   "split": [
+    0.3,
+    0.2,
+    0.5
+   ],
+   "status": "ok",
+   "n": 4
+  },
+  {
+   "t": 139.795,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 4257,
+    "hf_full": 19,
+    "lf": 4365,
+    "hf_total": 4276,
+    "equiv_time_s": 2365.23,
+    "cpu_s": 14.07
+   },
+   "cid": "C037",
+   "origin": "search",
+   "power_ratio_list": [
+    0.3,
+    0.2,
+    0.5
+   ],
+   "config_id": "crit_large__noncrit_large",
+   "nf_cp_db": 3.476,
+   "s11_cp_db": -28.25,
+   "gain_cp_db": 24.15,
+   "ip1db_cp_dbm": -25.32,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": null,
+   "score": 0.0
+  },
+  {
+   "t": 140.388,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 4386,
+    "hf_full": 19,
+    "lf": 4365,
+    "hf_total": 4405,
+    "equiv_time_s": 2429.73,
+    "cpu_s": 14.64
+   },
+   "cid": "C038",
+   "origin": "search",
+   "power_ratio_list": [
+    0.3,
+    0.2,
+    0.5
+   ],
+   "config_id": "crit_large__noncrit_large",
+   "nf_cp_db": 3.627,
+   "s11_cp_db": -22.39,
+   "gain_cp_db": 20.44,
+   "ip1db_cp_dbm": -21.72,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": 11.0,
+   "score": 0.0
+  },
+  {
+   "t": 140.976,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 4515,
+    "hf_full": 19,
+    "lf": 4365,
+    "hf_total": 4534,
+    "equiv_time_s": 2494.23,
+    "cpu_s": 15.204
+   },
+   "cid": "C039",
+   "origin": "search",
+   "power_ratio_list": [
+    0.3,
+    0.2,
+    0.5
+   ],
+   "config_id": "crit_large__noncrit_small",
+   "nf_cp_db": 3.534,
+   "s11_cp_db": -32.62,
+   "gain_cp_db": 23.14,
+   "ip1db_cp_dbm": -24.33,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": null,
+   "score": 0.0
+  },
+  {
+   "t": 141.554,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 4644,
+    "hf_full": 19,
+    "lf": 4365,
+    "hf_total": 4663,
+    "equiv_time_s": 2558.73,
+    "cpu_s": 15.759
+   },
+   "cid": "C040",
+   "origin": "search",
+   "power_ratio_list": [
+    0.3,
+    0.2,
+    0.5
+   ],
+   "config_id": "crit_large__noncrit_small",
+   "nf_cp_db": 3.822,
+   "s11_cp_db": -23.95,
+   "gain_cp_db": 21.3,
+   "ip1db_cp_dbm": -23.08,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": 11.0,
+   "score": 0.0
+  },
+  {
+   "t": 142.115,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 4773,
+    "hf_full": 19,
+    "lf": 4365,
+    "hf_total": 4792,
+    "equiv_time_s": 2623.23,
+    "cpu_s": 16.298
+   },
+   "cid": "C041",
+   "origin": "search",
+   "power_ratio_list": [
+    0.3,
+    0.2,
+    0.5
+   ],
+   "config_id": "crit_small__noncrit_large",
+   "nf_cp_db": 2.011,
+   "s11_cp_db": -37.35,
+   "gain_cp_db": 32.25,
+   "ip1db_cp_dbm": -28.98,
+   "stage2_feasible": true,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": null,
+   "score": 0.0
+  },
+  {
+   "t": 142.703,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 4902,
+    "hf_full": 19,
+    "lf": 4365,
+    "hf_total": 4921,
+    "equiv_time_s": 2687.73,
+    "cpu_s": 16.863
+   },
+   "cid": "C042",
+   "origin": "search",
+   "power_ratio_list": [
+    0.3,
+    0.2,
+    0.5
+   ],
+   "config_id": "crit_small__noncrit_large",
+   "nf_cp_db": 3.339,
+   "s11_cp_db": -40.04,
+   "gain_cp_db": 20.33,
+   "ip1db_cp_dbm": -18.17,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": 11.0,
+   "score": 0.0
+  },
+  {
+   "t": 143.336,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 5031,
+    "hf_full": 19,
+    "lf": 4365,
+    "hf_total": 5050,
+    "equiv_time_s": 2752.23,
+    "cpu_s": 17.472
+   },
+   "cid": "C043",
+   "origin": "search",
+   "power_ratio_list": [
+    0.3,
+    0.2,
+    0.5
+   ],
+   "config_id": "crit_small__noncrit_small",
+   "nf_cp_db": 2.04,
+   "s11_cp_db": -38.82,
+   "gain_cp_db": 32.22,
+   "ip1db_cp_dbm": -28.95,
+   "stage2_feasible": true,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": null,
+   "score": 0.0
+  },
+  {
+   "t": 143.95,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 5160,
+    "hf_full": 19,
+    "lf": 4365,
+    "hf_total": 5179,
+    "equiv_time_s": 2816.73,
+    "cpu_s": 18.061
+   },
+   "cid": "C044",
+   "origin": "search",
+   "power_ratio_list": [
+    0.3,
+    0.2,
+    0.5
+   ],
+   "config_id": "crit_small__noncrit_small",
+   "nf_cp_db": 3.233,
+   "s11_cp_db": -36.43,
+   "gain_cp_db": 20.15,
+   "ip1db_cp_dbm": -20.99,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": 11.0,
+   "score": 0.0
+  },
+  {
+   "t": 143.95,
+   "agent": "manager",
+   "event": "refine_candidate",
+   "sims": {
+    "hf_critical": 5160,
+    "hf_full": 19,
+    "lf": 4365,
+    "hf_total": 5179,
+    "equiv_time_s": 2816.73,
+    "cpu_s": 18.061
+   },
+   "cid": "C042",
+   "origin": "search",
+   "power_ratio_list": [
+    0.3,
+    0.2,
+    0.5
+   ],
+   "config_id": "crit_small__noncrit_large",
+   "nf_cp_db": 3.339,
+   "s11_cp_db": -40.04,
+   "gain_cp_db": 20.33,
+   "ip1db_cp_dbm": -18.17,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": 11.0,
+   "score": -3.824
+  },
+  {
+   "t": 145.037,
+   "agent": "refiner",
+   "event": "evaluate",
+   "sims": {
+    "hf_critical": 5160,
+    "hf_full": 23,
+    "lf": 5479,
+    "hf_total": 5183,
+    "equiv_time_s": 2866.96,
+    "cpu_s": 18.111
+   },
+   "cid": "C042",
+   "did": "D045",
+   "passed": false,
+   "violations": {
+    "gain": 0.0,
+    "ripple": 0.252,
+    "nf": 1.2664,
+    "ip1db": 5.5717,
+    "s11": 0.0,
+    "power": 0.0
+   },
+   "metrics": {
+    "gain_fc_db": 24.2417,
+    "gain_min_db": 23.5311,
+    "gain_max_db": 26.7832,
+    "ripple_db": 3.252,
+    "s11_fc_db": -41.5691,
+    "s11_max_inband_db": -21.7306,
+    "nf_fc_db": 4.7664,
+    "nfmin_fc_db": 4.7646,
+    "nf_max_inband_db": 5.83,
+    "ip1db_dbm": -20.5717,
+    "power_ma": 26.6249
+   }
+  },
+  {
+   "t": 161.443,
+   "agent": "refiner",
+   "event": "decide",
+   "sims": {
+    "hf_critical": 5160,
+    "hf_full": 23,
+    "lf": 5479,
+    "hf_total": 5183,
+    "equiv_time_s": 2866.96,
+    "cpu_s": 18.111
+   },
+   "cid": "C042",
+   "action": "rerun_stage3",
+   "gain_user_db": 25,
+   "gain_req_list": [
+    7.7,
+    6.0,
+    11.3
+   ],
+   "why": "Excess NF (+1.27 dB) comes from the lossy MCR2 (stage2+MCR2 = -1.92 dB) after the critical stage, so require about +6 dB from stage2+MCR2. Lowering stage-3 gain from 18.4 to about 11.3 dB relieves the current-clipped stage 3 and keeps the 25 dB total and ripple in check."
+  },
+  {
+   "t": 162.9,
+   "agent": "refiner",
+   "event": "evaluate",
+   "sims": {
+    "hf_critical": 5160,
+    "hf_full": 28,
+    "lf": 7483,
+    "hf_total": 5188,
+    "equiv_time_s": 2930.97,
+    "cpu_s": 18.159
+   },
+   "cid": "C042",
+   "did": "D046",
+   "passed": false,
+   "violations": {
+    "gain": 0.0,
+    "ripple": 0.3348,
+    "nf": 0.0435,
+    "ip1db": 10.4648,
+    "s11": 0.0,
+    "power": 0.0
+   },
+   "metrics": {
+    "gain_fc_db": 26.395,
+    "gain_min_db": 26.2696,
+    "gain_max_db": 29.6044,
+    "ripple_db": 3.3348,
+    "s11_fc_db": -41.5935,
+    "s11_max_inband_db": -21.7593,
+    "nf_fc_db": 3.5435,
+    "nfmin_fc_db": 3.5409,
+    "nf_max_inband_db": 4.3034,
+    "ip1db_dbm": -25.4648,
+    "power_ma": 26.6249
+   }
+  },
+  {
+   "t": 179.297,
+   "agent": "refiner",
+   "event": "decide",
+   "sims": {
+    "hf_critical": 5160,
+    "hf_full": 28,
+    "lf": 7483,
+    "hf_total": 5188,
+    "equiv_time_s": 2930.97,
+    "cpu_s": 18.159
+   },
+   "cid": "C042",
+   "action": "fail",
+   "bottleneck": "ip1db:stage3",
+   "reason": "Stage 3 is current-limited: its output P1dB (about -24.4 dBm in plus about 26.4 dB gain, roughly +2 dBm) is about 8 dB short of the roughly +10 dBm output needed for -15 dBm IP1dB at 25 dB gain. Moving gain into stage 3's load cannot recover 9-10 dB, and stage 2 alone (-17.7 dBm) also fails. The power allocation must change (more current to stage 3, or a different power_ratio_list or config) at Stage 1."
+  },
+  {
+   "t": 179.297,
+   "agent": "manager",
+   "event": "refine_report",
+   "sims": {
+    "hf_critical": 5160,
+    "hf_full": 28,
+    "lf": 7483,
+    "hf_total": 5188,
+    "equiv_time_s": 2930.97,
+    "cpu_s": 18.159
+   },
+   "cid": "C042",
+   "success": false,
+   "did": "D046",
+   "metrics": {
+    "gain_fc_db": 26.395,
+    "gain_min_db": 26.2696,
+    "gain_max_db": 29.6044,
+    "ripple_db": 3.3348,
+    "s11_fc_db": -41.5935,
+    "s11_max_inband_db": -21.7593,
+    "nf_fc_db": 3.5435,
+    "nfmin_fc_db": 3.5409,
+    "nf_max_inband_db": 4.3034,
+    "ip1db_dbm": -25.4648,
+    "power_ma": 26.6249
+   },
+   "violations": {
+    "gain": 0.0,
+    "ripple": 0.3348,
+    "nf": 0.0435,
+    "ip1db": 10.4648,
+    "s11": 0.0,
+    "power": 0.0
+   },
+   "bottleneck": "ip1db:stage3",
+   "steps": 2,
+   "reason": "Stage 3 is current-limited: its output P1dB (about -24.4 dBm in plus about 26.4 dB gain, roughly +2 dBm) is about 8 dB short of the roughly +10 dBm output needed for -15 dBm IP1dB at 25 dB gain. Moving gain into stage 3's load cannot recover 9-10 dB, and stage 2 alone (-17.7 dBm) also fails. The power allocation must change (more current to stage 3, or a different power_ratio_list or config) at Stage 1."
+  },
+  {
+   "t": 190.847,
+   "agent": "searcher",
+   "event": "active_sizing",
+   "sims": {
+    "hf_critical": 5160,
+    "hf_full": 28,
+    "lf": 7483,
+    "hf_total": 5188,
+    "equiv_time_s": 2930.97,
+    "cpu_s": 18.159
+   },
+   "split": [
+    0.25,
+    0.2,
+    0.55
+   ],
+   "status": "ok",
+   "n": 4
+  },
+  {
+   "t": 191.396,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 5289,
+    "hf_full": 28,
+    "lf": 7483,
+    "hf_total": 5317,
+    "equiv_time_s": 2995.47,
+    "cpu_s": 18.686
+   },
+   "cid": "C047",
+   "origin": "search",
+   "power_ratio_list": [
+    0.25,
+    0.2,
+    0.55
+   ],
+   "config_id": "crit_large__noncrit_large",
+   "nf_cp_db": 4.112,
+   "s11_cp_db": -35.38,
+   "gain_cp_db": 24.9,
+   "ip1db_cp_dbm": -26.06,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": null,
+   "score": 0.0
+  },
+  {
+   "t": 191.942,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 5418,
+    "hf_full": 28,
+    "lf": 7483,
+    "hf_total": 5446,
+    "equiv_time_s": 3059.97,
+    "cpu_s": 19.211
+   },
+   "cid": "C048",
+   "origin": "search",
+   "power_ratio_list": [
+    0.25,
+    0.2,
+    0.55
+   ],
+   "config_id": "crit_large__noncrit_large",
+   "nf_cp_db": 4.425,
+   "s11_cp_db": -36.95,
+   "gain_cp_db": 19.38,
+   "ip1db_cp_dbm": -20.71,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": 11.0,
+   "score": 0.0
+  },
+  {
+   "t": 192.485,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 5547,
+    "hf_full": 28,
+    "lf": 7483,
+    "hf_total": 5575,
+    "equiv_time_s": 3124.47,
+    "cpu_s": 19.733
+   },
+   "cid": "C049",
+   "origin": "search",
+   "power_ratio_list": [
+    0.25,
+    0.2,
+    0.55
+   ],
+   "config_id": "crit_large__noncrit_small",
+   "nf_cp_db": 4.42,
+   "s11_cp_db": -33.48,
+   "gain_cp_db": 20.67,
+   "ip1db_cp_dbm": -21.93,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": null,
+   "score": 0.0
+  },
+  {
+   "t": 193.052,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 5676,
+    "hf_full": 28,
+    "lf": 7483,
+    "hf_total": 5704,
+    "equiv_time_s": 3188.97,
+    "cpu_s": 20.277
+   },
+   "cid": "C050",
+   "origin": "search",
+   "power_ratio_list": [
+    0.25,
+    0.2,
+    0.55
+   ],
+   "config_id": "crit_large__noncrit_small",
+   "nf_cp_db": 4.466,
+   "s11_cp_db": -23.94,
+   "gain_cp_db": 19.91,
+   "ip1db_cp_dbm": -22.09,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": 11.0,
+   "score": 0.0
+  },
+  {
+   "t": 193.608,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 5805,
+    "hf_full": 28,
+    "lf": 7483,
+    "hf_total": 5833,
+    "equiv_time_s": 3253.47,
+    "cpu_s": 20.81
+   },
+   "cid": "C051",
+   "origin": "search",
+   "power_ratio_list": [
+    0.25,
+    0.2,
+    0.55
+   ],
+   "config_id": "crit_small__noncrit_large",
+   "nf_cp_db": 2.058,
+   "s11_cp_db": -39.02,
+   "gain_cp_db": 33.28,
+   "ip1db_cp_dbm": -30.01,
+   "stage2_feasible": true,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": null,
+   "score": 0.0
+  },
+  {
+   "t": 194.171,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 5934,
+    "hf_full": 28,
+    "lf": 7483,
+    "hf_total": 5962,
+    "equiv_time_s": 3317.97,
+    "cpu_s": 21.35
+   },
+   "cid": "C052",
+   "origin": "search",
+   "power_ratio_list": [
+    0.25,
+    0.2,
+    0.55
+   ],
+   "config_id": "crit_small__noncrit_large",
+   "nf_cp_db": 3.28,
+   "s11_cp_db": -39.95,
+   "gain_cp_db": 20.01,
+   "ip1db_cp_dbm": -18.79,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": 11.0,
+   "score": 0.0
+  },
+  {
+   "t": 194.735,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 6063,
+    "hf_full": 28,
+    "lf": 7483,
+    "hf_total": 6091,
+    "equiv_time_s": 3382.47,
+    "cpu_s": 21.892
+   },
+   "cid": "C053",
+   "origin": "search",
+   "power_ratio_list": [
+    0.25,
+    0.2,
+    0.55
+   ],
+   "config_id": "crit_small__noncrit_small",
+   "nf_cp_db": 2.029,
+   "s11_cp_db": -40.31,
+   "gain_cp_db": 32.48,
+   "ip1db_cp_dbm": -29.22,
+   "stage2_feasible": true,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": null,
+   "score": 0.0
+  },
+  {
+   "t": 195.293,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 6192,
+    "hf_full": 28,
+    "lf": 7483,
+    "hf_total": 6220,
+    "equiv_time_s": 3446.97,
+    "cpu_s": 22.428
+   },
+   "cid": "C054",
+   "origin": "search",
+   "power_ratio_list": [
+    0.25,
+    0.2,
+    0.55
+   ],
+   "config_id": "crit_small__noncrit_small",
+   "nf_cp_db": 3.264,
+   "s11_cp_db": -35.33,
+   "gain_cp_db": 20.49,
+   "ip1db_cp_dbm": -18.85,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": 11.0,
+   "score": 0.0
+  },
+  {
+   "t": 195.293,
+   "agent": "manager",
+   "event": "refine_candidate",
+   "sims": {
+    "hf_critical": 6192,
+    "hf_full": 28,
+    "lf": 7483,
+    "hf_total": 6220,
+    "equiv_time_s": 3446.97,
+    "cpu_s": 22.428
+   },
+   "cid": "C052",
+   "origin": "search",
+   "power_ratio_list": [
+    0.25,
+    0.2,
+    0.55
+   ],
+   "config_id": "crit_small__noncrit_large",
+   "nf_cp_db": 3.28,
+   "s11_cp_db": -39.95,
+   "gain_cp_db": 20.01,
+   "ip1db_cp_dbm": -18.79,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": 11.0,
+   "score": -3.978
+  },
+  {
+   "t": 195.367,
+   "agent": "refiner",
+   "event": "evaluate",
+   "sims": {
+    "hf_critical": 6192,
+    "hf_full": 31,
+    "lf": 7543,
+    "hf_total": 6223,
+    "equiv_time_s": 3483.09,
+    "cpu_s": 22.455
+   },
+   "cid": "C052",
+   "did": "D055",
+   "passed": false,
+   "violations": {
+    "gain": 0.0,
+    "ripple": 0.0,
+    "nf": 0.6436,
+    "ip1db": 6.5488,
+    "s11": 0.0,
+    "power": 0.0
+   },
+   "metrics": {
+    "gain_fc_db": 23.3835,
+    "gain_min_db": 23.2474,
+    "gain_max_db": 25.1365,
+    "ripple_db": 1.8891,
+    "s11_fc_db": -41.1221,
+    "s11_max_inband_db": -15.7045,
+    "nf_fc_db": 4.1436,
+    "nfmin_fc_db": 4.1379,
+    "nf_max_inband_db": 4.51,
+    "ip1db_dbm": -21.5488,
+    "power_ma": 28.6744
+   }
+  },
+  {
+   "t": 215.855,
+   "agent": "refiner",
+   "event": "decide",
+   "sims": {
+    "hf_critical": 6192,
+    "hf_full": 31,
+    "lf": 7543,
+    "hf_total": 6223,
+    "equiv_time_s": 3483.09,
+    "cpu_s": 22.455
+   },
+   "cid": "C052",
+   "action": "fail",
+   "bottleneck": "ip1db:stage3",
+   "reason": "Full-chain IP1dB is -21.55 dBm vs -15 dBm required. Stage 3 (55% of current) compresses first by current clipping at -17.78 dBm alone. Stage 2 is also current-clipped at -17.28 dBm alone, and the stage-1 estimate was already -18.79 dBm. Moving gain out of stage 3 would worsen NF (4.14 dB vs 3.5 dB; stage 2 + MCR2 gain is only 1.54 dB), and the critical-stage gain cannot fix stage 3's clipping. Stage 1 needs to reallocate current toward stages 3 and 2, or the 30 mA budget is insufficient."
+  },
+  {
+   "t": 215.855,
+   "agent": "manager",
+   "event": "refine_report",
+   "sims": {
+    "hf_critical": 6192,
+    "hf_full": 31,
+    "lf": 7543,
+    "hf_total": 6223,
+    "equiv_time_s": 3483.09,
+    "cpu_s": 22.455
+   },
+   "cid": "C052",
+   "success": false,
+   "did": "D055",
+   "metrics": {
+    "gain_fc_db": 23.3835,
+    "gain_min_db": 23.2474,
+    "gain_max_db": 25.1365,
+    "ripple_db": 1.8891,
+    "s11_fc_db": -41.1221,
+    "s11_max_inband_db": -15.7045,
+    "nf_fc_db": 4.1436,
+    "nfmin_fc_db": 4.1379,
+    "nf_max_inband_db": 4.51,
+    "ip1db_dbm": -21.5488,
+    "power_ma": 28.6744
+   },
+   "violations": {
+    "gain": 0.0,
+    "ripple": 0.0,
+    "nf": 0.6436,
+    "ip1db": 6.5488,
+    "s11": 0.0,
+    "power": 0.0
+   },
+   "bottleneck": "ip1db:stage3",
+   "steps": 1,
+   "reason": "Full-chain IP1dB is -21.55 dBm vs -15 dBm required. Stage 3 (55% of current) compresses first by current clipping at -17.78 dBm alone. Stage 2 is also current-clipped at -17.28 dBm alone, and the stage-1 estimate was already -18.79 dBm. Moving gain out of stage 3 would worsen NF (4.14 dB vs 3.5 dB; stage 2 + MCR2 gain is only 1.54 dB), and the critical-stage gain cannot fix stage 3's clipping. Stage 1 needs to reallocate current toward stages 3 and 2, or the 30 mA budget is insufficient."
+  },
+  {
+   "t": 225.692,
+   "agent": "searcher",
+   "event": "active_sizing",
+   "sims": {
+    "hf_critical": 6192,
+    "hf_full": 31,
+    "lf": 7543,
+    "hf_total": 6223,
+    "equiv_time_s": 3483.09,
+    "cpu_s": 22.455
+   },
+   "split": [
+    0.25,
+    0.15,
+    0.6
+   ],
+   "status": "ok",
+   "n": 4
+  },
+  {
+   "t": 226.252,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 6321,
+    "hf_full": 31,
+    "lf": 7543,
+    "hf_total": 6352,
+    "equiv_time_s": 3547.59,
+    "cpu_s": 22.993
+   },
+   "cid": "C056",
+   "origin": "search",
+   "power_ratio_list": [
+    0.25,
+    0.15,
+    0.6
+   ],
+   "config_id": "crit_large__noncrit_large",
+   "nf_cp_db": 4.412,
+   "s11_cp_db": -40.03,
+   "gain_cp_db": 18.84,
+   "ip1db_cp_dbm": -23.51,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": null,
+   "score": 0.0
+  },
+  {
+   "t": 226.812,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 6450,
+    "hf_full": 31,
+    "lf": 7543,
+    "hf_total": 6481,
+    "equiv_time_s": 3612.09,
+    "cpu_s": 23.53
+   },
+   "cid": "C057",
+   "origin": "search",
+   "power_ratio_list": [
+    0.25,
+    0.15,
+    0.6
+   ],
+   "config_id": "crit_large__noncrit_large",
+   "nf_cp_db": 4.646,
+   "s11_cp_db": -25.13,
+   "gain_cp_db": 15.76,
+   "ip1db_cp_dbm": -20.63,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": 11.0,
+   "score": 0.0
+  },
+  {
+   "t": 227.376,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 6579,
+    "hf_full": 31,
+    "lf": 7543,
+    "hf_total": 6610,
+    "equiv_time_s": 3676.59,
+    "cpu_s": 24.072
+   },
+   "cid": "C058",
+   "origin": "search",
+   "power_ratio_list": [
+    0.25,
+    0.15,
+    0.6
+   ],
+   "config_id": "crit_large__noncrit_small",
+   "nf_cp_db": 4.504,
+   "s11_cp_db": -22.79,
+   "gain_cp_db": 17.33,
+   "ip1db_cp_dbm": -22.11,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": null,
+   "score": 0.0
+  },
+  {
+   "t": 227.934,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 6708,
+    "hf_full": 31,
+    "lf": 7543,
+    "hf_total": 6739,
+    "equiv_time_s": 3741.09,
+    "cpu_s": 24.608
+   },
+   "cid": "C059",
+   "origin": "search",
+   "power_ratio_list": [
+    0.25,
+    0.15,
+    0.6
+   ],
+   "config_id": "crit_large__noncrit_small",
+   "nf_cp_db": 4.492,
+   "s11_cp_db": -39.36,
+   "gain_cp_db": 17.09,
+   "ip1db_cp_dbm": -21.82,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": 11.0,
+   "score": 0.0
+  },
+  {
+   "t": 228.505,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 6837,
+    "hf_full": 31,
+    "lf": 7543,
+    "hf_total": 6868,
+    "equiv_time_s": 3805.59,
+    "cpu_s": 25.156
+   },
+   "cid": "C060",
+   "origin": "search",
+   "power_ratio_list": [
+    0.25,
+    0.15,
+    0.6
+   ],
+   "config_id": "crit_small__noncrit_large",
+   "nf_cp_db": 2.354,
+   "s11_cp_db": -33.12,
+   "gain_cp_db": 31.79,
+   "ip1db_cp_dbm": -31.18,
+   "stage2_feasible": true,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": null,
+   "score": 0.0
+  },
+  {
+   "t": 229.139,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 6966,
+    "hf_full": 31,
+    "lf": 7543,
+    "hf_total": 6997,
+    "equiv_time_s": 3870.09,
+    "cpu_s": 25.765
+   },
+   "cid": "C061",
+   "origin": "search",
+   "power_ratio_list": [
+    0.25,
+    0.15,
+    0.6
+   ],
+   "config_id": "crit_small__noncrit_large",
+   "nf_cp_db": 3.244,
+   "s11_cp_db": -37.02,
+   "gain_cp_db": 21.54,
+   "ip1db_cp_dbm": -21.58,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": 11.0,
+   "score": 0.0
+  },
+  {
+   "t": 229.708,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 7095,
+    "hf_full": 31,
+    "lf": 7543,
+    "hf_total": 7126,
+    "equiv_time_s": 3934.59,
+    "cpu_s": 26.312
+   },
+   "cid": "C062",
+   "origin": "search",
+   "power_ratio_list": [
+    0.25,
+    0.15,
+    0.6
+   ],
+   "config_id": "crit_small__noncrit_small",
+   "nf_cp_db": 2.068,
+   "s11_cp_db": -39.54,
+   "gain_cp_db": 32.33,
+   "ip1db_cp_dbm": -31.68,
+   "stage2_feasible": true,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": null,
+   "score": 0.0
+  },
+  {
+   "t": 230.295,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 7224,
+    "hf_full": 31,
+    "lf": 7543,
+    "hf_total": 7255,
+    "equiv_time_s": 3999.09,
+    "cpu_s": 26.876
+   },
+   "cid": "C063",
+   "origin": "search",
+   "power_ratio_list": [
+    0.25,
+    0.15,
+    0.6
+   ],
+   "config_id": "crit_small__noncrit_small",
+   "nf_cp_db": 3.21,
+   "s11_cp_db": -39.97,
+   "gain_cp_db": 20.78,
+   "ip1db_cp_dbm": -20.86,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": 11.0,
+   "score": 0.0
+  },
+  {
+   "t": 230.296,
+   "agent": "manager",
+   "event": "refine_candidate",
+   "sims": {
+    "hf_critical": 7224,
+    "hf_full": 31,
+    "lf": 7543,
+    "hf_total": 7255,
+    "equiv_time_s": 3999.09,
+    "cpu_s": 26.876
+   },
+   "cid": "C063",
+   "origin": "search",
+   "power_ratio_list": [
+    0.25,
+    0.15,
+    0.6
+   ],
+   "config_id": "crit_small__noncrit_small",
+   "nf_cp_db": 3.21,
+   "s11_cp_db": -39.97,
+   "gain_cp_db": 20.78,
+   "ip1db_cp_dbm": -20.86,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": 11.0,
+   "score": -5.17
+  },
+  {
+   "t": 231.162,
+   "agent": "refiner",
+   "event": "evaluate",
+   "sims": {
+    "hf_critical": 7224,
+    "hf_full": 35,
+    "lf": 8785,
+    "hf_total": 7259,
+    "equiv_time_s": 4049.57,
+    "cpu_s": 26.913
+   },
+   "cid": "C063",
+   "did": "D064",
+   "passed": false,
+   "violations": {
+    "gain": 0.0,
+    "ripple": 0.0,
+    "nf": 0.0,
+    "ip1db": 9.9556,
+    "s11": 0.0,
+    "power": 0.0
+   },
+   "metrics": {
+    "gain_fc_db": 27.2055,
+    "gain_min_db": 27.2055,
+    "gain_max_db": 30.0336,
+    "ripple_db": 2.8281,
+    "s11_fc_db": -41.8447,
+    "s11_max_inband_db": -19.7879,
+    "nf_fc_db": 3.4174,
+    "nfmin_fc_db": 3.4133,
+    "nf_max_inband_db": 4.101,
+    "ip1db_dbm": -24.9556,
+    "power_ma": 26.3688
+   }
+  },
+  {
+   "t": 250.765,
+   "agent": "refiner",
+   "event": "decide",
+   "sims": {
+    "hf_critical": 7224,
+    "hf_full": 35,
+    "lf": 8785,
+    "hf_total": 7259,
+    "equiv_time_s": 4049.57,
+    "cpu_s": 26.913
+   },
+   "cid": "C063",
+   "action": "fail",
+   "bottleneck": "ip1db:stage3",
+   "reason": "Full-chain IP1dB is -24.96 dBm vs a -15 dBm spec (9.96 dB short). Stage 3 compresses first (-22.20 dBm, current_clip) and stage 2 is close behind (-21.02 dBm). Stage 1 alone is -13.10 dBm, so stages 2 and 3 combined would need about -10.5 dBm, roughly 11 dB of improvement. Gain margin is only 2.2 dB (27.2 vs 25 dB). The critical stage is already infeasible at a gain_require_db of 11 dB. Re-running Stage 2 or Stage 3 cannot close the gap with the current power split [0.25, 0.15, 0.6], so Stage 1 needs to escalate the power allocation, giving more current to stages 2 and 3."
+  },
+  {
+   "t": 250.765,
+   "agent": "manager",
+   "event": "refine_report",
+   "sims": {
+    "hf_critical": 7224,
+    "hf_full": 35,
+    "lf": 8785,
+    "hf_total": 7259,
+    "equiv_time_s": 4049.57,
+    "cpu_s": 26.913
+   },
+   "cid": "C063",
+   "success": false,
+   "did": "D064",
+   "metrics": {
+    "gain_fc_db": 27.2055,
+    "gain_min_db": 27.2055,
+    "gain_max_db": 30.0336,
+    "ripple_db": 2.8281,
+    "s11_fc_db": -41.8447,
+    "s11_max_inband_db": -19.7879,
+    "nf_fc_db": 3.4174,
+    "nfmin_fc_db": 3.4133,
+    "nf_max_inband_db": 4.101,
+    "ip1db_dbm": -24.9556,
+    "power_ma": 26.3688
+   },
+   "violations": {
+    "gain": 0.0,
+    "ripple": 0.0,
+    "nf": 0.0,
+    "ip1db": 9.9556,
+    "s11": 0.0,
+    "power": 0.0
+   },
+   "bottleneck": "ip1db:stage3",
+   "steps": 1,
+   "reason": "Full-chain IP1dB is -24.96 dBm vs a -15 dBm spec (9.96 dB short). Stage 3 compresses first (-22.20 dBm, current_clip) and stage 2 is close behind (-21.02 dBm). Stage 1 alone is -13.10 dBm, so stages 2 and 3 combined would need about -10.5 dBm, roughly 11 dB of improvement. Gain margin is only 2.2 dB (27.2 vs 25 dB). The critical stage is already infeasible at a gain_require_db of 11 dB. Re-running Stage 2 or Stage 3 cannot close the gap with the current power split [0.25, 0.15, 0.6], so Stage 1 needs to escalate the power allocation, giving more current to stages 2 and 3."
+  },
+  {
+   "t": 260.571,
+   "agent": "searcher",
+   "event": "active_sizing",
+   "sims": {
+    "hf_critical": 7224,
+    "hf_full": 35,
+    "lf": 8785,
+    "hf_total": 7259,
+    "equiv_time_s": 4049.57,
+    "cpu_s": 26.913
+   },
+   "split": [
+    0.2,
+    0.15,
+    0.65
+   ],
+   "status": "ok",
+   "n": 4
+  },
+  {
+   "t": 261.122,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 7353,
+    "hf_full": 35,
+    "lf": 8785,
+    "hf_total": 7388,
+    "equiv_time_s": 4114.07,
+    "cpu_s": 27.442
+   },
+   "cid": "C065",
+   "origin": "search",
+   "power_ratio_list": [
+    0.2,
+    0.15,
+    0.65
+   ],
+   "config_id": "crit_large__noncrit_large",
+   "nf_cp_db": 3.903,
+   "s11_cp_db": -43.93,
+   "gain_cp_db": 22.75,
+   "ip1db_cp_dbm": -27.38,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": null,
+   "score": 0.0
+  },
+  {
+   "t": 261.694,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 7482,
+    "hf_full": 35,
+    "lf": 8785,
+    "hf_total": 7517,
+    "equiv_time_s": 4178.57,
+    "cpu_s": 27.991
+   },
+   "cid": "C066",
+   "origin": "search",
+   "power_ratio_list": [
+    0.2,
+    0.15,
+    0.65
+   ],
+   "config_id": "crit_large__noncrit_large",
+   "nf_cp_db": 4.224,
+   "s11_cp_db": -33.48,
+   "gain_cp_db": 17.63,
+   "ip1db_cp_dbm": -22.43,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": 11.0,
+   "score": 0.0
+  },
+  {
+   "t": 262.331,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 7611,
+    "hf_full": 35,
+    "lf": 8785,
+    "hf_total": 7646,
+    "equiv_time_s": 4243.07,
+    "cpu_s": 28.602
+   },
+   "cid": "C067",
+   "origin": "search",
+   "power_ratio_list": [
+    0.2,
+    0.15,
+    0.65
+   ],
+   "config_id": "crit_large__noncrit_small",
+   "nf_cp_db": 3.886,
+   "s11_cp_db": -20.27,
+   "gain_cp_db": 22.45,
+   "ip1db_cp_dbm": -27.33,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": null,
+   "score": 0.0
+  },
+  {
+   "t": 263.202,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 7740,
+    "hf_full": 35,
+    "lf": 8785,
+    "hf_total": 7775,
+    "equiv_time_s": 4307.57,
+    "cpu_s": 29.441
+   },
+   "cid": "C068",
+   "origin": "search",
+   "power_ratio_list": [
+    0.2,
+    0.15,
+    0.65
+   ],
+   "config_id": "crit_large__noncrit_small",
+   "nf_cp_db": 4.032,
+   "s11_cp_db": -34.84,
+   "gain_cp_db": 19.4,
+   "ip1db_cp_dbm": -24.11,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": 11.0,
+   "score": 0.0
+  },
+  {
+   "t": 263.983,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 7869,
+    "hf_full": 35,
+    "lf": 8785,
+    "hf_total": 7904,
+    "equiv_time_s": 4372.07,
+    "cpu_s": 30.193
+   },
+   "cid": "C069",
+   "origin": "search",
+   "power_ratio_list": [
+    0.2,
+    0.15,
+    0.65
+   ],
+   "config_id": "crit_small__noncrit_large",
+   "nf_cp_db": 2.328,
+   "s11_cp_db": -35.04,
+   "gain_cp_db": 30.79,
+   "ip1db_cp_dbm": -30.23,
+   "stage2_feasible": true,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": null,
+   "score": 0.0
+  },
+  {
+   "t": 264.667,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 7998,
+    "hf_full": 35,
+    "lf": 8785,
+    "hf_total": 8033,
+    "equiv_time_s": 4436.57,
+    "cpu_s": 30.85
+   },
+   "cid": "C070",
+   "origin": "search",
+   "power_ratio_list": [
+    0.2,
+    0.15,
+    0.65
+   ],
+   "config_id": "crit_small__noncrit_large",
+   "nf_cp_db": 3.253,
+   "s11_cp_db": -38.6,
+   "gain_cp_db": 20.49,
+   "ip1db_cp_dbm": -21.41,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": 11.0,
+   "score": 0.0
+  },
+  {
+   "t": 265.282,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 8127,
+    "hf_full": 35,
+    "lf": 8785,
+    "hf_total": 8162,
+    "equiv_time_s": 4501.07,
+    "cpu_s": 31.441
+   },
+   "cid": "C071",
+   "origin": "search",
+   "power_ratio_list": [
+    0.2,
+    0.15,
+    0.65
+   ],
+   "config_id": "crit_small__noncrit_small",
+   "nf_cp_db": 2.159,
+   "s11_cp_db": -37.73,
+   "gain_cp_db": 32.96,
+   "ip1db_cp_dbm": -32.32,
+   "stage2_feasible": true,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": null,
+   "score": 0.0
+  },
+  {
+   "t": 265.955,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 8256,
+    "hf_full": 35,
+    "lf": 8785,
+    "hf_total": 8291,
+    "equiv_time_s": 4565.57,
+    "cpu_s": 32.087
+   },
+   "cid": "C072",
+   "origin": "search",
+   "power_ratio_list": [
+    0.2,
+    0.15,
+    0.65
+   ],
+   "config_id": "crit_small__noncrit_small",
+   "nf_cp_db": 3.32,
+   "s11_cp_db": -30.78,
+   "gain_cp_db": 21.81,
+   "ip1db_cp_dbm": -22.37,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": 11.0,
+   "score": 0.0
+  },
+  {
+   "t": 265.955,
+   "agent": "manager",
+   "event": "refine_candidate",
+   "sims": {
+    "hf_critical": 8256,
+    "hf_full": 35,
+    "lf": 8785,
+    "hf_total": 8291,
+    "equiv_time_s": 4565.57,
+    "cpu_s": 32.087
+   },
+   "cid": "C070",
+   "origin": "search",
+   "power_ratio_list": [
+    0.2,
+    0.15,
+    0.65
+   ],
+   "config_id": "crit_small__noncrit_large",
+   "nf_cp_db": 3.253,
+   "s11_cp_db": -38.6,
+   "gain_cp_db": 20.49,
+   "ip1db_cp_dbm": -21.41,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": 11.0,
+   "score": -5.406
+  },
+  {
+   "t": 267.41,
+   "agent": "refiner",
+   "event": "evaluate",
+   "sims": {
+    "hf_critical": 8256,
+    "hf_full": 40,
+    "lf": 10789,
+    "hf_total": 8296,
+    "equiv_time_s": 4629.58,
+    "cpu_s": 32.135
+   },
+   "cid": "C070",
+   "did": "D073",
+   "passed": false,
+   "violations": {
+    "gain": 0.0,
+    "ripple": 0.0,
+    "nf": 1.3026,
+    "ip1db": 8.645,
+    "s11": 0.0,
+    "power": 0.0
+   },
+   "metrics": {
+    "gain_fc_db": 29.5184,
+    "gain_min_db": 27.9207,
+    "gain_max_db": 29.627,
+    "ripple_db": 1.7063,
+    "s11_fc_db": -39.1663,
+    "s11_max_inband_db": -16.7465,
+    "nf_fc_db": 4.8026,
+    "nfmin_fc_db": 4.7905,
+    "nf_max_inband_db": 7.075,
+    "ip1db_dbm": -23.645,
+    "power_ma": 27.2059
+   }
+  },
+  {
+   "t": 284.235,
+   "agent": "refiner",
+   "event": "decide",
+   "sims": {
+    "hf_critical": 8256,
+    "hf_full": 40,
+    "lf": 10789,
+    "hf_total": 8296,
+    "equiv_time_s": 4629.58,
+    "cpu_s": 32.135
+   },
+   "cid": "C070",
+   "action": "fail",
+   "bottleneck": "ip1db:stage1",
+   "reason": "Stage-1 standalone IP1dB is -16.50 dBm (voltage-swing limited), below the -15 dBm spec, so no Stage 2-4 re-run can meet linearity. NF is also over the limit (4.80 vs 3.5 dB, NFmin 4.79 dB) with only 20% of the current in the critical stage. Stage 1 needs to re-allocate power: more current/swing to stage 1, and some to stage 2, which compresses at -20.25 dBm. Total gain is 29.5 dB vs 25 dB, so stage-3 share can be reduced."
+  },
+  {
+   "t": 284.236,
+   "agent": "manager",
+   "event": "refine_report",
+   "sims": {
+    "hf_critical": 8256,
+    "hf_full": 40,
+    "lf": 10789,
+    "hf_total": 8296,
+    "equiv_time_s": 4629.58,
+    "cpu_s": 32.135
+   },
+   "cid": "C070",
+   "success": false,
+   "did": "D073",
+   "metrics": {
+    "gain_fc_db": 29.5184,
+    "gain_min_db": 27.9207,
+    "gain_max_db": 29.627,
+    "ripple_db": 1.7063,
+    "s11_fc_db": -39.1663,
+    "s11_max_inband_db": -16.7465,
+    "nf_fc_db": 4.8026,
+    "nfmin_fc_db": 4.7905,
+    "nf_max_inband_db": 7.075,
+    "ip1db_dbm": -23.645,
+    "power_ma": 27.2059
+   },
+   "violations": {
+    "gain": 0.0,
+    "ripple": 0.0,
+    "nf": 1.3026,
+    "ip1db": 8.645,
+    "s11": 0.0,
+    "power": 0.0
+   },
+   "bottleneck": "ip1db:stage1",
+   "steps": 1,
+   "reason": "Stage-1 standalone IP1dB is -16.50 dBm (voltage-swing limited), below the -15 dBm spec, so no Stage 2-4 re-run can meet linearity. NF is also over the limit (4.80 vs 3.5 dB, NFmin 4.79 dB) with only 20% of the current in the critical stage. Stage 1 needs to re-allocate power: more current/swing to stage 1, and some to stage 2, which compresses at -20.25 dBm. Total gain is 29.5 dB vs 25 dB, so stage-3 share can be reduced."
+  },
+  {
+   "t": 295.513,
+   "agent": "searcher",
+   "event": "active_sizing",
+   "sims": {
+    "hf_critical": 8256,
+    "hf_full": 40,
+    "lf": 10789,
+    "hf_total": 8296,
+    "equiv_time_s": 4629.58,
+    "cpu_s": 32.135
+   },
+   "split": [
+    0.3,
+    0.15,
+    0.55
+   ],
+   "status": "ok",
+   "n": 4
+  },
+  {
+   "t": 296.059,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 8385,
+    "hf_full": 40,
+    "lf": 10789,
+    "hf_total": 8425,
+    "equiv_time_s": 4694.08,
+    "cpu_s": 32.659
+   },
+   "cid": "C074",
+   "origin": "search",
+   "power_ratio_list": [
+    0.3,
+    0.15,
+    0.55
+   ],
+   "config_id": "crit_large__noncrit_large",
+   "nf_cp_db": 3.425,
+   "s11_cp_db": -26.92,
+   "gain_cp_db": 22.5,
+   "ip1db_cp_dbm": -27.11,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": null,
+   "score": 0.0
+  },
+  {
+   "t": 296.619,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 8514,
+    "hf_full": 40,
+    "lf": 10789,
+    "hf_total": 8554,
+    "equiv_time_s": 4758.58,
+    "cpu_s": 33.197
+   },
+   "cid": "C075",
+   "origin": "search",
+   "power_ratio_list": [
+    0.3,
+    0.15,
+    0.55
+   ],
+   "config_id": "crit_large__noncrit_large",
+   "nf_cp_db": 3.644,
+   "s11_cp_db": -30.87,
+   "gain_cp_db": 19.27,
+   "ip1db_cp_dbm": -23.95,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": 11.0,
+   "score": 0.0
+  },
+  {
+   "t": 297.17,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 8643,
+    "hf_full": 40,
+    "lf": 10789,
+    "hf_total": 8683,
+    "equiv_time_s": 4823.08,
+    "cpu_s": 33.726
+   },
+   "cid": "C076",
+   "origin": "search",
+   "power_ratio_list": [
+    0.3,
+    0.15,
+    0.55
+   ],
+   "config_id": "crit_large__noncrit_small",
+   "nf_cp_db": 3.689,
+   "s11_cp_db": -20.78,
+   "gain_cp_db": 20.24,
+   "ip1db_cp_dbm": -24.9,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": null,
+   "score": 0.0
+  },
+  {
+   "t": 297.723,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 8772,
+    "hf_full": 40,
+    "lf": 10789,
+    "hf_total": 8812,
+    "equiv_time_s": 4887.58,
+    "cpu_s": 34.257
+   },
+   "cid": "C077",
+   "origin": "search",
+   "power_ratio_list": [
+    0.3,
+    0.15,
+    0.55
+   ],
+   "config_id": "crit_large__noncrit_small",
+   "nf_cp_db": 3.724,
+   "s11_cp_db": -40.93,
+   "gain_cp_db": 18.65,
+   "ip1db_cp_dbm": -23.44,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": 11.0,
+   "score": 0.0
+  },
+  {
+   "t": 298.269,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 8901,
+    "hf_full": 40,
+    "lf": 10789,
+    "hf_total": 8941,
+    "equiv_time_s": 4952.08,
+    "cpu_s": 34.781
+   },
+   "cid": "C078",
+   "origin": "search",
+   "power_ratio_list": [
+    0.3,
+    0.15,
+    0.55
+   ],
+   "config_id": "crit_small__noncrit_large",
+   "nf_cp_db": 2.185,
+   "s11_cp_db": -33.52,
+   "gain_cp_db": 32.27,
+   "ip1db_cp_dbm": -31.62,
+   "stage2_feasible": true,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": null,
+   "score": 0.0
+  },
+  {
+   "t": 298.816,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 9030,
+    "hf_full": 40,
+    "lf": 10789,
+    "hf_total": 9070,
+    "equiv_time_s": 5016.58,
+    "cpu_s": 35.306
+   },
+   "cid": "C079",
+   "origin": "search",
+   "power_ratio_list": [
+    0.3,
+    0.15,
+    0.55
+   ],
+   "config_id": "crit_small__noncrit_large",
+   "nf_cp_db": 3.289,
+   "s11_cp_db": -35.22,
+   "gain_cp_db": 19.23,
+   "ip1db_cp_dbm": -19.59,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": 11.0,
+   "score": 0.0
+  },
+  {
+   "t": 299.359,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 9159,
+    "hf_full": 40,
+    "lf": 10789,
+    "hf_total": 9199,
+    "equiv_time_s": 5081.08,
+    "cpu_s": 35.826
+   },
+   "cid": "C080",
+   "origin": "search",
+   "power_ratio_list": [
+    0.3,
+    0.15,
+    0.55
+   ],
+   "config_id": "crit_small__noncrit_small",
+   "nf_cp_db": 2.151,
+   "s11_cp_db": -35.49,
+   "gain_cp_db": 31.89,
+   "ip1db_cp_dbm": -31.25,
+   "stage2_feasible": true,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": null,
+   "score": 0.0
+  },
+  {
+   "t": 299.917,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 9288,
+    "hf_full": 40,
+    "lf": 10789,
+    "hf_total": 9328,
+    "equiv_time_s": 5145.58,
+    "cpu_s": 36.361
+   },
+   "cid": "C081",
+   "origin": "search",
+   "power_ratio_list": [
+    0.3,
+    0.15,
+    0.55
+   ],
+   "config_id": "crit_small__noncrit_small",
+   "nf_cp_db": 3.31,
+   "s11_cp_db": -37.44,
+   "gain_cp_db": 19.17,
+   "ip1db_cp_dbm": -19.42,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": 11.0,
+   "score": 0.0
+  },
+  {
+   "t": 299.917,
+   "agent": "manager",
+   "event": "refine_candidate",
+   "sims": {
+    "hf_critical": 9288,
+    "hf_full": 40,
+    "lf": 10789,
+    "hf_total": 9328,
+    "equiv_time_s": 5145.58,
+    "cpu_s": 36.361
+   },
+   "cid": "C081",
+   "origin": "search",
+   "power_ratio_list": [
+    0.3,
+    0.15,
+    0.55
+   ],
+   "config_id": "crit_small__noncrit_small",
+   "nf_cp_db": 3.31,
+   "s11_cp_db": -37.44,
+   "gain_cp_db": 19.17,
+   "ip1db_cp_dbm": -19.42,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": 11.0,
+   "score": -4.071
+  },
+  {
+   "t": 300.184,
+   "agent": "refiner",
+   "event": "evaluate",
+   "sims": {
+    "hf_critical": 9288,
+    "hf_full": 43,
+    "lf": 11133,
+    "hf_total": 9331,
+    "equiv_time_s": 5182.27,
+    "cpu_s": 36.388
+   },
+   "cid": "C081",
+   "did": "D082",
+   "passed": false,
+   "violations": {
+    "gain": 0.0,
+    "ripple": 0.0,
+    "nf": 2.8046,
+    "ip1db": 5.4378,
+    "s11": 0.0,
+    "power": 0.0
+   },
+   "metrics": {
+    "gain_fc_db": 23.686,
+    "gain_min_db": 22.4777,
+    "gain_max_db": 24.3807,
+    "ripple_db": 1.903,
+    "s11_fc_db": -37.9162,
+    "s11_max_inband_db": -21.6083,
+    "nf_fc_db": 6.3046,
+    "nfmin_fc_db": 6.3023,
+    "nf_max_inband_db": 6.921,
+    "ip1db_dbm": -20.4378,
+    "power_ma": 27.4741
+   }
+  },
+  {
+   "t": 322.421,
+   "agent": "refiner",
+   "event": "decide",
+   "sims": {
+    "hf_critical": 9288,
+    "hf_full": 43,
+    "lf": 11133,
+    "hf_total": 9331,
+    "equiv_time_s": 5182.27,
+    "cpu_s": 36.388
+   },
+   "cid": "C081",
+   "action": "fail",
+   "bottleneck": "power",
+   "reason": "NF is 2.8 dB over the limit and mostly comes from the lossy MCR2 (stage2+MCR2 at -1.94 dB) plus low critical gain (stage1 at 7.66 dB). Fixing it needs more gain before stage 3, which degrades IP1dB, already 5.4 dB short. Even ignoring stage2 (-18.7 dBm, current-clip), the stage1 (-12.43 dBm) and stage3 (-12.68 dBm) current-clip limits alone cascade to about -15.6 dBm, below the -15 dBm target. Stage 2 is also infeasible for this candidate. NF and IP1dB cannot both be met with this power allocation; Stage 1 needs to re-allocate current to stage1/stage2 and the critical stage."
+  },
+  {
+   "t": 322.421,
+   "agent": "manager",
+   "event": "refine_report",
+   "sims": {
+    "hf_critical": 9288,
+    "hf_full": 43,
+    "lf": 11133,
+    "hf_total": 9331,
+    "equiv_time_s": 5182.27,
+    "cpu_s": 36.388
+   },
+   "cid": "C081",
+   "success": false,
+   "did": "D082",
+   "metrics": {
+    "gain_fc_db": 23.686,
+    "gain_min_db": 22.4777,
+    "gain_max_db": 24.3807,
+    "ripple_db": 1.903,
+    "s11_fc_db": -37.9162,
+    "s11_max_inband_db": -21.6083,
+    "nf_fc_db": 6.3046,
+    "nfmin_fc_db": 6.3023,
+    "nf_max_inband_db": 6.921,
+    "ip1db_dbm": -20.4378,
+    "power_ma": 27.4741
+   },
+   "violations": {
+    "gain": 0.0,
+    "ripple": 0.0,
+    "nf": 2.8046,
+    "ip1db": 5.4378,
+    "s11": 0.0,
+    "power": 0.0
+   },
+   "bottleneck": "power",
+   "steps": 1,
+   "reason": "NF is 2.8 dB over the limit and mostly comes from the lossy MCR2 (stage2+MCR2 at -1.94 dB) plus low critical gain (stage1 at 7.66 dB). Fixing it needs more gain before stage 3, which degrades IP1dB, already 5.4 dB short. Even ignoring stage2 (-18.7 dBm, current-clip), the stage1 (-12.43 dBm) and stage3 (-12.68 dBm) current-clip limits alone cascade to about -15.6 dBm, below the -15 dBm target. Stage 2 is also infeasible for this candidate. NF and IP1dB cannot both be met with this power allocation; Stage 1 needs to re-allocate current to stage1/stage2 and the critical stage."
+  }
+ ],
+ "backend": "surrogate_twoport_v1",
+ "llm_usage": {
+  "calls": 19,
+  "prompt_tokens": 36120,
+  "completion_tokens": 16019,
+  "cached_prompt_tokens": 0,
+  "notional_cost_usd": 0.5143789999999999,
+  "fallbacks": 0,
+  "errors": 0,
+  "latency_s": 287.4059788000159,
+  "disabled_reason": ""
+ },
+ "llm_log": [
+  {
+   "role": "refiner",
+   "response": "<rationale>IP1dB is -23.5 dBm against a -15 dBm spec, an 8.5 dB shortfall. Stage 2 compresses first (current_clip, -20.59 dBm alone) on only 15% of the bias, and the candidate already sat at -20.19 dBm IP1dB with stage2_feasible=false. NF also fails (4.43 dB vs 3.5 dB), and NFmin is 4.39 dB, so lowering the critical gain to help linearity would worsen NF. No re-planning at this power allocation can close both gaps.</rationale><tools>{\"action\":\"fail\",\"bottleneck\":\"ip1db:stage2\",\"reason\":\"Chain IP1dB is -23.53 dBm vs a -15 dBm spec (8.5 dB short). Stage 2 compresses first (current_clip, -20.59 dBm alone) on 15% of the 30 mA budget, and stage 3 is close behind (-20.13 dBm). NF is also over spec (4.43/4.97 dB vs 3.5 dB) with NFmin at 4.39 dB, so lowering gain_require_db would raise NF further; Stage 2 was already infeasible (nf_cp 3.31 dB, ip1db_cp -20.19 dBm). Escalate to Stage 1 to move current into stage 2 (and the critical stage) instead of the crit_small/noncrit_large split.\"}</tools>",
+   "parsed": {
+    "action": "fail",
+    "bottleneck": "ip1db:stage2",
+    "reason": "Chain IP1dB is -23.53 dBm vs a -15 dBm spec (8.5 dB short). Stage 2 compresses first (current_clip, -20.59 dBm alone) on 15% of the 30 mA budget, and stage 3 is close behind (-20.13 dBm). NF is also over spec (4.43/4.97 dB vs 3.5 dB) with NFmin at 4.39 dB, so lowering gain_require_db would raise NF further; Stage 2 was already infeasible (nf_cp 3.31 dB, ip1db_cp -20.19 dBm). Escalate to Stage 1 to move current into stage 2 (and the critical stage) instead of the crit_small/noncrit_large split."
+   }
+  },
+  {
+   "role": "refiner",
+   "response": "<rationale>IP1dB is -27.11 dBm against a -15 dBm spec, a 12.1 dB shortfall, and stage 2 compresses first at -25.77 dBm (current_clip). Stage 3 also clips at -21.18 dBm, and the candidate's own estimate was only -23.73 dBm, so lowering the critical gain (stage 1 is about 14.7 dB) by a few dB cannot close the gap, especially with NF already 0.21 dB over.</rationale><tools>{\"action\":\"fail\",\"bottleneck\":\"ip1db:stage2\",\"reason\":\"Stage 2 compresses first at -25.77 dBm with current_clip at 0.0325 V swing, and stage 3 clips at -21.18 dBm. Total IP1dB is -27.11 dBm versus the -15 dBm target, a 12.1 dB gap. Cutting the critical gain cannot recover about 11 dB in stage 2 and 6 dB in stage 3 without breaking NF (already 0.21 dB over) and the 25 dB gain. The current power allocation [0.4, 0.3, 0.3] gives stages 2 and 3 too little current. Stage 1 should reallocate more current to stages 2 and 3, or move to a different config.\"}</tools>",
+   "parsed": {
+    "action": "fail",
+    "bottleneck": "ip1db:stage2",
+    "reason": "Stage 2 compresses first at -25.77 dBm with current_clip at 0.0325 V swing, and stage 3 clips at -21.18 dBm. Total IP1dB is -27.11 dBm versus the -15 dBm target, a 12.1 dB gap. Cutting the critical gain cannot recover about 11 dB in stage 2 and 6 dB in stage 3 without breaking NF (already 0.21 dB over) and the 25 dB gain. The current power allocation [0.4, 0.3, 0.3] gives stages 2 and 3 too little current. Stage 1 should reallocate more current to stages 2 and 3, or move to a different config."
+   }
+  },
+  {
+   "role": "manager",
+   "response": "<rationale>Because the last bottleneck was IP1dB in stage 2, this shifts current from stage 1 to stage 2 and keeps stage 3 at 0.3 to protect output linearity.</rationale><tools>{\"power_ratio_list\":[0.3,0.4,0.3]}</tools>",
+   "parsed": {
+    "power_ratio_list": [
+     0.3,
+     0.4,
+     0.3
+    ]
+   }
+  },
+  {
+   "role": "refiner",
+   "response": "<rationale>Stage 3 limits linearity: it clips on current at \u221222.45 dBm input-referred, against \u221213.4 and \u221212.1 dBm for stages 1 and 2, and the chain IP1dB of \u221223.3 dBm misses the spec by 8.3 dB. Fixing that by moving gain would mean cutting the ~14.5 dB ahead of stage 3 to about 7 dB and asking stage 3 for about 18 dB on 30% of 30 mA, while NF (4.18 dB, NFmin 4.16 dB vs 3.5 dB) already fails at the front end, so the current power split cannot meet the spec.</rationale><tools>{\"action\":\"fail\",\"bottleneck\":\"ip1db:stage3\",\"reason\":\"Stage 3 compresses first (current_clip, ip1db_if_alone=-22.45 dBm vs -15 dBm spec). An 8.3 dB IP1dB shortfall would need about 7.5 dB less gain before stage 3 (g0+g2 from about 14.5 to about 7 dB) and about 18 dB from stage 3 alone at 30 GHz with power_ratio 0.3. That is not achievable and would make the existing 0.68 dB NF violation worse (NFmin 4.16 dB > 3.5 dB; stage2 infeasible). Escalate to Stage 1 to give stage 3 more current or choose a different config.\"}</tools>",
+   "parsed": {
+    "action": "fail",
+    "bottleneck": "ip1db:stage3",
+    "reason": "Stage 3 compresses first (current_clip, ip1db_if_alone=-22.45 dBm vs -15 dBm spec). An 8.3 dB IP1dB shortfall would need about 7.5 dB less gain before stage 3 (g0+g2 from about 14.5 to about 7 dB) and about 18 dB from stage 3 alone at 30 GHz with power_ratio 0.3. That is not achievable and would make the existing 0.68 dB NF violation worse (NFmin 4.16 dB > 3.5 dB; stage2 infeasible). Escalate to Stage 1 to give stage 3 more current or choose a different config."
+   }
+  },
+  {
+   "role": "manager",
+   "response": "<rationale>Stage 3 limits IP1dB, so I'm moving current from stage 2 to stage 3 while keeping stage 1 at 0.3 for NF and stage 2 at 0.25, above the 0.15 that was already tried, to protect gain.</rationale><tools>{\"power_ratio_list\":[0.3,0.25,0.45]}</tools>",
+   "parsed": {
+    "power_ratio_list": [
+     0.3,
+     0.25,
+     0.45
+    ]
+   }
+  },
+  {
+   "role": "refiner",
+   "response": "<rationale>NF misses by 2.27 dB (nf_fc 5.77 dB \u2248 nfmin 5.77 dB, against 3.27 dB predicted), so the input match is not the cause. The gain reaching the stage-2 gate is only 6.88 dB (target 11 dB) and stage2+MCR2 is lossy at -1.30 dB, so later stages dominate the noise; the policy fix is to require stage-2 gain in Stage 3 rather than add NF headroom.</rationale><tools>{\"action\":\"rerun_stage3\",\"gain_user_db\":25,\"gain_req_list\":[11.0,4.0,10.0],\"why\":\"NF excess (+2.27 dB, nf~nfmin) comes from low pre-stage-2 gain (6.88 dB vs 11 dB) and lossy stage2+MCR2 (-1.30 dB). Restore 11 dB to the stage-2 gate, require +4 dB from stage2+MCR2, and cut stage 3 from 17.3 to 10 dB. This suppresses later-stage noise and relieves the heavily loaded stage 3. Stage 3 currently compresses first (-15.60 dBm if alone, total IP1dB -19.50 dBm), so linearity must be re-checked after this run.\"}</tools>",
+   "parsed": {
+    "action": "rerun_stage3",
+    "gain_user_db": 25,
+    "gain_req_list": [
+     11.0,
+     4.0,
+     10.0
+    ],
+    "why": "NF excess (+2.27 dB, nf~nfmin) comes from low pre-stage-2 gain (6.88 dB vs 11 dB) and lossy stage2+MCR2 (-1.30 dB). Restore 11 dB to the stage-2 gate, require +4 dB from stage2+MCR2, and cut stage 3 from 17.3 to 10 dB. This suppresses later-stage noise and relieves the heavily loaded stage 3. Stage 3 currently compresses first (-15.60 dBm if alone, total IP1dB -19.50 dBm), so linearity must be re-checked after this run."
+   }
+  },
+  {
+   "role": "refiner",
+   "response": "<rationale>IP1dB is -22.8 dBm, a 7.8 dB miss. Stage 3 compresses first (current_clip, -21.3 dBm if alone), so about 6.3 dB must come out of the roughly 11.3 dB of gain ahead of it (7.2 + 4.1 dB), leaving stage 3 to supply about 20 dB; meanwhile stage 2 also fails (-16.2 dBm) and NF already misses (3.72 > 3.5 dB), so stage-1 gain cannot be lowered either.</rationale><tools>{\"action\":\"fail\",\"bottleneck\":\"ip1db:stage3\",\"reason\":\"Stage 3 is current-limited at -21.3 dBm input-referred, 7.8 dB short of the overall -15 dBm target. Moving gain into stage 3's own load would need about 6.3 dB less gain before it, so stage 3 would have to deliver about 20 dB, which a current-clipped stage at the current 0.45 power share cannot do. Stage 2 also compresses at -16.2 dBm, and NF (3.72 dB vs 3.5 dB) leaves no room to cut stage-1 gain. The power split needs to be redone in Stage 1 to give stage 3 (and stage 2) more current.\"}</tools>",
+   "parsed": {
+    "action": "fail",
+    "bottleneck": "ip1db:stage3",
+    "reason": "Stage 3 is current-limited at -21.3 dBm input-referred, 7.8 dB short of the overall -15 dBm target. Moving gain into stage 3's own load would need about 6.3 dB less gain before it, so stage 3 would have to deliver about 20 dB, which a current-clipped stage at the current 0.45 power share cannot do. Stage 2 also compresses at -16.2 dBm, and NF (3.72 dB vs 3.5 dB) leaves no room to cut stage-1 gain. The power split needs to be redone in Stage 1 to give stage 3 (and stage 2) more current."
+   }
+  },
+  {
+   "role": "manager",
+   "response": "<rationale>The bottleneck is IP1dB in stage 3, so I'm moving current from stage 2 to the output stage (0.45\u21920.5), which differs from the tried [0.35, 0.15, 0.5] by keeping stage 2 above minimum for gain and stage 1 at 0.3 for NF.</rationale><tools>{\"power_ratio_list\":[0.3,0.2,0.5]}</tools>",
+   "parsed": {
+    "power_ratio_list": [
+     0.3,
+     0.2,
+     0.5
+    ]
+   }
+  },
+  {
+   "role": "refiner",
+   "response": "<rationale>NF is 4.77 dB against a 3.5 dB limit. The noise match is fine (NF \u2248 NFmin = 4.76 dB), but stage 2 + MCR2 shows \u22121.92 dB gain at fc, so the lossy MCR2 lets stage-3 noise leak through. Stage 3 also carries an outsized 18.4 dB, which hurts IP1dB (\u221220.6 dBm against a \u221215 dBm minimum). The fix is to re-plan the band with positive stage-2 gain and less stage-3 gain.</rationale><tools>{\"action\":\"rerun_stage3\",\"gain_user_db\":25,\"gain_req_list\":[7.7,6.0,11.3],\"why\":\"Excess NF (+1.27 dB) comes from the lossy MCR2 (stage2+MCR2 = -1.92 dB) after the critical stage, so require about +6 dB from stage2+MCR2. Lowering stage-3 gain from 18.4 to about 11.3 dB relieves the current-clipped stage 3 and keeps the 25 dB total and ripple in check.\"}</tools>",
+   "parsed": {
+    "action": "rerun_stage3",
+    "gain_user_db": 25,
+    "gain_req_list": [
+     7.7,
+     6.0,
+     11.3
+    ],
+    "why": "Excess NF (+1.27 dB) comes from the lossy MCR2 (stage2+MCR2 = -1.92 dB) after the critical stage, so require about +6 dB from stage2+MCR2. Lowering stage-3 gain from 18.4 to about 11.3 dB relieves the current-clipped stage 3 and keeps the 25 dB total and ripple in check."
+   }
+  },
+  {
+   "role": "refiner",
+   "response": "<rationale>IP1dB is -25.46 dBm against a -15 dBm minimum, a 10.5 dB shortfall, and stage 3 compresses first by current clipping (-24.42 dBm if alone, after ~14.4 dB of preceding gain). Its output P1dB of about +2 dBm is far below the roughly +10 dBm needed for 25 dB gain at -15 dBm input, and stage 2 alone (-17.74 dBm) also fails, so shifting gain within the current 0.3/0.2/0.5 power split cannot close the gap.</rationale><tools>{\"action\":\"fail\",\"bottleneck\":\"ip1db:stage3\",\"reason\":\"Stage 3 is current-limited: its output P1dB (about -24.4 dBm in plus about 26.4 dB gain, roughly +2 dBm) is about 8 dB short of the roughly +10 dBm output needed for -15 dBm IP1dB at 25 dB gain. Moving gain into stage 3's load cannot recover 9-10 dB, and stage 2 alone (-17.7 dBm) also fails. The power allocation must change (more current to stage 3, or a different power_ratio_list or config) at Stage 1.\"}</tools>",
+   "parsed": {
+    "action": "fail",
+    "bottleneck": "ip1db:stage3",
+    "reason": "Stage 3 is current-limited: its output P1dB (about -24.4 dBm in plus about 26.4 dB gain, roughly +2 dBm) is about 8 dB short of the roughly +10 dBm output needed for -15 dBm IP1dB at 25 dB gain. Moving gain into stage 3's load cannot recover 9-10 dB, and stage 2 alone (-17.7 dBm) also fails. The power allocation must change (more current to stage 3, or a different power_ratio_list or config) at Stage 1."
+   }
+  },
+  {
+   "role": "manager",
+   "response": "<rationale>The stage-3 IP1dB bottleneck persists at a 0.5 share, so stage 3 moves to 0.55 by taking from stage 1 (the 3.5 dB NF limit leaves headroom), while stage 2 stays at 0.2 to protect gain.</rationale><tools>{\"power_ratio_list\":[0.25,0.2,0.55]}</tools>",
+   "parsed": {
+    "power_ratio_list": [
+     0.25,
+     0.2,
+     0.55
+    ]
+   }
+  },
+  {
+   "role": "refiner",
+   "response": "<rationale>IP1dB is -21.55 dBm against a -15 dBm spec (6.55 dB short). Stage 3 compresses first by current clipping (-17.78 dBm alone), and stage 2 is also current-clipped (-17.28 dBm), so neither meets -15 dBm even alone and moving gain between them cannot close the gap. NF (4.14 dB vs 3.5 dB) also depends on keeping gain before stage 3 (stage 2 + MCR2 gives only 1.54 dB), which pulls against any linearity fix.</rationale><tools>{\"action\":\"fail\",\"bottleneck\":\"ip1db:stage3\",\"reason\":\"Full-chain IP1dB is -21.55 dBm vs -15 dBm required. Stage 3 (55% of current) compresses first by current clipping at -17.78 dBm alone. Stage 2 is also current-clipped at -17.28 dBm alone, and the stage-1 estimate was already -18.79 dBm. Moving gain out of stage 3 would worsen NF (4.14 dB vs 3.5 dB; stage 2 + MCR2 gain is only 1.54 dB), and the critical-stage gain cannot fix stage 3's clipping. Stage 1 needs to reallocate current toward stages 3 and 2, or the 30 mA budget is insufficient.\"}</tools>",
+   "parsed": {
+    "action": "fail",
+    "bottleneck": "ip1db:stage3",
+    "reason": "Full-chain IP1dB is -21.55 dBm vs -15 dBm required. Stage 3 (55% of current) compresses first by current clipping at -17.78 dBm alone. Stage 2 is also current-clipped at -17.28 dBm alone, and the stage-1 estimate was already -18.79 dBm. Moving gain out of stage 3 would worsen NF (4.14 dB vs 3.5 dB; stage 2 + MCR2 gain is only 1.54 dB), and the critical-stage gain cannot fix stage 3's clipping. Stage 1 needs to reallocate current toward stages 3 and 2, or the 30 mA budget is insufficient."
+   }
+  },
+  {
+   "role": "manager",
+   "response": "<rationale>Stage 3 still limits IP1dB even at 0.55, so I'm raising its share to 0.6 and trimming stage 2 to its 0.15 floor while keeping stage 1 at 0.25 to protect NF.</rationale><tools>{\"power_ratio_list\":[0.25,0.15,0.6]}</tools>",
+   "parsed": {
+    "power_ratio_list": [
+     0.25,
+     0.15,
+     0.6
+    ]
+   }
+  },
+  {
+   "role": "refiner",
+   "response": "<rationale>IP1dB is -24.96 dBm against a -15 dBm spec, a 9.96 dB shortfall. Stage 3 compresses first (-22.20 dBm, current_clip), and stage 2 is close behind (-21.02 dBm). Stage 1 alone is only -13.10 dBm, so stages 2 and 3 together would need to reach about -10.5 dBm, roughly 11 dB of improvement. Gain is only 2.2 dB above the 25 dB spec, so moving gain around cannot recover that much.</rationale><tools>{\"action\":\"fail\",\"bottleneck\":\"ip1db:stage3\",\"reason\":\"Full-chain IP1dB is -24.96 dBm vs a -15 dBm spec (9.96 dB short). Stage 3 compresses first (-22.20 dBm, current_clip) and stage 2 is close behind (-21.02 dBm). Stage 1 alone is -13.10 dBm, so stages 2 and 3 combined would need about -10.5 dBm, roughly 11 dB of improvement. Gain margin is only 2.2 dB (27.2 vs 25 dB). The critical stage is already infeasible at a gain_require_db of 11 dB. Re-running Stage 2 or Stage 3 cannot close the gap with the current power split [0.25, 0.15, 0.6], so Stage 1 needs to escalate the power allocation, giving more current to stages 2 and 3.\"}</tools>",
+   "parsed": {
+    "action": "fail",
+    "bottleneck": "ip1db:stage3",
+    "reason": "Full-chain IP1dB is -24.96 dBm vs a -15 dBm spec (9.96 dB short). Stage 3 compresses first (-22.20 dBm, current_clip) and stage 2 is close behind (-21.02 dBm). Stage 1 alone is -13.10 dBm, so stages 2 and 3 combined would need about -10.5 dBm, roughly 11 dB of improvement. Gain margin is only 2.2 dB (27.2 vs 25 dB). The critical stage is already infeasible at a gain_require_db of 11 dB. Re-running Stage 2 or Stage 3 cannot close the gap with the current power split [0.25, 0.15, 0.6], so Stage 1 needs to escalate the power allocation, giving more current to stages 2 and 3."
+   }
+  },
+  {
+   "role": "manager",
+   "response": "<rationale>Stage 3 still limits IP1dB, so I'm moving stage 3 from 0.6 to 0.65 and taking the current from stage 1 (0.25 to 0.2), since stage 2 is already at the 0.15 floor; this risks NF, which is the next thing to check.</rationale><tools>{\"power_ratio_list\":[0.2,0.15,0.65]}</tools>",
+   "parsed": {
+    "power_ratio_list": [
+     0.2,
+     0.15,
+     0.65
+    ]
+   }
+  },
+  {
+   "role": "refiner",
+   "response": "<rationale>Stage 1 alone compresses at -16.50 dBm, already below the -15 dBm spec, so no gain redistribution in Stages 2-4 can close the 8.65 dB IP1dB gap; the chain IP1dB is -23.65 dBm. Lowering gain to help linearity would also worsen NF, which is already over the limit (4.80 dB vs 3.5 dB, with NFmin 4.79 dB and stage2_feasible=false), so the current power split [0.2, 0.15, 0.65] is the bottleneck.</rationale><tools>{\"action\":\"fail\",\"bottleneck\":\"ip1db:stage1\",\"reason\":\"Stage-1 standalone IP1dB is -16.50 dBm (voltage-swing limited), below the -15 dBm spec, so no Stage 2-4 re-run can meet linearity. NF is also over the limit (4.80 vs 3.5 dB, NFmin 4.79 dB) with only 20% of the current in the critical stage. Stage 1 needs to re-allocate power: more current/swing to stage 1, and some to stage 2, which compresses at -20.25 dBm. Total gain is 29.5 dB vs 25 dB, so stage-3 share can be reduced.\"}</tools>",
+   "parsed": {
+    "action": "fail",
+    "bottleneck": "ip1db:stage1",
+    "reason": "Stage-1 standalone IP1dB is -16.50 dBm (voltage-swing limited), below the -15 dBm spec, so no Stage 2-4 re-run can meet linearity. NF is also over the limit (4.80 vs 3.5 dB, NFmin 4.79 dB) with only 20% of the current in the critical stage. Stage 1 needs to re-allocate power: more current/swing to stage 1, and some to stage 2, which compresses at -20.25 dBm. Total gain is 29.5 dB vs 25 dB, so stage-3 share can be reduced."
+   }
+  },
+  {
+   "role": "manager",
+   "response": "<rationale>The IP1dB bottleneck has moved to stage 1 after its current was cut to 0.2, so I'm restoring stage 1 current to 0.3 while keeping stage 3 high (0.55) and stage 2 at its 0.15 minimum; this allocation has not been tried.</rationale><tools>{\"power_ratio_list\":[0.3,0.15,0.55]}</tools>",
+   "parsed": {
+    "power_ratio_list": [
+     0.3,
+     0.15,
+     0.55
+    ]
+   }
+  },
+  {
+   "role": "refiner",
+   "response": "<rationale>NF is 6.30 dB against a 3.5 dB limit and nearly equals NFmin (6.30 dB), with stage2+MCR2 at \u22121.94 dB. IP1dB is \u221220.4 dBm against a \u221215 dBm limit, and stage1 (\u221212.4 dBm) and stage3 (\u221212.7 dBm) alone already combine to about \u221215.6 dBm. Raising pre-stage-3 gain to fix NF would make linearity worse, so the 30 mA split (0.3/0.15/0.55) cannot satisfy both specs.</rationale><tools>{\"action\":\"fail\",\"bottleneck\":\"power\",\"reason\":\"NF is 2.8 dB over the limit and mostly comes from the lossy MCR2 (stage2+MCR2 at -1.94 dB) plus low critical gain (stage1 at 7.66 dB). Fixing it needs more gain before stage 3, which degrades IP1dB, already 5.4 dB short. Even ignoring stage2 (-18.7 dBm, current-clip), the stage1 (-12.43 dBm) and stage3 (-12.68 dBm) current-clip limits alone cascade to about -15.6 dBm, below the -15 dBm target. Stage 2 is also infeasible for this candidate. NF and IP1dB cannot both be met with this power allocation; Stage 1 needs to re-allocate current to stage1/stage2 and the critical stage.\"}</tools>",
+   "parsed": {
+    "action": "fail",
+    "bottleneck": "power",
+    "reason": "NF is 2.8 dB over the limit and mostly comes from the lossy MCR2 (stage2+MCR2 at -1.94 dB) plus low critical gain (stage1 at 7.66 dB). Fixing it needs more gain before stage 3, which degrades IP1dB, already 5.4 dB short. Even ignoring stage2 (-18.7 dBm, current-clip), the stage1 (-12.43 dBm) and stage3 (-12.68 dBm) current-clip limits alone cascade to about -15.6 dBm, below the -15 dBm target. Stage 2 is also infeasible for this candidate. NF and IP1dB cannot both be met with this power allocation; Stage 1 needs to re-allocate current to stage1/stage2 and the critical stage."
+   }
+  },
+  {
+   "role": "manager",
+   "response": "<rationale>The bottleneck is the total 30 mA budget rather than how it is split, and nine allocations across the feasible space have already failed, so another split cannot fix it.</rationale><tools>{\"stop\": true}</tools>",
+   "parsed": {
+    "stop": true
+   }
+  }
+ ]
+}

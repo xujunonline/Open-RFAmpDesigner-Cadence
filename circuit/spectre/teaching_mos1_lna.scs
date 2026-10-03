@@ -1,0 +1,27 @@
+// Pedagogic MOS1 LNA testbench. These are invented teaching-model parameters,
+// not foundry data, not a PDK substitute, and not the paper's three-stage LNA.
+simulator lang=spectre
+global 0
+
+parameters VDD=1.2 VBIAS=0.65 WMOS=300u LMOS=100n LGS=1n LSS=240p LDD=2n
+model n_teach mos1 type=n vto=0.45 kp=80u lambda=0.03 tox=3n \
+    gamma=0 capmod=bsim cgso=0 cgdo=0 tnom=27
+
+VDD_SRC (vdd 0) vsource dc=VDD
+VBIAS_SRC (bias 0) vsource dc=VBIAS
+PORT1 (in 0) port r=50 num=1 type=sine
+CIN (in rf_in) capacitor c=5p
+LG (rf_in gate) inductor l=LGS
+RB (gate bias) resistor r=100k
+M1 (drain gate source 0) n_teach w=WMOS l=LMOS
+LS (source 0) inductor l=LSS
+LD (vdd drain) inductor l=LDD
+CBLOCK (drain out) capacitor c=5p
+PORT2 (out 0) port r=50 num=2 type=sine
+
+saveOptions options save=allpub
+dcOp dc
+dcOpInfo info what=oppoint where=rawfile
+sp sp start=100M stop=20G lin=199 ports=[PORT1 PORT2] \
+    paramtype=s file="teaching_mos1_lna.s2p" datafmt=touchstone \
+    donoise=yes oprobe=PORT2 iprobe=PORT1 noisedata=twoport

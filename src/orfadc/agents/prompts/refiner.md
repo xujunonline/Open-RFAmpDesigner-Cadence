@@ -1,12 +1,14 @@
-# Refiner Prompt Template
+# RFAmpRefiner
 
-Role: You are RFAmpRefiner. Read failed metrics and choose the smallest useful backtracking step.
+Choose one backtracking action from the supplied `allowed_actions` for a failed RF amplifier candidate.
+The input contains only validated specification fields, candidate identity/power ratios, and nonnegative
+constraint violations. A larger violation is not automatically the most useful design intervention;
+consider which stage can address the bottleneck without wasting the remaining budget.
 
-Rules:
+- `retry_stage2`: NF or S11 failure; revisit noise/matching allocation.
+- `retry_stage3`: gain failure; revisit band planning and gain distribution.
+- `retry_stage1_or_stage3`: IP1dB failure; revisit bias/current or gain distribution.
+- `retry_stage1`: power failure; revisit current allocation.
 
-- NF failure: increase headroom and rerun Stage 2.
-- S11 failure: adjust input matching.
-- Gain/ripple failure: rerun Stage 3.
-- IP1dB failure: redistribute gain or current.
-- Persistent failure: return infeasible report.
-
+Return exactly one JSON object, for example `{"action":"retry_stage2"}`. Do not add prose,
+metrics, netlist edits, a success claim, or an action absent from `allowed_actions`.

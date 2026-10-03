@@ -1,0 +1,69 @@
+// orfadc.repro Spectre macromodel netlist (auto-generated; not a PDK netlist)
+simulator lang=spectre
+global 0
+opts options temp=16.85 tnom=16.85
+PORT1 (in 0) port r=50 num=1 mag=1
+Lxl1 (in xl1) inductor l=4.43575964141e-10
+Rxl1 (xl1 0) resistor r=3.34448397661
+Lxl2 (in xl2) inductor l=8.72891805416e-11
+Rxl2 (xl2 g1) resistor r=0.658144915986
+RG1 (g1 g1i) resistor r=1.11111111111
+Gm3 (cas s1 g1i s1) vccs gm=0.088569434656
+Rm3ds (cas s1) resistor r=223.377432929 isnoisy=no
+Cm3gs (g1i s1) capacitor c=8.505e-14
+Cm3gd (g1i cas) capacitor c=3.078e-14
+Cm3db (cas 0) capacitor c=4.455e-14
+Vwn4 (wn4 0) vsource dc=0
+Rwn4 (wn4 0) resistor r=8.21132854802
+Fm3d (cas s1) cccs probe=Vwn4 gain=1
+Hdx5 (dx5 0) ccvs probe=Vwn4 rm=1
+Cdx5 (dx5 dy6) capacitor c=1.9191438281e-13
+Vdy6 (dy6 0) vsource dc=0
+Fm3gc (g1i s1) cccs probe=Vdy6 gain=1
+Vwn7 (wn7 0) vsource dc=0
+Rwn7 (wn7 0) resistor r=1
+Hdx8 (dx8 0) ccvs probe=Vwn7 rm=1
+Cdx8 (dx8 dy9) capacitor c=1.55764506879e-13
+Vdy9 (dy9 0) vsource dc=0
+Fm3gu (g1i s1) cccs probe=Vdy9 gain=1
+Lxl10 (s1 xl10) inductor l=8.20693758304e-11
+Rxl10 (xl10 0) resistor r=0.618788515665
+GCG (d1 cas 0 cas) vccs gm=0.0560663067355
+RCGds (d1 cas) resistor r=223.37790197 isnoisy=no
+CCGgs (cas 0) capacitor c=3.82725e-14
+CCGdb (d1 0) capacitor c=3.38985e-14
+Vwn11 (wn11 0) vsource dc=0
+Rwn11 (wn11 0) resistor r=12.9716539151
+FCG (d1 cas) cccs probe=Vwn11 gain=1
+Lk12p (d1 k12p) inductor l=3.0783039686e-10
+Rk12p (k12p 0) resistor r=3.86831085331
+Lk12s (g2 k12s) inductor l=9.45954329806e-10
+Rk12s (k12s 0) resistor r=11.8872126926
+Kk12 mutual_inductor coupling=0.540306580842 ind1=Lk12p ind2=Lk12s
+Rk12d1 (d1 0) resistor r=435.730628448
+Ck12d1 (d1 0) capacitor c=2.8058085913e-14
+Rk12g2 (g2 0) resistor r=910.684955131
+Ck12g2 (g2 0) capacitor c=3.35518782389e-14
+RG2 (g2 g2i) resistor r=1.66666666667
+Gm13 (d2 0 g2i 0) vccs gm=0.0233292691517
+Rm13ds (d2 0) resistor r=1521.45205293 isnoisy=no
+Cm13gs (g2i 0) capacitor c=5.67e-14
+Cm13gd (g2i d2) capacitor c=2.4624e-15
+Cm13db (d2 0) capacitor c=2.97e-14
+Vwn14 (wn14 0) vsource dc=0
+Rwn14 (wn14 0) resistor r=31.1742610771
+Fm13d (d2 0) cccs probe=Vwn14 gain=1
+Hdx15 (dx15 0) ccvs probe=Vwn14 rm=1
+Cdx15 (dx15 dy16) capacitor c=4.85734558801e-13
+Vdy16 (dy16 0) vsource dc=0
+Fm13gc (g2i 0) cccs probe=Vdy16 gain=1
+Vwn17 (wn17 0) vsource dc=0
+Rwn17 (wn17 0) resistor r=1
+Hdx18 (dx18 0) ccvs probe=Vwn17 rm=1
+Cdx18 (dx18 dy19) capacitor c=2.02333882427e-13
+Vdy19 (dy19 0) vsource dc=0
+Fm13gu (g2i 0) cccs probe=Vdy19 gain=1
+PORT2 (d2 0) port r=250 num=2
+sp1 sp values=[30000000000] ports=[PORT1 PORT2] donoise=yes oprobe=PORT2 iprobe=PORT1 noisedata=twoport
+ac1 ac values=[30000000000]
+save in g1i s1 d1 g2 g2i d2

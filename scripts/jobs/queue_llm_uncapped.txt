@@ -1,0 +1,13 @@
+# docs/119 §4.3: Codex backbone without the 40-call cap (1000 = effectively unlimited; the 5 h equivalent budget bounds each run)
+set ORFADC_LLM_MAX_CALLS=1000
+design --spec S9s --seed 0 --policy codex-mcp
+design --spec S10s --seed 0 --policy codex-mcp
+design --spec S9s --seed 1 --policy codex-mcp
+design --spec S10s --seed 1 --policy codex-mcp
+design --spec S9s --seed 2 --policy codex-mcp
+design --spec S10s --seed 2 --policy codex-mcp
+design --spec S9s --seed 3 --policy codex-mcp
+design --spec S10s --seed 3 --policy codex-mcp
+design --spec S9s --seed 4 --policy codex-mcp
+design --spec S10s --seed 4 --policy codex-mcp
+llm-table

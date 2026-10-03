@@ -15,6 +15,7 @@ Record cloned project URL, commit hash, license, files reviewed, and any reused 
 | ALIGN | https://github.com/ALIGN-analoglayout/ALIGN-public | Later-stage layout direction, not MVP. |
 | ngspice | https://github.com/ngspice/ngspice | Open-source simulator fallback for method debugging only. |
 | Xyce | https://github.com/Xyce/Xyce | Open-source parallel simulator fallback for method debugging only. |
+| scikit-optimize | https://github.com/scikit-optimize/scikit-optimize | Optional GP/EI `ask/tell` BO baseline for public MOS1 teaching diagnostics; pinned at 0.10.2 in a Git-ignored isolated install. Local package metadata states BSD 3-clause. Distinct from the paper's `scikit-opt`/`sko`; no library code copied into this repository. |
 
 ## Commercial PDK Safety
 

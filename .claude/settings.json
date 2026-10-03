@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "enableAllProjectMcpServers": false,
+  "enabledMcpjsonServers": [
+    "rfamp",
+    "codex"
+  ],
+  "env": {
+    "PYTHONPATH": "src",
+    "ORFADC_RUN_LIVE_SSH_AUDIT": "0",
+    "PYTHONIOENCODING": "utf-8"
+  },
+  "permissions": {
+    "allow": [
+      "mcp__rfamp__*",
+      "Bash(python -m pytest:*)",
+      "Bash(python -m orfadc.repro.bench:*)",
+      "Bash(python -m compileall:*)",
+      "Bash(python src/orfadc/repro/bench.py:*)",
+      "Bash(git status:*)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "mcp__codex__codex_status"
+    ],
+    "ask": [
+      "Bash(ssh:*)",
+      "Bash(scp:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(python -m orfadc.experiments.:*)",
+      "mcp__codex__codex_ask"
+    ],
+    "deny": [
+      "Read(./config/remote_cadence.local.yaml)",
+      "Read(./config/model_paths.local.yaml)",
+      "Read(**/*.pem)",
+      "Read(**/id_rsa*)",
+      "Read(**/id_ed25519*)",
+      "Bash(rm -rf:*)",
+      "Bash(git push --force:*)"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python .claude/hooks/check_python.py",
+            "timeout": 60
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python .claude/hooks/guard_bash.py",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}

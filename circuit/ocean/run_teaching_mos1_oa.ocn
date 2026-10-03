@@ -1,0 +1,31 @@
+reportPort=outfile("teaching_flat_tb_run_report.txt" "w")
+libName="orfadc_teaching_mos1"
+libPath=getShellEnvVar("ORFADC_TEACHING_LIB_DIR")
+cellName=getShellEnvVar("ORFADC_TEACHING_CELL")
+unless(libPath && cellName error("Teaching library directory and cell name are required\n"))
+libObj=ddGetObj(libName)
+unless(libObj libObj=ddCreateLib(libName libPath))
+unless(libObj error("Teaching library unavailable\n"))
+workDir=getShellEnvVar("PWD")
+unless(workDir error("OCEAN work directory unavailable\n"))
+modelPath=strcat(workDir "/teaching_mos1_model.scs")
+unless(isFile(modelPath) error("Public teaching model unavailable\n"))
+envSetVal("spectre.turboOpts" "uniMode" 'string "Spectre")
+envSetVal("spectre.envOpts" "controlMode" 'string "batch")
+simulator('spectre)
+design(libName cellName "schematic")
+modelFile(list(modelPath))
+resultsDir(strcat(workDir "/results"))
+analysis('dc ?saveOppoint t)
+when(getShellEnvVar("ORFADC_TEACHING_DAMPED")=="1"
+  analysis('sp ?ports list("/PORT1" "/PORT2") ?start "8G" ?stop "12G"
+    ?lin "160" ?donoise "yes" ?oprobe "/PORT2" ?iprobe "/PORT1")
+)
+unless(getShellEnvVar("ORFADC_TEACHING_DAMPED")=="1"
+  analysis('sp ?ports list("/PORT1" "/PORT2") ?start "100M" ?stop "20G"
+    ?dec "20" ?donoise "yes" ?oprobe "/PORT2" ?iprobe "/PORT1")
+)
+runResult=run()
+fprintf(reportPort "run_result=%L\n" runResult)
+close(reportPort)
+exit()

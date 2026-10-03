@@ -55,6 +55,7 @@ def test_remote_command_uses_batch_mode_and_redacts_identity(tmp_path: Path) -> 
     assert str(identity.resolve()) not in result.argv
     assert executor.calls[0][0] == "ssh"
     assert "cd /home/edauser/orfadc && pwd" in executor.calls[0][-1]
+    assert "timeout --signal=TERM --kill-after=3s 290s" in executor.calls[0][-1]
 
 
 def test_probe_returns_tool_availability() -> None:
@@ -126,6 +127,31 @@ def test_config_loader_reads_ocean_graph_mode(tmp_path: Path) -> None:
     assert config.ocean_nograph is False
 
 
+def test_ocean_nograph_uses_configured_xvfb_path(tmp_path: Path) -> None:
+    script = tmp_path / "smoke.ocn"
+    script.write_text("exit()\n", encoding="utf-8")
+    executor = FakeExecutor()
+    runner = RemoteRunner(
+        RemoteCadenceConfig(
+            host="eda-host.example",
+            user="edauser",
+            remote_root="/home/edauser/orfadc",
+            ocean_nograph=True,
+            xvfb_path="/home/edauser/.local/xvfb/usr/bin",
+        ),
+        executor=executor,
+    )
+
+    payload = runner.run_ocean_script(script, run_name="smoke")
+
+    assert payload["status"] == "ok"
+    ocean_call = next(
+        call for call in executor.calls if call[0] == "ssh" and "-restore" in call[-1]
+    )
+    assert "CDS_XVFB_PATH=/home/edauser/.local/xvfb/usr/bin" in ocean_call[-1]
+    assert "-nograph" in ocean_call[-1]
+
+
 def test_insecure_host_key_mode_is_rejected() -> None:
     with pytest.raises(ValueError, match="strict_host_key_checking"):
         RemoteCadenceConfig(
@@ -164,3 +190,24 @@ def test_timeout_is_returned_as_structured_failure() -> None:
     assert result.ok is False
     assert result.stdout == "partial"
     assert "timed out" in result.stderr
+
+
+def test_ocean_timeout_still_downloads_log(tmp_path: Path) -> None:
+    script = tmp_path / "smoke.ocn"
+    script.write_text("exit()\n", encoding="utf-8")
+    executor = FakeExecutor()
+
+    def timeout_ocean(argv: list[str], **kwargs: object) -> subprocess.CompletedProcess[str]:
+        result = executor(argv, **kwargs)
+        if argv[0] == "ssh" and "-restore" in argv[-1]:
+            return subprocess.CompletedProcess(argv, 124, stdout="", stderr="license wait")
+        return result
+
+    runner = RemoteRunner(
+        RemoteCadenceConfig(host="eda-host.example", user="edauser"),
+        executor=timeout_ocean,
+    )
+    payload = runner.run_ocean_script(script, run_name="timeout", local_log=tmp_path / "ocean.log")
+
+    assert payload["status"] == "ocean_timeout"
+    assert payload["log_download"]["ok"] is True

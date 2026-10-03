@@ -27,10 +27,10 @@
 - 写出多智能体说明和 step-by-step 操作指导；
 - 提供 dry-run 候选生成。
 
-当前项目还没有做到：
+截至 2026-09-25，当前项目还没有做到：
 
 - 真实 Cadence LNA schematic；
-- 真实 RF S 参数/noise/compression 仿真；
+- 有源 RF/LNA 的 S 参数、noise 和 compression 仿真；被动理想二端口的 Spectre `sp` 分析已实机完成，见 `docs/14_ideal_twoport_rf_smoke.md`；
 - 真实 active lookup table；
 - 真实 Stage 2 PSO；
 - 真实 Stage 3 MCR 多保真校准；

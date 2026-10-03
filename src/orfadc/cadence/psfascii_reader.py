@@ -13,6 +13,9 @@ _COMPLEX_RE = re.compile(
 _TYPED_SCALAR_RE = re.compile(
     rf'^"(?P<name>[^"]+)"\s+"(?P<kind>[^"]+)"\s+(?P<value>{_NUMBER})$'
 )
+_STRUCT_FIELD_RE = re.compile(
+    r'^"(?P<name>[^"]+)"\s+(?:FLOAT\s+DOUBLE|INT\s+(?:LONG|BYTE))\s+PROP\($'
+)
 
 
 def parse_complex_trace(
@@ -50,26 +53,61 @@ def parse_scalar_trace(
     signal: str,
     *,
     sweep_variable: str = "freq",
+    require_each_sweep: bool = False,
 ) -> tuple[list[float], list[float]]:
     sweep_values: list[float] = []
     signal_values: list[float] = []
     current_sweep: float | None = None
+    signal_seen = False
+    in_values = False
 
     for line in _lines(path):
+        if line == "VALUE":
+            in_values = True
+            continue
+        if not in_values:
+            continue
         scalar_match = _SCALAR_RE.match(line)
         if not scalar_match:
+            if require_each_sweep and line.startswith(f'"{signal}" '):
+                raise ValueError(f"malformed scalar signal {signal!r} in {path}")
             continue
         name = scalar_match.group("name")
         value = float(scalar_match.group("value"))
         if name == sweep_variable:
+            if require_each_sweep and current_sweep is not None and not signal_seen:
+                raise ValueError(f"signal {signal!r} missing at frequency {current_sweep} in {path}")
             current_sweep = value
+            signal_seen = False
         elif name == signal and current_sweep is not None:
+            if require_each_sweep and signal_seen:
+                raise ValueError(f"duplicate signal {signal!r} at frequency {current_sweep} in {path}")
             sweep_values.append(current_sweep)
             signal_values.append(value)
-            current_sweep = None
+            signal_seen = True
+            if not require_each_sweep:
+                current_sweep = None
 
+    if require_each_sweep and current_sweep is not None and not signal_seen:
+        raise ValueError(f"signal {signal!r} missing at frequency {current_sweep} in {path}")
     _require_trace(path, signal, sweep_values)
     return sweep_values, signal_values
+
+
+def parse_trace_kinds(path: Path) -> dict[str, str]:
+    kinds: dict[str, str] = {}
+    in_trace = False
+    for line in _lines(path):
+        if line == "TRACE":
+            in_trace = True
+            continue
+        if line == "VALUE":
+            break
+        if in_trace:
+            match = re.fullmatch(r'"([^"]+)"\s+"([^"]+)"', line)
+            if match:
+                kinds[match.group(1)] = match.group(2)
+    return kinds
 
 
 def parse_dc_values(path: Path) -> dict[str, float]:
@@ -81,6 +119,46 @@ def parse_dc_values(path: Path) -> dict[str, float]:
     if not values:
         raise ValueError(f"no typed scalar values found in {path}")
     return values
+
+
+def parse_struct_values(path: Path, *, instance: str, struct_type: str) -> dict[str, float]:
+    fields: list[str] = []
+    values: list[float] = []
+    in_type = False
+    in_instance = False
+    type_seen = False
+    instance_seen = False
+    in_values = False
+    for line in _lines(path):
+        if line == "VALUE":
+            in_values = True
+            in_type = False
+            continue
+        if not in_values:
+            if line == f'"{struct_type}" STRUCT(':
+                in_type = True
+                type_seen = True
+            elif in_type and line == ") PROP(":
+                in_type = False
+            elif in_type:
+                match = _STRUCT_FIELD_RE.match(line)
+                if match:
+                    fields.append(match.group("name"))
+        elif line == f'"{instance}" "{struct_type}" (':
+            in_instance = True
+            instance_seen = True
+        elif in_instance and line == ") PROP(":
+            in_instance = False
+        elif in_instance:
+            try:
+                values.append(float(line))
+            except ValueError as exc:
+                raise ValueError(f"malformed structured value in {path}") from exc
+    if not type_seen or not instance_seen or not fields or len(fields) != len(values):
+        raise ValueError(f"incomplete {struct_type} operating-point record for {instance} in {path}")
+    if len(fields) != len(set(fields)):
+        raise ValueError(f"duplicate {struct_type} operating-point field in {path}")
+    return dict(zip(fields, values, strict=True))
 
 
 def subtract_complex_traces(

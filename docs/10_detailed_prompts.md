@@ -1,5 +1,7 @@
 # Open-RFAmpDesigner-Cadence 详细提示词库
 
+> 历史提示词库：其中阶段编号与当前 `docs/15_autonomous_completion_prompts.md` 不同，部分“尚未实测”的前提已过时。2026-09-26 阶段 00 审查、A09 限定范围稳定性验收和阶段 02 被动二端口 noise 数据链路已有证据。继续自动实施时以 `docs/15_autonomous_completion_prompts.md`、`docs/16_implementation_status.md` 和原始运行目录为准，不直接重放本文件的旧阶段提示词。
+
 > 用法：每次只复制一个阶段提示词给 Codex/LLM。不要一次要求它完成全部项目。  
 > 原则：每个提示词都包含背景、目标、允许修改范围、输出格式、验收标准和禁止事项。
 

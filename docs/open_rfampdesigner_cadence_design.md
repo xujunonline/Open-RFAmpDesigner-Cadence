@@ -176,7 +176,7 @@ cost = 1000 * gain_violation + 1000 * ripple_violation
 ## 附录 B：RF/LNA 指标公式速查
 
 - `S11 < -10 dB` 通常表示输入匹配可接受；论文 Stage 2 使用 `S11 < -20 dB` 的更严格目标。
-- `Gain = S21` 或电压增益，需说明仿真上下文。
+- `S21` 是指定端口参考阻抗下的正向散射参数；只有测试条件明确时，才能把 `20log10|S21|` 作为所报告的 gain，不能与电压增益或 transducer gain 无条件互换。
 - `NF_total` 主要受第一级 NF 和增益决定。
 - `ripple = max(gain_band) - min(gain_band)`。
 
@@ -214,4 +214,3 @@ clone 第三方项目后先读 `LICENSE`、`README` 和引用论文。只复用�
 ## 附录 J：报告写法
 
 报告中把“论文公开信息”“本工程近似实现”“实验室 PDK 结果”分成三列，避免把不同来源的结果混在一起。
-

@@ -8,13 +8,23 @@ remote_cadence.local.yaml
 results/runs/*
 !results/runs/.gitkeep
 results/logs/*
+# Windows job logs/designs may carry PDK-derived device data (docs/121)
+results/windows_checks/*
 !results/logs/.gitkeep
 results/tables/*.csv
 results/figures/*.png
 results/memory/*.jsonl
+results/memory/agent_writer.lock
 
 # Local migration history may contain personal paths and full chat context.
 docs/project_history/Codex完整聊天记录_RFAmpDesigner.md
 docs/project_history/legacy_workspace_README.md
 docs/project_history/继续任务指南.md
 docs/project_history/MANIFEST.tsv
+
+# surrogate reproduction scratch (tables/figures/SUMMARY are kept)
+results/repro/*/memory_*/
+results/memory/repro/
+
+# local scratch on the Windows host
+_to_delete/

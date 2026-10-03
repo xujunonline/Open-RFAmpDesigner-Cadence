@@ -121,7 +121,7 @@ Open-RFAmpDesigner-Cadence/
 
 ## 3. 阶段 3：Cadence RF 环境准备
 
-> 实现状态（2026-09-12）：SSH、SCP 和 Spectre 实机验证已通过；OCEAN 需要用户先登录来宾 GNOME，建立 `DISPLAY=:1` 后复验。详见 `docs/12_cadence_environment_validation.md`。
+> 实现状态（2026-09-25）：SSH、SCP、Spectre 及 OCEAN/SKILL 无图形实机验证均已通过。OCEAN 使用用户目录中的 Xvfb 运行，不再依赖 GNOME 登录或 `DISPLAY=:1`。详见 `docs/12_cadence_environment_validation.md`。
 
 ### 3.1 目标
 
@@ -165,6 +165,7 @@ mkdir -p ~/Open-RFAmpDesigner-Cadence-runs
 - 优点：无 PDK 泄露风险，适合先调通工具流。
 - 缺点：不能报告为真实工艺结果。
 - 适合：MVP 和代码调试。
+- 当前已有 `circuit/spectre/teaching_mos1_lna.scs` 的**直接 Spectre** 单管共源教学测试台；0.50/0.55/0.65/0.70 V DC/SP/noise、HB 低功率和模型告警停止门禁见 `docs/33_stage03_teaching_mos1_route_b.md`。它尚非 Virtuoso schematic，也不是下文所需的合格单级 LNA MVP。
 
 ### 3.4 验收标准
 
@@ -173,6 +174,8 @@ mkdir -p ~/Open-RFAmpDesigner-Cadence-runs
 - 本地 Python 能拿到远程仿真结果。
 
 ## 4. 阶段 4：建立最小 RF S 参数 testbench
+
+> 实现状态（2026-09-25）：已完成 PDK 无关的理想 RLC 二端口版本。Spectre `sp` 分析真实运行成功，Touchstone、PSFASCII、CSV、指标 JSON 和日志均已归档。该结果只验证 RF 仿真与数据管线，不是 LNA 性能。详见 `docs/14_ideal_twoport_rf_smoke.md`。
 
 ### 4.1 目标
 
@@ -236,7 +239,26 @@ ripple = max(s21_db in band) - min(s21_db in band)
 - 能自动生成 `metrics.json`。
 - 能判断 S11 是否小于 -10 dB 或 -20 dB。
 
+### 4.6 当前可重复执行命令
+
+在项目根目录运行：
+
+```powershell
+$env:PYTHONPATH = "$PWD\src"
+python -m orfadc.experiments.run_ideal_twoport
+```
+
+默认结果目录是：
+
+```text
+results/runs/rf_smoke/ideal_twoport/
+```
+
+其中 `metrics.json` 的 `not_lna_result: true` 是强制语义边界。只有后续接入有源器件、偏置、授权 PDK 和 LNA testbench 后，才可讨论 LNA 增益、噪声和功耗是否达标。
+
 ## 5. 阶段 5：加入 noise 仿真
+
+> 当前状态（2026-09-26）：被动二端口 `sp` + noise 已由真实 Spectre 25.1 运行、PSFASCII 与 S2P 交叉核验，见 `docs/17_noise_data_pipeline.md`。本节后续操作针对有源单级 LNA；不能把被动 NF/NFmin 视为 LNA 性能。本指导书的教学阶段编号不等于 `docs/15_autonomous_completion_prompts.md` 的实施阶段编号。
 
 ### 5.1 目标
 
@@ -275,6 +297,8 @@ nfmin_center = value nearest fc
 - 能用 `stage2_cost()` 计算 NF violation。
 
 ## 6. 阶段 6：单级 LNA MVP
+
+> 已完成的路线 B 教学测试台仅可作为本阶段开始前的数据链练习。运行 `py -m orfadc.experiments.run_teaching_lna --vbias-v 0.65` 后，应先用 `py -m orfadc.experiments.audit_teaching_lna <新run目录>` 重算原始数据，再读 S11/S21/S22/NF/电流和 Spectre 告警。该教学共源级输出匹配、增益和纹波未满足论文任务，HB 高功率存在模型限值；不可在本节直接判定 MVP 通过，详见 `docs/33_stage03_teaching_mos1_route_b.md`。
 
 ### 6.1 目标
 
@@ -622,7 +646,7 @@ power_ratio_options:
 示例：
 
 ```text
-当前在 Open-RFAmpDesigner-Cadence 阶段 4：建立最小 RF S 参数 testbench。
-已完成：Python dry-run 和 pytest；Cadence 可以运行 OCEAN；已有 OTA 项目的 SSH 调用代码。
-本次目标：设计 run_sparam.ocn 模板和 Python CSV 解析流程。请不要接 LLM，不要虚构 PDK 路径，不要生成商业 netlist。
+当前在 Open-RFAmpDesigner-Cadence 的指标契约收尾和有源单级 LNA 准备阶段。
+已完成：阶段 00 审查、A09 约 16 分钟轻负载验收、被动二端口 Spectre `sp` 和 noise/NF 实机仿真、47 点 PSFASCII/S2P/CSV 交叉核验。原始产物在 results/runs/rf_smoke/ 下，必须先核对本机是否存在。
+本次目标：先读 docs/15_autonomous_completion_prompts.md、docs/16_implementation_status.md 和 docs/17_noise_data_pipeline.md；补阶段 01 的指标来源/带边/单位契约，再只读核查已知 OTA 工程的授权 PDK 接口，条件具备时实施单候选有源 LNA DC/S 参数/noise。不要把被动结果当有源 LNA 指标，不要虚构 PDK 路径或商业 netlist。
 ```

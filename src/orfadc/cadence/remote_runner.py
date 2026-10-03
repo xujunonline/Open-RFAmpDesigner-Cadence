@@ -32,6 +32,7 @@ class RemoteCadenceConfig:
     ocean_bin: str = "ocean"
     spectre_bin: str = "spectre"
     ocean_nograph: bool = True
+    xvfb_path: str | None = None
     display: str | None = None
     xauthority: str | None = None
     connect_timeout_seconds: int = 10
@@ -46,6 +47,8 @@ class RemoteCadenceConfig:
         if not 1 <= self.port <= 65535:
             raise ValueError("remote port must be between 1 and 65535")
         _validate_remote_path(self.remote_root, require_absolute=True)
+        if self.xvfb_path is not None:
+            _validate_remote_path(self.xvfb_path, require_absolute=True)
         if self.strict_host_key_checking not in {"yes", "accept-new"}:
             raise ValueError("strict_host_key_checking must be 'yes' or 'accept-new'")
 
@@ -101,6 +104,7 @@ def load_remote_config(path: Path) -> RemoteCadenceConfig:
         ocean_bin=str(cadence.get("ocean_bin", "ocean")),
         spectre_bin=str(cadence.get("spectre_bin", "spectre")),
         ocean_nograph=_boolean(cadence.get("ocean_nograph", True), "cadence.ocean_nograph"),
+        xvfb_path=_optional_string(cadence.get("xvfb_path")),
         display=_optional_string(cadence.get("display")),
         xauthority=_optional_string(cadence.get("xauthority")),
         connect_timeout_seconds=int(remote.get("connect_timeout_seconds", 10)),
@@ -143,9 +147,14 @@ class RemoteRunner:
         if cwd is not None:
             _validate_remote_path(cwd, require_absolute=True)
             shell_command = f"cd {shlex.quote(cwd)} && {shell_command}"
-        remote_command = f"bash -lc {shlex.quote(shell_command)}"
+        timeout = timeout_seconds or self.config.command_timeout_seconds
+        if timeout <= 0:
+            raise ValueError("remote timeout must be positive")
+        remote_budget = max(1, timeout - 10)
+        bounded_command = f"timeout --signal=TERM --kill-after=3s {remote_budget}s bash -lc {shlex.quote(shell_command)}"
+        remote_command = f"bash -lc {shlex.quote(bounded_command)}"
         argv = [*self._ssh_base(), self.config.destination, remote_command]
-        return self._execute("ssh", argv, timeout_seconds)
+        return self._execute("ssh", argv, timeout)
 
     def ensure_remote_dir(self, remote_dir: str) -> CommandResult:
         _validate_remote_path(remote_dir, require_absolute=True)
@@ -283,28 +292,30 @@ class RemoteRunner:
             }
 
         command = ["env"]
+        use_nograph = self.config.ocean_nograph if nograph is None else nograph
+        if use_nograph and self.config.xvfb_path:
+            command.append(f"CDS_XVFB_PATH={self.config.xvfb_path}")
         if self.config.display:
             command.append(f"DISPLAY={self.config.display}")
         if self.config.xauthority:
             command.append(f"XAUTHORITY={self.config.xauthority}")
         command.append(self.config.ocean_bin)
-        use_nograph = self.config.ocean_nograph if nograph is None else nograph
         if use_nograph:
             command.append("-nograph")
         command.extend(["-restore", local_script.name, "-log", remote_log])
         ocean_result = self.run_remote(command, cwd=remote_dir)
         payload: dict[str, Any] = {
-            "status": "ok" if ocean_result.ok else "ocean_failed",
+            "status": "ok" if ocean_result.ok else "ocean_timeout" if ocean_result.returncode == 124 else "ocean_failed",
             "mkdir": mkdir_result.to_dict(),
             "upload": upload_result.to_dict(),
             "ocean": ocean_result.to_dict(),
             "remote_dir": remote_dir,
             "remote_log": remote_log,
         }
-        if local_log is not None and ocean_result.ok:
+        if local_log is not None:
             log_result = self.download(remote_log, local_log)
             payload["log_download"] = log_result.to_dict()
-            if not log_result.ok:
+            if not log_result.ok and ocean_result.ok:
                 payload["status"] = "log_download_failed"
         return payload
 

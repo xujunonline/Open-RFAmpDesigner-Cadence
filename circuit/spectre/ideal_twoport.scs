@@ -1,0 +1,13 @@
+simulator lang=spectre
+global 0
+
+parameters RLOSS=5 LPATH=1n CSHUNT=0.5p
+
+PORT1 (in 0) port num=1 r=50
+L1 (in mid) inductor l=LPATH
+C1 (mid 0) capacitor c=CSHUNT
+R1 (mid out) resistor r=RLOSS
+PORT2 (out 0) port num=2 r=50
+
+sp_test sp start=100M stop=20G dec=20 ports=[PORT1 PORT2] \
+    paramtype=s file="ideal_twoport.s2p" datafmt=touchstone datatype=realimag

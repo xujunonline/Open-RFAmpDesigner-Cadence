@@ -1,0 +1,28 @@
+reportPort=outfile("teaching_damped_pin_report.txt" "w")
+contextPath=getShellEnvVar("ORFADC_SCHEMATIC_CONTEXT")
+libPath=getShellEnvVar("ORFADC_TEACHING_LIB_DIR")
+cellName=getShellEnvVar("ORFADC_TEACHING_CELL")
+unless(contextPath && isFile(contextPath) && libPath && cellName
+  error("Existing teaching cell and schematic context are required\n")
+)
+loadContext(contextPath)
+libObj=ddGetObj("orfadc_teaching_mos1")
+unless(libObj libObj=ddCreateLib("orfadc_teaching_mos1" libPath))
+cv=dbOpenCellViewByType("orfadc_teaching_mos1" cellName "schematic" "" "r")
+unless(cv error("Existing teaching schematic unavailable\n"))
+foreach(inst cv~>instances
+  when(member(inst~>name list("M1" "RDAMP" "LD" "VDD"))
+    fprintf(reportPort "instance=%s xy=%L orient=%L\n" inst~>name inst~>xy inst~>orient)
+    foreach(instTerm inst~>instTerms
+      fprintf(reportPort "  term=%s net=%L\n" instTerm~>term~>name instTerm~>net~>name)
+    )
+    foreach(term inst~>master~>terminals
+      foreach(pin term~>pins
+        fprintf(reportPort "  master_pin=%s bbox=%L\n" term~>name pin~>fig~>bBox)
+      )
+    )
+  )
+)
+dbClose(cv)
+close(reportPort)
+exit()

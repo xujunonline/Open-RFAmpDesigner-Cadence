@@ -1,0 +1,40 @@
+{
+  "policy": "claude-cli",
+  "ping": {
+    "text": "OK",
+    "usage": {
+      "prompt_tokens": 464,
+      "completion_tokens": 4,
+      "notional_cost_usd": 0.001936,
+      "latency_s": 9.00602760000038,
+      "backend": "claude-cli"
+    }
+  },
+  "refine_decision": {
+    "action": {
+      "action": "rerun_stage3",
+      "gain_user_db": 25.5,
+      "gain_req_list": [
+        4.0,
+        3.5,
+        18.0
+      ],
+      "why": "Stage 3 compresses first (-20.5 dBm, current-limited). Moving ~6 dB of pre-stage-3 gain into stage 3's load should raise its input-referred IP1dB to about -14.5 dBm. Stage 2 (-12 dBm) and stage 1 (-2 dBm) are not limiting. NF has only 0.2 dB of margin (4.8 vs 5.0 dB) and must be re-checked in Stage 4."
+    },
+    "from_llm": true,
+    "raw_tail": "tion. Stage 3 compresses first (-20.5 dBm alone, current_clip), so I move about 6 dB of gain from stage 2+MCR2 (9.5 dB) into stage 3's own load (12.0 dB) and keep the total near 25.5 dB.</rationale><tools>{\"action\":\"rerun_stage3\",\"gain_user_db\":25.5,\"gain_req_list\":[4.0,3.5,18.0],\"why\":\"Stage 3 compresses first (-20.5 dBm, current-limited). Moving ~6 dB of pre-stage-3 gain into stage 3's load should raise its input-referred IP1dB to about -14.5 dBm. Stage 2 (-12 dBm) and stage 1 (-2 dBm) are not limiting. NF has only 0.2 dB of margin (4.8 vs 5.0 dB) and must be re-checked in Stage 4.\"}</tools>"
+  },
+  "usage": {
+    "calls": 1,
+    "prompt_tokens": 2142,
+    "completion_tokens": 975,
+    "cached_prompt_tokens": 0,
+    "notional_cost_usd": 0.036628,
+    "fallbacks": 0,
+    "errors": 0,
+    "latency_s": 16.35847289999947,
+    "disabled_reason": ""
+  },
+  "wall_s": 25.7,
+  "ok": true
+}

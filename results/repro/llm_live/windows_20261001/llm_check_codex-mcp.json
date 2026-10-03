@@ -1,0 +1,40 @@
+{
+  "policy": "codex-mcp",
+  "ping": {
+    "text": "OK",
+    "usage": {
+      "prompt_tokens": 14592,
+      "completion_tokens": 5,
+      "cached_prompt_tokens": 12544,
+      "latency_s": 20.27330990000337,
+      "backend": "codex-mcp"
+    }
+  },
+  "refine_decision": {
+    "action": {
+      "action": "rerun_stage3",
+      "gain_user_db": 25,
+      "gain_req_list": [
+        4,
+        4.5,
+        17
+      ],
+      "why": "Stage 3 is current-limited; reduce stage2+MCR2 gain from 9.5 to 4.5 dB and increase stage3+MCR3 gain from 12 to 17 dB to relieve input drive while maintaining total gain."
+    },
+    "from_llm": true,
+    "raw_tail": "<rationale>IP1dB is -19.6 dBm, missing the -15 dBm target by 4.6 dB; stage 3 compresses first at -20.5 dBm through current clipping. Reduce gain before stage 3 by 5 dB and transfer it to stage 3’s load while preserving the 25.5 dB gain allocation.</rationale><tools>{\"action\":\"rerun_stage3\",\"gain_user_db\":25,\"gain_req_list\":[4,4.5,17],\"why\":\"Stage 3 is current-limited; reduce stage2+MCR2 gain from 9.5 to 4.5 dB and increase stage3+MCR3 gain from 12 to 17 dB to relieve input drive while maintaining total gain.\"}</tools>"
+  },
+  "usage": {
+    "calls": 1,
+    "prompt_tokens": 15716,
+    "completion_tokens": 231,
+    "cached_prompt_tokens": 12544,
+    "notional_cost_usd": 0.0,
+    "fallbacks": 0,
+    "errors": 0,
+    "latency_s": 21.47473109999555,
+    "disabled_reason": ""
+  },
+  "wall_s": 49.2,
+  "ok": true
+}
