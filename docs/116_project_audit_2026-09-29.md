@@ -1,5 +1,7 @@
 # 116 项目全面审查与修正（2026-09-29）
 
+> 本审查针对清理前的仓库。文中提到的路线 B 文件（`tools/band_planning.py`、`fullchain_eval.py`、`baselines/`、`plots/`、`experiments/*`、docs/01–114 等）已在 v1.1 删除，可从标签 `v1-decision-points` 找回（见 LEGACY.md）。
+
 范围：英文原文 `references/paper/RFAmpDesigner.pdf`（14 页）全文、`README.md`、`docs/` 全部 114 份文档的结构与最新状态（重点 00/15/16/113/114 与 audits）、`src/orfadc` 全部模块、`tests/` 154 个测试文件、`config/`、`circuit/`。
 方法：离线全量回归实跑、论文公式数值推导复核、逐模块阅读核心工具与智能体代码。
 
@@ -36,6 +38,7 @@
 | B11 | P1 | （2026-10-01 实测）引擎把源极电感加在 CS 管 Y 矩阵公共端，等效将第一级 Cdb 接到源极而非地；与物理接法差：S2 中心增益 0.44 dB、NF 0.26 dB | Spectre 网表默认按引擎拓扑（交叉验证逐点一致），物理接法作为 `sensitivity_physical_cdb` 报告；v2 换 PDK 器件后消失（docs/120） | `tests/test_repro_cadence_backend.py` |
 | B12 | P1 | 频带网格含重复带边点，Spectre 自动去重 → 解析"网格不一致" | 按 12 位有效数字去重仿真，再映射回请求网格 | 同上 |
 | B13 | P1 | Windows 上 pip 装到 mcp 2.x（FastMCP 改名），两个 MCP 服务器启动即退出 | `requirements_repro.txt` 钉 `mcp>=1.2,<2`，服务器给出重装提示 | `tests/test_repro_llm_cli.py` |
+| B14 | P2 | LLM `fallbacks` 把封顶后的规则决策也算作回退，夸大了"模型输出不合格" | 新增 `rule_after_disable` 计数，`llm-table` 对旧档自动重算 | 同上 |
 | B15 | P1 | （v2 实测）单张 Vds=VDD 器件表 + CG 宽度比 0.45 使 PDK 第一级在 1.1 V 下欠偏置，引擎与 Spectre 增益差 13 dB | 级联器件改用低 Vds 表、CG 宽度比 1.0；Stage 4 功耗改用 Spectre 实测支路电流 | `tests/test_repro_pdk_v2.py` |
 | B16 | P2 | 引擎噪声（γ 模型）比 PDK 悲观约 1.7 dB，压缩估计比 HB 悲观 8–10 dB，输入匹配偏差大 | 已修（docs/122）：两频点 Y/噪声拟合、大信号 1 dB 点、完整交叉耦合半电路；窄带一致，宽带仍有 2–3 dB 增益误差 | `tests/test_repro_pdk_fit.py` |
 | B17 | P2 | 代理引擎把交叉耦合中和只建成 0.12 Cgd 的残余电容，漏掉每个栅/漏节点上 1.88 Cgd 的负载（物理半电路） | PDK 路径已改为完整模型；代理路径保持原方程以免改变已发表的趋势结果，标注为已知简化 | `test_cross_coupled_neutralisation_capacitances` |
@@ -43,7 +46,6 @@
 | B19 | P2 | `pdk_v2._tables` 按"行数多、时间新"选表，新做的原始表会顶替已拟合的表 | 改为已拟合的表优先 | 由 docs/123 §5 的 device_source 发现 |
 | B20 | P3 | 失败运行报告最后一次评估，而不是违规最小的候选；refine 循环以 Stage 2 不可行结束时没有报告设计；Manager 比较时用未归一化的违规和 | `ORFADC_REPORT_BEST=1`（PDK 路径默认打开）时改为报告归一化违规最小的候选 | `tests/test_repro_report_best.py` |
 | B21 | — | （尝试，未采用）Stage 2 不可行时回退到中点再试 | `ORFADC_STAGE2_BACKOFF=1`，默认关闭；5 seed 消融中各规格持平或变差（docs/124 §1.3），保留论文的提前终止 | `results/repro/ablation_backoff_20261002/` |
-| B14 | P2 | LLM `fallbacks` 把封顶后的规则决策也算作回退，夸大了"模型输出不合格" | 新增 `rule_after_disable` 计数，`llm-table` 对旧档自动重算 | 同上 |
 
 ## 3. Eq.(3) 推导复核
 

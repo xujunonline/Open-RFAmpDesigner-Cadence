@@ -3,11 +3,11 @@
 > 结论先行：论文的**方法**（资源分配式多保真工具中间件 + Manager/Searcher/Refiner + KB/EB 自进化）
 > 已在本仓库端到端可运行，并在开放代理仿真器上复现了论文的主要**趋势**。
 > 代理仿真器不是 TSMC N65 PDK，所有数字都是 *surrogate / trend-level*，不得当作 PDK 或硅结果引用。
-> 结果表见 §6（由 `python -m orfadc.repro.bench all --seeds 5` 生成，原始档在 `results/repro/2026-09-29/`）。
+> 结果表见 §6（由 `python -m orfadc.repro.bench all --seeds 5` 生成，原始档在 `results/repro/2026-10-03/`，与首跑 2026-09-29 逐字节一致）。
 
 ## 1. 为什么需要路线 A
 
-`docs/16`、`docs/113–114` 表明实机链路长期停在远程 SSH/隔离与 PDK 物理资格门槛上，
+Codex 阶段的实机链路（路线 B，已在 v1.1 删除，见 LEGACY.md）长期停在远程 SSH/隔离与 PDK 物理资格门槛上，
 方法层（Stage 3/4、基线、表图）没有任何可运行实现（见 `docs/116` B01/B02）。
 路线 A 把"仿真器"抽象为 `tools.Backend` 协议：先用开放代理模型把方法跑通、测通，再按同一协议换成 Cadence。
 
@@ -45,7 +45,7 @@
 ## 4. 与论文的已知偏差
 
 1. 器件/无源为开放代理模型，绝对 NF/IP1dB 与论文 N65 后仿不同；只比较方法之间与规格之间的相对趋势。
-2. 默认用规则策略替代 LLM 做 Mode 1/2 的决策；LLM 主干已用订阅额度实跑（Claude Pro `claude-cli`、ChatGPT `codex-mcp`，见 §6.2b 与 docs/119），seed 0 两条通道都跑了，Codex 另补 seed 1–4（docs/119 §4.2）；每次运行最多 40 次调用。
+2. 默认用规则策略替代 LLM 做 Mode 1/2 的决策；LLM 主干已用订阅额度实跑（Claude Pro `claude-cli`、ChatGPT `codex-mcp`，见 §6.2b 与 docs/119），seed 0 两条通道都跑了，Codex 另补 seed 1–4（docs/119 §4.2）；封顶实验每次最多 40 次调用，另有论文口径的不封顶 5 seed（docs/119 §4.3）。
 3. subtool 基线为 14 维（论文 16 维），因为我们的 Stage 2 工具吸收了两个变量。
 4. ADO-LLM、AnalogCoder 基线需在线 LLM，未在离线表中运行。
 5. Eq.(3) 采用补 `s` 的推导式并去掉单端等效下的 "/2"（误差量化见 §6.3）。
@@ -55,12 +55,12 @@
 见 `docs/117_step_by_step_runbook.md`。全部表图：
 
 ```bash
-PYTHONPATH=src python -m orfadc.repro.bench all --seeds 5 --out results/repro/2026-09-29
+PYTHONPATH=src python -m orfadc.repro.bench all --seeds 5 --out results/repro/<日期>
 ```
 
-## 6. 结果（2026-09-29，5 seeds，2 CPU）
+## 6. 结果（2026-09-29 首跑，5 seeds，2 CPU；2026-10-03 复核一致）
 
-原始档：`results/repro/2026-09-29/raw/*.jsonl|json`；表：`tables/*.md|csv`；图：`figures/*.png`；汇总：`SUMMARY.md`。
+原始档：`results/repro/2026-10-03/raw/*.jsonl|json`；表：`tables/*.md|csv`；图：`figures/*.png`；汇总：`SUMMARY.md`。
 
 **v1 封版复核（2026-10-03）：** 用当前代码在 Windows 宿主上重跑 `bench all --seeds 5`（作业 `20261003T023155_job`，约 3 h），结果放在 `results/repro/2026-10-03/`。
 Table IV-like、Table V-like、Fig. 10 的原始档与 2026-09-29 **完全一致**；Fig. 5 只有 1e-14 量级的浮点尾差和 CPU 计时不同。因此本节数字对 v1 代码仍然有效。
@@ -97,7 +97,7 @@ Table IV-like、Table V-like、Fig. 10 的原始档与 2026-09-29 **完全一致
 
 复现程度：**未复现**。代理器件在 30 mA、25 dB 增益下的线性度前沿约 −19.7 dBm（NF 5 dB）/ −21.9 dBm（NF 3.6 dB），
 论文的 −15 dBm 目标在此模型上不可行；缩放到前沿附近后，确定性规则策略也不如预算更长的 subtool GA/BO。
-这正是论文把 S9/S10 的成功归因于 LLM 推理（Table V 各 backbone 5/5）的部分——下一步是 `docs/118` P7 的 LLM 主干实验。
+这正是论文把 S9/S10 的成功归因于 LLM 推理（Table V 各 backbone 5/5）的部分；LLM 主干实验结果见 §6.2b 与 docs/119 §4。
 #### 6.2b LLM 主干（订阅额度，seed 0，每次 ≤40 次调用；2026-10-01，Windows）
 
 | Spec | rule | Claude（Pro，claude-cli） | ChatGPT（Codex，codex-mcp） |
@@ -150,8 +150,7 @@ Table IV-like、Table V-like、Fig. 10 的原始档与 2026-09-29 **完全一致
 
 `figures/fig7_like.png`（S1–S3、S4–S6 的 S21/S11，NF/NFmin），`figures/fig8_like.png`（S1/S2/S4 平均完成时间与极差）。
 
-## 7. 下一步
+## 7. 后续状态
 
-1. LLM 主干（`--policy claude-cli|codex-mcp`，订阅额度）扩展到 5 seed，并在 S3、S6、S7 上与规则策略对比（`docs/118` P7）。
-2. `CadenceBackend` v1 已在真实 Spectre 上验证引擎（docs/119 §4.1）；v2 用 PDK 器件与 OCEAN 知识库替换代理器件库（docs/120）。
-3. 代理模型可调参数（`TechParams`、`Q_IND`）的敏感性分析，写入本文件。
+- 已完成：LLM 主干 5 seed（40 次封顶与不封顶，docs/119 §4.2–4.3）；Cadence 宏模型后端（docs/119 §4.1）与 PDK 后端（docs/120–127）。
+- 未做：代理模型可调参数（`TechParams`、`Q_IND`）的敏感性分析。

@@ -1,145 +1,23 @@
-# 文档索引
+# 文档索引（v1.1）
 
-> **2026-09-29 起的推荐入口**：`../CLAUDE.md` → `117_step_by_step_runbook.md`（逐步运行）→ `118_claude_prompts.md`（提示词）→
-> `115_repro_surrogate_pipeline.md`（可运行复现与结果）→ `116_project_audit_2026-09-29.md`（审查与修正）。
-> 这条"路线 A"不依赖 Cadence 即可端到端复现论文方法；下方 01–114 为"路线 B"（Cadence 实机）的历史与证据。
+入口：`../README.md` → `../CLAUDE.md` → 117（运行手册）→ 125（总报告）。
+路线 B 历史文档（docs/01–114 等）已删除，见 `LEGACY.md`，可从标签 `v1-decision-points` 找回。
 
-- `open_rfampdesigner_cadence_design.md`：完整实现方案主文档。
-- `open_rfampdesigner_cadence_full_plan.md`：按用户提示词扩展后的 24 节完整论文实现设计方案。
-- `01_paper_theory.md`：论文目标、拓扑、工具中间件、公式和实验结果拆解。
-- `02_rf_lna_basics.md`：从 OTA 到 LNA 的 RF 基础学习笔记。
-- `03_cadence_environment.md`：Cadence/Virtuoso/Spectre/OCEAN 环境约定。
-- `04_tool_middleware.md`：论文 Table I 工具中间件到 Python 模块的映射。
-- `05_multi_agent_design.md`：Manager/Searcher/Refiner 的状态、动作和记录格式。
-- `06_experiments.md`：三阶段复现实验、表格和图输出计划。
-- `07_reproduction_limits.md`：不可严格复现边界和对外表述规范。
-- `08_student_tutorial.md`：面向大二微电子学生的实施路线。
-- `09_step_by_step_operation_guide.md`：从零推进到 Cadence LNA MVP、工具中间件、多智能体和论文级近似复现的逐步操作指导书。
-- `ota_to_lna_migration_notes.md`：原 OTA 工程的 SSH/OCEAN/PSFASCII 能力迁移说明、接口和安全边界。
-- `10_detailed_prompts.md`：每个阶段可直接复制给 Codex/LLM 的详细提示词。
-- `11_multi_agent_explained.md`：多智能体专题总入口，详细内容已拆分到 `agent_system/` 子目录。
-- `12_cadence_environment_validation.md`：SSH/SCP/Spectre/OCEAN 实机验证状态、证据和无图形运行方案。
-- `13_chatgpt_handoff.md`：可上传到网页版 ChatGPT 新会话的脱敏项目续接文档。
-- `14_ideal_twoport_rf_smoke.md`：不依赖 PDK 的 Spectre 二端口 S 参数真实仿真、运行命令、产物和验收结果。
-- `15_autonomous_completion_prompts.md`：基于当前仓库现状的全项目自动实施总提示词、阶段提示词和续接/验收模板。
-- `16_paper_to_project_audit_prompt.md`：从英文论文精读到全部代码、配置、网表、测试、文档和真实运行结果的审查与修复提示词；后续实施的前置门槛。
-- `16_implementation_status.md`：各阶段的证据、当前状态和下一可执行动作。
-- `17_noise_data_pipeline.md`：noise/NF 数据契约、被动二端口 Spectre 实机证据及有源 LNA 的后续验收步骤。
-- `19_rf_metric_contract.md`：S 参数、NF、压缩点的单位/来源与带边汇总契约；当前仍是阶段 01 草案。
-- `20_stage03_active_smoke.md`：私有本地工艺的直接 Spectre 有源器件 smoke 与尚未完成的 Virtuoso LNA 验收边界。
-- `21_stage03_v2_candidate.md`：第二个 OA 共源诊断候选的尺寸/负载变化、Cadence 实测对照、工作点和匹配起点。
-- `22_stage03_ideal_match_probe.md`：直接 Spectre 理想无源匹配探索、窄带峰值与宽带失败对照、S 参数稳定性门禁。
-- `23_stage03_stability_cdf_followup.md`：OCEAN S12 来源校验、加密/带外扫频、CDF 回调未闭环证据与阶段 03 下一门槛。
-- `24_stage03_cdf_write_diagnostic.md`：只读 CDF 复验、两次最小写入诊断的失败点和停止条件。
-- `25_candidate_evidence_manifest.md`：阶段 05 候选运行文件哈希清单、只读实测检查、来源边界与后端下一步。
-- `26_deterministic_manager_mvp.md`：阶段 10 Manager 的预算、去重、单 pending 候选与 mock 状态机验收。
-- `27_passive_diagnostic_candidate.md`：阶段 05 被动诊断候选正例、受控远端失败归档、原始数据复核和 VMware Tools 查询边界。
-- `28_mcr_equation3_model.md`：阶段 08 论文式 (3) 的低保真实现、非被动等效限制、本项目的理想对称并联 RLC 映射及 Spectre AC 校准证据。
-- `29_active_diagnostic_backend.md`：阶段 05 基于私有 OA 网表的 RD/VBIAS 白名单诊断后端、mock 验收和真实运行前置门槛。
-- `30_stage06_lookup_contract.md`：阶段 06 有源器件 lookup 的工艺上下文、行字段和未验证边界。
-- `31_vm4g_memory_acceptance.md`：页面文件启用后的 6 GiB 门禁失败、正常关机后改 4 GiB、轻负载验收及一个有源诊断候选实测。
-- `32_stage04_hb_diagnostic.md`：阶段 04 共源诊断 HB 原始数据、真实功率扫描、IP1dB/OP1dB 插值及非 LNA 边界。
-- `33_stage03_teaching_mos1_route_b.md`：不依赖 PDK 的 Spectre MOS1 教学共源电路、偏置实测、原始数据审计、HB 模型告警门禁及路线 B 边界。
-- `34_teaching_output_match_probe.md`：理想输出 L/C 单频匹配的复数 S22 推导、四个 Spectre 实测对照、带边失败与物理边界。
-- `35_teaching_input_matching_grid.md`：路线 B 输入 LGS/LSS 的九点 Spectre NF/S11 诊断 cost、原始数据审计、失败门槛与论文 Stage 2 差距。
-- `36_llm_searcher_proposal_contract.md`：可注入模型后端的 Searcher JSON 提案适配器、离线测试和禁止模型自报仿真成绩的门禁。
-- `37_teaching_multi_width_lookup.md`：固定长度公开 MOS1 的 200/300/400 um 多宽度 Spectre 实测、源归档复核及不属于 PDK 三级 lookup 的边界。
-- `38_stage03_public_oa_closed_loop.md`：公开 MOS1 的 Virtuoso OA schematic、OCEAN DC/SP-noise、PSFXL 导出与原始数据审计；非 PDK/LNA 验收。
-- `39_stage03_inductive_oa_precision.md`：公开源退化电感 OA cell、六位 OCEAN 导出使近边界 K 失真的发现、15 位重导出及独立 Spectre 逐频交叉核验。
-- `40_stage07_teaching_random_baseline.md`：公开 MOS1 的限额随机输入匹配基线，逐点 Spectre 原始数据计分、源清单绑定和整体只读复核；非论文 Stage 2 验收。
-- `41_stage05_same_circuit_diagnostic_pair.md`：已有 OA 共源候选与九点 HB 扫描的同电路配对审计，逐点网表、伴随模型和原始指标核对；非 LNA fullchain。
-- `42_stage03_damped_teaching_lna.md`：公开 MOS1 有损输出匹配的 8–12 GHz 直接 Spectre/OA-OCEAN 交叉实测、HB 模型警告停止和跨归档审计；非 PDK/LNA 验收。
-- `43_teaching_cascode_first_stage.md`：论文首级 cascode 思路的公开 MOS1 单级诊断；同网格共源对照、公开 OA/OCEAN 与独立 Spectre 的 161 点交叉核验、工作点来源边界。
-- `44_teaching_cascode_bias_sweep.md`：公开 MOS1 cascode 首级的三点 VCAS 教学扫描；双管工作区、小信号折中与可重建源归档边界。
-- `45_teaching_three_stage_spectre_probe.md`：公开 MOS1 三级直接 Spectre 探针、混合参考阻抗 S 参数、三点末级无源实测与可重建审计；非 Virtuoso/PDK/fullchain 验收。
-- `46_stage09_public_oa_three_stage.md`：同一公开三级基线的 Virtuoso OA schematic、OCEAN DC/SP-noise、六管工作点与独立直接 Spectre 161 点交叉验收；仍非物理 LNA fullchain。
-- `47_stage09_three_stage_low_drive_hb.md`：三级公开 MOS1 的 1787 Ω 差分端口低驱动 HB、同次 SP 功率增益交叉核验及警告/压缩点边界。
-- `48_stage09_three_stage_same_circuit_pair.md`：三级 OA 小信号与低驱动 HB 的同电路配对审计；该配对报告本身未测压缩点，也不是合格 fullchain。
-- `49_stage09_three_stage_hb_compression_diagnostic.md`：三级公开 MOS1 的 10 GHz 多点 HB 功率扫描、源功率/负载电流校验和诊断级 P1dB；非合格 LNA 或论文数值。
-- `50_stage09_three_stage_harmonic_sensitivity.md`：三级公开 MOS1 在 1 dB 夹点的 7/9/11 谐波敏感性、独立 Spectre 源档对照与非 PDK 边界。
-- `51_stage09_three_stage_broadband_stability.md`：同一公开三级基线的 0.1–20.1 GHz/401 点 Spectre SP/noise、采样 K/Δ 与带外边界；非合格 LNA 验收。
-- `52_stage08_passive_quality_gate.md`：公开 RLC 的一端口 Q/SRF 解析校准，以及授权 PDK 标准型和对称型默认螺旋实例的私有 Spectre SP 审计；尚无几何、耦合、EM 或物理资格验证。
-- `53_stage09_pdk_hybrid_three_stage.md`：授权 PDK 六管 OA 三级与理想无源的 DC/SP/noise 原始数据审计；完整仿真链路成立，但匹配/增益/NF 严重失败，非合格 LNA。
-- `54_stage09_pdk_k12_sensitivity.md`：同一私有 OA 网表的首级理想耦合 K12 单因子 Spectre 派生实验与双基线审计；结果仍不满足 LNA 规格。
-- `55_stage09_rf_default_device_probe.md`：授权 RF 器件默认参数的三级新 OA schematic 与直接 Spectre DC/SP/noise 审计；不同器件和尺寸共同变化，仍非合格 LNA。
-- `56_stage09_rf_default_low_drive_hb.md`：同一 RF 默认器件三级 OA 网表的受控端口派生、真实低驱动 HB 与 SP/原始小信号基线交叉审计；不是压缩点或合格 LNA。
-- `57_stage09_rf_default_hb_compression_diagnostic.md`：同一不合格 RF 默认器件三级电路的 7 点真实 Spectre HB 功率扫描、原始数据聚合审计与诊断级单频 1 dB 插值；不是论文/LNA 规格结果。
-- `58_stage09_rf_default_harmonic_sensitivity.md`：同一不合格电路在 -11/-10 dBm 夹点的 7/9/11 谐波原始档案交叉审计；只支持局部阶数敏感性，不支持全域收敛或 LNA 压缩点验收。
-- `59_stage10_pending_archive_reconciliation.md`：确定性 agent 的预分配运行 ID、共源诊断 pending 档案原始 PSF 对账、实机归档后中断注入与不重发 Spectre 的边界。
-- `60_stage12_teaching_pso_equal_budget.md`：公开 MOS1 输入匹配的本项目教学 PSO、seed=17/四点同预算 random 对照及可从 Spectre 原始档案重放的非论文级比较。
-- `61_stage03_rf_layout_readonly.md`：授权 RF MOS 默认 layout/ivpcell 的只读视图与几何探针，不证明 PCell/CDF 传播。
-- `62_stage03_rf_pcell_geometry_probe.md`：两个全新用户 layout cell 的低层 PCell 单参数几何响应及私有 OA 原始证据审计，不是 DRC 或 CDF 验收。
-- `63_stage03_rf_pcell_gds_drc_probe.md`：同两个 cell 的非空 GDS 导出、Calibre DRC 完成且发现违规的只读证据；物理资格仍未通过。
-- `64_stage03_virtuoso_graphical_runtime.md`：完整 Virtuoso/Xvfb replay 与既有只读 CDF 报告的跨模式逐字节复核；图形运行时可用，但 callback/DRC 未验收。
-- `65_stage03_cdf_form_partial_propagation.md`：只读属性表单确认、失败默认单管、复制 v2 cell 的单字段表单修改及 OA/网表三档交叉审计；模型宽度不变、寄生参数改变，CDF/物理资格未通过。
-- `66_stage03_form_spectre_pair.md`：复制 v2 的表单变体与原 v2 做同条件 Spectre DC/SP/noise，47 点原始迹线和电路定义跨档审计；可测差异不等于 CDF callback、DRC 或 LNA 验收。
-- `67_stage12_teaching_multiseed_pilot.md`：公开 MOS1 教学 random/PSO 的五 seed、每法四次同预算 Spectre 诊断及逐层原始档重审；不代表论文样本效率或合格 LNA。
-- `68_stage03_cdf_callback_response_probe.md`：从表单变体复制新用户 cell 后显式调用 Wfg callback，独立 OA/网表/Spectre 对照仅见四个寄生参数变化，47 点 15 位 SP/noise 响应相同；仍非工艺合法性或 LNA 验收。
-- `69_stage03_form_focus_probe.md`：完整 Virtuoso/Xvfb 属性窗的只读焦点诊断；X11 窗口焦点不等于 Wfg 字段焦点，异常退出与源 OA 不变均留证，未做键盘编辑。
-- `70_stage03_teaching_bias_tradeoff.md`：公开 MOS1 固定阻尼网络的三点同网表偏置比较；降电流同时恶化输入匹配、增益和 NF，未产生新压缩点。
-- `71_stage09_rf_input_match_estimate.md`：从授权 RF 默认器件 S11 和 PDK 螺旋一端口原始档推导输入阻抗、单串联 L 的代数局限；不是新候选仿真。
-- `72_stage09_rf_ideal_lmatch_probe.md`：OA 网表副本加入理想输入 L-match 后的真实 Spectre DC/SP/noise 与网络方程逐频核验；中心尖峰不代表宽带或物理 LNA 达标。
-- `73_stage09_rf_ideal_ladder_search_and_probe.md`：固定种子、16,384 次理想四元件全带搜索及唯一候选 Spectre 161 点验证；S11 改善但仍非合格匹配或物理 LNA。
-- `74_stage08_spiral_turns_sensitivity.md`：授权默认螺旋 OA 网表副本只改变匝数属性的两次真实一端口 Spectre 测量；电感增加但 Q/SRF 恶化，不等于合法几何。
-- `75_stage08_spiral_pcell_gds_gate.md`：新用户 layout cell 的螺旋 PCell 匝数几何响应及两份带空 via 结构警告的 GDS 诊断；不具备 DRC-ready/物理资格。
-- `76_stage08_spiral_drc_diagnostic.md`：在上述带警告 GDS 上执行两次实际 Calibre DRC 并审计 83/85 个违规结果；仅用于定位，既非 DRC 通过也非物理资格。
-- `77_stage12_teaching_sa_three_method_pilot.md`：公开 MOS1 五 seed 同预算 random/PSO/SA 的 60 个 Cadence 实测点、三曲线诊断图与逐层来源审计；不是论文 Fig. 10 或合格 LNA。
-- `78_stage09_rf_noise_source_termination.md`：授权 RF 默认器件 Spectre `Gopt/Bopt/RN` 的单位与噪声公式校验，并用独立 100 Ω 端接 SP/noise 验证 161 点 NF/增益预测；不是可制造匹配。
-- `79_stage11_llm_refiner_contract.md`：可注入模型版 Refiner 的超限重算、脱敏输入、受限返工动作和确定性回退；仍无在线模型或合格 LNA fullchain。
-- `80_stage10_pending_remote_readonly_probe.md`：planned pending 共源诊断的远端在途/静止目录只读分类；所有结论均禁止自动重发。
-- `81_stage10_remote_identity_binding.md`：新 planned 诊断回合在派发前绑定私有 SSH 配置快照，并用真实 Spectre 共源诊断验证 journal/后端使用同一配置；非主机密钥认证。
-- `82_stage10_remote_artifact_stability.md`：远端诊断六个关键原始文件的双次进程/哈希只读观察；稳定仍不构成自动接收或重发许可。
-- `83_stage10_remote_quiescent_recovery.md`：已完成远端共源诊断的合成 pending 恢复演练；实际 SSH 下载、原始 PSFASCII 审计及 journal 接管通过，但未发生真实中断或新仿真。
-- `84_stage03_sfe1131_scale_probe.md`：只读定位授权模型重复缩放选项；已打印位置与有效值一致，但后续警告被抑制，不能视为 PDK/模型验收。
-- `85_stage03_xvfb_form_capture_probe.md`：Virtuoso 属性表单的帧缓冲截图与受限鼠标事件原始审计；字段焦点未证明，未发送键盘输入或修改源 OA。
-- `86_stage12_teaching_ga_pilot.md`：教学级 GA 单 seed/四点真实 Spectre pilot 与原始来源重审；非论文 GA 或合格 LNA。
-- `87_stage12_teaching_four_method_multiseed.md`：教学 random/PSO/SA/GA 五 seed 同预算 80 点来源重审；无统计优劣或论文 Fig. 10 主张。
-- `88_stage09_rf_diagnostic_fullchain.md`：既有授权 RF 默认器件 OA 小信号与七点 HB 的只读同电路失败报告；不开放合格 fullchain 工具。
-- `89_stage09_rf_ladder_hb_diagnostic.md`：授权 RF 默认器件加理想输入梯形网络的六点真实 HB、端口平面校验和诊断级压缩夹持；非物理合格 LNA。
-- `90_stage09_rf_ladder_same_candidate_fullchain.md`：同一理想输入梯形网络候选的 SP/noise 与六点 HB 原始档重审、S1 频带失败评分及来源边界；不构成合格 fullchain。
-- `91_stage11_evidence_gated_failure_kb.md`：从同候选原始档重审后的失败报告生成私有 KB 事实、脱敏检索和可选 Searcher 上下文；无成功种子、EB 或在线模型证据。
-- `92_stage11_llm_manager_priority_contract.md`：可选模型 Manager 仅在现有候选中选评估优先级，失败回退 FIFO，选择被 journal 重放并支持派发前恢复；非完整论文调度或在线模型。
-- `93_stage12_teaching_bo_five_method_multiseed.md`：教学 GP/EI BO 五 seed/20 点真实 Spectre 与 random/PSO/SA/GA 共 100 点同预算来源审计；不是论文 BO 或合格 LNA。
-- `94_stage03_mutter_x11_focus_boundary.md`：隔离 Mutter/Xvfb 注册与两类只读 Virtuoso 焦点实测；X11 外窗获焦点仍不能证明 Wfg 字段焦点或工艺参数传播。
-- `95_stage10_uncertain_remote_dispatch.md`：planned OA 诊断遇 SSH/超时不确定结果时保留 pending journal；只读探查、原始结果恢复与不可自动重发边界。
-- `96_stage10_terminal_failure_recovery.md`：planned OA 诊断终态非零 Spectre 错误的双次静止/哈希观察、失败原始档恢复和 journal 对账；不重发、不生成 LNA 指标。
-- `97_stage03_absolute_wfg_click_boundary.md`：两次绝对几何、单次 Wfg 点击只读探针确认目标位置，但 Cadence 内部焦点与 GUI 退出门禁仍失败。
-- `98_stage10_real_spectre_lost_reply_probe.md`：新 OA 共源诊断真实 Spectre 完成后受控丢失一次返回，验证 pending→只读远端探查→原始结果恢复→对账；不等于物理断线或 LNA 验收。
-- `99_stage10_live_inflight_observation.md`：另一新 run 以独立 SSH 观察到真实 Spectre 在途，再验证同 run 完成后 pending 的原始恢复与对账；仍非物理断线或合格 LNA。
-- `100_stage10_live_ssh_disconnect_incomplete.md`：在真实 Spectre 在途时终止本次 SSH 控制子进程；远端结果不完整且无终结行，正式恢复器拒绝发布，journal 保持 pending、禁止自动重发。
-- `101_stage10_two_round_diagnostic_feedback.md`：确定性 Manager/Searcher/Refiner 在新 OA 共源诊断中完成两轮真实 Spectre 与独立原始数据重审；非合格 LNA 或在线 LLM。
-- `102_stage10_second_feedback_pending_recovery.md`：第二轮 planned pending 的成功原始档远端静止下载、本地对账与来源重审；真实 Cadence 数据加合成失联协议测试，不重发 Spectre。
-- `103_stage10_feedback_terminal_snapshot_recovery.md`：两轮反馈第二轮 Refine 已记账后、Stop/trace/摘要不同断点的只读终态收尾；不重复评估或伪造 LNA 成功。
-- `104_stage09_teaching_three_stage_candidate_feedback.md`：公开 MOS1 三级教学电路的 S1 候选绑定、两次真实 Spectre 与一步副边电感反馈；带内 S21/S22 改善但增益/NF/输出匹配失败，且无同候选压缩点或物理资格。
-- `105_stage09_three_stage_remote_recovery.md`：三级教学候选派发前身份计划、远端独占目录与 v3/v4 干净原始结果恢复；两次受控丢回复真实 Spectre 作业及第二轮反馈只读收尾，非实际 SSH 物理断线或合格 LNA。
-- `106_stage10_three_stage_planned_agent.md`：三级公开教学电路的确定性 Manager/Searcher/Refiner 两轮真实 Spectre、planned journal、首轮/第二轮受控丢回复、原档恢复及不重派对账；非在线 LLM 或合格 LNA。
-- `107_stage09_teaching_agent_same_candidate_hb.md`：agent 第二轮公开 MOS1 教学候选的 12 点真实 Spectre HB 压缩诊断与逐频 SP/noise 同电路绑定；有诊断级交点但增益/NF/物理资格仍失败。
-- `108_stage10_teaching_agent_terminal_recovery.md`：三级教学 agent 第二轮 Refine 已记账后，Stop/trace/摘要落盘前的只读源档终态收尾；v3/v4 原始档隔离故障测试通过，不重派 Spectre。
-- `109_stage10_teaching_agent_pre_second_resume.md`：三级教学 agent 首轮 Refine 已记账、第二轮尚未派发时的受限续跑；真实新第二轮 Spectre 与源/新 trace 双向审计通过，首轮不重派。
-- `110_stage11_model_usage_accounting.md`：可选 OpenAI Responses 传输的本地调用计量与显式价格快照离线估算；仅假客户端测试，无在线费用或论文 Table VI 结果。
-- `111_stage11_model_call_evidence.md`：可选模型调用的私有意图/结果两阶段运行档与 journal 前缀审计；中断保留未知费用，仍无在线模型。
-- `112_stage11_model_action_binding.md`：三个模型角色的 call ID 与 journal 动作、候选及可用 run ID 的本地绑定、篡改拒绝和剩余证据边界。
-- `113_stage10_incomplete_remote_quarantine.md`：单候选 planned 共源诊断的远端不完整作业受限隔离侧车、模拟故障注入及旧真实断线档仍 pending 的在线门禁。
-- `114_stage10_remote_quarantine_fence.md`：不可覆盖的远端隔离决定、双控制端模拟竞争及提交后丢回复续接；实机 SSH、端点与文件系统门禁仍未验收。
-- `18_ssh_recovery_from_ota.md`：根据 OTA 项目聊天、代码和当前宿主诊断定位 SSH banner 超时，记录恢复边界。
-- `audits/2026-09-25_paper_to_project_audit.md`：本次实际审查结论；同目录包含论文事实、文件清单、数据追踪和问题台账。
-- `audits/2026-09-26_audit_closure.md`：论文到工程审查的收尾判定、最终测试及仍需运行环境验证的事项。
-- `agent_system/`：原论文多智能体机制、本项目 agent 实现、LLM 接入、论文差异和后续提示词的专题文档。
-- `project_history/`：从原 Codex 对话任务迁移的聊天记录、继续任务指南、旧 README 和迁移清单。
-
-论文原文、中文翻译、插图和 arXiv 源文件位于仓库根目录的 `references/paper/`。
-
-后续拆分长文档时，保持本索引为唯一入口。
-- `115_repro_surrogate_pipeline.md`：路线 A——与 Cadence 解耦的可运行复现（代理两端口仿真器、四工具、三智能体、KB/EB、GA/BO 基线）及 Table IV/V、Fig.5/7/8/10-like 结果。
-- `116_project_audit_2026-09-29.md`：论文↔文档↔代码全面审查、B01–B10 问题台账、Eq.(3) 勘误推导。
-- `117_step_by_step_runbook.md`：阶段 0–7 逐步自主运行手册（命令、判据、失败处理，含 Cadence 切换）。
-- `118_claude_prompts.md`：Claude Code 总控/阶段/智能体/续接/审查提示词（取代 `10_detailed_prompts.md` 作为起点）。
-- `119_subscription_llm_and_cadence_backend.md`：Claude Pro（claude -p）与 ChatGPT（MCP→codex-bridge）订阅额度的 LLM 主干、熔断/额度保护，以及 Spectre 宏模型 Cadence 后端与 Windows 联调脚本；§4.1 为 2026-10-01 Windows 实跑结果（LLM 主干 12 次运行、Spectre 交叉验证 agree、S2 Spectre 设计通过）。
-- `120_cadence_v2_plan.md`：Cadence 后端 v2（PDK 器件 + OCEAN 重建 Stage-1 知识库 + hb 真实压缩点）分阶段计划与需授权事项。
-- `121_cadence_v2_pdk_results.md`：Cadence v2 实测——TSMC 40LP RF PDK 盘点与器件表征、PDK 表驱动引擎、Spectre(PDK 管 + HB) 判定 S1/S2/S4 通过、引擎与 Spectre 差异分析。
-- `122_pdk_model_fit_and_s1_s8.md`：B16 修正（PDK 器件 Y/噪声两频点拟合、交叉耦合中和的完整半电路、由直流转移曲线求大信号 1 dB 点）与 S1–S8 的 Spectre(PDK) 判定（6/8 通过，S5/S6 宽带匹配、S7 2.5 dB 噪声未过）。
-- `123_stage1_three_port_y.md`：宽带保真度——第一级 RF 管三端口实测 Y 接入引擎：S11 误差降到 0.1 dB 级，S5 改为通过（累计 7/8），差分级实测 Y（Y2）、第一级噪声校准后，引擎误差为增益约 0.8 dB、NF 约 0.1 dB、S11 约 0.1 dB；S6/S7 仍未过。
-- `124_ours_gaps_and_cascode_noise.md`：代理路径 Ours 短板复查（B20 修正后 viol 大幅下降；Stage 2 回退 B21 为负结果）与第一级共源共栅噪声表征（模型与实测一致，k=1.2 保留）。
-- `125_final_reproduction_report.md`：最终复现报告（论文结论逐条对照、勘误、边界）。
-- `126_passive_q_and_s6_budget.md`：S7 匹配电感 Q 敏感度（Q≳100 才可达 2.5 dB）与 S6 加大预算（3× 预算仍未过，需改拓扑）；Spectre 累计约 483/550。
-- `127_paper_budget_alignment.md`：论文原文的时间 / 次数预算与本仓库开关逐条对照；按论文口径的结果：示意 PDK pass@1 34/40（论文 32/40，S6/S7 0/5），Codex 不封顶 5 seed 仍不如规则；Spectre 累计约 697/1000。
+| 文档 | 内容 |
+|---|---|
+| `115_repro_surrogate_pipeline.md` | 代理复现：论文→代码映射、代理模型、Table IV/V、Fig. 5/7/8/10-like 结果（基线 `results/repro/2026-10-03`） |
+| `116_project_audit_2026-09-29.md` | 论文↔代码审查、B01–B21 问题台账、Eq.(3) 勘误推导（审查对象为清理前的仓库） |
+| `117_step_by_step_runbook.md` | 阶段 0–7 运行手册（命令、判据、PDK 开关） |
+| `118_claude_prompts.md` | Claude Code 总控/阶段/续接/审查提示词 |
+| `119_subscription_llm_and_cadence_backend.md` | 订阅 LLM 主干（claude-cli / codex-mcp）与 Spectre 宏模型后端；LLM seed 0、5 seed 封顶、不封顶结果 |
+| `120_cadence_v2_plan.md` | PDK 后端分阶段计划（已执行） |
+| `121_cadence_v2_pdk_results.md` | TSMC 40LP RF 盘点与器件表征；S1/S2/S4 Spectre(PDK) 通过 |
+| `122_pdk_model_fit_and_s1_s8.md` | B16 修正（Y/噪声拟合、大信号 1 dB）；S1–S8 seed 0：5/8 |
+| `123_stage1_three_port_y.md` | 第一级三端口 Y、差分级 Y2、噪声 k = 1.2；S5 转为通过（累计 6/8）；B20；S7 NF 下限 |
+| `124_ours_gaps_and_cascode_noise.md` | 代理路径 Ours 短板（B20/B21）、共源共栅噪声表征 |
+| `125_final_reproduction_report.md` | 最终复现总报告（结论对照、勘误、边界） |
+| `126_passive_q_and_s6_budget.md` | S7 匹配电感 Q 敏感度（Q = 100 时 3/3）、S6 3× 预算仍未过 |
+| `127_paper_budget_alignment.md` | 论文预算口径；PDK pass@1 34/40（论文 32/40）；Codex 不封顶 5 seed；Spectre ≈697/1000 |
+| `128_ic618_vm_pdk_survey.md` | 新虚拟机 IC618_rf 的工艺盘点（磁盘扫描：TSMC 65 nm LP RF，待开机确认） |
+| `129_v1_cleanup_prompt.md` | v1.1 清理提示词与执行记录 |
+| `LEGACY.md`、`LEGACY_files.txt` | v1.1 删除内容与找回方法 |

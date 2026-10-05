@@ -37,15 +37,17 @@ v2 结果按"工艺不同、趋势级"标注。风险：无。
 `HARD_CLIP_1DB` / `a1db_v`。
 
 **V2-6 S2 全流程（Stage 4 走 PDK，Stage 2/3 仍用引擎；预计 10–30 次 Spectre）。**
-`bench design --spec S2 --backend cadence --device pdk`，记录多保真分工与等效时间。
+`bench design --spec S2 --backend pdk`，记录多保真分工与等效时间。
 
-**V2-7（可选）S1–S8 各 1 seed。** 约 100–300 次 Spectre，按 docs/113、docs/114 的预算与隔离规则执行。
+**V2-7（可选）S1–S8 各 1 seed。** 约 100–300 次 Spectre，按远程预算与隔离规则执行（现见 CLAUDE.md 规则 2）。
 
 ## 3. 需要你决定的事项
 
 1. 是否授权 V2-0 的只读 PDK 盘点（ssh 列目录，不跑仿真）。
 2. 许可证/时间预算上限（建议 V2-2～V2-6 合计 ≤ 2 h 墙钟、≤ 400 次 Spectre）。
 3. 若虚拟机上没有 65 nm PDK，是否接受用现有教学 PDK 做"工艺不同"的趋势验证。
+
+（以上已决：v1 用原虚拟机上的 TSMC 40 nm LP RF；Spectre 上限先后提高到 550、约 1000；新虚拟机 IC618_rf 为 65 nm LP RF，见 docs/128。）
 
 ## 4. 已知的模型差异（v1 实测给出的量级）
 

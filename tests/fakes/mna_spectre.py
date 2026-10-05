@@ -167,7 +167,7 @@ def run(netlist: Path, psf_dir: Path, nodes_to_save: list[str] | None = None) ->
     save = re.search(r"^save (.*)$", text, re.M)
     save = nodes_to_save or (save.group(1).split() if save else [])
     ports = _ports(els)
-    (n1, in_node, r1), (n2, out_node, r2) = ports["1"], ports["2"]
+    (n1, in_node, r1), (_, out_node, r2) = ports["1"], ports["2"]
     psf_dir.mkdir(parents=True, exist_ok=True)
     fs = np.unique(an["sp1"])  # Spectre sorts and de-duplicates a values=[...] sweep
     with open(psf_dir / "sp1.sp", "w") as sp, open(psf_dir / "sp1.noise.sp", "w") as nz, \

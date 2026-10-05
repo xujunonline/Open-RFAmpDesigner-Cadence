@@ -6,7 +6,6 @@ from __future__ import annotations
 import math
 import re
 from dataclasses import dataclass
-from functools import reduce
 from pathlib import Path
 
 import numpy as np

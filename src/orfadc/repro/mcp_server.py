@@ -28,7 +28,6 @@ except ModuleNotFoundError as exc:  # mcp 2.x renamed FastMCP
 
 from orfadc.config_loader import load_specs  # noqa: E402
 from orfadc.repro import agents as A  # noqa: E402
-from orfadc.repro import tools as T  # noqa: E402
 from orfadc.repro.memory import MemoryStore  # noqa: E402
 from orfadc.schemas import Spec  # noqa: E402
 
@@ -39,7 +38,8 @@ mcp = FastMCP("rfamp")
 
 
 def _specs() -> dict[str, Spec]:
-    return {s.id: s for s in load_specs(ROOT / "config" / "specs_table_iii.yaml")}
+    from orfadc.repro.bench import scaled_hard_specs
+    return {**{s.id: s for s in load_specs(ROOT / "config" / "specs_table_iii.yaml")}, **scaled_hard_specs()}
 
 
 def _sess(session_id: str) -> A.DesignSession:
@@ -129,7 +129,8 @@ def run_autonomous(spec_id: str = "S2", seed: int = 0, mode: int = 1, policy: st
     """Run the full Manager/Searcher/Refiner loop (rule or LLM policy) and store results in KB/EB."""
     from orfadc.repro.llm import make_policy
     spec = _specs()[spec_id]
-    b = budget_equiv_s or (18000.0 if spec_id in ("S9", "S10") else 3600.0)
+    from orfadc.repro.bench import budget_for
+    b = budget_equiv_s or budget_for(spec_id)
     r = A.run_design(spec, seed, mode=mode, memory_dir=MEMORY.root, budget_equiv_s=b, policy=make_policy(policy))
     r.pop("trace", None)
     r.pop("_session", None)

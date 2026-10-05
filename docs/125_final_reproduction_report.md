@@ -1,7 +1,7 @@
 # 125 RFAmpDesigner 复现总报告（截至 2026-10-02，含 docs/126–127）
 
 论文：*RFAmpDesigner: A Self-Evolving Multi-Agent LLM Framework for Automated RF Amplifier Design*（arXiv:2605.10093）。
-本报告汇总 docs/115–124 的结论。表格与数字均来自 `results/` 下的原始档。
+本报告汇总 docs/115–127 的结论。表格与数字均来自 `results/` 下的原始档。
 
 **证据分三级：**
 - **代理**（开放 EKV 类器件 + 理想无源，趋势级）。
@@ -113,8 +113,9 @@
 - 手册：docs/117。
 - 提示词：docs/118。
 - 订阅 LLM 与 Cadence：docs/119。
-- v2 计划：docs/120；v2 结果：docs/121–124。
+- PDK 后端计划：docs/120；结果：docs/121–124、docs/126（S7 无源 Q、S6 预算）、docs/127（论文口径 pass@1）。
+- 新虚拟机工艺盘点：docs/128；v1.1 清理：docs/129、LEGACY.md。
 - 一键脚本：
-  - `scripts/run_job_queue.cmd`：执行 `scripts/jobs/queue.txt`。
+  - `scripts/run_job_queue.cmd`：执行 `scripts/jobs/queue.txt`（`-Queue` 选其他队列）。
   - `scripts/run_all_windows.cmd`。
 - 汇总命令：`bench llm-table`、`bench llm-seeds`、`bench replot`。

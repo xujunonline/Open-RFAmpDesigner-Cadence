@@ -56,39 +56,3 @@ def stage3_cost(gain_cal_db: list[float], gain_user_db: float, ripple_limit_db: 
         "ripple_violation": ripple_violation,
         "cost": cost,
     }
-
-
-def fullchain_violations(result: dict[str, float], spec: dict[str, float]) -> dict:
-    required_result = ("s11_db", "s21_db", "nf_db", "ip1db_dbm", "power_ma")
-    required_spec = ("gain_db", "nf_max_db", "ip1db_min_dbm", "power_ma")
-    missing = [f"result.{key}" for key in required_result if key not in result or result[key] is None]
-    missing.extend(f"spec.{key}" for key in required_spec if key not in spec or spec[key] is None)
-    if missing:
-        return {"status": "incomplete", "pass": False, "missing_metrics": missing, "total_violation": None}
-
-    measured = {key: _finite(result[key], f"result.{key}") for key in required_result}
-    limits = {key: _finite(spec[key], f"spec.{key}") for key in required_spec}
-    s11_max_db = _finite(spec.get("s11_max_db", -10.0), "spec.s11_max_db")
-    s11_violation = positive_part(measured["s11_db"] - s11_max_db)
-    gain_violation = positive_part(limits["gain_db"] - measured["s21_db"])
-    nf_violation = positive_part(measured["nf_db"] - limits["nf_max_db"])
-    ip1db_violation = positive_part(limits["ip1db_min_dbm"] - measured["ip1db_dbm"])
-    power_violation = positive_part(measured["power_ma"] - limits["power_ma"])
-    total = s11_violation + gain_violation + nf_violation + ip1db_violation + power_violation
-    verified = (
-        result.get("simulation_status") == "ok"
-        and result.get("source") == "cadence_spectre"
-        and result.get("circuit_class") == "active_lna"
-        and result.get("not_lna_result") is False
-    )
-    return {
-        "status": "evaluated" if verified else "unverified_score",
-        "s11_violation": s11_violation,
-        "gain_violation": gain_violation,
-        "nf_violation": nf_violation,
-        "ip1db_violation": ip1db_violation,
-        "power_violation": power_violation,
-        "total_violation": total,
-        "constraints_met": total == 0.0,
-        "pass": verified and total == 0.0,
-    }

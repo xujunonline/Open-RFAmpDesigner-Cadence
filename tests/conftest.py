@@ -1,10 +1,7 @@
 """Shared pytest configuration.
 
-Several Cadence-diagnostic entry points refuse to write outside the private
-``results/runs`` root (a deliberate safety rule).  Their tests therefore need
-``tmp_path`` to live under that root.  Earlier the README asked for
-``--basetemp=results/runs/...`` on every invocation and a plain ``pytest``
-failed 9 tests; this hook applies the same default automatically.
+Keeps pytest's ``tmp_path`` under the git-ignored ``results/runs`` root so test
+artefacts never land in tracked folders.
 """
 from __future__ import annotations
 
@@ -16,7 +13,6 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT / "src") not in sys.path:
     sys.path.insert(0, str(ROOT / "src"))
-os.environ.setdefault("ORFADC_RUN_LIVE_SSH_AUDIT", "0")
 
 
 def pytest_configure(config):  # noqa: D103

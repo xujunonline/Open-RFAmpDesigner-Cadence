@@ -27,7 +27,7 @@
 | S1–S8 时间预算 | 1 h 等效时间 | `budget_for()` = 3600 s，`ORFADC_BUDGET_SCALE=1` | 已对齐 |
 | S9/S10（S9s/S10s）时间预算 | 5 h 等效时间 | `budget_for()` = 18000 s | 已对齐 |
 | 等效时间记账 | 顺序执行 | `EQUIV_COST_S`：全链 HF 12 s、关键级 HF 0.5 s、LF 0.002 s；`ORFADC_PARALLEL=0` | 已对齐（成本模型，见 docs/115） |
-| 重复次数 | 5 seed（0–4） | `--seeds 5` | 代理：已对齐；PDK：只有 seed 0（S7 另有 1–2） |
+| 重复次数 | 5 seed（0–4） | `--seeds 5` | 代理、PDK 均已 5 seed（§5.1） |
 | 方法间公平 | 同一预算、同一停止条件 | GA/BO/Ours 共用 `budget_for()` | 已对齐 |
 | LLM 调用次数 | **不设上限**，只受时间预算约束 | `ORFADC_LLM_MAX_CALLS=1000`（实际碰不到） | 不封顶实验已按此运行；40 次封顶实验**不是**论文口径 |
 | 每设计 Spectre 次数 | **不设上限**，只受时间预算约束 | `ORFADC_SPECTRE_MAX_PER_DESIGN` 留空；每次全链 Spectre 计 12 s，1 h 内最多约 300 次 | PDK 实验曾用 20/40 的保护上限，**不是**论文口径 |
@@ -35,18 +35,18 @@
 | 功率分配（Table IV） | 固定 [0.4, 0.3, 0.3] | 见 docs/115 | 已对齐 |
 
 **本仓库额外的资源保护（不属于论文设置，结果中须注明）：**
-- 远程 Cadence 总 Spectre 次数：docs/120 原定 ≤400，用户已提高到 550，当前累计约 483。
-- 订阅 LLM 的额度：ChatGPT/Claude 订阅的用量限制（Codex 已在 10-02 触顶，10-04 01:10 恢复）。
+- 远程 Cadence 总 Spectre 次数：docs/120 原定 ≤400，用户依次提高到 550、约 1000；P1 完成后累计约 697。
+- 订阅 LLM 的额度：ChatGPT/Claude 订阅的用量限制（Codex 在 10-02 触顶，当日额度恢复后补跑）。
 - `ORFADC_LLM_MAX_CALLS=40`（docs/119 §4.2）与 `ORFADC_SPECTRE_MAX_PER_DESIGN=20/40`（docs/123、126）都是保护上限，对应结果只能作"受限条件"参考。
 
-## 3. 按论文口径补齐所需的量（估算）
+## 3. 按论文口径补齐所需的量（估算；P1、P2 已执行，见 §4–§5；P3 未执行）
 
 依据已有 PDK 运行：通过的设计每次用 2–17 次 Spectre，未通过的会把 1 h 预算用到底（S5 旧版 37 次、S7 14 次）。
 
 | 实验 | 范围 | 预计 Spectre | 预计墙钟 | 订阅额度 |
 |---|---|---|---|---|
 | **P1 PDK pass@1（Table IV 口径）** | S1–S8 × seed 1–4（seed 0 已有），rule，1 h 等效，每设计不封顶 | 约 300–450 | 约 4–6 h | 不用 |
-| **P2 Codex 主干（Table V 口径）** | S9s/S10s × seed 3–4 补跑，5 h 等效，不封顶 | 0 | 约 2–3 h | ChatGPT（10-04 后） |
+| **P2 Codex 主干（Table V 口径）** | S9s/S10s × seed 3–4 补跑，5 h 等效，不封顶 | 0 | 约 2–3 h | ChatGPT（已于 10-02 完成） |
 | **P3 Claude 主干（Table V 口径）** | S9s/S10s × seed 0–4，5 h 等效，不封顶 | 0 | 约 5–8 h | Claude Pro，可能需分天 |
 | P4 代理基线 | 已按 1 h / 5 h、5 seed 完成（docs/115） | 0 | – | – |
 

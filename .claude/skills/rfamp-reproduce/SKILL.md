@@ -9,7 +9,7 @@ description: Reproduce (fully or partially) the RFAmpDesigner paper results with
 1. Environment: `python -m pip install -r config/requirements_repro.txt`; set `PYTHONPATH=src`.
 2. Sanity: `python -m pytest tests/test_repro_core.py -q` must be green.
 3. Smoke (≈10 s): `python -m orfadc.repro.bench smoke --out results/repro/smoke` → S2 must pass.
-4. Full: `python -m orfadc.repro.bench all --seeds 5 --out results/repro/<YYYYMMDD>` (2 CPU cores ≈ 1 h).
+4. Full: `python -m orfadc.repro.bench all --seeds 5 --out results/repro/<YYYYMMDD>` (2 CPU cores ≈ 1.5 h; ≈ 3 h on the Windows host).
    Partial: `table4 --specs S1,S2,S4`, `table5`, `fig5`, `fig10`.
 5. Verify (use the `repro-verifier` subagent): every number in `SUMMARY.md` must be recomputable from
    `raw/*.jsonl`; pass@1 = successes/seeds; time = mean equivalent seconds of successful runs.
@@ -25,4 +25,4 @@ description: Reproduce (fully or partially) the RFAmpDesigner paper results with
 - `repro/tools.py: EQUIV_COST_S` equivalent EDA seconds per simulation class.
 - `repro/device.py: TechParams` surrogate device; `repro/circuit.py: Q_IND, Q_MATCH, CASCODE_RATIO`.
 - Budget: `bench.budget_for` (1 h S1–S8, 5 h S9/S10, as in the paper).
-- LLM backbone runs without API keys: `bench llm-check --policy claude-cli|codex-mcp` first, then `bench design --policy claude-cli|codex-mcp` (Claude Pro / ChatGPT subscriptions; cap with ORFADC_LLM_MAX_CALLS; see docs/119). API-key variants: `--policy anthropic|openai`.
+- LLM backbone runs without API keys: `bench llm-check --policy claude-cli|codex-mcp` first, then `bench design --policy claude-cli|codex-mcp` (Claude Pro / ChatGPT subscriptions; cap with ORFADC_LLM_MAX_CALLS: code default 200, quota-guard runs 40, paper-aligned runs 1000; see docs/119, docs/127). API-key variants: `--policy anthropic|openai`.

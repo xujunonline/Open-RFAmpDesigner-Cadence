@@ -100,7 +100,7 @@ import tarfile  # noqa: E402
 
 import numpy as np  # noqa: E402
 
-from orfadc.cadence.psfascii_reader import parse_complex_trace, parse_dc_values, parse_scalar_trace  # noqa: E402
+from orfadc.cadence.psfascii_reader import parse_complex_trace, parse_scalar_trace  # noqa: E402
 
 LOCAL_CFG = ROOT / "config" / "model_paths.local.yaml"
 F_LO, F_HI = 5e9, 30e9
@@ -212,7 +212,7 @@ def extract_rows(local: Path, lay: dict, vbs: list[float], vdd: float) -> list[d
         nfmin = parse_scalar_trace(nz, "NFmin", require_each_sweep=True)[1]
         y = [s_to_y(np.array([[s11[k], s12[k]], [s21[k], s22[k]]])) for k in range(len(fs))]
         lo, hi = int(np.argmin(np.abs(np.asarray(fs) - F_LO))), int(np.argmin(np.abs(np.asarray(fs) - F_HI)))
-        w_lo, w_hi = 2 * math.pi * fs[lo], 2 * math.pi * fs[hi]
+        w_lo = 2 * math.pi * fs[lo]
         ylo, yhi = y[lo], y[hi]
         cgd = -ylo[0, 1].imag / w_lo
         cgs = ylo[0, 0].imag / w_lo - cgd

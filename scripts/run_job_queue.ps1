@@ -1,7 +1,9 @@
 # Runs the bench commands listed in scripts\jobs\queue.txt (one per line, arguments after
 # "python -m orfadc.repro.bench"), logging to results\windows_checks\<ts>_job\.  Lines starting with # are skipped;
 # "set ORFADC_NAME=value" lines set an environment variable (only ORFADC_* names) for the following commands.
-# Only orfadc.repro.bench subcommands are accepted.  Double-click scripts\run_job_queue.cmd.
+# Only orfadc.repro.bench subcommands are accepted.  Double-click scripts\run_job_queue.cmd, or pass
+# -Queue jobs\queue_llm_uncapped.txt (path relative to scripts\) to run another saved queue.
+param([string]$Queue = "jobs\queue.txt")
 $ErrorActionPreference = "Continue"
 $repo = Split-Path -Parent $PSScriptRoot
 Set-Location $repo
@@ -12,7 +14,7 @@ Remove-Item Env:ANTHROPIC_API_KEY -ErrorAction SilentlyContinue
 Remove-Item Env:OPENAI_API_KEY -ErrorAction SilentlyContinue
 $cliHome = Join-Path $env:USERPROFILE ".codex-cli"
 if ((-not $env:CODEX_HOME) -and (Test-Path $cliHome)) { $env:CODEX_HOME = $cliHome }
-$queue = Join-Path $PSScriptRoot "jobs\queue.txt"
+$queue = Join-Path $PSScriptRoot $Queue
 $ts = Get-Date -Format "yyyyMMddTHHmmss"
 $out = Join-Path $repo "results\windows_checks\${ts}_job"
 New-Item -ItemType Directory -Force $out | Out-Null

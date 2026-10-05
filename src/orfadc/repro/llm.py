@@ -151,7 +151,9 @@ class LLMPolicy(RulePolicy):
         self.transport = self.transport or AnthropicTransport()
 
     max_consecutive_errors: int = 3
-    max_calls: int = int(os.environ.get("ORFADC_LLM_MAX_CALLS", "200"))  # protects subscription quota
+    # read when the policy is created (not at import), so the env var can be changed per run;
+    # 200 protects the subscription quota, paper-aligned runs use 1000 (docs/127)
+    max_calls: int = field(default_factory=lambda: int(os.environ.get("ORFADC_LLM_MAX_CALLS", "200")))
 
     def _ask(self, role: str, user: str, staged: dict | None) -> dict | None:
         self._just_failed = False

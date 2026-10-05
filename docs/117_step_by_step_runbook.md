@@ -22,9 +22,9 @@
 | 步骤 | 命令 | 通过判据 |
 |---|---|---|
 | 1.1 | `python -m pytest tests/test_repro_core.py -q` | `14 passed` |
-| 1.2 | `python -m pytest tests -q` | 全部 passed（大量 `skipped` 是缺私有 Cadence 原始档，正常） |
+| 1.2 | `python -m pytest tests -q` | 全部 passed（v1.1 共 88 项） |
 
-`tests/conftest.py` 已自动设置 `--basetemp=results/runs/pytest_*` 与 `ORFADC_RUN_LIVE_SSH_AUDIT=0`。
+`tests/conftest.py` 已自动设置 `--basetemp=results/runs/pytest_*`。
 
 ## 阶段 2：单点冒烟（≈10 s）
 
@@ -69,7 +69,7 @@ print(fc["sim_results_dict"], fc["spec_check"], ctx.counter.to_dict())
 | 4.5 | `python -m orfadc.repro.bench all --seeds 5 --out results/repro/<日期>` | 以上全部 + `SUMMARY.md` | — |
 
 耗时参考（2 核）：fig5 < 1 min；table4 ≈ 35 min；table5 ≈ 40 min；fig10 ≈ 10 min。已有原始档时 `bench replot` 秒级重建表图。
-基线结果：`results/repro/2026-10-03/`（v1 封版时用当前代码重跑；旧版 `results/repro/2026-09-29/` 保留作历史对照），解读见 `docs/115` §6。
+基线结果：`results/repro/2026-10-03/`（v1 封版时用当前代码重跑，与首跑 2026-09-29 逐字节一致），解读见 `docs/115` §6。
 `--workers N` 控制并行进程数。
 
 通过判据：`SUMMARY.md` 中每个数字都能由 `raw/*.jsonl` 重算（用 `repro-verifier` 子智能体或
@@ -102,16 +102,13 @@ python -m orfadc.repro.bench design --spec S9 --policy openai --out results/repr
    `/design-lna S5` 或 `/design-lna "fc=28GHz fbw=25% I=30mA G=24dB NF<4.5 IP1dB>-22"` → Claude 亲自担任 RFAmpManager。
 3. 长任务提示词见 `docs/118_claude_prompts.md` §1（总控）。
 
-## 阶段 7：切换到 Cadence（路线 B 汇合点）
+## 阶段 7：Cadence / PDK 后端
 
 **v1 已实现**（`repro/backend_cadence.py`，见 `docs/119`）：`bench cadence-check --spec S2` 用 Spectre 宏模型交叉验证两端口引擎；
 `bench design --backend cadence` 让 Stage 4 全链评估走 Spectre。必须在能 SSH 到 Cadence 虚拟机的 Windows 宿主上运行。
-以下为 v2（PDK 器件）步骤：
-
-1. 按 `.claude/skills/cadence-backend-bridge/SKILL.md` 实现 `CadenceBackend`（同一 `simulate()` 返回结构）。
-2. 用 OCEAN 扫描替换 `device.knowledge_database()`（论文 Sec. II-A 网格）。
-3. 先 Stage 2 关键级单点 → 再 Stage 4 全链 → 与代理趋势对比 → 标定 `EQUIV_COST_S` 为实测秒数。
-4. 远程规则：`docs/113`、`docs/114` 的隔离/预算/不重派发约束保持有效；live SSH 需用户明确授权。
+**PDK 后端已实现**（`repro/pdk_v2.py`、`pdk3.py`、`pdk_fit.py`，docs/120–127）：`bench pdk-inventory` 盘点 PDK，
+`pdk-characterize*` 表征器件，`bench design --backend pdk` 让 Stage 4 由 Spectre(PDK) 判定。
+远程规则见 CLAUDE.md 规则 2（用户明确授权、事先报 Spectre 次数、不超上限、不确定结果不自动重派）。
 
 ### 7.1 论文口径的 PDK 运行（docs/122–127）
 
@@ -132,7 +129,6 @@ python -m orfadc.repro.bench design --spec S9 --policy openai --out results/repr
 | 现象 | 原因/处理 |
 |---|---|
 | `ModuleNotFoundError: orfadc` | 未设置 `PYTHONPATH=src` |
-| `pytest` 9 个失败，提示 `results/runs root` | 旧版无 `tests/conftest.py`；更新后直接运行即可 |
 | MCP 未连接 | `python src/orfadc/repro/mcp_server.py` 手动运行看报错；多为缺 `mcp` 包 |
 | 表格某列全 `0/5` | 在代理模型上该方法确实在预算内失败；看 `raw/*.jsonl` 中 `violations`/`bottleneck` |
 | 想更难/更易 | 调 `repro/device.py: TechParams`、`repro/circuit.py: Q_IND/Q_MATCH`，并在文档记录 |

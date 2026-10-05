@@ -6,7 +6,7 @@ description: Audit the RFAmpDesigner paper against this repository — equations
 # Paper ↔ project audit
 
 Sources: `references/paper/RFAmpDesigner.pdf` (English original is authoritative),
-`references/paper/RFAmpDesigner_中文翻译.md`, `docs/audits/*`, `docs/116_project_audit_2026-09-29.md`.
+`references/paper/RFAmpDesigner_中文翻译.md`, `docs/116_project_audit_2026-09-29.md` (issue register B01–B21) and `docs/125` §4.
 
 ## Procedure
 1. Build/refresh a claim matrix: claim → page/section → code location → test → status

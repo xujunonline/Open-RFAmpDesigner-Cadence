@@ -1,8 +1,0 @@
-printf("ORFADC_FORM_API_BEGIN\n")
-printf("schHiObjectProperty=%L\n" getd('schHiObjectProperty)!=nil)
-printf("leHiEditProp=%L\n" getd('leHiEditProp)!=nil)
-printf("hiGetCurrentForm=%L\n" getd('hiGetCurrentForm)!=nil)
-printf("geiPlSetPropValue=%L\n" getd('geiPlSetPropValue)!=nil)
-printf("geiPlInvokePlistAction=%L\n" getd('geiPlInvokePlistAction)!=nil)
-printf("ORFADC_FORM_API_END\n")
-exit()

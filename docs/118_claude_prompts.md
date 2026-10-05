@@ -1,7 +1,6 @@
 # 118 Claude 详细提示词（自主逐步推进版）
 
-本文件取代 `docs/10_detailed_prompts.md`（历史）作为**路线 A 起点**；路线 B（实机）继续参考
-`docs/15_autonomous_completion_prompts.md` 的阶段 03–14，但须先完成本文件 P0–P6。
+本文件是复现工作的提示词入口（路线 B 的历史提示词 docs/10、docs/15 已在 v1.1 删除，见 LEGACY.md）。
 所有提示词可直接粘贴到 Claude Code（仓库根目录，已加载 `CLAUDE.md`、`.claude/`、`.mcp.json`）。
 
 通用约束（每条提示词都隐含）：
@@ -121,11 +120,11 @@ base_url/model）运行 bench design，收集 pass@1、平均等效时间、prom
 与论文 Table IV 的 Ours 列并排（标注"示意 PDK + 理想无源，非 N65 后仿"），更新 docs/127 §5 与 docs/125。
 ```
 
-### P8-v2（PDK 器件，远程动作需我授权）
+### P8-v2（PDK 器件；已于 docs/120–127 实现，保留作历史提示词）
 
 ```text
 设计并实现 src/orfadc/repro/backend_cadence.py 的 CadenceBackend，满足 tools.Backend 协议，
-复用 cadence/remote_runner.py、psfascii_reader.py、hb_metrics.py、noise_metrics.py。
+复用 cadence/remote_runner.py、psfascii_reader.py。
 按 docs/120 的 V2-0…V2-7 推进：先做离线部分（V2-1 器件卡钩子、V2-3 引擎接 PDK 表，配单测；
 网表改动后用 tests/fakes/mna_spectre.py 无法覆盖 BSIM 器件，故 PDK 网表只做结构测试）。
 远程步骤（V2-0 盘点、V2-2 表征、V2-4/5/6 验证与设计）每步列出预计 Spectre 次数与风险，在我确认前不得执行任何 ssh/scp。
@@ -161,7 +160,7 @@ I want to use 30.0mA to achieve 25.0dB gain, 3.5dB Noise Figure and -15.0dBm IP1
 ## C. 续接 / 故障恢复 / 审查
 
 ```text
-【续接】读取 CLAUDE.md、docs/00_index.md 最新 3 条、docs/116 台账、git status 与最近一次 results/repro/*/SUMMARY.md，
+【续接】读取 CLAUDE.md、docs/00_index.md、docs/125 总报告、docs/116 台账、git status 与最近一次 results/repro/*/SUMMARY.md，
 总结当前处于 docs/117 的哪个阶段，列出下一步 3 个动作，然后继续执行。
 ```
 

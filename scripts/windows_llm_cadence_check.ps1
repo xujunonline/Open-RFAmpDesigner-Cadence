@@ -1,4 +1,5 @@
 # Windows end-to-end check for the subscription LLM transports and the Cadence backend.
+# -S9Calls 40 is a subscription-quota guard, not the paper setting (paper-aligned runs are uncapped, docs/127).
 #
 #   powershell -ExecutionPolicy Bypass -File scripts\windows_llm_cadence_check.ps1
 #   powershell -ExecutionPolicy Bypass -File scripts\windows_llm_cadence_check.ps1 -RunS9 -S9Calls 40
@@ -24,7 +25,6 @@ Set-Location $repo
 $env:PYTHONPATH = Join-Path $repo "src"
 $env:PYTHONIOENCODING = "utf-8"
 $env:PYTHONUTF8 = "1"
-$env:ORFADC_RUN_LIVE_SSH_AUDIT = "0"
 # Make sure the CLIs use the subscription login, not a paid API key that may be set globally.
 Remove-Item Env:ANTHROPIC_API_KEY -ErrorAction SilentlyContinue
 Remove-Item Env:OPENAI_API_KEY -ErrorAction SilentlyContinue
@@ -36,6 +36,18 @@ $out = Join-Path $repo "results\windows_checks\$ts"
 New-Item -ItemType Directory -Force $out | Out-Null
 $summary = Join-Path $out "summary.txt"
 "started $ts" | Out-File -Encoding utf8 $summary
+
+# Cadence VM host/port come from the git-ignored config/remote_cadence.local.yaml (no IP hard-coded here).
+function Get-CadenceEndpoint {
+    $hp = & python -c "from pathlib import Path; from orfadc.cadence.remote_runner import load_remote_config as L; c=L(Path('config/remote_cadence.local.yaml')); print(c.host, c.port)" 2>$null
+    if ($LASTEXITCODE -ne 0 -or -not $hp) { return $null }
+    $p = "$hp".Trim().Split(" "); return @{ Host = $p[0]; Port = [int]$p[1] }
+}
+function Test-CadenceVm {
+    $ep = Get-CadenceEndpoint
+    if (-not $ep) { return $false }
+    return (Test-NetConnection $ep.Host -Port $ep.Port -InformationLevel Quiet -WarningAction SilentlyContinue)
+}
 
 function Step([string]$name, [scriptblock]$block) {
     Write-Host ""
@@ -53,7 +65,7 @@ Step "01_env" {
     python --version
     node --version
     python -m pip install -q -r config\requirements_repro.txt
-    python -c "import numpy, yaml, matplotlib, mcp; print('python deps ok')"
+    python -c "import numpy, yaml, matplotlib, scipy, mcp; print('python deps ok')"
 }
 Step "02_pytest" {
     python -m pytest tests\test_repro_core.py tests\test_repro_llm_cli.py tests\test_repro_cadence_backend.py -q -p no:cacheprovider
@@ -83,10 +95,11 @@ if (-not $SkipCodex) {
 
 if (-not $SkipCadence) {
     Step "30_cadence_check" {
-        if (-not (Test-NetConnection 192.168.44.128 -Port 22 -InformationLevel Quiet -WarningAction SilentlyContinue)) {
-            "Cadence VM 192.168.44.128:22 unreachable - start the VMware VM (and check its IP) first."
+        if (-not (Test-CadenceVm)) {
+            "Cadence VM unreachable (or config/remote_cadence.local.yaml missing) - start the VMware VM and check host/port; skipped."
+        } else {
+            python -m orfadc.repro.bench cadence-check --spec S2 --out $out
         }
-        python -m orfadc.repro.bench cadence-check --spec S2 --out $out
     }
 }
 

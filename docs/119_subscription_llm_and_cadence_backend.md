@@ -1,6 +1,6 @@
 # 119 订阅额度 LLM 主干（Claude Pro / ChatGPT）与 Cadence 后端接入
 
-日期：2026-09-29。本文件记录方案、实现、调试证据与运行方法；测试结论在 §5 持续更新。
+日期：2026-09-29。本文件记录方案、实现、调试证据与运行方法；测试结论在 §4 持续更新。
 
 ## 1. 方案总览
 
@@ -172,7 +172,7 @@ Windows 侧完整日志在 `results\windows_checks\20261001T151401_all\`。仿�
 - 主要原因：Codex 的 Manager 常在预算只用了 30–50 % 时就判定"不可行"并停止（10 次里 9 次）；规则策略总是用满 5 h 预算。
 - 0/10 通过。在订阅额度条件下，"LLM 主干显著优于基线"（Table V）**未复现**。
 - 每次运行约 0.83–1.0 M token（约 78 % 命中缓存），订阅额度不计费。
-- 以上均为 agent v1（Searcher 为程序，LLM 只在 Manager 选功率分配、Refiner 选动作两处决策）。更贴近论文的 v2 见后续文档。
+- 以上均为 agent v1（Searcher 为程序，LLM 只在 Manager 选功率分配、Refiner 选动作两处决策）。更贴近论文的智能体实现（三个智能体都是 LLM ReAct 循环，agent v2）尚未实现。
 
 Cadence（Spectre 25.1，宏模型 v1）：
 
@@ -213,6 +213,5 @@ python -m orfadc.repro.bench llm-table --out <含 design_*.json 的目录>      
 一键脚本（双击即可，日志写到 `results\windows_checks\<时间>_all\`，`progress.txt` 看进度，结束写 `DONE.txt`）：
 
 - `scripts\run_all_windows.cmd`：环境/订阅/Cadence 检查 → {rule, claude-cli, codex-mcp} × {S9, S10, S9s, S10s} → `llm_table` → `cadence-check` + `design --spec S2 --backend cadence`（虚拟机可达时）。
-- `scripts\run_codex_followup.cmd`：只补 Codex（重装钉住版本的依赖、检查 codex-mcp、补跑 4 个 Codex 设计、重生成汇总表），写入最新的 `*_all` 目录。
 
 依赖注意：`mcp` 须为 1.x（`mcp>=1.2,<2`）。mcp 2.x 把 FastMCP 改名为 MCPServer，两个 MCP 服务器会直接退出并提示重装。

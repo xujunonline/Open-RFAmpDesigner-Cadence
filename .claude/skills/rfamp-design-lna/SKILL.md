@@ -48,5 +48,5 @@ design trajectory (rationale → tool → observation). Label the result "surrog
 Always state which constraint was the bottleneck if the run failed.
 
 ## 6. Autonomous shortcut
-`run_autonomous(spec_id, seed, mode=1|2, policy="rule"|"anthropic"|"openai")` runs the full Python
+`run_autonomous(spec_id, seed, mode=1|2, policy="rule"|"claude-cli"|"codex-mcp"|"anthropic"|"openai"|"scripted")` runs the full Python
 Manager; use it for batch runs, then explain the trace.

@@ -141,7 +141,6 @@ def refit_table(char_dir: Path) -> list[dict]:
     by = {}
     for r in rows:
         by.setdefault(r["w_target_um"], []).append(r)
-    vbs_all = sorted({r["vgs_v"] for r in rows})
     for w, rr in by.items():
         psf = char_dir / f"w{w:g}" / "psf"
         sps = sorted((p for p in psf.iterdir() if p.name.endswith("sp1.sp") and "noise" not in p.name),

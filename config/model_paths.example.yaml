@@ -1,0 +1,12 @@
+# Template for config/model_paths.local.yaml (git-ignored; never commit real PDK paths).
+# `bench pdk-inventory` fills the local file from the Cadence VM (read-only, 0 Spectre runs);
+# orfadc.repro.pdk_v2.load_pdk_config requires the six keys marked "required".
+pdk:
+  name: null            # e.g. a short PDK label used in result metadata
+  toplevel: null        # required: Spectre model include file (toplevel.scs)
+  section: null         # required: corner section, e.g. a typical-typical section name
+  nmos: null            # required: RF NMOS cell name
+  lr: null              # required: gate length parameter value, e.g. "40n"
+  wr_um: null           # required: finger width in um
+  vdd: null             # required: supply voltage in V
+  # optional: vb_grid, cascode_ratio, ip1db_offset_db, use_y3

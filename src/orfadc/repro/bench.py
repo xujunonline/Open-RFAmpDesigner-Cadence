@@ -5,9 +5,12 @@
     python -m orfadc.repro.bench table5 --seeds 5
     python -m orfadc.repro.bench fig5 | fig7 | fig10 | smoke
 
-Everything runs on the surrogate backend (no Cadence, no network) and is
-deterministic under the seed.  Numbers are *trend-level* evidence for the
-method, not silicon or PDK results (every artefact carries that label).
+Table/figure commands run on the surrogate backend (no Cadence, no network) and are
+deterministic under the seed; their numbers are *trend-level* evidence, not silicon or
+PDK results (every artefact carries that label).  Other subcommands (see ``--help``):
+design (``--backend surrogate|cadence|pdk``), replot, llm-check, llm-table, llm-seeds,
+cadence-check and pdk-inventory|pdk-characterize|pdk-characterize3|pdk-characterize-casc|pdk-check
+(the last two groups reach the Cadence VM and need an explicit user request).
 """
 from __future__ import annotations
 
@@ -43,6 +46,14 @@ METHODS_T4 = ["ga_vanilla", "bo_vanilla", "ga_subtool", "bo_subtool", "ours"]
 
 def specs() -> dict[str, Spec]:
     return {s.id: s for s in load_specs(ROOT / "config" / "specs_table_iii.yaml")}
+
+
+def _rel(p: Path) -> str:
+    """Repo-relative path for evidence pointers written into result JSON (no machine-specific prefixes)."""
+    try:
+        return Path(p).resolve().relative_to(ROOT).as_posix()
+    except ValueError:
+        return Path(p).as_posix()
 
 
 def budget_for(spec_id: str) -> float:
@@ -219,7 +230,7 @@ def cmd_fig5(out: Path) -> dict:
                              "hf_full": ctx.counter.hf_full - c0["hf_full"], "lf": ctx.counter.lf - c0["lf"]}
     ctx2 = T.ToolContext(sp)
     t = time.perf_counter()
-    sb = T.band_planning(ctx2, cfg, s2, simulation_based=True, sa_iters=500)
+    T.band_planning(ctx2, cfg, s2, simulation_based=True, sa_iters=500)   # cost is read from ctx2.counter
     res["simulation_based"] = {"cpu_s": time.perf_counter() - t, "hf_full": ctx2.counter.hf_full}
     eq_mf = res["multi_fidelity"]["hf_full"] * T.EQUIV_COST_S["hf_full"] + res["multi_fidelity"]["lf"] * T.EQUIV_COST_S["lf"]
     eq_sb = res["simulation_based"]["hf_full"] * T.EQUIV_COST_S["hf_full"]
@@ -540,7 +551,7 @@ def cmd_cadence_check(out: Path, spec_id: str = "S2", seed: int = 0) -> int:
     rep["tolerance"] = tol
     rep["agree"] = all(rows[c]["max_abs_delta"][k] <= tol[k] for c in rows for k in tol)
     rep["spectre_calls"], rep["spectre_wall_s"] = cad.n_calls, round(cad.wall_s, 1)
-    rep["local_evidence"] = str(cad.local_root / cad.run_id)
+    rep["local_evidence"] = _rel(cad.local_root / cad.run_id)
     rep["wall_s"] = round(time.perf_counter() - t0, 1)
     out.mkdir(parents=True, exist_ok=True)
     (out / f"cadence_check_{spec_id}.json").write_text(json.dumps(rep, indent=2, default=float), encoding="utf-8")
@@ -596,7 +607,7 @@ def cmd_pdk_check(out: Path, spec_id: str = "S2", seed: int = 0) -> int:
                 rows[name]["spectre_spec_check"] = T.spec_check(m, sp)
         rep["cases"] = rows
         rep["spectre_calls"], rep["spectre_wall_s"] = cad.n_calls, round(cad.wall_s, 1)
-        rep["local_evidence"] = str(cad.local_root / cad.run_id)
+        rep["local_evidence"] = _rel(cad.local_root / cad.run_id)
     finally:
         D.set_device_provider(None)
     rep["wall_s"] = round(time.perf_counter() - t0, 1)
@@ -609,7 +620,7 @@ def cmd_pdk_check(out: Path, spec_id: str = "S2", seed: int = 0) -> int:
 def cmd_llm_check(policy_name: str, out: Path) -> int:
     """Two calls through the chosen LLM transport: a ping and one real Refiner decision
     on a canned S9 observation.  Proves login/quota/parsing before a long benchmark."""
-    from orfadc.repro.llm import _valid_refine, make_policy, parse_tools
+    from orfadc.repro.llm import _valid_refine, make_policy
     from orfadc.repro.agents import Candidate
     t0 = time.perf_counter()
     pol = make_policy(policy_name)

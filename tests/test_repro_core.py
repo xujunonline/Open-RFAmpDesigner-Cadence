@@ -10,7 +10,6 @@ import pytest
 
 from orfadc.config_loader import load_specs
 from orfadc.repro import agents as A
-from orfadc.repro import circuit as ck
 from orfadc.repro import tools as T
 from orfadc.repro import twoport as tp
 from orfadc.repro.llm import LLMPolicy, ScriptedTransport, _valid_refine, parse_tools
@@ -47,7 +46,6 @@ def test_eq3_printed_form_is_not_the_nodal_admittance():
 
 # --------------------------------------------------------------- two-port engine
 def test_series_resistor_noise_figure_and_gain():
-    f = np.array([1e9, 10e9])
     blk = tp.series(np.full(2, 50.0 + 0j))
     assert np.allclose(blk.noise_factor(50.0), 2.0)
     # 50 ohm source, 50 ohm series, 50 ohm load: 2*Vl/Vs = 2*50/150
