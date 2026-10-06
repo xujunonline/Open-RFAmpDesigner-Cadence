@@ -8,7 +8,9 @@
 | 通道 | 状态 | 说明 |
 |---|---|---|
 | `codex-mcp` | ✅ 可用 | 用 ChatGPT.app 自带的 codex 命令行（`codex-cli 0.159.0-alpha`，ChatGPT 账号已登录），通过 `ORFADC_CODEX_BIN` 指定，CODEX_HOME 用该应用自己的 `~/.codex`。`bench llm-check --policy codex-mcp`：ok，Refiner 决策合法，单次 15.6 s |
-| `claude-cli` | ❌ 未登录 | 用桌面 App 自带的 Claude Code 2.1.288 执行 `claude auth login --claudeai`，两次都在令牌交换时返回 HTTP 403（第二次在用户粘贴授权码之前就失败）。疑似网络出口/代理或账号权限问题，待用户排查；claude-cli 一组暂缓 |
+| `claude-cli` | ✅ 可用（Pro） | 用桌面 App 自带的 Claude Code 2.1.288。前两次 `claude auth login --claudeai` 返回 HTTP 403，原因是网络路径：命令行工具不认 macOS 系统代理，直连 Claude 授权接口时得到 403 `Request not allowed`，经本机代理（Aurora，127.0.0.1:29290）则正常。设 `HTTPS_PROXY` 后登录成功；`llm-check`：ok，单次 19.4 s |
+
+两个命令行都链接到 `~/.local/bin/{claude,codex}`。`run_job_queue.sh` 在未设 `HTTPS_PROXY` 时会自动采用已开启的系统代理。v1（Windows）用的是同一条登录命令（npm 安装），所以 403 与登录方式无关，只与网络出口有关。
 
 ## 2. A3 第 1 步：S2 seed 0 冒烟（codex-mcp）
 
@@ -31,6 +33,11 @@ ORFADC_LLM_MAX_CALLS=1000 ORFADC_CODEX_BIN=<ChatGPT.app 自带的 codex> \
 | token | 输入 977k（其中缓存 747k，76 %），输出 12k | — | — |
 
 最终设计（代理后端）：带内最小增益 22.7 dB、纹波 2.1 dB、NF@fc 4.28 dB、带内最差 S11 −18.2 dB、IP1dB −22.8 dBm、28.4 mA，违例 0。
+
+**claude-cli（同条件）**：✅ 通过，`spec_met`；调用 **39 次**（Manager 4、Searcher 13、Refiner 22），非法动作/错误/回落 0/0/0；
+LLM 时延 367 s（约 9.4 s/次）；输入 171k token（这个通道不报告缓存），输出 16k；等效 EDA 时间 1014 s；搜索/细化 2/2，
+功率分配 [0.4, 0.3, 0.3]、[0.33, 0.42, 0.25]。设计：增益 25.2 dB、纹波 0.58 dB、NF@fc 4.22 dB、S11 带内最差 −22.9 dB、IP1dB −23.1 dBm、27.0 mA。
+原始档 `design_S2_seed0_mode1_claude-cli_v2_calls1000.json`、`claude_S2_seed0.log`。
 
 读法与边界：
 - 这一步只验证真实 LLM 能在 v2 协议下自主完成一次设计：55 次决策全部合法，没有回落到规则策略。单个 seed 不能用来比较 v2 与 v1 的优劣。
