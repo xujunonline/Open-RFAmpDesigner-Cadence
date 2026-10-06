@@ -10,7 +10,7 @@
 
 版本：v1 = 标签 `v1-decision-points`（e80dfd3）；v1.1 = 标签 `v1.1-clean`（4feb7a0，清理版，docs/129），均已推送到私有仓库 `xujunonline/Open-RFAmpDesigner-Cadence`。
 **当前任务：按 `docs/130_v2_kickoff.md` 分阶段执行（分支 `v2-agentic`）：A 线 v2 智能体，B 线迁移到新虚拟机 IC618_rf 的 TSMC N65 并先跑 v1 规则基线。N65 的 Spectre 单独记账，上限 1500（`results/repro/n65/spectre_ledger.csv`）。**
-进度（2026-10-07，macOS Intel，见 docs/132、134）：阶段 0、A1、A2、N0、N1、N2 完成（N65 Spectre 148/1500；N2 冒烟 4/8）；N3（v1 基线）与 A3（真实 LLM）待做。
+进度（2026-10-07，macOS Intel，见 docs/132、134）：阶段 0、A1、A2、N0、N1、N2 完成；N3 seed 0 完成（4/8）；N65 Spectre 277/1500；N3 seed 1–4 与 A3（真实 LLM）待做。
 路线 B 历史（Virtuoso/OCEAN 实机链路、教学电路、远程恢复与隔离）已删除，可从 v1 标签找回（`docs/LEGACY.md`）。
 PDK：v1 结果用虚拟机 `RedHat_9_7_A_and_D_10T` 上的 TSMC 40 nm LP RF（crn40lp）；新虚拟机 `IC618_rf`（登录用户 `IC`，无 `userone`）上为 TSMC 65 nm LP RF（CRN65LP v1.7，docs/128、132），v2 的 N65 结果标 `pdk=crn65lp`。
 
