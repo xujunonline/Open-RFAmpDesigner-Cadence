@@ -134,8 +134,15 @@ def _valid_refine(a: dict | None) -> bool:
     return True
 
 
-def _valid_split(s: Any) -> bool:
-    return (isinstance(s, list) and len(s) == 3 and all(isinstance(x, (int, float)) and 0.1 <= x <= 0.8 for x in s)
+# Power-ratio bounds.  v1 keeps its historical validation range (frozen; its manager prompt says 0.15..0.7,
+# docs/129 §3 item 2); v2 prompts and validation are both generated from V2_SPLIT_RANGE.
+V1_SPLIT_RANGE = (0.1, 0.8)
+V2_SPLIT_RANGE = (0.15, 0.7)
+
+
+def _valid_split(s: Any, rng: tuple[float, float] = V1_SPLIT_RANGE) -> bool:
+    lo, hi = rng
+    return (isinstance(s, list) and len(s) == 3 and all(isinstance(x, (int, float)) and lo <= x <= hi for x in s)
             and abs(sum(s) - 1.0) < 0.05)
 
 

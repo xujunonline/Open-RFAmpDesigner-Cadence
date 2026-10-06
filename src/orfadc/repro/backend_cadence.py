@@ -23,6 +23,7 @@ from __future__ import annotations
 
 import json
 import math
+import os
 import time
 import uuid
 from dataclasses import dataclass, field
@@ -266,6 +267,8 @@ class CadenceBackend:
     n_calls: int = 0
     wall_s: float = 0.0
     physical_cdb: bool = False
+    # per-design Spectre cap, enforced by ToolContext.sim (unset/0 -> no cap, the v1.1 behaviour)
+    max_calls: int | None = field(default_factory=lambda: int(os.environ.get("ORFADC_SPECTRE_MAX_PER_DESIGN", "0")) or None)
 
     def __post_init__(self) -> None:
         if self.runner is None:
