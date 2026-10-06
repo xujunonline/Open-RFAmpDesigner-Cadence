@@ -54,6 +54,21 @@ LLM 时延 367 s（约 9.4 s/次）；输入 171k token（这个通道不报告�
   - 包装脚本里的 `exit=$?` 取的是 `date` 的返回值，所以记成了 0；以后用单独的变量保存退出码。
 - S10s 用的是修正前已经加载的代码，跑完即有效（这个缺陷只会让运行崩溃，不会悄悄改变结果）。
 
+**claude-cli（修正后的代码，seed 0）：S9s、S10s 都通过**
+
+| 规格 | 结果 | LLM 调用（M/S/R） | 非法动作/错误 | LLM 时延 | 等效 EDA 时间（预算 18000 s） | 搜索/细化 | 最终设计 |
+|---|---|---|---|---|---|---|---|
+| S9s | ✅ `spec_met` | 66（6/29/31） | 0/0 | 631 s | 2236 s | 3/3 | 增益 24.3 dB、NF 4.50 dB、IP1dB −19.6 dBm、S11 −19.5 dB、27.5 mA |
+| S10s | ✅ `spec_met` | 57（6/28/23） | 0/0 | 588 s | 1845 s | 3/3 | 增益 24.1 dB、NF 3.87 dB、IP1dB −20.7 dBm、S11 −20.7 dB、27.5 mA |
+
+对照（同一代理后端、5 h 预算，`results/repro/2026-10-03` Table V-like 与 docs/127 §5.2）：
+- v1 rule（"ours"）：S9s 0/5、S10s 0/5；
+- GA subtool 1/5、2/5；BO subtool 1/5、3/5；
+- v1 + Codex（不封顶）：10 次只有 1 次优于规则，没有通过。
+
+读法：v2 + claude 在 seed 0 上两个规格都在 1/8 预算内通过，是 v1 各种设置从未达到的结果。但这只是**单个 seed**，要用 seed 1–4 确认后才能说 v2 优于 v1。
+原始档：`results/repro/v2_a3/s9s10s/design_S{9,10}s_seed0_mode1_claude-cli_v2_calls1000.json`、`claude_S{9,10}s_seed0.log`。
+
 ## 4. 下一步
 
 - 待用户确认：S9s/S10s seed 0（5 h 预算，codex-mcp），再到 seed 0–4。
