@@ -14,13 +14,18 @@
 - 未设置这些变量时，搜索根与跳过规则同原脚本（crn40lp 行为不变）。唯一的变化是：LIBDIR 段现在也读取 `$HOME/*/*/cds.lib` 和额外配置的 cds.lib（原来只读前两层）。这只多列出库目录，不改动任何文件。
 - 后台批量运行示例：`nohup scripts/run_job_queue.sh jobs/<队列>.txt >/dev/null 2>&1 &`，然后看 `progress.txt`。
 
-## 2. N0 虚拟机与登录（进行中）
+## 2. N0 虚拟机与登录（完成，2026-10-07，0 次 Spectre）
 
-- 虚拟机 IC618_rf 已在 VMware Fusion 运行。网络为 NAT（vmnet8，172.16.218.0/24），客体 IP 由 VMware Tools 报告，DHCP 租约与网卡 MAC 一致。
-- 专用密钥 `~/.ssh/ic618_rf`（ed25519，无口令）已在 Mac 上生成。
-- **阻塞**：从 Claude Code 发起的连接无法到达客体（`No route to host`，ARP 不完整；连 NAT 网关 .2 也不通，只有本机接口 .1 通）。
-  初步判断是 macOS「本地网络」隐私权限没有授予 Claude 应用，待用户在 Terminal.app 中对照验证。
-- 待用户：`ssh-copy-id`（由用户输入密码）、写 `config/remote_cadence.local.yaml`；之后执行者做登录验证（0 次仿真）。
+- 虚拟机 IC618_rf 在 VMware Fusion 运行，网络为 NAT（vmnet8）。客体 IP 由 VMware Tools 报告，DHCP 租约与网卡 MAC 一致。
+- 首次从 Claude Code 连接时 `No route to host`（ARP 不完整）。用户放行 macOS「本地网络」权限后连通。
+- 专用密钥 `~/.ssh/ic618_rf`（ed25519，无口令）在 Mac 上生成；`ssh-copy-id` 由用户在终端里执行，密码由用户输入。
+  主机 ED25519 指纹在首次连接时由用户确认。本地配置 `config/remote_cadence.local.yaml`（git 忽略）也由用户填写。
+- **登录用户改为 `IC`**（用户决定；docs/130 原定 `userone`）。`IC` 不是 root，PDK 就在它的家目录下。
+- 验证（密钥登录，`BatchMode=yes`）：`echo ok` 正常；CentOS 7.9；
+  非登录 shell 与登录 shell 都能找到 `spectre`（SPECTRE181，`spectre -W` 为 18.1.0.077）、`virtuoso`、`ocean`（IC618），都在 `/opt/eda/cadence` 下。
+  因此 `remote_runner` 不需要额外的环境前缀；`pdk_inventory.sh` 的默认 Cadence 前缀 `/opt/eda/cadence` 也适用。
+- 盘点注意：PDK 在登录用户的 `$HOME` 下，而盘点脚本默认跳过 `$HOME` 下的 cds.lib 库，需要在本地配置的 `inventory:` 块里设 `skip_home: false`。
+- 安全：虚拟机密码弱，且曾在对话中出现，建议用户用 `passwd` 修改。执行者没有使用这个密码。
 
 ## 3. N1–N3
 
