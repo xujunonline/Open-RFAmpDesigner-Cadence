@@ -1,0 +1,13 @@
+# docs/130 A3 / docs/133: agent v2 + codex-mcp on S9s/S10s seeds 1-4, aligned with v1 (docs/119 §4.2-4.3: seeds 1-4 were Codex only).
+# 5 h equivalent budget, LLM cap 1000; surrogate backend (trend-level), 0 Spectre. codex resolved via ~/.local/bin/codex.
+# Estimate 200-600 calls per run (codex S10s seed 0 used 270+), 8 runs; ChatGPT quota may run out (recorded, not retried).
+set ORFADC_AGENT_IMPL=v2
+set ORFADC_LLM_MAX_CALLS=1000
+design --spec S9s --seed 1 --policy codex-mcp --agent-impl v2
+design --spec S10s --seed 1 --policy codex-mcp --agent-impl v2
+design --spec S9s --seed 2 --policy codex-mcp --agent-impl v2
+design --spec S10s --seed 2 --policy codex-mcp --agent-impl v2
+design --spec S9s --seed 3 --policy codex-mcp --agent-impl v2
+design --spec S10s --seed 3 --policy codex-mcp --agent-impl v2
+design --spec S9s --seed 4 --policy codex-mcp --agent-impl v2
+design --spec S10s --seed 4 --policy codex-mcp --agent-impl v2

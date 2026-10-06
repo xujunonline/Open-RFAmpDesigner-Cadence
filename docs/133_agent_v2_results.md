@@ -69,6 +69,14 @@ LLM 时延 367 s（约 9.4 s/次）；输入 171k token（这个通道不报告�
 读法：v2 + claude 在 seed 0 上两个规格都在 1/8 预算内通过，是 v1 各种设置从未达到的结果。但这只是**单个 seed**，要用 seed 1–4 确认后才能说 v2 优于 v1。
 原始档：`results/repro/v2_a3/s9s10s/design_S{9,10}s_seed0_mode1_claude-cli_v2_calls1000.json`、`claude_S{9,10}s_seed0.log`。
 
+**seed 1–4 用哪个 LLM（2026-10-07 用户决定）：只用 codex，与 v1 完全对齐。**
+- v1 的 S9s/S10s 扩到 5 个 seed 时只用了 Codex（docs/119 §4.2–4.3），claude 只有 seed 0。
+- 执行者原先按"第 2 步用 A、第 3 步用 B"的顺序，已在后台启动 claude 跑 seed 1–4，用户随后选择与 v1 对齐，该运行被停止：
+  - claude S9s seed 1 在停止前已跑完：✅ `spec_met`，73 次调用（M/S/R 7/37/29），0 非法动作，等效 2265 s。
+    保留为**补充数据**，不进 v1 对齐的对照表。
+  - claude S10s seed 1 被中途停止，无结果（日志改名为 `claude_S10s_seed1_STOPPED_by_user.log`）。
+- codex 的 seed 1–4 队列：`scripts/jobs/queue_a3_s9s10s_codex_seeds1-4.txt`（8 次运行）。
+
 ## 4. 下一步
 
 - 待用户确认：S9s/S10s seed 0（5 h 预算，codex-mcp），再到 seed 0–4。
