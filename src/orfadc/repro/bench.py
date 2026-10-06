@@ -124,7 +124,13 @@ def design_suffix(*, backend: str, impl: str = "v1", pdk: str | None = None, llm
     return s
 
 
-DESIGN_FILE_RE = re.compile(r"design_(S\w+?)_seed(\d+)_mode(\d+)_([a-z-]+)((?:_[A-Za-z0-9.]+)*)\.json$")
+def default_memory_dir(impl: str = "v1", pdk: str | None = None) -> Path:
+    """KB/EB directory per agent implementation and process; v1 without N65 keeps the v1 location."""
+    tag = _PDK_FILE_TAG.get(pdk or "crn40lp", pdk)
+    return ROOT / "results" / "memory" / ("repro" + ("" if impl == "v1" else f"_{impl}") + (f"_{tag}" if tag else ""))
+
+
+DESIGN_FILE_RE =re.compile(r"design_(S\w+?)_seed(\d+)_mode(\d+)_([a-z-]+)((?:_[A-Za-z0-9.]+)*)\.json$")
 
 
 def parse_design_name(name: str) -> dict | None:
@@ -878,12 +884,11 @@ def main(argv: list[str] | None = None) -> int:
     if a.cmd == "design":
         from orfadc.repro.llm import make_policy
         sp = {**specs(), **scaled_hard_specs()}[a.spec]
-        pol = make_policy(a.policy)
-        mem = a.memory or (ROOT / "results" / "memory" / "repro")
         backend, pdk = None, None
         impl = agent_impl(a.agent_impl)
-        if impl != "v1":
-            raise SystemExit(f"agent implementation {impl} is not available yet")
+        if impl == "v2" and a.policy == "rule":
+            raise SystemExit("agent implementation v2 is LLM-driven: use --policy scripted|claude-cli|codex-mcp|anthropic|openai")
+        pol = make_policy(a.policy) if impl == "v1" else None
         if a.backend == "cadence":
             from orfadc.repro.backend_cadence import CadenceBackend, HybridBackend
             backend = HybridBackend(T.SurrogateBackend(), CadenceBackend())
@@ -895,11 +900,21 @@ def main(argv: list[str] | None = None) -> int:
             final = pdk_v2.PdkCadenceBackend(hb_pins=PDK_HB_PINS)
             pdk = pdk_label(final.cfg)
             backend = HybridBackend(T.SurrogateBackend(), final)
-        r = A.run_design(sp, a.seed, mode=a.mode, policy=pol, budget_equiv_s=budget_for(a.spec),
-                         memory_dir=mem if (a.mode == 2 or a.memory) else None, backend=backend)
+        mem = a.memory or default_memory_dir(impl, pdk)
+        mem_dir = mem if (a.mode == 2 or a.memory) else None
+        if impl == "v2":
+            from orfadc.repro import agents_v2
+            r = agents_v2.run_design_v2(sp, a.seed, mode=a.mode, memory_dir=mem_dir, budget_equiv_s=budget_for(a.spec),
+                                        policy_name=a.policy, backend=backend, pdk=pdk)
+        else:
+            r = A.run_design(sp, a.seed, mode=a.mode, policy=pol, budget_equiv_s=budget_for(a.spec),
+                             memory_dir=mem_dir, backend=backend)
         r.pop("_session", None)
         r["run_settings"] = {"q_match": ck.Q_MATCH, "budget_equiv_s": budget_for(a.spec),
                              "spectre_max_per_design": os.environ.get("ORFADC_SPECTRE_MAX_PER_DESIGN")}
+        if impl == "v2":
+            r["run_settings"]["llm_max_calls"] = int(os.environ.get("ORFADC_LLM_MAX_CALLS") or LLM_MAX_CALLS_DEFAULT)
+            r["run_settings"]["memory_dir"] = _rel(mem_dir) if mem_dir else None
         if hasattr(pol, "usage"):
             r["llm_usage"] = pol.usage.__dict__
             r["llm_log"] = pol.log
@@ -907,7 +922,7 @@ def main(argv: list[str] | None = None) -> int:
                        "note": ("schematic-level PDK transistors, ideal passives, no layout parasitics" if pdk else
                                 "Spectre-solved macromodel (surrogate devices)" if a.backend == "cadence" else LABEL)}
         name = (f"design_{a.spec}_seed{a.seed}_mode{a.mode}_{a.policy}"
-                + design_suffix(backend=a.backend, impl=impl, pdk=pdk, llm=hasattr(pol, "usage")) + ".json")
+                + design_suffix(backend=a.backend, impl=impl, pdk=pdk, llm=impl == "v2" or hasattr(pol, "usage")) + ".json")
         (out / name).write_text(json.dumps(r, indent=1, default=float), encoding="utf-8")
         rep = r.get("report") or {}
         print(json.dumps({"spec": a.spec, "success": r["success"], "sims": r["sims"], "bottleneck": rep.get("bottleneck"),
