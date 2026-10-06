@@ -10,8 +10,9 @@
 
 版本：v1 = 标签 `v1-decision-points`（e80dfd3）；v1.1 = 标签 `v1.1-clean`（4feb7a0，清理版，docs/129），均已推送到私有仓库 `xujunonline/Open-RFAmpDesigner-Cadence`。
 **当前任务：按 `docs/130_v2_kickoff.md` 分阶段执行（分支 `v2-agentic`）：A 线 v2 智能体，B 线迁移到新虚拟机 IC618_rf 的 TSMC N65 并先跑 v1 规则基线。N65 的 Spectre 单独记账，上限 1500（`results/repro/n65/spectre_ledger.csv`）。**
+进度（2026-10-07，macOS Intel，见 docs/132、134）：阶段 0、A1、A2、N0、N1、N2 完成（N65 Spectre 148/1500；N2 冒烟 4/8）；N3（v1 基线）与 A3（真实 LLM）待做。
 路线 B 历史（Virtuoso/OCEAN 实机链路、教学电路、远程恢复与隔离）已删除，可从 v1 标签找回（`docs/LEGACY.md`）。
-PDK：v1 结果用虚拟机 `RedHat_9_7_A_and_D_10T` 上的 TSMC 40 nm LP RF（crn40lp）；新虚拟机 `IC618_rf` 磁盘扫描为 TSMC 65 nm LP RF（CRN65LP，docs/128），尚未用于结果。
+PDK：v1 结果用虚拟机 `RedHat_9_7_A_and_D_10T` 上的 TSMC 40 nm LP RF（crn40lp）；新虚拟机 `IC618_rf`（登录用户 `IC`，无 `userone`）上为 TSMC 65 nm LP RF（CRN65LP v1.7，docs/128、132），v2 的 N65 结果标 `pdk=crn65lp`。
 
 路线 A 的仿真后端是 `SurrogateBackend`（两端口噪声相关矩阵级联 + 开放 EKV 类 65 nm 器件模型）。
 它是**趋势级证据**，不是 PDK/硅结果；所有输出都带 `not_silicon_result` / `LABEL` 标记。
@@ -35,6 +36,7 @@ python -m orfadc.repro.bench llm-check --policy codex-mcp    # ChatGPT 订阅（
 python -m orfadc.repro.bench cadence-check --spec S2         # Spectre 宏模型 vs 两端口引擎交叉验证（需 Windows 宿主连 Cadence VM）
 python -m orfadc.repro.bench design --spec S9 --policy claude-cli [--backend cadence|pdk]
 python -m orfadc.repro.bench pdk-inventory | pdk-characterize [--vds 0.5] | pdk-characterize3 | pdk-characterize-casc | pdk-check --spec S2   # PDK 后端（docs/120–123）
+python -m orfadc.repro.bench pdk-config --lr 60n --wr-um 2.0 --vdd 1.2 --mult-param m [--vds-cs 0.6 --vb-grid ...] | pdk-refit   # N65：从盘点写本地模型配置、拟合器件表（docs/132）
 ```
 
 PowerShell：`$env:PYTHONPATH="$PWD\src"`，其余相同。
@@ -77,5 +79,6 @@ PowerShell：`$env:PYTHONPATH="$PWD\src"`，其余相同。
 - Subagents：`rfamp-searcher`、`rfamp-refiner`、`repro-verifier`。Slash commands：`/repro-smoke`、`/repro-all`、`/design-lna`。
 - 详细提示词：`docs/118_claude_prompts.md`；逐步运行手册：`docs/117_step_by_step_runbook.md`；订阅 LLM 与 Cadence 后端：`docs/119_subscription_llm_and_cadence_backend.md`（§4.1 实测）、Cadence v2 计划：`docs/120_cadence_v2_plan.md`，结果：`docs/121`、`docs/122`（PDK 器件拟合、S1–S8）、`docs/123`（第一级三端口实测 Y、差分级实测 Y、第一级噪声校准；`ORFADC_PDK_Y3=0` / `ORFADC_PDK_Y2=0` / `ORFADC_PDK_NOISE1_SCALE=1` 关闭）。多 seed LLM 汇总：`bench llm-seeds --out <dir> --inputs <dir2,...>`。`ORFADC_LLM_MAX_CALLS`：代码默认 200，封顶实验用 40，论文口径用 1000（docs/127）。每设计 Spectre 上限：`ORFADC_SPECTRE_MAX_PER_DESIGN`。无源 Q 与预算研究（docs/126）：`ORFADC_Q_MATCH`（默认 25）、`ORFADC_Q_IND`（默认 15）、`ORFADC_BUDGET_SCALE`（默认 1）；总报告：`docs/125`；论文预算对齐与 PDK pass@1：`docs/127`。
 - Windows 一键：`scripts/run_all_windows.cmd`（检查 + LLM 主干 seed 0 + Spectre），`scripts/run_job_queue.cmd`（执行 `scripts/jobs/queue.txt` 中的 bench 子命令；`-Queue` 选其他队列）。Cadence 主机/端口从 `config/remote_cadence.local.yaml` 读取。
+- macOS/Linux：`scripts/run_job_queue.sh [jobs/<队列>.txt]`（同一队列格式，日志同样在 `results/windows_checks/<ts>_job/`）；`scripts/setup_llm_cli_mac.sh [--check]`（无 npm 时安装并登录 claude / codex CLI，由用户运行）。hook 优先用 `.venv/bin/python`。
 - PDK 数据（器件表、含 PDK 器件参数的设计 JSON）只放 git 忽略的 `results/runs/`、`results/windows_checks/`；`config/model_paths.local.yaml` 存 PDK include/section/器件名。
 - 网表↔引擎的独立核对：`tests/fakes/mna_spectre.py`（MNA 解算器，已用真实 Spectre PSF `tests/data/spectre_s2/` 校验到 1e-12）。改 `backend_cadence.render_netlist` 或 `circuit.py` 后必须跑 `tests/test_repro_cadence_backend.py`。
