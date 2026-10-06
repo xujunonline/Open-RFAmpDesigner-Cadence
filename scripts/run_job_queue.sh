@@ -30,6 +30,19 @@ fi
 export PYTHONPATH="$repo/src" PYTHONIOENCODING=utf-8 PYTHONUTF8=1
 unset ANTHROPIC_API_KEY OPENAI_API_KEY
 if [ -z "${CODEX_HOME:-}" ] && [ -d "$HOME/.codex-cli" ]; then export CODEX_HOME="$HOME/.codex-cli"; fi
+export PATH="$HOME/.local/bin:$PATH"   # claude / codex links (docs/133)
+# LLM CLIs only honour HTTPS_PROXY, not the macOS system proxy; adopt an enabled system HTTPS proxy when the variable
+# is unset (docs/133: direct connections to the Claude login/API were refused with 403).  ssh to the VM is unaffected.
+if [ -z "${HTTPS_PROXY:-}${https_proxy:-}" ] && [ "${ORFADC_QUEUE_SYSTEM_PROXY:-1}" = 1 ] && command -v scutil >/dev/null 2>&1; then
+  sp="$(scutil --proxy 2>/dev/null)"
+  if printf '%s\n' "$sp" | grep -q 'HTTPSEnable : 1'; then
+    ph="$(printf '%s\n' "$sp" | awk '/HTTPSProxy :/ {print $3}')"; pp="$(printf '%s\n' "$sp" | awk '/HTTPSPort :/ {print $3}')"
+    if [ -n "$ph" ] && [ -n "$pp" ]; then
+      export HTTPS_PROXY="http://$ph:$pp" HTTP_PROXY="http://$ph:$pp" NO_PROXY="${NO_PROXY:-localhost,127.0.0.1,172.16.0.0/12,192.168.0.0/16,10.0.0.0/8}"
+      system_proxy_note="PROXY from macOS system settings: $ph:$pp"
+    fi
+  fi
+fi
 
 ts="$(date +%Y%m%dT%H%M%S)"
 out="${ORFADC_QUEUE_OUT_ROOT:-$repo/results/windows_checks}/${ts}_job"
@@ -37,6 +50,7 @@ mkdir -p "$out" || exit 1
 progress="$out/progress.txt"
 log() { line="$(date +%H:%M:%S) $1"; echo "$line"; echo "$line" >> "$progress"; }
 cp "$queue" "$out/queue.txt"
+[ -n "${system_proxy_note:-}" ] && log "$system_proxy_note"
 
 i=0
 while IFS= read -r raw || [ -n "$raw" ]; do

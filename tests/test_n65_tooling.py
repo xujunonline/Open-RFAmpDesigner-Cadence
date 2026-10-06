@@ -227,3 +227,23 @@ def test_char3_modes_are_buildable_and_vds_cs_follows_config():
         pdk3.char3_netlist(cfg, lay, [0.4], mode, [5e9])
     assert "VD (vd 0) vsource dc=0.5" in pdk3.char3_netlist(cfg, lay, [0.4], "cs3", [5e9])        # crn40lp default
     assert "VD (vd 0) vsource dc=0.6" in pdk3.char3_netlist({**cfg, "vds_cs": 0.6}, lay, [0.4], "cs3", [5e9])
+
+
+@needs_bash
+def test_job_queue_sh_adopts_macos_system_proxy_when_unset(tmp_path):
+    fake = _exe(tmp_path / "fakepy", '#!/bin/bash\necho "PROXY=${HTTPS_PROXY:-unset} NO=${NO_PROXY:-unset}"\n')
+    shims = tmp_path / "shims"
+    shims.mkdir()
+    _exe(shims / "scutil", "#!/bin/bash\nprintf '  HTTPSEnable : 1\\n  HTTPSProxy : 127.0.0.1\\n  HTTPSPort : 29290\\n'\n")
+    queue = tmp_path / "q.txt"
+    queue.write_text("smoke\n")
+    base = {k: v for k, v in os.environ.items() if k.lower() not in ("https_proxy", "http_proxy", "no_proxy")}
+    base.update(ORFADC_QUEUE_PYTHON=str(fake), PATH=f"{shims}{os.pathsep}{os.environ['PATH']}")
+    for flag, want in (("1", "PROXY=http://127.0.0.1:29290 NO=localhost,127.0.0.1,172.16.0.0/12"), ("0", "PROXY=unset")):
+        out = tmp_path / f"out{flag}"
+        r = subprocess.run([BASH, str(QUEUE_SH), str(queue)], capture_output=True, text=True, timeout=60,
+                           env={**base, "ORFADC_QUEUE_OUT_ROOT": str(out), "ORFADC_QUEUE_SYSTEM_PROXY": flag})
+        assert r.returncode == 0, r.stderr
+        (job,) = list(out.iterdir())
+        assert want in (job / "01_smoke.log").read_text()
+        assert ("PROXY from macOS system settings: 127.0.0.1:29290" in (job / "progress.txt").read_text()) == (flag == "1")
