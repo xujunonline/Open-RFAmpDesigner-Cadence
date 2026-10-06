@@ -37,6 +37,9 @@ python -m pip install -r config/requirements_repro.txt
 - 安装并登录 Claude Code（`claude`）与 Codex CLI（`codex`，A3 的 codex-mcp 需要，用 ChatGPT 账号登录）。
 - **每次都在激活了 `.venv` 的终端里启动 `claude`**：项目 hook 用 `python "$CLAUDE_PROJECT_DIR/.claude/hooks/…"`，
   若 `python` 命令不存在，守卫 hook 不会运行，远程/Spectre 命令就失去确认保护。
+  （2026-10-06 修正：桌面 App 不会激活 `.venv`，实测 hook 因找不到 `python` 失败（exit 127）。现在 hook 命令优先用
+  `$CLAUDE_PROJECT_DIR/.venv/bin/python`，不存在时回落 `python`（Windows 不变）。MCP 服务器 `rfamp`/`codex` 仍用 `.mcp.json` 的 `python`，
+  未激活 `.venv` 时连不上；`bench` 的 claude-cli / codex-mcp 不依赖它们。）
 - 机密文件不在 git 里，需要在 Mac 上重新建：`config/remote_cadence.local.yaml`（按 `config/remote_cadence.example.yaml`，由用户填写）。
   `config/model_paths.local.yaml` 由 N1 盘点后写入。crn40lp 的旧配置、PDK 表、`results/runs/` 留在 Windows，不迁移（v1 结果不改动）。
 - 虚拟机：在 VMware Fusion 打开 `IC618_rf.vmx`（从 Windows 的 `F:\IC618_rf\` 整个目录拷过来），网络用 NAT 或仅主机，开机后在虚拟机里 `ip addr` 查 IP。

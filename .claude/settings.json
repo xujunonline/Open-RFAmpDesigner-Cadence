@@ -45,7 +45,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python \"$CLAUDE_PROJECT_DIR/.claude/hooks/check_python.py\"",
+            "command": "p=\"$CLAUDE_PROJECT_DIR/.venv/bin/python\"; [ -x \"$p\" ] || p=python; \"$p\" \"$CLAUDE_PROJECT_DIR/.claude/hooks/check_python.py\"",
             "timeout": 60
           }
         ]
@@ -57,7 +57,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python \"$CLAUDE_PROJECT_DIR/.claude/hooks/guard_bash.py\"",
+            "command": "p=\"$CLAUDE_PROJECT_DIR/.venv/bin/python\"; [ -x \"$p\" ] || p=python; \"$p\" \"$CLAUDE_PROJECT_DIR/.claude/hooks/guard_bash.py\"",
             "timeout": 10
           }
         ]
