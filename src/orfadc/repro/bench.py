@@ -77,6 +77,12 @@ def agent_impl(value: str | None = None) -> str:
     return v
 
 
+def spectre_calls_of(backend) -> int | None:
+    """Spectre runs made by a hybrid backend's final (Stage-4) simulator; None for the surrogate."""
+    n = getattr(getattr(backend, "final", None), "n_calls", None)
+    return int(n) if isinstance(n, int) else None
+
+
 def pdk_label(cfg: dict | None) -> str:
     """Short PDK label from the local PDK config's ``name``.  A config without a name is the v1 crn40lp setup."""
     name = str((cfg or {}).get("name") or "").strip().lower()
@@ -961,6 +967,9 @@ def main(argv: list[str] | None = None) -> int:
         r.pop("_session", None)
         r["run_settings"] = {"q_match": ck.Q_MATCH, "budget_equiv_s": budget_for(a.spec),
                              "spectre_max_per_design": os.environ.get("ORFADC_SPECTRE_MAX_PER_DESIGN")}
+        n_spectre = spectre_calls_of(backend)
+        if n_spectre is not None:  # docs/132: per-design Spectre count for the ledger (parallel queues)
+            r["spectre_calls"] = n_spectre
         if impl == "v2":
             r["run_settings"]["llm_max_calls"] = int(os.environ.get("ORFADC_LLM_MAX_CALLS") or LLM_MAX_CALLS_DEFAULT)
             r["run_settings"]["memory_dir"] = _rel(mem_dir) if mem_dir else None

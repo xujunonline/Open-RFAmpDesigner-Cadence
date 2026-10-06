@@ -247,3 +247,15 @@ def test_job_queue_sh_adopts_macos_system_proxy_when_unset(tmp_path):
         (job,) = list(out.iterdir())
         assert want in (job / "01_smoke.log").read_text()
         assert ("PROXY from macOS system settings: 127.0.0.1:29290" in (job / "progress.txt").read_text()) == (flag == "1")
+
+
+def test_spectre_calls_of_reads_the_stage4_backend_counter():
+    from orfadc.repro import bench
+    from orfadc.repro import tools as T
+    from orfadc.repro.backend_cadence import HybridBackend
+
+    class Final:
+        name, n_calls = "fake_spectre", 7
+    assert bench.spectre_calls_of(None) is None
+    assert bench.spectre_calls_of(T.SurrogateBackend()) is None
+    assert bench.spectre_calls_of(HybridBackend(T.SurrogateBackend(), Final())) == 7
