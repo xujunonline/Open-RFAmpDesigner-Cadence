@@ -27,6 +27,55 @@
 - 盘点注意：PDK 在登录用户的 `$HOME` 下，而盘点脚本默认跳过 `$HOME` 下的 cds.lib 库，需要在本地配置的 `inventory:` 块里设 `skip_home: false`。
 - 安全：虚拟机密码弱，且曾在对话中出现，建议用户用 `passwd` 修改。执行者没有使用这个密码。
 
-## 3. N1–N3
+## 3. N1 盘点与表征（完成，2026-10-07，Spectre 75 次，累计 75/1500，预分配 ≤150）
+
+### 3.1 盘点与器件选择（0 次）
+- `ORFADC_INV_SKIP_HOME=0 bench pdk-inventory`：7 个 PDK 目录、70 个模型文件、60 个 nmos 候选。原始结果在 git 忽略的 `results/runs/pdk_inventory/`。
+- 虚拟机上有 TSMC 65 nm LP（CRN65LP）的两套 Spectre 模型：v1.5（3.3 V IO）与 v1.7（2.5 V IO，与 docs/128 的 v1.7a 一致），另有 SMIC 等其他工艺。
+  选 **v1.7**，`toplevel.scs` 的 `tt_lib` 角，前置 `pre_simu` 段（全局模型标志）。
+- RF 管 `nmos_rf` 与 crn40lp 一样是 4 端口 `(d g s b)`。差异有两处：
+  - **没有 `multi` 参数**：用 Spectre 子电路隐含的 `m`；
+  - 模型分档为 `lr` 60–240 nm、`wr` 0.6–6 µm。
+- 取值：`lr=60n`（N65 节点）、`wr=2.0 µm`（与 crn40lp 相同，在分档内）、VDD 1.2 V（N65 核心电压）。nr 2–64 全部通过校验。
+- 写配置：新增 `bench pdk-config`，从盘点结果选出 toplevel/section/器件，写入 git 忽略的 `config/model_paths.local.yaml`，
+  控制台不打印路径。执行者没有直接编辑这个文件（项目权限规则禁止）。
+
+### 3.2 代码的参数化（crn40lp 行为不变，补测试）
+| 改动 | crn40lp 默认 | N65 |
+|---|---|---|
+| `pdk_v2._inst` 倍数参数 `mult_param` | `multi` | `m` |
+| `pdk_v2._header` 前置段 `pre_sections` | 无 | `[pre_simu]` |
+| `pdk3.char3_netlist` 的 cs3 漏压 `vds_cs` | 0.5 V | 0.6 V（= VDD/2，与低 Vds 表一致） |
+| 偏置网格 `vb_grid`（配置中已有的键） | 0.30–0.50 V | 0.375–0.675 V，步长 0.025 V（13 点） |
+| `bench pdk-characterize --widths` | 全部宽度 | 用于单宽度探测 |
+| `bench pdk-refit`（新） | — | docs/122 的拟合与大信号 1 dB 点，写 `<ts>_fit/`（0 次 Spectre） |
+
+- **偏置网格的依据**：先做一次单宽度探测（W≈90 µm，7 次 Spectre）。
+  - crn40lp 的网格 0.30–0.50 V 在 N65 上只覆盖 Id 0.14–3.0 mA、fT 15–63 GHz，太靠近亚阈区。
+  - 代理模型（Vth 0.32 V）在原网格上对应 0.58–11 mA；N65 上同样的电流范围约为 Vgs 0.375–0.675 V。
+- **修正一个 v1 遗留缺陷**：`pdk3.MODES` 含 `cs2`（数据来自 `twoport_rows`），而 `characterize3` 遍历 `MODES`，
+  构建 `cs2` 网表时抛 `ValueError`（docs/123 的 12 次运行早于 `cs2` 加入）。现在只遍历 `CHAR3_MODES = (cs3, cg3)`。
+  首次运行在报错前已完成 12 次 Spectre，这 12 次记账但结果不用（移到 `results/runs/pdk_char3_aborted/`）。
+
+### 3.3 表征结果（原理图级、无版图寄生；器件参数不在本文）
+| 步骤 | Spectre | 结果 |
+|---|---|---|
+| 探测 `pdk-characterize --widths 90` | 7 | nr 2–64 有效；挪到 `results/runs/pdk_char_probe/`，不参与建表 |
+| `pdk-characterize --freqs 15,25,35,45,60`（Vds 1.2 V） | 22 | 16 宽度 × 13 偏置 = 208 行，0 失败 |
+| `pdk-characterize --vds 0.6` | 16 | 208 行，0 失败 |
+| `pdk-characterize3`（中止，见上） | 12 | 不用 |
+| `pdk-characterize3` | 12 | 156 行（6 宽度 × 13 偏置 × 2 模式），0 失败 |
+| `pdk-characterize-casc` | 6 | 78 行，0 失败 |
+| `pdk-refit` | 0 | 两张表的拟合残差 RMS：中位数 0.047 / 0.049，最大 0.081 / 0.103（只有低 Vds 表 Vgs = 0.375 V 一列略超 0.1） |
+
+- 全量 pytest 121 passed。v1 冻结：`replot` 的 Table IV 与 2026-10-03 一致（CSV 只差 Windows 的 CRLF 行尾，Markdown 逐字节一致）。
+- 远程用时：每次 Spectre 约 2–3 s，N1 全部约 4 min。
+
+### 3.4 边界
+- 器件表按 Vds 选取最新、行数最多的一张，**不区分 PDK**。本机只有 N65 的表（crn40lp 的表留在 Windows），
+  所以不会混用；若以后在同一台机器上切换 PDK，需要先把另一工艺的 `results/runs/pdk_char*` 移走。
+- 第一级噪声标定 `NOISE1_SCALE = 1.2` 是在 crn40lp 上标定的；N65 是否适用，由 N2 的 `pdk-check` 检验。
+
+## 4. N2–N3
 
 未开始。

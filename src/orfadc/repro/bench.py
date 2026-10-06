@@ -9,7 +9,7 @@ Table/figure commands run on the surrogate backend (no Cadence, no network) and 
 deterministic under the seed; their numbers are *trend-level* evidence, not silicon or
 PDK results (every artefact carries that label).  Other subcommands (see ``--help``):
 design (``--backend surrogate|cadence|pdk``), replot, llm-check, llm-table, llm-seeds,
-cadence-check and pdk-inventory|pdk-characterize|pdk-characterize3|pdk-characterize-casc|pdk-check
+cadence-check and pdk-inventory|pdk-config|pdk-refit|pdk-characterize|pdk-characterize3|pdk-characterize-casc|pdk-check
 (the last two groups reach the Cadence VM and need an explicit user request).
 """
 from __future__ import annotations
@@ -780,7 +780,7 @@ def write_summary(out: Path, parts: dict) -> None:
 
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("cmd", choices=["all", "table4", "table5", "fig5", "fig7", "fig10", "smoke", "design", "replot", "llm-check", "cadence-check", "llm-table", "llm-seeds", "pdk-inventory", "pdk-characterize", "pdk-characterize3", "pdk-characterize-casc", "pdk-check"])
+    ap.add_argument("cmd", choices=["all", "table4", "table5", "fig5", "fig7", "fig10", "smoke", "design", "replot", "llm-check", "cadence-check", "llm-table", "llm-seeds", "pdk-inventory", "pdk-config", "pdk-refit", "pdk-characterize", "pdk-characterize3", "pdk-characterize-casc", "pdk-check"])
     ap.add_argument("--spec", default="S2", help="spec id for the 'design' command")
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--mode", type=int, default=1, choices=[1, 2])
@@ -788,13 +788,23 @@ def main(argv: list[str] | None = None) -> int:
                     choices=["rule", "scripted", "anthropic", "openai", "claude-cli", "codex-mcp"])
     ap.add_argument("--vds", type=float, default=None, help="pdk-characterize: drain bias (default: PDK vdd)")
     ap.add_argument("--freqs", default="", help="pdk-characterize: extra S/noise frequencies in GHz, e.g. 15,25,35,45,60")
-    ap.add_argument("--inputs", default="", help="llm-seeds: extra comma-separated run folders merged with --out")
-    ap.add_argument("--widths", default="", help="pdk-characterize3: stage-1 widths in um (default 45,72,99,126,153,180)")
+    ap.add_argument("--inputs", default="", help="llm-seeds: extra comma-separated run folders merged with --out; pdk-refit: raw pdk_char folders")
+    ap.add_argument("--widths", default="", help="pdk-characterize3/-casc: stage-1 widths in um (default 45,72,99,126,153,180); pdk-characterize: probe widths")
     ap.add_argument("--backend", default="surrogate", choices=["surrogate", "cadence", "pdk"],
                     help="simulator for design/llm-check (cadence = remote Spectre, see backend_cadence.py)")
     ap.add_argument("--agent-impl", default=None, choices=list(AGENT_IMPLS),
                     help="design: agent implementation (default: ORFADC_AGENT_IMPL, else v1)")
     ap.add_argument("--memory", type=Path, default=None, help="KB/EB directory (mode 2 / self-evolution)")
+    ap.add_argument("--lr", default=None, help="pdk-config: RF nmos gate length, e.g. 60n (required)")
+    ap.add_argument("--wr-um", type=float, default=None, help="pdk-config: finger width in um (required)")
+    ap.add_argument("--vdd", type=float, default=None, help="pdk-config: supply in V (required)")
+    ap.add_argument("--mult-param", default=None, help="pdk-config: multiplicity instance parameter (default multi; N65: m)")
+    ap.add_argument("--prefer", default=None, help="pdk-config: substring of the preferred model file path")
+    ap.add_argument("--corner", default=None, help="pdk-config: corner section of toplevel.scs (default tt_lib/top_tt/tt)")
+    ap.add_argument("--nmos", default="nmos_rf", help="pdk-config: RF nmos cell name")
+    ap.add_argument("--force", action="store_true", help="pdk-config: replace an existing local model config")
+    ap.add_argument("--vds-cs", type=float, default=None, help="pdk-config: drain bias of the cs3 three-port (default 0.5 V)")
+    ap.add_argument("--vb-grid", default="", help="pdk-config: gate-bias grid in V, e.g. 0.4,0.45,0.5 (default: device grid)")
     ap.add_argument("--seeds", type=int, default=5)
     ap.add_argument("--workers", type=int, default=max(1, min(8, (os.cpu_count() or 2) - 1)))
     ap.add_argument("--out", type=Path, default=ROOT / "results" / "repro" / "latest")
@@ -831,6 +841,8 @@ def main(argv: list[str] | None = None) -> int:
         runner = RemoteRunner(load_remote_config(ROOT / "config" / "remote_cadence.local.yaml"))
         cfg = pdk_v2.load_pdk_config()
         widths = sorted(set(D.cascode_widths()) | set(D.diff_widths()))
+        if a.widths:  # docs/132: a one-width probe before the full table
+            widths = [float(x) for x in a.widths.split(",")]
         vbs = [float(v) for v in cfg.get("vb_grid") or D.bias_grid()]
         vds = a.vds
         freqs = [float(x) * 1e9 for x in a.freqs.split(",")] if a.freqs else None
@@ -866,6 +878,42 @@ def main(argv: list[str] | None = None) -> int:
                           "failed": [k for k, v in rep["runs"].items() if not v["steps"]["ok"] or "parse_error" in v],
                           "local_dir": rep["local_dir"]}, indent=1))
         return 0 if rep["rows"] else 7
+    if a.cmd == "pdk-config":  # docs/132 N1: local model config from the newest inventory (offline, 0 Spectre)
+        from orfadc.repro import pdk_v2
+        if a.lr is None or a.wr_um is None or a.vdd is None:
+            raise SystemExit("pdk-config needs --lr, --wr-um and --vdd")
+        invs = sorted((ROOT / "results" / "runs" / "pdk_inventory").glob("*/inventory.json"))
+        if not invs:
+            raise SystemExit("no inventory; run `bench pdk-inventory` first")
+        pdk = pdk_v2.propose_config(json.loads(invs[-1].read_text(encoding="utf-8")), nmos=a.nmos, prefer=a.prefer,
+                                    corner=a.corner)
+        pdk.update({"lr": a.lr, "wr_um": a.wr_um, "vdd": a.vdd})
+        if a.mult_param:
+            pdk["mult_param"] = a.mult_param
+        if a.vds_cs is not None:
+            pdk["vds_cs"] = a.vds_cs
+        if a.vb_grid:
+            pdk["vb_grid"] = [float(x) for x in a.vb_grid.split(",")]
+        path = pdk_v2.write_pdk_config(pdk, force=a.force)
+        # PDK paths stay in the git-ignored file; the console only shows the non-path choices.
+        print(json.dumps({"written": path.name, "inventory": invs[-1].parent.name, "toplevel": "<set>",
+                          **{k: v for k, v in pdk.items() if k != "toplevel"}}, indent=1))
+        return 0
+    if a.cmd == "pdk-refit":  # docs/122 fit + large-signal 1 dB point for raw device tables (offline, 0 Spectre)
+        from orfadc.repro import pdk_fit
+        root = ROOT / "results" / "runs" / "pdk_char"
+        dirs = [Path(x) for x in a.inputs.split(",") if x] or \
+            [d for d in sorted(root.glob("*")) if d.is_dir() and not d.name.endswith("_fit")
+             and (d / "device_table.json").exists() and not (root / f"{d.name}_fit").exists()]
+        done = []
+        for d in dirs:
+            rep = pdk_fit.add_large_signal(d, pdk_fit.refit_table(d))
+            dst = d.parent / f"{d.name}_fit"
+            dst.mkdir(exist_ok=True)
+            (dst / "device_table.json").write_text(json.dumps(rep, indent=1, default=float), encoding="utf-8")
+            done.append({"from": d.name, "to": dst.name, "rows": len(rep["rows"]), "vds_v": rep.get("vds_v")})
+        print(json.dumps(done, indent=1))
+        return 0 if done else 8
     if a.cmd == "pdk-inventory":  # docs/120 V2-0: read-only listing of the PDKs on the Cadence host
         from orfadc.cadence.remote_runner import RemoteRunner, load_remote_config
         from orfadc.repro import pdk_v2

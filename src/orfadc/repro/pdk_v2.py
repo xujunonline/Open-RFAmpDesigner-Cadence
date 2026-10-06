@@ -88,9 +88,18 @@ def inventory_env(section: dict | None) -> dict[str, str]:
     return env
 
 
-def load_inventory_env(path: Path) -> dict[str, str]:
+def load_inventory_env(path: Path, environ: dict[str, str] | None = None) -> dict[str, str]:
+    """Config ``inventory:`` block, overridden by the same variables set in the local environment
+    (e.g. ``ORFADC_INV_SKIP_HOME=0 bench pdk-inventory``)."""
     from orfadc.config_loader import load_yaml
-    return inventory_env(load_yaml(path).get("inventory"))
+    env = inventory_env(load_yaml(path).get("inventory"))
+    environ = os.environ if environ is None else environ
+    for key, name in INVENTORY_KEYS.items():
+        if environ.get(name):
+            env.update(inventory_env({key: environ[name].split()}))
+    if environ.get("ORFADC_INV_SKIP_HOME") in ("0", "1"):
+        env["ORFADC_INV_SKIP_HOME"] = environ["ORFADC_INV_SKIP_HOME"]
+    return env
 
 
 def run_inventory(runner, out_root: Path | None = None, timeout_s: int = 290, env: dict[str, str] | None = None) -> dict:
@@ -109,6 +118,46 @@ def run_inventory(runner, out_root: Path | None = None, timeout_s: int = 290, en
     inv["steps"], inv["local_dir"] = steps, str(local)
     (local / "inventory.json").write_text(json.dumps(inv, indent=1), encoding="utf-8")
     return inv
+
+
+def propose_config(inv: dict, nmos: str = "nmos_rf", prefer: str | None = None, corner: str | None = None) -> dict:
+    """Pick the Spectre ``toplevel.scs`` that sits next to a model file defining ``nmos`` (docs/132 N1).
+
+    The corner section is ``corner`` or the first of tt_lib / top_tt / tt found in it; a ``pre_simu`` section
+    (TSMC N65: global model flags) is included before it.  ``prefer`` (substring of the model file path) breaks
+    ties, then the highest model version (``_v1d7`` over ``_v1d5``), then the file name."""
+    files = inv.get("model_files") or {}
+    hits = []
+    for path, f in files.items():
+        if not any(m["name"] == nmos for m in f["models"]):
+            continue
+        top = str(PurePosixPath(path).parent / "toplevel.scs")
+        secs = [s["name"] for s in (files.get(top) or {}).get("sections", [])]
+        sec = corner if corner in secs else next((c for c in ("tt_lib", "top_tt", "tt") if c in secs), None)
+        if sec:
+            ver = tuple(int(x) for x in (re.search(r"_v(\d+)d(\d+)", path) or re.match("", "")).groups())
+            hits.append(((prefer is not None and prefer in path), ver, PurePosixPath(path).name, path, top, sec, secs))
+    if not hits:
+        raise ValueError(f"no toplevel.scs with a typical corner next to a model file defining {nmos}")
+    *_, model_name, _, top, sec, secs = max(hits)
+    name = re.match(r"[a-z]+\d+[a-z]*", model_name.lower())
+    return {"name": name.group(0) if name else "pdk", "toplevel": top, "section": sec,
+            "pre_sections": ["pre_simu"] if "pre_simu" in secs else [], "nmos": nmos}
+
+
+def write_pdk_config(pdk: dict, path: Path = None, force: bool = False) -> Path:
+    """Write the ``pdk:`` block of the git-ignored local model config (never committed or printed)."""
+    import yaml
+    path = path or LOCAL_CFG
+    if path.exists() and not force:
+        raise FileExistsError(f"{path.name} exists; pass --force to replace it")
+    need = ("toplevel", "section", "nmos", "lr", "wr_um", "vdd")
+    missing = [k for k in need if pdk.get(k) in (None, "")]
+    if missing:
+        raise ValueError(f"pdk.{missing} not set")
+    path.write_text("# written by `bench pdk-config` (docs/132); git-ignored, do not commit\n" +
+                    yaml.safe_dump({"pdk": pdk}, sort_keys=False, allow_unicode=False), encoding="utf-8")
+    return path
 
 
 def summarize(inv: dict, max_rows: int = 40) -> str:
@@ -168,13 +217,16 @@ def layout_for(w_um: float, wr_um: float, nr_choices: list[int]) -> dict:
 
 
 def _header(cfg: dict) -> list[str]:
-    return ["// orfadc.repro v2 PDK characterisation (auto-generated)", "simulator lang=spectre", "global 0",
-            f'include "{cfg["toplevel"]}" section={cfg["section"]}']
+    # optional pre_sections (N65: pre_simu, which defines the global model flags) come before the corner section
+    incs = [f'include "{cfg["toplevel"]}" section={sec}' for sec in [*(cfg.get("pre_sections") or []), cfg["section"]]]
+    return ["// orfadc.repro v2 PDK characterisation (auto-generated)", "simulator lang=spectre", "global 0", *incs]
 
 
 def _inst(cfg: dict, name: str, d: str, g: str, s: str, b: str, lay: dict) -> str:
+    # crn40lp's nmos_rf takes `multi`; N65's has no such parameter, so its config sets mult_param: m
+    # (Spectre's implicit subcircuit multiplicity).  The layout key stays "multi" in tables either way.
     return (f"{name} ({d} {g} {s} {b}) {cfg['nmos']} lr={cfg['lr']} wr={cfg['wr_um']}u "
-            f"nr={lay['nr']} multi={lay['multi']}")
+            f"nr={lay['nr']} {cfg.get('mult_param') or 'multi'}={lay['multi']}")
 
 
 def validation_netlist(cfg: dict, lay: dict) -> str:
@@ -430,8 +482,7 @@ def render_pdk_netlist(design: ck.LNADesign, f_hz: np.ndarray, cfg: dict, usable
     (the half-circuit view of the paper's cross-coupled pair).  Gate resistance is inside the RF cell."""
     op1, op2, op3 = design.ops
     f_ref, vdd = design.fc_hz, float(cfg["vdd"])
-    L: list[str] = _header(cfg)[:-1] + [f'include "{cfg["toplevel"]}" section={cfg["section"]}',
-                                        f"opts options temp={T_NOISE_C} tnom=27"]
+    L: list[str] = _header(cfg) + [f"opts options temp={T_NOISE_C} tnom=27"]
     pin = hb_pin_dbm[0] if hb_pin_dbm else -60.0
     L.append(f"parameters pin={pin:g}")
     L += [f"VDD (vdd 0) vsource dc={vdd:g}", f"VB1 (vb1 0) vsource dc={op1.vgs_v:.6g}",

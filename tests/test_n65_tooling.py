@@ -108,6 +108,16 @@ def test_inventory_env_maps_and_validates():
             P.inventory_env(bad)
 
 
+def test_load_inventory_env_local_overrides(tmp_path):
+    cfg = tmp_path / "remote.yaml"
+    cfg.write_text("remote: {host: h, user: u}\ninventory:\n  extra_roots: [/opt/pdk]\n  skip_home: true\n")
+    assert P.load_inventory_env(cfg, environ={}) == {"PDK_EXTRA_ROOTS": "/opt/pdk", "ORFADC_INV_SKIP_HOME": "1"}
+    env = P.load_inventory_env(cfg, environ={"ORFADC_INV_SKIP_HOME": "0", "ORFADC_CDS_PREFIXES": "/a /b"})
+    assert env == {"PDK_EXTRA_ROOTS": "/opt/pdk", "ORFADC_INV_SKIP_HOME": "0", "ORFADC_CDS_PREFIXES": "/a /b"}
+    with pytest.raises(ValueError):
+        P.load_inventory_env(cfg, environ={"PDK_EXTRA_ROOTS": "rel/dir"})
+
+
 class _FakeRunner:
     class config:  # noqa: N801
         remote_root = "/tmp/orfadc"
@@ -172,3 +182,48 @@ def test_inventory_script_finds_n65_like_tree_with_configured_roots(tmp_path):
     assert str(ic_cdslib) in inv["cds_libs"] and str(home / "cds.lib") in inv["cds_libs"]
     assert inv["lib_dirs"] == [str(pdk / "tsmcN65")]          # Cadence's own libs and $HOME libs are skipped
     assert str(home / "work" / "mylib") in run(ORFADC_INV_SKIP_HOME="0")["lib_dirs"]
+
+
+# ---------------------------------------------------------------------------
+# bench pdk-config: choose toplevel/section from an inventory, write the local model config
+# ---------------------------------------------------------------------------
+def _inv_n65():
+    raw = []
+    for d, model in (("/p/models/spectre", "crn65lp_3d3_lk_v1d5.scs"), ("/p/models/online/2.5V/spectre", "crn65lp_2d5_lk_v1d7.scs")):
+        raw += [f"##MODELFILE\t{d}/{model}|10", f"##MODEL\t{d}/{model}|inline subckt nmos_rf ( d g s b )",
+                f"##SECTION\t{d}/{model}|section tt_rfmos", f"##MODELFILE\t{d}/toplevel.scs|5",
+                f"##SECTION\t{d}/toplevel.scs|section pre_simu", f"##SECTION\t{d}/toplevel.scs|section tt_lib"]
+    raw += ["##MODELFILE\t/q/models/spectre/other.scs|3", "##MODEL\t/q/models/spectre/other.scs|inline subckt nmos_rf ( d g s b )",
+            "##DONE\tok"]                                  # no toplevel.scs next to it -> not a candidate
+    return P.parse_inventory("\n".join(raw))
+
+
+def test_propose_config_prefers_newest_model_version_and_pre_simu():
+    cfg = P.propose_config(_inv_n65())
+    assert cfg == {"name": "crn65lp", "toplevel": "/p/models/online/2.5V/spectre/toplevel.scs", "section": "tt_lib",
+                   "pre_sections": ["pre_simu"], "nmos": "nmos_rf"}
+    assert P.propose_config(_inv_n65(), prefer="3d3")["toplevel"] == "/p/models/spectre/toplevel.scs"
+    with pytest.raises(ValueError):
+        P.propose_config(_inv_n65(), nmos="nmos_rf_missing")
+
+
+def test_write_pdk_config_roundtrip_and_no_overwrite(tmp_path):
+    cfg = {**P.propose_config(_inv_n65()), "lr": "60n", "wr_um": 2.0, "vdd": 1.2, "mult_param": "m"}
+    path = P.write_pdk_config(cfg, tmp_path / "model_paths.yaml")
+    assert P.load_pdk_config(path) == cfg
+    with pytest.raises(FileExistsError):
+        P.write_pdk_config(cfg, path)
+    P.write_pdk_config({**cfg, "vdd": 1.1}, path, force=True)
+    assert P.load_pdk_config(path)["vdd"] == 1.1
+    with pytest.raises(ValueError):
+        P.write_pdk_config({k: v for k, v in cfg.items() if k != "lr"}, tmp_path / "x.yaml")
+
+
+def test_char3_modes_are_buildable_and_vds_cs_follows_config():
+    from orfadc.repro import pdk3
+    cfg = {"toplevel": "/p/toplevel.scs", "section": "tt_lib", "nmos": "nmos_rf", "lr": "60n", "wr_um": 2.0, "vdd": 1.2}
+    lay = {"nr": 4, "multi": 1, "w_um": 8.0}
+    for mode in pdk3.CHAR3_MODES:                       # every mode characterize3 loops over must build
+        pdk3.char3_netlist(cfg, lay, [0.4], mode, [5e9])
+    assert "VD (vd 0) vsource dc=0.5" in pdk3.char3_netlist(cfg, lay, [0.4], "cs3", [5e9])        # crn40lp default
+    assert "VD (vd 0) vsource dc=0.6" in pdk3.char3_netlist({**cfg, "vds_cs": 0.6}, lay, [0.4], "cs3", [5e9])
