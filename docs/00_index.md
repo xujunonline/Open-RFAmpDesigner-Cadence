@@ -20,4 +20,5 @@
 | `127_paper_budget_alignment.md` | 论文预算口径；PDK pass@1 34/40（论文 32/40）；Codex 不封顶 5 seed；Spectre ≈697/1000 |
 | `128_ic618_vm_pdk_survey.md` | 新虚拟机 IC618_rf 的工艺盘点（磁盘扫描：TSMC 65 nm LP RF，待开机确认） |
 | `129_v1_cleanup_prompt.md` | v1.1 清理提示词与执行记录 |
+| `130_v2_kickoff.md` | v2 启动任务说明：A 线 ReAct 智能体 + B 线 N65（IC618_rf）接入与 v1 基线，在 Claude Code 中执行 |
 | `LEGACY.md`、`LEGACY_files.txt` | v1.1 删除内容与找回方法 |

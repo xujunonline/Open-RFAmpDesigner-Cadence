@@ -8,7 +8,8 @@
 | 可运行复现 | `src/orfadc/repro/` | 论文 Stage 1–4 工具、Eq.(1)(2)(3)、Manager/Searcher/Refiner、KB/EB、GA/BO 基线、Table IV/V、Fig.5/7/8/10 端到端 | ✅ 是（代理仿真器） |
 | Cadence/PDK 后端 | `repro/backend_cadence.py`（Spectre 宏模型）、`repro/pdk_v2.py`、`pdk3.py`、`pdk_fit.py`（PDK 器件） | Stage 4 由 Spectre 判定；示意 PDK pass@1 34/40（docs/127） | ❌ 需 Cadence 虚拟机 |
 
-版本：v1 = 标签 `v1-decision-points`（e80dfd3，已推送到私有仓库 `xujunonline/Open-RFAmpDesigner-Cadence`）；v1.1 = 清理版（docs/129）。
+版本：v1 = 标签 `v1-decision-points`（e80dfd3）；v1.1 = 标签 `v1.1-clean`（4feb7a0，清理版，docs/129），均已推送到私有仓库 `xujunonline/Open-RFAmpDesigner-Cadence`。
+**当前任务：按 `docs/130_v2_kickoff.md` 分阶段执行（分支 `v2-agentic`）：A 线 v2 智能体，B 线迁移到新虚拟机 IC618_rf 的 TSMC N65 并先跑 v1 规则基线。N65 的 Spectre 单独记账，上限 1500（`results/repro/n65/spectre_ledger.csv`）。**
 路线 B 历史（Virtuoso/OCEAN 实机链路、教学电路、远程恢复与隔离）已删除，可从 v1 标签找回（`docs/LEGACY.md`）。
 PDK：v1 结果用虚拟机 `RedHat_9_7_A_and_D_10T` 上的 TSMC 40 nm LP RF（crn40lp）；新虚拟机 `IC618_rf` 磁盘扫描为 TSMC 65 nm LP RF（CRN65LP，docs/128），尚未用于结果。
 
@@ -58,7 +59,7 @@ PowerShell：`$env:PYTHONPATH="$PWD\src"`，其余相同。
    不得把代理结果写进论文 Table IV/V/VI 的"实测"位置，也不得宣称 PDK/硅通过。
 2. **不读、不打印、不提交** `config/remote_cadence.local.yaml`、私钥、`model_paths.local.yaml`；
    远程 Cadence 操作（ssh/scp、`bench cadence-check`、`bench pdk-*`、`--backend cadence|pdk`）只在用户明确要求时进行：
-   事先报告预计 Spectre 次数；累计不超过用户批准的上限（当前约 1000，已用约 697）；每设计用 `ORFADC_SPECTRE_MAX_PER_DESIGN` 设护栏；
+   事先报告预计 Spectre 次数；累计不超过用户批准的上限（crn40lp 旧账约 1000，已用约 697；N65 新账 1500，见 docs/130）；每设计用 `ORFADC_SPECTRE_MAX_PER_DESIGN` 设护栏；
    结果不确定（连接中断、无返回）时不自动重派，先查远程状态。`.claude/hooks/guard_bash.py` 会对这类命令要求确认。
 3. 改 `src/` 后先跑 `python -m pytest tests/test_repro_core.py -q`，提交前跑全量 `pytest tests -q`。
 4. 论文勘误以代码与测试为准：Eq.(3) Y11 分母末项应为 `R_S ω0³ Q s`（`tests/test_repro_core.py` 用节点分析验证）；
