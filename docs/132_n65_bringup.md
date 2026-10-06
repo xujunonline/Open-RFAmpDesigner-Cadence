@@ -20,7 +20,7 @@
 - 首次从 Claude Code 连接时 `No route to host`（ARP 不完整）。用户放行 macOS「本地网络」权限后连通。
 - 专用密钥 `~/.ssh/ic618_rf`（ed25519，无口令）在 Mac 上生成；`ssh-copy-id` 由用户在终端里执行，密码由用户输入。
   主机 ED25519 指纹在首次连接时由用户确认。本地配置 `config/remote_cadence.local.yaml`（git 忽略）也由用户填写。
-- **登录用户改为 `IC`**（用户决定；docs/130 原定 `userone`）。`IC` 不是 root，PDK 就在它的家目录下。
+- **登录用户为 `IC`**：IC618_rf 上没有 docs/130 原定的 `userone` 用户（用户确认），所以必须改。`IC` 不是 root，PDK 就在它的家目录下。
 - 验证（密钥登录，`BatchMode=yes`）：`echo ok` 正常；CentOS 7.9；
   非登录 shell 与登录 shell 都能找到 `spectre`（SPECTRE181，`spectre -W` 为 18.1.0.077）、`virtuoso`、`ocean`（IC618），都在 `/opt/eda/cadence` 下。
   因此 `remote_runner` 不需要额外的环境前缀；`pdk_inventory.sh` 的默认 Cadence 前缀 `/opt/eda/cadence` 也适用。

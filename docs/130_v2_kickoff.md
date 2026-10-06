@@ -80,6 +80,7 @@
 - 执行者在 Windows 上生成专用密钥（如 `ssh-keygen -t ed25519 -f %USERPROFILE%\.ssh\ic618_rf -N ""`，若已有则跳过），然后**请用户自己**运行
   `type %USERPROFILE%\.ssh\ic618_rf.pub | ssh userone@<IP> "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys && chmod 700 ~/.ssh && chmod 600 ~/.ssh/authorized_keys"`
   （这一步由用户输入 userone 的密码；执行者不接触密码）。登录用户为 `userone`，不用 root。
+  **2026-10-07 修正：IC618_rf 虚拟机上没有 `userone` 用户，登录用户改为 `IC`（非 root，PDK 在其家目录下）；以下 `userone` 均按 `IC` 理解，见 docs/132 §2。**
 - 用户按 `config/remote_cadence.example.yaml` 更新本地 `config/remote_cadence.local.yaml`（host、user=userone、identity_file）。
   建议旧虚拟机的配置另存一份（如 `remote_cadence.crn40lp.local.yaml`，同样被 git 忽略）。
 - 执行者验证：`ssh -i ... userone@<IP> "echo ok; which spectre virtuoso; spectre -W"`（需确认；0 次仿真）。若 `spectre` 不在 PATH，
