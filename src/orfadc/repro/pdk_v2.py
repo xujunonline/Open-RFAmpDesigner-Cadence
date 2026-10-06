@@ -10,6 +10,7 @@ from __future__ import annotations
 import json
 import os
 import re
+import shlex
 import time
 from collections import defaultdict
 from pathlib import Path, PurePosixPath
@@ -53,18 +54,54 @@ def parse_inventory(text: str) -> dict:
         "netlist_lines": out.get("NETLIST_LINE", []), "lib_dirs": out.get("LIBDIR", []),
         "lib_dirs_missing": out.get("LIBDIR_MISSING", []), "pdk_tree": out.get("PDKTREE", []),
         "pdk_models": out.get("PDKMODEL", []),
+        "roots": (out.get("ROOTS") or [""])[0].split(), "cds_prefixes": (out.get("CDS_PREFIXES") or [""])[0].split(),
         "complete": bool(out.get("DONE")),
     }
 
 
-def run_inventory(runner, out_root: Path | None = None, timeout_s: int = 290) -> dict:
+INVENTORY_KEYS = {"pdk_roots": "ORFADC_PDK_ROOTS", "extra_roots": "PDK_EXTRA_ROOTS",
+                  "cdslib_files": "ORFADC_CDSLIB_FILES", "cds_prefixes": "ORFADC_CDS_PREFIXES"}
+_ABS_PATH = re.compile(r"^/[A-Za-z0-9._/+\-]+$")
+
+
+def inventory_env(section: dict | None) -> dict[str, str]:
+    """Environment for pdk_inventory.sh from the optional ``inventory:`` block of the remote config.
+
+    Keys: ``pdk_roots`` / ``extra_roots`` / ``cdslib_files`` / ``cds_prefixes`` (lists of absolute remote paths)
+    and ``skip_home`` (bool).  An empty or missing block gives ``{}``, i.e. the original script defaults.
+    """
+    env: dict[str, str] = {}
+    for key, value in (section or {}).items():
+        if key == "skip_home":
+            if not isinstance(value, bool):
+                raise ValueError("inventory.skip_home must be true or false")
+            env["ORFADC_INV_SKIP_HOME"] = "1" if value else "0"
+            continue
+        if key not in INVENTORY_KEYS:
+            raise ValueError(f"unknown inventory key: {key}")
+        paths = [value] if isinstance(value, str) else list(value or [])
+        for p in paths:
+            if not isinstance(p, str) or not _ABS_PATH.fullmatch(p) or ".." in PurePosixPath(p).parts:
+                raise ValueError(f"inventory.{key}: not an absolute remote path without spaces: {p!r}")
+        if paths:
+            env[INVENTORY_KEYS[key]] = " ".join(paths)
+    return env
+
+
+def load_inventory_env(path: Path) -> dict[str, str]:
+    from orfadc.config_loader import load_yaml
+    return inventory_env(load_yaml(path).get("inventory"))
+
+
+def run_inventory(runner, out_root: Path | None = None, timeout_s: int = 290, env: dict[str, str] | None = None) -> dict:
     ts = time.strftime("%Y%m%dT%H%M%S")
     local = (out_root or ROOT / "results" / "runs" / "pdk_inventory") / ts
     local.mkdir(parents=True, exist_ok=True)
     rdir = str(PurePosixPath(runner.config.remote_root) / f"pdk_inventory_{ts}")
     steps = {"mkdir": runner.ensure_remote_dir(rdir).returncode,
              "upload": runner.upload(SCRIPT, rdir + "/pdk_inventory.sh").returncode}
-    res = runner.run_shell("bash pdk_inventory.sh", cwd=rdir, timeout_seconds=timeout_s)
+    prefix = "".join(f"{k}={shlex.quote(v)} " for k, v in sorted((env or {}).items()))
+    res = runner.run_shell(f"{prefix}bash pdk_inventory.sh", cwd=rdir, timeout_seconds=timeout_s)
     steps["run"] = res.returncode
     (local / "raw.txt").write_text(res.stdout, encoding="utf-8")
     (local / "stderr.txt").write_text(res.stderr[-20000:], encoding="utf-8")

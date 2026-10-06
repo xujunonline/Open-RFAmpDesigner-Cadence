@@ -869,8 +869,9 @@ def main(argv: list[str] | None = None) -> int:
     if a.cmd == "pdk-inventory":  # docs/120 V2-0: read-only listing of the PDKs on the Cadence host
         from orfadc.cadence.remote_runner import RemoteRunner, load_remote_config
         from orfadc.repro import pdk_v2
-        runner = RemoteRunner(load_remote_config(ROOT / "config" / "remote_cadence.local.yaml"))
-        inv = pdk_v2.run_inventory(runner)
+        cfg_path = ROOT / "config" / "remote_cadence.local.yaml"
+        runner = RemoteRunner(load_remote_config(cfg_path))
+        inv = pdk_v2.run_inventory(runner, env=pdk_v2.load_inventory_env(cfg_path))  # optional `inventory:` block
         # PDK paths stay in the git-ignored results/runs/ folder; the console only gets counts.
         (Path(inv["local_dir"]) / "summary.txt").write_text(pdk_v2.summarize(inv) + "\n", encoding="utf-8")
         print(json.dumps({"complete": inv["complete"], "steps": inv["steps"], "pdk_dirs": len(inv["pdk_dirs"]),

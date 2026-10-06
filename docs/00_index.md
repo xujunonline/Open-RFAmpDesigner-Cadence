@@ -22,5 +22,6 @@
 | `129_v1_cleanup_prompt.md` | v1.1 清理提示词与执行记录 |
 | `130_v2_kickoff.md` | v2 启动任务说明：A 线 ReAct 智能体 + B 线 N65（IC618_rf）接入与 v1 基线，在 Claude Code 中执行 |
 | `131_agent_v2_design.md` | 智能体实现 v2：LLM ReAct Manager/Searcher/Refiner 设计、论文对应、终止与预算、离线验证（A2） |
+| `132_n65_bringup.md` | N65（IC618_rf）接入记录：`run_job_queue.sh`、可配置的 PDK 盘点、N0 登录状态（B 线，进行中） |
 | `134_macbook_handoff.md` | 迁移到 MacBook 的交接状态、Mac 准备步骤、续接提示词（docs/132、133 预留给 N65 接入与 v2 结果） |
 | `LEGACY.md`、`LEGACY_files.txt` | v1.1 删除内容与找回方法 |
