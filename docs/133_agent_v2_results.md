@@ -37,7 +37,17 @@ ORFADC_LLM_MAX_CALLS=1000 ORFADC_CODEX_BIN=<ChatGPT.app 自带的 codex> \
 - 实测调用数（55）落在开始前估计的 60–150 区间下沿附近，时长约 14 min（估计 20–50 min）。
 - 订阅额度不计费，不折算论文 Table VI 的美元成本。
 
-## 3. 下一步
+## 3. S9s/S10s seed 0（codex-mcp，进行中）
+
+- **S9s 第一次运行崩溃（作废，待重跑）**：约 9 min 后 `TypeError: float - None`。
+  - 原因是一个 v2 缺陷：参数校验与提示词都允许 `gain_req_list` 里有 `null`（含义是"该级不约束"），
+    但共享工具 `tools.band_planning` 的增益要求罚项对每一项都做减法。LLM 照规则发了 `null`，结果整次运行崩溃。
+  - 修正：罚项抽成 `tools.gain_req_penalty`，跳过 `null` 项。v1 只传数字，行为不变。新增回归测试，全量 122 passed。
+  - 崩溃日志保留在 `results/repro/v2_a3/s9s10s/codex_S9s_seed0.log`。
+  - 包装脚本里的 `exit=$?` 取的是 `date` 的返回值，所以记成了 0；以后用单独的变量保存退出码。
+- S10s 用的是修正前已经加载的代码，跑完即有效（这个缺陷只会让运行崩溃，不会悄悄改变结果）。
+
+## 4. 下一步
 
 - 待用户确认：S9s/S10s seed 0（5 h 预算，codex-mcp），再到 seed 0–4。
 - claude-cli 登录问题解决后，补 S2 冒烟与同一套 S9s/S10s。

@@ -319,6 +319,14 @@ def _lf_gain(f: np.ndarray, gain_g2: np.ndarray, ops, mcrv: np.ndarray, variant:
     return total, per_stage
 
 
+def gain_req_penalty(per_stage: list[float], gain_req_list: list | None) -> float:
+    """Stage-3 penalty for per-stage gains (stage 2 + MCR2, stage 3 + MCR3) outside +-1.5 dB of the request.
+    A ``None`` entry leaves that stage unconstrained (agent v2 actions may send null; v1 always sends numbers)."""
+    if not gain_req_list:
+        return 0.0
+    return sum(max(0.0, abs(g - r) - 1.5) for g, r in zip(per_stage, gain_req_list[1:]) if r is not None)
+
+
 def band_planning(ctx: ToolContext, active: dict, stage2: dict, *, gain_user_db: float | None = None,
                   gain_req_list: list[float] | None = None, calibrate: bool = True, max_rounds: int = 4,
                   sa_iters: int = 500, variant: str = "corrected", half: bool = False,
@@ -340,9 +348,7 @@ def band_planning(ctx: ToolContext, active: dict, stage2: dict, *, gain_user_db:
     t0 = time.perf_counter()
 
     def req_pen(per_stage: list[float]) -> float:
-        if not gain_req_list:
-            return 0.0
-        return sum(max(0.0, abs(g - r) - 1.5) for g, r in zip(per_stage, gain_req_list[1:]))
+        return gain_req_penalty(per_stage, gain_req_list)
 
     def lf_cost(x: np.ndarray) -> float:
         ctx.counter.charge("lf")

@@ -154,3 +154,21 @@ def test_bench_design_v2_switch(tmp_path, monkeypatch):
     monkeypatch.setenv("ORFADC_AGENT_IMPL", "v2")
     with pytest.raises(SystemExit):
         bench.main(["design", "--spec", "S2", "--policy", "rule", "--out", str(tmp_path)])
+
+
+def test_band_planning_accepts_null_gain_requests():
+    """A3 S9s crash: the validator allows null entries in gain_req_list ("null = unconstrained"), so Stage 3
+    must skip them instead of failing on float - None."""
+    from orfadc.repro import tools as T
+    assert T.gain_req_penalty([10.0, 12.0], None) == 0.0
+    assert T.gain_req_penalty([10.0, 12.0], [5.0, 8.0, 12.0]) == pytest.approx(0.5)
+    assert T.gain_req_penalty([10.0, 12.0], [None, None, 15.0]) == pytest.approx(1.5)
+    assert T.gain_req_penalty([10.0, 12.0], [None, None, None]) == 0.0
+    sess = DesignSession(SPECS["S2"])
+    brain = V.Brain(V.ScriptedReActTransport())
+    srch = V.SearcherAgent(sess, brain, {"power_ratio_list": [0.4, 0.3, 0.3]}, tried_before=[], splits_log=[])
+    srch.t_active_sizing([0.4, 0.3, 0.3])
+    c = srch.t_impedance_matching([0.4, 0.3, 0.3], "crit_large__noncrit_large")["cid"]
+    ref = V.RefinerAgent(sess, brain, c)
+    assert V.KINDS["gain_list?"][0]([None, 8.0, None])
+    assert ref.t_band_planning(gain_user_db=25.0, gain_req_list=[None, 8.0, None])["did"]
