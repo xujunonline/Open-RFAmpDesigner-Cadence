@@ -40,6 +40,10 @@ python -m pip install -r config/requirements_repro.txt
   （2026-10-06 修正：桌面 App 不会激活 `.venv`，实测 hook 因找不到 `python` 失败（exit 127）。现在 hook 命令优先用
   `$CLAUDE_PROJECT_DIR/.venv/bin/python`，不存在时回落 `python`（Windows 不变）。MCP 服务器 `rfamp`/`codex` 仍用 `.mcp.json` 的 `python`，
   未激活 `.venv` 时连不上；`bench` 的 claude-cli / codex-mcp 不依赖它们。）
+  （2026-10-07 修复：在 `~/.local/bin/python` 放了一个两行的包装脚本，`exec` 本仓库的 `.venv/bin/python`。
+  不能用符号链接：Python 按启动路径寻找 `pyvenv.cfg`，经符号链接启动时找不到，就不会进入 venv。
+  `~/.local/bin` 已在桌面 App 的 PATH 里，于是 `.mcp.json` 的 `python` 可用，rfamp 与 codex-bridge 都能正常响应 `initialize`。
+  已经打开的会话需要在 `/mcp` 里手动重连这两个服务器；删除该包装脚本即可撤销。）
 - 机密文件不在 git 里，需要在 Mac 上重新建：`config/remote_cadence.local.yaml`（按 `config/remote_cadence.example.yaml`，由用户填写）。
   `config/model_paths.local.yaml` 由 N1 盘点后写入。crn40lp 的旧配置、PDK 表、`results/runs/` 留在 Windows，不迁移（v1 结果不改动）。
 - 虚拟机：在 VMware Fusion 打开 `IC618_rf.vmx`（从 Windows 的 `F:\IC618_rf\` 整个目录拷过来），网络用 NAT 或仅主机，开机后在虚拟机里 `ip addr` 查 IP。
