@@ -1,0 +1,15 @@
+# docs/130 A3 step 2 (docs/133): agent v2 + codex-mcp on N65 (PDK backend), S1-S8 seed 0, 1 h equivalent, same protocol
+# as the N3 v1 baseline (docs/132 §5: 24/40): no per-design Spectre cap (60 is a safety guard), LLM cap 1000.
+# Seed-0 batch first: estimate 80-150 Spectre (v1 seed 0 used 129) and 300-600 LLM calls; then seeds 1-4.
+# Start in a terminal: scripts/run_job_queue.sh jobs/queue_a3_n65_v2_codex_s0.txt  (proxy and CLI links are set up by the script)
+set ORFADC_AGENT_IMPL=v2
+set ORFADC_LLM_MAX_CALLS=1000
+set ORFADC_SPECTRE_MAX_PER_DESIGN=60
+design --spec S1 --seed 0 --policy codex-mcp --agent-impl v2 --backend pdk
+design --spec S2 --seed 0 --policy codex-mcp --agent-impl v2 --backend pdk
+design --spec S3 --seed 0 --policy codex-mcp --agent-impl v2 --backend pdk
+design --spec S4 --seed 0 --policy codex-mcp --agent-impl v2 --backend pdk
+design --spec S5 --seed 0 --policy codex-mcp --agent-impl v2 --backend pdk
+design --spec S6 --seed 0 --policy codex-mcp --agent-impl v2 --backend pdk
+design --spec S7 --seed 0 --policy codex-mcp --agent-impl v2 --backend pdk
+design --spec S8 --seed 0 --policy codex-mcp --agent-impl v2 --backend pdk
