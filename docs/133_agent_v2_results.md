@@ -53,6 +53,9 @@ LLM 时延 367 s（约 9.4 s/次）；输入 171k token（这个通道不报告�
   - 崩溃日志保留在 `results/repro/v2_a3/s9s10s/codex_S9s_seed0.log`。
   - 包装脚本里的 `exit=$?` 取的是 `date` 的返回值，所以记成了 0；以后用单独的变量保存退出码。
 - S10s 用的是修正前已经加载的代码，跑完即有效（这个缺陷只会让运行崩溃，不会悄悄改变结果）。
+  **结果：codex S10s seed 0 同样崩溃**（约 2 h、294 次以上调用后，同一个 `float - None`），作废。
+  日志 `codex_S10s_seed0_CRASHED_pre_fix.log`；04:47 用修正后的代码重跑。
+  修正之后启动的运行都没有这个问题（例如 codex S9s seed 3 正常完成）。
 
 **claude-cli（修正后的代码，seed 0）：S9s、S10s 都通过**
 
