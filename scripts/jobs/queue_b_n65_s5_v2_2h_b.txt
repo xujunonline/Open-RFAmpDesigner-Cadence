@@ -1,0 +1,8 @@
+# docs/133 §7 (experiment B): does v2 need more budget on N65 S5? v2 (prompt rev 1) + codex, S5, seeds 0-4, budget x2 (2 h),
+# PDK backend, guard 60, LLM cap 1000. v2 at 1 h: 1/5 (S11 short); v1 rule at 1 h: 4/5. Estimate 250-350 Spectre.
+set ORFADC_AGENT_IMPL=v2
+set ORFADC_LLM_MAX_CALLS=1000
+set ORFADC_SPECTRE_MAX_PER_DESIGN=60
+set ORFADC_BUDGET_SCALE=2
+design --spec S5 --seed 3 --policy codex-mcp --agent-impl v2 --backend pdk
+design --spec S5 --seed 4 --policy codex-mcp --agent-impl v2 --backend pdk

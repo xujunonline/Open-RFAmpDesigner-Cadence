@@ -24,7 +24,7 @@
 
 1. `CLAUDE.md` 全部规则照常适用：不伪造结果；不读、不打印、不提交 `config/remote_cadence.local.yaml`、`config/model_paths.local.yaml`、私钥。
 2. **凭据**：执行者不得接收、输入或保存任何密码；不在文档、提交、日志、命令行中出现密码。SSH 只用密钥登录，密钥由用户在阶段 N0 自己配置。
-3. **Spectre 账本（N65 独立记账）**：用户批准 N65 上限 **1500 次**，与 crn40lp 旧账（约 697/1000）分开。
+3. **Spectre 账本（N65 独立记账）**：用户批准 N65 上限 **1500 次**（2026-10-07 用户提高到 **2000 次**，用于 docs/133 §6–8 的 B/C/D 实验），与 crn40lp 旧账（约 697/1000）分开。
    - 账本文件 `results/repro/n65/spectre_ledger.csv`（提交；列：时间、阶段、命令、spec、seed、Spectre 次数、累计、提交哈希；只记次数，不含 PDK 数据）。
    - 预分配：N1 接入与表征 ≤150；N2 冒烟 ≤120；N3 v1 基线 5 seed ≤550；A3 v2 PDK 评估 ≤550；机动 ≈130。
    - 每个用 Spectre 的阶段开始前报告预计次数并**等待确认**；每设计设 `ORFADC_SPECTRE_MAX_PER_DESIGN`；超出预分配或累计将超 1500 时停下。
