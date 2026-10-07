@@ -259,3 +259,26 @@ def test_spectre_calls_of_reads_the_stage4_backend_counter():
     assert bench.spectre_calls_of(None) is None
     assert bench.spectre_calls_of(T.SurrogateBackend()) is None
     assert bench.spectre_calls_of(HybridBackend(T.SurrogateBackend(), Final())) == 7
+
+
+@needs_bash
+def test_parallel_queue_runner_runs_all_queues_in_separate_folders(tmp_path):
+    fake = _exe(tmp_path / "fakepy", '#!/bin/bash\nsleep 1\necho "ARGV $*"\n')
+    qs = []
+    for i in (1, 2):
+        q = tmp_path / f"q{i}.txt"
+        q.write_text(f"set ORFADC_LLM_MAX_CALLS={i}\nsmoke --seed {i}\n")
+        qs.append(str(q))
+    env = {**os.environ, "ORFADC_QUEUE_PYTHON": str(fake), "ORFADC_QUEUE_OUT_ROOT": str(tmp_path / "out"),
+           "ORFADC_PARALLEL_STAGGER_S": "1.1"}
+    r = subprocess.run([BASH, str(ROOT / "scripts" / "run_job_queues_parallel.sh"), *qs], env=env,
+                       capture_output=True, text=True, timeout=60)
+    assert r.returncode == 0, r.stderr
+    assert "[q1] " in r.stdout and "[q2] " in r.stdout and "all 2 queues finished (0 runner failures)" in r.stdout
+    jobs = sorted((tmp_path / "out").iterdir())
+    assert len(jobs) == 2 and all((j / "DONE.txt").exists() for j in jobs)
+    seeds = sorted((j / "01_smoke.log").read_text().split("--seed ")[1].split()[0] for j in jobs)
+    assert seeds == ["1", "2"]
+    bad = subprocess.run([BASH, str(ROOT / "scripts" / "run_job_queues_parallel.sh"), "jobs/nope.txt"], env=env,
+                         capture_output=True, text=True)
+    assert bad.returncode == 2 and "queue not found" in bad.stderr
