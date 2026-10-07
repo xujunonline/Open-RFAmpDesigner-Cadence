@@ -111,6 +111,9 @@ def design_suffix(*, backend: str, impl: str = "v1", pdk: str | None = None, llm
             s += f"_{tag}" if tag else ""
     if impl != "v1":
         s += f"_{impl}"
+        rev = int(env.get("ORFADC_V2_PROMPT_REV", "1") or 1)
+        if impl == "v2" and rev != 1:                                    # docs/133 §6 prompt revision
+            s += f"_r{rev}"
     if ck.Q_MATCH != 25.0 or ck.Q_IND != 15.0:                       # passive-Q study runs (docs/126)
         s += f"_qm{ck.Q_MATCH:g}_qi{ck.Q_IND:g}"
     if float(env.get("ORFADC_BUDGET_SCALE", "1")) != 1.0:

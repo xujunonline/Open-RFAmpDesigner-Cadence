@@ -172,3 +172,33 @@ def test_band_planning_accepts_null_gain_requests():
     ref = V.RefinerAgent(sess, brain, c)
     assert V.KINDS["gain_list?"][0]([None, 8.0, None])
     assert ref.t_band_planning(gain_user_db=25.0, gain_req_list=[None, 8.0, None])["did"]
+
+
+def test_prompt_rev2_is_opt_in_and_rev1_unchanged(monkeypatch):
+    """docs/133 §6: revision 2 adds a Manager addendum and richer repeat-split errors; revision 1 (default) is untouched."""
+    sess = DesignSession(SPECS["S2"])
+    brain = V.Brain(V.ScriptedReActTransport())
+    mgr = V.ManagerAgent(sess, brain)
+    monkeypatch.delenv("ORFADC_V2_PROMPT_REV", raising=False)
+    p1 = mgr.system_prompt()
+    assert "prompt revision 2" not in p1
+    assert V._repeat_error([0.4, 0.3, 0.3], [[0.4, 0.3, 0.3]]) == "power_ratio_list [0.4, 0.3, 0.3] was already searched"
+    assert bench.design_suffix(backend="surrogate", impl="v2", env={}) == "_v2"
+    monkeypatch.setenv("ORFADC_V2_PROMPT_REV", "2")
+    p2 = mgr.system_prompt()
+    assert p2.startswith(p1.split("## Tools")[0].rstrip()) and "prompt revision 2" in p2
+    tried = [[0.4, 0.3, 0.3], [0.45, 0.3, 0.25]]
+    nb = V._untried_neighbours([0.4, 0.3, 0.3], tried)
+    assert nb and all(abs(sum(x) - 1) < 1e-6 and not any(V._same_split(x, t) for t in tried) for x in nb)
+    msg = V._repeat_error([0.4, 0.3, 0.3], tried)
+    assert "already tried" in msg and "untried neighbours" in msg
+    assert bench.design_suffix(backend="surrogate", impl="v2", env={"ORFADC_V2_PROMPT_REV": "2"}) == "_v2_r2"
+    srch = V.SearcherAgent(sess, brain, {"power_ratio_list": None}, tried_before=tried, splits_log=[])
+    with pytest.raises(V.ActionError, match="untried neighbours"):
+        srch.t_active_sizing([0.4, 0.3, 0.3])
+
+
+def test_prompt_rev2_scripted_s2_still_passes(monkeypatch):
+    monkeypatch.setenv("ORFADC_V2_PROMPT_REV", "2")
+    r = _run()
+    assert r["success"] and r["prompt_rev"] == 2 and r["terminated_reason"] == "spec_met"

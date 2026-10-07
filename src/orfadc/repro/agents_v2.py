@@ -173,6 +173,32 @@ def _same_split(a: list[float], b: list[float]) -> bool:
     return all(abs(x - y) < 1e-3 for x, y in zip(a, b))
 
 
+def prompt_rev() -> int:
+    """v2 prompt revision (docs/133 §6): 1 = the A3 runs (default, unchanged), 2 = repeat-split hints + refine rule."""
+    return int(os.environ.get("ORFADC_V2_PROMPT_REV", "1") or 1)
+
+
+def _untried_neighbours(split: list[float], tried: list[list[float]], k: int = 3, step: float = 0.05) -> list[list[float]]:
+    """Valid allocations one ``step`` away from ``split`` (move current between two stages) that were not tried."""
+    out: list[list[float]] = []
+    for i in range(3):
+        for j in range(3):
+            if i == j:
+                continue
+            c = list(split)
+            c[i], c[j] = round(c[i] + step, 3), round(c[j] - step, 3)
+            if _valid_split(c, V2_SPLIT_RANGE) and not any(_same_split(c, t) for t in tried + out):
+                out.append(c)
+    return out[:k]
+
+
+def _repeat_error(split: list[float], tried: list[list[float]]) -> str:
+    msg = f"power_ratio_list {split} was already searched"
+    if prompt_rev() >= 2:
+        msg += f"; already tried: {tried}; untried neighbours: {_untried_neighbours(split, tried)}"
+    return msg
+
+
 def _trim(obs: Any) -> str:
     text = json.dumps(_public(obs), default=float, ensure_ascii=False)
     return text if len(text) <= OBS_MAX_CHARS else text[:OBS_MAX_CHARS] + " ...[truncated]"
@@ -210,6 +236,9 @@ class ReActAgent:
     # -- prompt --
     def system_prompt(self) -> str:
         text = (PROMPT_DIR / f"{self.role}.md").read_text(encoding="utf-8")
+        extra = PROMPT_DIR / f"{self.role}_rev2.md"
+        if prompt_rev() >= 2 and extra.exists():
+            text = text.rstrip() + "\n" + extra.read_text(encoding="utf-8")
         text = text.replace("{SPLIT_LO}", f"{V2_SPLIT_RANGE[0]:g}").replace("{SPLIT_HI}", f"{V2_SPLIT_RANGE[1]:g}")
         tools = "\n".join(spec.signature(n) for n, spec in self.tools().items())
         return (text.rstrip() + "\n\n## Tools\n" + tools + "\n\n## Protocol\n"
@@ -346,7 +375,7 @@ class SearcherAgent(ReActAgent):
     def t_active_sizing(self, power_ratio_list: list[float]) -> dict:
         split = _normalise_split(power_ratio_list)
         if any(_same_split(split, t) for t in self.tried_before):
-            raise ActionError(f"power_ratio_list {split} was already searched; propose a different allocation")
+            raise ActionError(_repeat_error(split, self.tried_before) + "; propose a different allocation")
         act = self.s.tool_active_sizing(split)
         self.sized[tuple(split)] = act
         if not any(_same_split(split, t) for t in self.splits_log):
@@ -619,7 +648,7 @@ class ManagerAgent(ReActAgent):
         if power_ratio_list is not None:
             power_ratio_list = _normalise_split(power_ratio_list)
             if any(_same_split(power_ratio_list, t) for t in self.splits):
-                raise ActionError(f"power_ratio_list {power_ratio_list} was already searched")
+                raise ActionError(_repeat_error(power_ratio_list, self.splits))
         self.s.counts["search"] += 1
         instr = {"power_ratio_list": power_ratio_list, "nf_headroom_db": nf_headroom_db,
                  "gain_cp_targets": gain_cp_targets if gain_cp_targets is not None
@@ -754,6 +783,7 @@ class ManagerAgent(ReActAgent):
             "design": s.designs[final.did]["design"].summary() if final and final.did else None,
             "sweep": s.designs[final.did]["fullchain"]["_sweep"] if final and final.did and "fullchain" in s.designs[final.did] else None,
             "agent_impl": AGENT_IMPL, "terminated_reason": self.terminated,
+            **({"prompt_rev": prompt_rev()} if prompt_rev() != 1 else {}),
         }
 
 
