@@ -282,3 +282,15 @@ def test_parallel_queue_runner_runs_all_queues_in_separate_folders(tmp_path):
     bad = subprocess.run([BASH, str(ROOT / "scripts" / "run_job_queues_parallel.sh"), "jobs/nope.txt"], env=env,
                          capture_output=True, text=True)
     assert bad.returncode == 2 and "queue not found" in bad.stderr
+
+
+@needs_bash
+def test_job_queue_sh_same_second_starts_get_distinct_folders(tmp_path):
+    fake = _exe(tmp_path / "fakepy", "#!/bin/bash\necho ok\n")
+    q = tmp_path / "q.txt"
+    q.write_text("smoke\n")
+    env = {**os.environ, "ORFADC_QUEUE_PYTHON": str(fake), "ORFADC_QUEUE_OUT_ROOT": str(tmp_path / "out")}
+    procs = [subprocess.Popen([BASH, str(QUEUE_SH), str(q)], env=env, stdout=subprocess.DEVNULL) for _ in range(3)]
+    assert all(p.wait(timeout=60) == 0 for p in procs)
+    jobs = list((tmp_path / "out").iterdir())
+    assert len(jobs) == 3 and all((j / "DONE.txt").exists() for j in jobs)

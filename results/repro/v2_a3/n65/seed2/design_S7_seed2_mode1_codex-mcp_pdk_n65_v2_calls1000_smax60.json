@@ -1,0 +1,2525 @@
+{
+ "spec": "S7",
+ "seed": 2,
+ "mode": 1,
+ "policy": "codex-mcp",
+ "success": false,
+ "report": null,
+ "sims": {
+  "hf_critical": 3999,
+  "hf_full": 0,
+  "lf": 0,
+  "hf_total": 3999,
+  "equiv_time_s": 1999.5,
+  "cpu_s": 21.281
+ },
+ "n_search": 7,
+ "n_refine": 0,
+ "splits_tried": [
+  [
+   0.4,
+   0.25,
+   0.35
+  ],
+  [
+   0.55,
+   0.25,
+   0.2
+  ],
+  [
+   0.7,
+   0.15,
+   0.15
+  ],
+  [
+   0.6,
+   0.25,
+   0.15
+  ],
+  [
+   0.65,
+   0.2,
+   0.15
+  ],
+  [
+   0.62,
+   0.23,
+   0.15
+  ],
+  [
+   0.58,
+   0.27,
+   0.15
+  ],
+  [
+   0.55,
+   0.3,
+   0.15
+  ],
+  [
+   0.5,
+   0.35,
+   0.15
+  ],
+  [
+   0.67,
+   0.18,
+   0.15
+  ],
+  [
+   0.63,
+   0.22,
+   0.15
+  ]
+ ],
+ "design": null,
+ "sweep": null,
+ "agent_impl": "v2",
+ "terminated_reason": "finish",
+ "trace": [
+  {
+   "t": 1.015,
+   "agent": "manager",
+   "event": "plan",
+   "sims": {
+    "hf_critical": 0,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 0,
+    "equiv_time_s": 0.0,
+    "cpu_s": 0.0
+   },
+   "mode": 1,
+   "hints": {},
+   "policy": "codex-mcp",
+   "agent_impl": "v2"
+  },
+  {
+   "t": 28.277,
+   "agent": "searcher",
+   "event": "active_sizing",
+   "sims": {
+    "hf_critical": 0,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 0,
+    "equiv_time_s": 0.0,
+    "cpu_s": 0.0
+   },
+   "split": [
+    0.4,
+    0.25,
+    0.35
+   ],
+   "status": "ok",
+   "n": 4
+  },
+  {
+   "t": 44.648,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 129,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 129,
+    "equiv_time_s": 64.5,
+    "cpu_s": 0.711
+   },
+   "cid": "C000",
+   "origin": "search",
+   "power_ratio_list": [
+    0.4,
+    0.25,
+    0.35
+   ],
+   "config_id": "crit_large__noncrit_large",
+   "nf_cp_db": 4.648,
+   "s11_cp_db": -29.28,
+   "gain_cp_db": 12.26,
+   "ip1db_cp_dbm": -4.5,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.5,
+   "gain_require_db": null,
+   "score": 0.0
+  },
+  {
+   "t": 60.309,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 258,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 258,
+    "equiv_time_s": 129.0,
+    "cpu_s": 1.409
+   },
+   "cid": "C001",
+   "origin": "search",
+   "power_ratio_list": [
+    0.4,
+    0.25,
+    0.35
+   ],
+   "config_id": "crit_large__noncrit_large",
+   "nf_cp_db": 4.438,
+   "s11_cp_db": -28.39,
+   "gain_cp_db": 12.96,
+   "ip1db_cp_dbm": -4.64,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.5,
+   "gain_require_db": 12,
+   "score": 0.0
+  },
+  {
+   "t": 77.188,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 387,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 387,
+    "equiv_time_s": 193.5,
+    "cpu_s": 2.078
+   },
+   "cid": "C002",
+   "origin": "search",
+   "power_ratio_list": [
+    0.4,
+    0.25,
+    0.35
+   ],
+   "config_id": "crit_small__noncrit_large",
+   "nf_cp_db": 4.839,
+   "s11_cp_db": -30.89,
+   "gain_cp_db": 18.28,
+   "ip1db_cp_dbm": -12.26,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.5,
+   "gain_require_db": null,
+   "score": 0.0
+  },
+  {
+   "t": 95.339,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 516,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 516,
+    "equiv_time_s": 258.0,
+    "cpu_s": 2.753
+   },
+   "cid": "C003",
+   "origin": "search",
+   "power_ratio_list": [
+    0.4,
+    0.25,
+    0.35
+   ],
+   "config_id": "crit_small__noncrit_large",
+   "nf_cp_db": 4.664,
+   "s11_cp_db": -34.12,
+   "gain_cp_db": 17.35,
+   "ip1db_cp_dbm": -11.21,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.5,
+   "gain_require_db": 16,
+   "score": 0.0
+  },
+  {
+   "t": 114.671,
+   "agent": "searcher",
+   "event": "terminated",
+   "sims": {
+    "hf_critical": 516,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 516,
+    "equiv_time_s": 258.0,
+    "cpu_s": 2.753
+   },
+   "reason": "finish",
+   "steps": 6
+  },
+  {
+   "t": 114.671,
+   "agent": "manager",
+   "event": "search_report",
+   "sims": {
+    "hf_critical": 516,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 516,
+    "equiv_time_s": 258.0,
+    "cpu_s": 2.753
+   },
+   "terminated": "finish",
+   "new": [
+    "C001",
+    "C003"
+   ]
+  },
+  {
+   "t": 143.391,
+   "agent": "searcher",
+   "event": "active_sizing",
+   "sims": {
+    "hf_critical": 516,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 516,
+    "equiv_time_s": 258.0,
+    "cpu_s": 2.753
+   },
+   "split": [
+    0.55,
+    0.25,
+    0.2
+   ],
+   "status": "ok",
+   "n": 4
+  },
+  {
+   "t": 159.301,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 645,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 645,
+    "equiv_time_s": 322.5,
+    "cpu_s": 3.418
+   },
+   "cid": "C004",
+   "origin": "search",
+   "power_ratio_list": [
+    0.55,
+    0.25,
+    0.2
+   ],
+   "config_id": "crit_large__noncrit_small",
+   "nf_cp_db": 3.985,
+   "s11_cp_db": -29.59,
+   "gain_cp_db": 13.9,
+   "ip1db_cp_dbm": -6.52,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0,
+   "gain_require_db": null,
+   "score": 0.0
+  },
+  {
+   "t": 184.096,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 774,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 774,
+    "equiv_time_s": 387.0,
+    "cpu_s": 4.081
+   },
+   "cid": "C005",
+   "origin": "search",
+   "power_ratio_list": [
+    0.55,
+    0.25,
+    0.2
+   ],
+   "config_id": "crit_large__noncrit_small",
+   "nf_cp_db": 4.209,
+   "s11_cp_db": -24.74,
+   "gain_cp_db": 13.4,
+   "ip1db_cp_dbm": -7.81,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0,
+   "gain_require_db": 12,
+   "score": 0.0
+  },
+  {
+   "t": 198.743,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 903,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 903,
+    "equiv_time_s": 451.5,
+    "cpu_s": 4.753
+   },
+   "cid": "C006",
+   "origin": "search",
+   "power_ratio_list": [
+    0.55,
+    0.25,
+    0.2
+   ],
+   "config_id": "crit_small__noncrit_large",
+   "nf_cp_db": 4.155,
+   "s11_cp_db": -31.22,
+   "gain_cp_db": 19.12,
+   "ip1db_cp_dbm": -12.37,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0,
+   "gain_require_db": null,
+   "score": 0.0
+  },
+  {
+   "t": 217.213,
+   "agent": "searcher",
+   "event": "terminated",
+   "sims": {
+    "hf_critical": 903,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 903,
+    "equiv_time_s": 451.5,
+    "cpu_s": 4.753
+   },
+   "reason": "finish",
+   "steps": 5
+  },
+  {
+   "t": 217.213,
+   "agent": "manager",
+   "event": "search_report",
+   "sims": {
+    "hf_critical": 903,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 903,
+    "equiv_time_s": 451.5,
+    "cpu_s": 4.753
+   },
+   "terminated": "finish",
+   "new": [
+    "C004",
+    "C006"
+   ]
+  },
+  {
+   "t": 246.827,
+   "agent": "searcher",
+   "event": "active_sizing",
+   "sims": {
+    "hf_critical": 903,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 903,
+    "equiv_time_s": 451.5,
+    "cpu_s": 4.753
+   },
+   "split": [
+    0.7,
+    0.15,
+    0.15
+   ],
+   "status": "infeasible",
+   "n": 0
+  },
+  {
+   "t": 260.797,
+   "agent": "searcher",
+   "event": "terminated",
+   "sims": {
+    "hf_critical": 903,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 903,
+    "equiv_time_s": 451.5,
+    "cpu_s": 4.753
+   },
+   "reason": "finish",
+   "steps": 2
+  },
+  {
+   "t": 260.797,
+   "agent": "manager",
+   "event": "search_report",
+   "sims": {
+    "hf_critical": 903,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 903,
+    "equiv_time_s": 451.5,
+    "cpu_s": 4.753
+   },
+   "terminated": "finish",
+   "new": []
+  },
+  {
+   "t": 289.613,
+   "agent": "searcher",
+   "event": "active_sizing",
+   "sims": {
+    "hf_critical": 903,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 903,
+    "equiv_time_s": 451.5,
+    "cpu_s": 4.753
+   },
+   "split": [
+    0.6,
+    0.25,
+    0.15
+   ],
+   "status": "ok",
+   "n": 4
+  },
+  {
+   "t": 304.826,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 1032,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 1032,
+    "equiv_time_s": 516.0,
+    "cpu_s": 5.428
+   },
+   "cid": "C007",
+   "origin": "search",
+   "power_ratio_list": [
+    0.6,
+    0.25,
+    0.15
+   ],
+   "config_id": "crit_large__noncrit_large",
+   "nf_cp_db": 3.789,
+   "s11_cp_db": -20.31,
+   "gain_cp_db": 14.84,
+   "ip1db_cp_dbm": -8.61,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0,
+   "gain_require_db": null,
+   "score": 0.0
+  },
+  {
+   "t": 321.536,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 1161,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 1161,
+    "equiv_time_s": 580.5,
+    "cpu_s": 6.125
+   },
+   "cid": "C008",
+   "origin": "search",
+   "power_ratio_list": [
+    0.6,
+    0.25,
+    0.15
+   ],
+   "config_id": "crit_small__noncrit_small",
+   "nf_cp_db": 3.864,
+   "s11_cp_db": -29.59,
+   "gain_cp_db": 22.39,
+   "ip1db_cp_dbm": -15.31,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0,
+   "gain_require_db": null,
+   "score": 0.0
+  },
+  {
+   "t": 337.174,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 1290,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 1290,
+    "equiv_time_s": 645.0,
+    "cpu_s": 6.813
+   },
+   "cid": "C009",
+   "origin": "search",
+   "power_ratio_list": [
+    0.6,
+    0.25,
+    0.15
+   ],
+   "config_id": "crit_large__noncrit_large",
+   "nf_cp_db": 4.03,
+   "s11_cp_db": -29.6,
+   "gain_cp_db": 12.94,
+   "ip1db_cp_dbm": -6.2,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0,
+   "gain_require_db": 12,
+   "score": 0.0
+  },
+  {
+   "t": 355.785,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 1419,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 1419,
+    "equiv_time_s": 709.5,
+    "cpu_s": 7.485
+   },
+   "cid": "C010",
+   "origin": "search",
+   "power_ratio_list": [
+    0.6,
+    0.25,
+    0.15
+   ],
+   "config_id": "crit_small__noncrit_large",
+   "nf_cp_db": 3.701,
+   "s11_cp_db": -27.97,
+   "gain_cp_db": 21.12,
+   "ip1db_cp_dbm": -14.04,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0,
+   "gain_require_db": 12,
+   "score": 0.0
+  },
+  {
+   "t": 373.739,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 1548,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 1548,
+    "equiv_time_s": 774.0,
+    "cpu_s": 8.152
+   },
+   "cid": "C011",
+   "origin": "search",
+   "power_ratio_list": [
+    0.6,
+    0.25,
+    0.15
+   ],
+   "config_id": "crit_small__noncrit_large",
+   "nf_cp_db": 4.078,
+   "s11_cp_db": -31.79,
+   "gain_cp_db": 17.94,
+   "ip1db_cp_dbm": -11.24,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0,
+   "gain_require_db": null,
+   "score": 0.0
+  },
+  {
+   "t": 390.217,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 1677,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 1677,
+    "equiv_time_s": 838.5,
+    "cpu_s": 8.838
+   },
+   "cid": "C012",
+   "origin": "search",
+   "power_ratio_list": [
+    0.6,
+    0.25,
+    0.15
+   ],
+   "config_id": "crit_large__noncrit_small",
+   "nf_cp_db": 4.266,
+   "s11_cp_db": -24.08,
+   "gain_cp_db": 13.08,
+   "ip1db_cp_dbm": -8.71,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0,
+   "gain_require_db": null,
+   "score": 0.0
+  },
+  {
+   "t": 407.859,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 1806,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 1806,
+    "equiv_time_s": 903.0,
+    "cpu_s": 9.544
+   },
+   "cid": "C013",
+   "origin": "search",
+   "power_ratio_list": [
+    0.6,
+    0.25,
+    0.15
+   ],
+   "config_id": "crit_small__noncrit_small",
+   "nf_cp_db": 4.94,
+   "s11_cp_db": -26.25,
+   "gain_cp_db": 15.88,
+   "ip1db_cp_dbm": -9.97,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0,
+   "gain_require_db": 10,
+   "score": 0.0
+  },
+  {
+   "t": 426.035,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 1935,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 1935,
+    "equiv_time_s": 967.5,
+    "cpu_s": 10.274
+   },
+   "cid": "C014",
+   "origin": "search",
+   "power_ratio_list": [
+    0.6,
+    0.25,
+    0.15
+   ],
+   "config_id": "crit_large__noncrit_small",
+   "nf_cp_db": 3.963,
+   "s11_cp_db": -31.97,
+   "gain_cp_db": 13.13,
+   "ip1db_cp_dbm": -5.35,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0,
+   "gain_require_db": 10,
+   "score": 0.0
+  },
+  {
+   "t": 447.475,
+   "agent": "searcher",
+   "event": "terminated",
+   "sims": {
+    "hf_critical": 1935,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 1935,
+    "equiv_time_s": 967.5,
+    "cpu_s": 10.274
+   },
+   "reason": "finish",
+   "steps": 10
+  },
+  {
+   "t": 447.475,
+   "agent": "manager",
+   "event": "search_report",
+   "sims": {
+    "hf_critical": 1935,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 1935,
+    "equiv_time_s": 967.5,
+    "cpu_s": 10.274
+   },
+   "terminated": "finish",
+   "new": [
+    "C007",
+    "C010",
+    "C014"
+   ]
+  },
+  {
+   "t": 478.176,
+   "agent": "searcher",
+   "event": "active_sizing",
+   "sims": {
+    "hf_critical": 1935,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 1935,
+    "equiv_time_s": 967.5,
+    "cpu_s": 10.274
+   },
+   "split": [
+    0.65,
+    0.2,
+    0.15
+   ],
+   "status": "infeasible",
+   "n": 0
+  },
+  {
+   "t": 495.163,
+   "agent": "searcher",
+   "event": "active_sizing",
+   "sims": {
+    "hf_critical": 1935,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 1935,
+    "equiv_time_s": 967.5,
+    "cpu_s": 10.274
+   },
+   "split": [
+    0.62,
+    0.23,
+    0.15
+   ],
+   "status": "ok",
+   "n": 4
+  },
+  {
+   "t": 516.08,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 2064,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 2064,
+    "equiv_time_s": 1032.0,
+    "cpu_s": 10.948
+   },
+   "cid": "C015",
+   "origin": "search",
+   "power_ratio_list": [
+    0.62,
+    0.23,
+    0.15
+   ],
+   "config_id": "crit_large__noncrit_small",
+   "nf_cp_db": 4.098,
+   "s11_cp_db": -26.17,
+   "gain_cp_db": 12.4,
+   "ip1db_cp_dbm": -5.93,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0,
+   "gain_require_db": null,
+   "score": 0.0
+  },
+  {
+   "t": 533.125,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 2193,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 2193,
+    "equiv_time_s": 1096.5,
+    "cpu_s": 11.69
+   },
+   "cid": "C016",
+   "origin": "search",
+   "power_ratio_list": [
+    0.62,
+    0.23,
+    0.15
+   ],
+   "config_id": "crit_small__noncrit_small",
+   "nf_cp_db": 3.79,
+   "s11_cp_db": -25.84,
+   "gain_cp_db": 21.95,
+   "ip1db_cp_dbm": -13.58,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0,
+   "gain_require_db": null,
+   "score": 0.0
+  },
+  {
+   "t": 550.936,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 2322,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 2322,
+    "equiv_time_s": 1161.0,
+    "cpu_s": 12.377
+   },
+   "cid": "C017",
+   "origin": "search",
+   "power_ratio_list": [
+    0.62,
+    0.23,
+    0.15
+   ],
+   "config_id": "crit_large__noncrit_small",
+   "nf_cp_db": 4.236,
+   "s11_cp_db": -31.11,
+   "gain_cp_db": 10.75,
+   "ip1db_cp_dbm": -4.94,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0,
+   "gain_require_db": 12,
+   "score": 0.0
+  },
+  {
+   "t": 568.547,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 2451,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 2451,
+    "equiv_time_s": 1225.5,
+    "cpu_s": 13.113
+   },
+   "cid": "C018",
+   "origin": "search",
+   "power_ratio_list": [
+    0.62,
+    0.23,
+    0.15
+   ],
+   "config_id": "crit_small__noncrit_small",
+   "nf_cp_db": 3.901,
+   "s11_cp_db": -31.27,
+   "gain_cp_db": 18.43,
+   "ip1db_cp_dbm": -10.45,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0,
+   "gain_require_db": 12,
+   "score": 0.0
+  },
+  {
+   "t": 589.115,
+   "agent": "searcher",
+   "event": "active_sizing",
+   "sims": {
+    "hf_critical": 2451,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 2451,
+    "equiv_time_s": 1225.5,
+    "cpu_s": 13.113
+   },
+   "split": [
+    0.58,
+    0.27,
+    0.15
+   ],
+   "status": "ok",
+   "n": 4
+  },
+  {
+   "t": 609.609,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 2580,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 2580,
+    "equiv_time_s": 1290.0,
+    "cpu_s": 13.778
+   },
+   "cid": "C019",
+   "origin": "search",
+   "power_ratio_list": [
+    0.58,
+    0.27,
+    0.15
+   ],
+   "config_id": "crit_large__noncrit_small",
+   "nf_cp_db": 3.969,
+   "s11_cp_db": -22.33,
+   "gain_cp_db": 15.65,
+   "ip1db_cp_dbm": -8.57,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0,
+   "gain_require_db": null,
+   "score": 0.0
+  },
+  {
+   "t": 628.89,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 2709,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 2709,
+    "equiv_time_s": 1354.5,
+    "cpu_s": 14.443
+   },
+   "cid": "C020",
+   "origin": "search",
+   "power_ratio_list": [
+    0.58,
+    0.27,
+    0.15
+   ],
+   "config_id": "crit_large__noncrit_small",
+   "nf_cp_db": 4.031,
+   "s11_cp_db": -31.35,
+   "gain_cp_db": 13.17,
+   "ip1db_cp_dbm": -7.74,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0,
+   "gain_require_db": 12,
+   "score": 0.0
+  },
+  {
+   "t": 649.294,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 2838,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 2838,
+    "equiv_time_s": 1419.0,
+    "cpu_s": 15.123
+   },
+   "cid": "C021",
+   "origin": "search",
+   "power_ratio_list": [
+    0.58,
+    0.27,
+    0.15
+   ],
+   "config_id": "crit_small__noncrit_small",
+   "nf_cp_db": 3.719,
+   "s11_cp_db": -20.82,
+   "gain_cp_db": 22.93,
+   "ip1db_cp_dbm": -15.91,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0,
+   "gain_require_db": null,
+   "score": 0.0
+  },
+  {
+   "t": 666.274,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 2967,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 2967,
+    "equiv_time_s": 1483.5,
+    "cpu_s": 15.796
+   },
+   "cid": "C022",
+   "origin": "search",
+   "power_ratio_list": [
+    0.58,
+    0.27,
+    0.15
+   ],
+   "config_id": "crit_small__noncrit_small",
+   "nf_cp_db": 3.77,
+   "s11_cp_db": -21.02,
+   "gain_cp_db": 20.25,
+   "ip1db_cp_dbm": -13.4,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0,
+   "gain_require_db": 12,
+   "score": 0.0
+  },
+  {
+   "t": 684.254,
+   "agent": "searcher",
+   "event": "active_sizing",
+   "sims": {
+    "hf_critical": 2967,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 2967,
+    "equiv_time_s": 1483.5,
+    "cpu_s": 15.796
+   },
+   "split": [
+    0.55,
+    0.3,
+    0.15
+   ],
+   "status": "ok",
+   "n": 4
+  },
+  {
+   "t": 704.123,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 3096,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 3096,
+    "equiv_time_s": 1548.0,
+    "cpu_s": 16.485
+   },
+   "cid": "C023",
+   "origin": "search",
+   "power_ratio_list": [
+    0.55,
+    0.3,
+    0.15
+   ],
+   "config_id": "crit_small__noncrit_small",
+   "nf_cp_db": 3.814,
+   "s11_cp_db": -32.5,
+   "gain_cp_db": 21.36,
+   "ip1db_cp_dbm": -14.45,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0,
+   "gain_require_db": null,
+   "score": 0.0
+  },
+  {
+   "t": 723.653,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 3225,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 3225,
+    "equiv_time_s": 1612.5,
+    "cpu_s": 17.155
+   },
+   "cid": "C024",
+   "origin": "search",
+   "power_ratio_list": [
+    0.55,
+    0.3,
+    0.15
+   ],
+   "config_id": "crit_small__noncrit_small",
+   "nf_cp_db": 4.038,
+   "s11_cp_db": -31.21,
+   "gain_cp_db": 18.23,
+   "ip1db_cp_dbm": -11.69,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0,
+   "gain_require_db": 12,
+   "score": 0.0
+  },
+  {
+   "t": 739.567,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 3354,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 3354,
+    "equiv_time_s": 1677.0,
+    "cpu_s": 17.846
+   },
+   "cid": "C025",
+   "origin": "search",
+   "power_ratio_list": [
+    0.55,
+    0.3,
+    0.15
+   ],
+   "config_id": "crit_large__noncrit_small",
+   "nf_cp_db": 4.016,
+   "s11_cp_db": -27.58,
+   "gain_cp_db": 12.88,
+   "ip1db_cp_dbm": -5.55,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0,
+   "gain_require_db": null,
+   "score": 0.0
+  },
+  {
+   "t": 757.51,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 3483,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 3483,
+    "equiv_time_s": 1741.5,
+    "cpu_s": 18.541
+   },
+   "cid": "C026",
+   "origin": "search",
+   "power_ratio_list": [
+    0.55,
+    0.3,
+    0.15
+   ],
+   "config_id": "crit_large__noncrit_small",
+   "nf_cp_db": 5.002,
+   "s11_cp_db": -35.56,
+   "gain_cp_db": 11.89,
+   "ip1db_cp_dbm": -5.05,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0,
+   "gain_require_db": 12,
+   "score": 0.0
+  },
+  {
+   "t": 779.145,
+   "agent": "searcher",
+   "event": "active_sizing",
+   "sims": {
+    "hf_critical": 3483,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 3483,
+    "equiv_time_s": 1741.5,
+    "cpu_s": 18.541
+   },
+   "split": [
+    0.5,
+    0.35,
+    0.15
+   ],
+   "status": "ok",
+   "n": 4
+  },
+  {
+   "t": 794.946,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 3612,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 3612,
+    "equiv_time_s": 1806.0,
+    "cpu_s": 19.225
+   },
+   "cid": "C027",
+   "origin": "search",
+   "power_ratio_list": [
+    0.5,
+    0.35,
+    0.15
+   ],
+   "config_id": "crit_small__noncrit_small",
+   "nf_cp_db": 3.968,
+   "s11_cp_db": -32.08,
+   "gain_cp_db": 20.75,
+   "ip1db_cp_dbm": -13.81,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0,
+   "gain_require_db": null,
+   "score": 0.0
+  },
+  {
+   "t": 810.485,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 3741,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 3741,
+    "equiv_time_s": 1870.5,
+    "cpu_s": 19.897
+   },
+   "cid": "C028",
+   "origin": "search",
+   "power_ratio_list": [
+    0.5,
+    0.35,
+    0.15
+   ],
+   "config_id": "crit_small__noncrit_small",
+   "nf_cp_db": 3.992,
+   "s11_cp_db": -33.59,
+   "gain_cp_db": 19.56,
+   "ip1db_cp_dbm": -12.66,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0,
+   "gain_require_db": 12,
+   "score": 0.0
+  },
+  {
+   "t": 831.631,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 3870,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 3870,
+    "equiv_time_s": 1935.0,
+    "cpu_s": 20.607
+   },
+   "cid": "C029",
+   "origin": "search",
+   "power_ratio_list": [
+    0.5,
+    0.35,
+    0.15
+   ],
+   "config_id": "crit_large__noncrit_small",
+   "nf_cp_db": 4.182,
+   "s11_cp_db": -29.77,
+   "gain_cp_db": 13.69,
+   "ip1db_cp_dbm": -6.13,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0,
+   "gain_require_db": null,
+   "score": 0.0
+  },
+  {
+   "t": 848.894,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 3999,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 3999,
+    "equiv_time_s": 1999.5,
+    "cpu_s": 21.281
+   },
+   "cid": "C030",
+   "origin": "search",
+   "power_ratio_list": [
+    0.5,
+    0.35,
+    0.15
+   ],
+   "config_id": "crit_large__noncrit_small",
+   "nf_cp_db": 4.124,
+   "s11_cp_db": -31.59,
+   "gain_cp_db": 14.11,
+   "ip1db_cp_dbm": -5.54,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0,
+   "gain_require_db": 12,
+   "score": 0.0
+  },
+  {
+   "t": 870.137,
+   "agent": "searcher",
+   "event": "terminated",
+   "sims": {
+    "hf_critical": 3999,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 3999,
+    "equiv_time_s": 1999.5,
+    "cpu_s": 21.281
+   },
+   "reason": "finish",
+   "steps": 22
+  },
+  {
+   "t": 870.137,
+   "agent": "manager",
+   "event": "search_report",
+   "sims": {
+    "hf_critical": 3999,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 3999,
+    "equiv_time_s": 1999.5,
+    "cpu_s": 21.281
+   },
+   "terminated": "finish",
+   "new": [
+    "C021",
+    "C018",
+    "C019"
+   ]
+  },
+  {
+   "t": 910.312,
+   "agent": "searcher",
+   "event": "active_sizing",
+   "sims": {
+    "hf_critical": 3999,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 3999,
+    "equiv_time_s": 1999.5,
+    "cpu_s": 21.281
+   },
+   "split": [
+    0.67,
+    0.18,
+    0.15
+   ],
+   "status": "infeasible",
+   "n": 0
+  },
+  {
+   "t": 927.945,
+   "agent": "searcher",
+   "event": "terminated",
+   "sims": {
+    "hf_critical": 3999,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 3999,
+    "equiv_time_s": 1999.5,
+    "cpu_s": 21.281
+   },
+   "reason": "finish",
+   "steps": 2
+  },
+  {
+   "t": 927.945,
+   "agent": "manager",
+   "event": "search_report",
+   "sims": {
+    "hf_critical": 3999,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 3999,
+    "equiv_time_s": 1999.5,
+    "cpu_s": 21.281
+   },
+   "terminated": "finish",
+   "new": []
+  },
+  {
+   "t": 970.514,
+   "agent": "searcher",
+   "event": "active_sizing",
+   "sims": {
+    "hf_critical": 3999,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 3999,
+    "equiv_time_s": 1999.5,
+    "cpu_s": 21.281
+   },
+   "split": [
+    0.63,
+    0.22,
+    0.15
+   ],
+   "status": "infeasible",
+   "n": 0
+  },
+  {
+   "t": 990.301,
+   "agent": "searcher",
+   "event": "terminated",
+   "sims": {
+    "hf_critical": 3999,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 3999,
+    "equiv_time_s": 1999.5,
+    "cpu_s": 21.281
+   },
+   "reason": "finish",
+   "steps": 2
+  },
+  {
+   "t": 990.302,
+   "agent": "manager",
+   "event": "search_report",
+   "sims": {
+    "hf_critical": 3999,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 3999,
+    "equiv_time_s": 1999.5,
+    "cpu_s": 21.281
+   },
+   "terminated": "finish",
+   "new": []
+  },
+  {
+   "t": 1016.374,
+   "agent": "manager",
+   "event": "terminated",
+   "sims": {
+    "hf_critical": 3999,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 3999,
+    "equiv_time_s": 1999.5,
+    "cpu_s": 21.281
+   },
+   "reason": "finish",
+   "steps": 8
+  }
+ ],
+ "backend": "hybrid(surrogate_twoport_v1->cadence_spectre_crn65lp)",
+ "llm_usage": {
+  "calls": 57,
+  "prompt_tokens": 997873,
+  "completion_tokens": 14550,
+  "cached_prompt_tokens": 817152,
+  "notional_cost_usd": 0.0,
+  "errors": 0,
+  "invalid_actions": 0,
+  "latency_s": 992.2953525679695,
+  "fallbacks": 0,
+  "rule_after_disable": 0,
+  "disabled_reason": "",
+  "calls_by_role": {
+   "manager": 8,
+   "searcher": 49
+  }
+ },
+ "llm_log": [
+  {
+   "role": "manager",
+   "response": "<rationale>The queue is empty with the full 3600 s budget available; for NF \u22642.5 dB and IP1dB \u2265\u221225 dBm, start with 40% current in Stage 1 for noise and 35% in Stage 3 for output linearity.</rationale><tools>{\"tool\":\"search_candidates\",\"args\":{\"power_ratio_list\":[0.4,0.25,0.35],\"nf_headroom_db\":0.5,\"gain_cp_targets\":[12,14,16],\"note\":\"Initial balanced search: prioritize Stage-1 NF margin while limiting critical gain to protect later-stage compression; retain feasible Stage-2 loads.\"}}</tools>",
+   "prompt_tokens": 15899,
+   "completion_tokens": 218,
+   "latency_s": 14.757
+  },
+  {
+   "role": "searcher",
+   "response": "<rationale>The prescribed split [0.40, 0.25, 0.35] allocates the largest share to noise-critical Stage 1 while retaining 60% for downstream gain and compression.</rationale><tools>{\"tool\":\"active_sizing\",\"args\":{\"power_ratio_list\":[0.4,0.25,0.35]}}</tools>",
+   "prompt_tokens": 15691,
+   "completion_tokens": 96,
+   "latency_s": 12.419,
+   "agent_step": 1,
+   "tool": "active_sizing",
+   "args": {
+    "power_ratio_list": [
+     0.4,
+     0.25,
+     0.35
+    ]
+   },
+   "observation": "{\"power_ratio_list\": [0.4, 0.25, 0.35], \"status\": \"ok\", \"reason\": null, \"configs\": [{\"config_id\": \"crit_large__noncrit_large\", \"stages\": [{\"kind\": \"cascode\", \"w_um\": 180.0, \"stage_current_ma\": 11.1448, \"gm_s\": 0.0866, \"ft_ghz\": 78.639}, {\"kind\": \"diff\", \"w_um\": 108.0, \"stage_current_ma\": 7.3353, \"gm_s\": 0.0377, \"ft_ghz\": 62.6522}, {\"kind\": \"diff\", \"w_um\": 117.0, \"stage_current_ma\": 10.1071, \"gm_s\""
+  },
+  {
+   "role": "searcher",
+   "response": "<rationale>The critical-large configuration offers the highest Stage-1 gm (0.0866 S) and Stage-2 gm (0.0377 S), making it the strongest first test for achieving the 2.5 dB NF target with 0.5 dB headroom; the unconstrained run establishes its attainable gain and compression baseline.</rationale><tools>{\"tool\":\"impedance_matching\",\"args\":{\"power_ratio_list\":[0.4,0.25,0.35],\"config_id\":\"crit_large__noncrit_large\",\"nf_headroom_db\":0.5,\"gain_require_db\":null}}</tools>",
+   "prompt_tokens": 16468,
+   "completion_tokens": 252,
+   "latency_s": 15.584,
+   "agent_step": 2,
+   "tool": "impedance_matching",
+   "args": {
+    "power_ratio_list": [
+     0.4,
+     0.25,
+     0.35
+    ],
+    "config_id": "crit_large__noncrit_large",
+    "nf_headroom_db": 0.5,
+    "gain_require_db": null
+   },
+   "observation": "{\"cid\": \"C000\", \"origin\": \"search\", \"power_ratio_list\": [0.4, 0.25, 0.35], \"config_id\": \"crit_large__noncrit_large\", \"nf_cp_db\": 4.648, \"s11_cp_db\": -29.28, \"gain_cp_db\": 12.26, \"ip1db_cp_dbm\": -4.5, \"stage2_feasible\": false, \"nf_headroom_db\": 0.5, \"gain_require_db\": null, \"score\": -0.148, \"summary\": \"C000 nf_cp=4.648 gain_cp=12.26 feasible=False\"}"
+  },
+  {
+   "role": "searcher",
+   "response": "<rationale>C000 has excellent S11 at -29.28 dB and ample IP1dB at -4.5 dBm, but its 4.648 dB NF misses the 2.5 dB target and Stage 2 is infeasible; a 12 dB gain constraint is the least restrictive suggested variant and may improve the load solution.</rationale><tools>{\"tool\":\"impedance_matching\",\"args\":{\"power_ratio_list\":[0.4,0.25,0.35],\"config_id\":\"crit_large__noncrit_large\",\"nf_headroom_db\":0.5,\"gain_require_db\":12}}</tools>",
+   "prompt_tokens": 16807,
+   "completion_tokens": 228,
+   "latency_s": 14.909,
+   "agent_step": 3,
+   "tool": "impedance_matching",
+   "args": {
+    "power_ratio_list": [
+     0.4,
+     0.25,
+     0.35
+    ],
+    "config_id": "crit_large__noncrit_large",
+    "nf_headroom_db": 0.5,
+    "gain_require_db": 12
+   },
+   "observation": "{\"cid\": \"C001\", \"origin\": \"search\", \"power_ratio_list\": [0.4, 0.25, 0.35], \"config_id\": \"crit_large__noncrit_large\", \"nf_cp_db\": 4.438, \"s11_cp_db\": -28.39, \"gain_cp_db\": 12.96, \"ip1db_cp_dbm\": -4.64, \"stage2_feasible\": false, \"nf_headroom_db\": 0.5, \"gain_require_db\": 12, \"score\": 0.062, \"summary\": \"C001 nf_cp=4.438 gain_cp=12.96 feasible=False\"}"
+  },
+  {
+   "role": "searcher",
+   "response": "<rationale>The large-critical configuration misses the 2.5 dB NF target by 1.94 dB even with the 12 dB gain constraint, and both trials have infeasible Stage-2 loads; the small-critical configuration offers substantially higher Stage-1/2 fT and is the next distinct critical topology worth testing.</rationale><tools>{\"tool\":\"impedance_matching\",\"args\":{\"power_ratio_list\":[0.4,0.25,0.35],\"config_id\":\"crit_small__noncrit_large\",\"nf_headroom_db\":0.5,\"gain_require_db\":null}}</tools>",
+   "prompt_tokens": 17152,
+   "completion_tokens": 290,
+   "latency_s": 16.157,
+   "agent_step": 4,
+   "tool": "impedance_matching",
+   "args": {
+    "power_ratio_list": [
+     0.4,
+     0.25,
+     0.35
+    ],
+    "config_id": "crit_small__noncrit_large",
+    "nf_headroom_db": 0.5,
+    "gain_require_db": null
+   },
+   "observation": "{\"cid\": \"C002\", \"origin\": \"search\", \"power_ratio_list\": [0.4, 0.25, 0.35], \"config_id\": \"crit_small__noncrit_large\", \"nf_cp_db\": 4.839, \"s11_cp_db\": -30.89, \"gain_cp_db\": 18.28, \"ip1db_cp_dbm\": -12.26, \"stage2_feasible\": false, \"nf_headroom_db\": 0.5, \"gain_require_db\": null, \"score\": -0.339, \"summary\": \"C002 nf_cp=4.839 gain_cp=18.28 feasible=False\"}"
+  },
+  {
+   "role": "searcher",
+   "response": "<rationale>The small critical configuration produced 18.28 dB gain but 4.839 dB NF and an infeasible Stage-2 load; a 16 dB gain constraint may trade excess gain for improved NF/load feasibility while staying below the 25 dB total-gain burden.</rationale><tools>{\"tool\":\"impedance_matching\",\"args\":{\"power_ratio_list\":[0.4,0.25,0.35],\"config_id\":\"crit_small__noncrit_large\",\"nf_headroom_db\":0.5,\"gain_require_db\":16}}</tools>",
+   "prompt_tokens": 17494,
+   "completion_tokens": 283,
+   "latency_s": 17.423,
+   "agent_step": 5,
+   "tool": "impedance_matching",
+   "args": {
+    "power_ratio_list": [
+     0.4,
+     0.25,
+     0.35
+    ],
+    "config_id": "crit_small__noncrit_large",
+    "nf_headroom_db": 0.5,
+    "gain_require_db": 16
+   },
+   "observation": "{\"cid\": \"C003\", \"origin\": \"search\", \"power_ratio_list\": [0.4, 0.25, 0.35], \"config_id\": \"crit_small__noncrit_large\", \"nf_cp_db\": 4.664, \"s11_cp_db\": -34.12, \"gain_cp_db\": 17.35, \"ip1db_cp_dbm\": -11.21, \"stage2_feasible\": false, \"nf_headroom_db\": 0.5, \"gain_require_db\": 16, \"score\": -0.164, \"summary\": \"C003 nf_cp=4.664 gain_cp=17.35 feasible=False\"}"
+  },
+  {
+   "role": "searcher",
+   "response": "<rationale>All four candidates miss the 2.5 dB NF target and have infeasible Stage-2 loads; C001 is best by NF/score at 4.438 dB and 0.062, while C003 preserves a useful higher-gain alternative at 17.35 dB with 4.664 dB NF and \u221211.21 dBm IP1dB.</rationale><tools>{\"tool\":\"finish\",\"args\":{\"cids\":[\"C001\",\"C003\"],\"note\":\"Best low-NF and higher-gain tradeoffs retained; all Stage-2 loads remain infeasible and NF exceeds target.\"}}</tools>",
+   "prompt_tokens": 17839,
+   "completion_tokens": 423,
+   "latency_s": 19.331,
+   "agent_step": 1,
+   "tool": "search_candidates",
+   "args": {
+    "power_ratio_list": [
+     0.4,
+     0.25,
+     0.35
+    ],
+    "nf_headroom_db": 0.5,
+    "gain_cp_targets": [
+     12,
+     14,
+     16
+    ],
+    "note": "Initial balanced search: prioritize Stage-1 NF margin while limiting critical gain to protect later-stage compression; retain feasible Stage-2 loads."
+   },
+   "observation": "{\"terminated_reason\": \"finish\", \"new_candidates\": [{\"cid\": \"C001\", \"origin\": \"search\", \"power_ratio_list\": [0.4, 0.25, 0.35], \"config_id\": \"crit_large__noncrit_large\", \"nf_cp_db\": 4.438, \"s11_cp_db\": -28.39, \"gain_cp_db\": 12.96, \"ip1db_cp_dbm\": -4.64, \"stage2_feasible\": false, \"nf_headroom_db\": 0.5, \"gain_require_db\": 12, \"score\": 0.062}, {\"cid\": \"C003\", \"origin\": \"search\", \"power_ratio_list\": [0."
+  },
+  {
+   "role": "manager",
+   "response": "<rationale>Both queued candidates miss the 2.5 dB NF limit by 1.94\u20132.16 dB and have infeasible Stage 2 loads, while critical IP1dB is already strong at \u22124.64 to \u221211.21 dBm. Shift current toward Stage 1 and relax NF headroom to seek a feasible low-noise candidate while keeping critical gain moderate.</rationale><tools>{\"tool\":\"search_candidates\",\"args\":{\"power_ratio_list\":[0.55,0.25,0.2],\"nf_headroom_db\":0,\"gain_cp_targets\":[10,12,14],\"note\":\"NF and Stage-2 feasibility are the bottlenecks; allocate 55% current to Stage 1, retain 25% for Stage 2, and constrain critical gain to avoid downstream compression.\"}}</tools>",
+   "prompt_tokens": 16535,
+   "completion_tokens": 322,
+   "latency_s": 15.393
+  },
+  {
+   "role": "searcher",
+   "response": "<rationale>The prescribed split assigns 55% of the 30 mA budget to NF-critical Stage 1, 25% to Stage 2, and 20% to Stage 3; it is valid and differs from the earlier 40/25/35 split.</rationale><tools>{\"tool\":\"active_sizing\",\"args\":{\"power_ratio_list\":[0.55,0.25,0.2]}}</tools>",
+   "prompt_tokens": 15714,
+   "completion_tokens": 121,
+   "latency_s": 13.326,
+   "agent_step": 1,
+   "tool": "active_sizing",
+   "args": {
+    "power_ratio_list": [
+     0.55,
+     0.25,
+     0.2
+    ]
+   },
+   "observation": "{\"power_ratio_list\": [0.55, 0.25, 0.2], \"status\": \"ok\", \"reason\": null, \"configs\": [{\"config_id\": \"crit_large__noncrit_large\", \"stages\": [{\"kind\": \"cascode\", \"w_um\": 180.0, \"stage_current_ma\": 15.8571, \"gm_s\": 0.102, \"ft_ghz\": 92.4955}, {\"kind\": \"diff\", \"w_um\": 108.0, \"stage_current_ma\": 7.3353, \"gm_s\": 0.0377, \"ft_ghz\": 62.6522}, {\"kind\": \"diff\", \"w_um\": 108.0, \"stage_current_ma\": 5.6398, \"gm_s\":"
+  },
+  {
+   "role": "searcher",
+   "response": "<rationale>The crit_large__noncrit_small configuration gives the critical stages the highest gm (0.102 S and 0.0377 S), while its smaller Stage 3 retains a strong 81.782 GHz fT; first test unconstrained gain to establish the best achievable NF and feasibility.</rationale><tools>{\"tool\":\"impedance_matching\",\"args\":{\"power_ratio_list\":[0.55,0.25,0.2],\"config_id\":\"crit_large__noncrit_small\",\"nf_headroom_db\":0,\"gain_require_db\":null}}</tools>",
+   "prompt_tokens": 16489,
+   "completion_tokens": 233,
+   "latency_s": 15.193,
+   "agent_step": 2,
+   "tool": "impedance_matching",
+   "args": {
+    "power_ratio_list": [
+     0.55,
+     0.25,
+     0.2
+    ],
+    "config_id": "crit_large__noncrit_small",
+    "nf_headroom_db": 0,
+    "gain_require_db": null
+   },
+   "observation": "{\"cid\": \"C004\", \"origin\": \"search\", \"power_ratio_list\": [0.55, 0.25, 0.2], \"config_id\": \"crit_large__noncrit_small\", \"nf_cp_db\": 3.985, \"s11_cp_db\": -29.59, \"gain_cp_db\": 13.9, \"ip1db_cp_dbm\": -6.52, \"stage2_feasible\": false, \"nf_headroom_db\": 0, \"gain_require_db\": null, \"score\": 0.515, \"summary\": \"C004 nf_cp=3.985 gain_cp=13.9 feasible=False\"}"
+  },
+  {
+   "role": "searcher",
+   "response": "<rationale>C004 achieves 13.9 dB critical gain and strong \u221229.59 dB S11, but its 3.985 dB NF exceeds the 2.5 dB target and Stage 2 is infeasible; a 12 dB gain constraint may trade excess gain for lower NF and improved feasibility.</rationale><tools>{\"tool\":\"impedance_matching\",\"args\":{\"power_ratio_list\":[0.55,0.25,0.2],\"config_id\":\"crit_large__noncrit_small\",\"nf_headroom_db\":0,\"gain_require_db\":12}}</tools>",
+   "prompt_tokens": 16818,
+   "completion_tokens": 192,
+   "latency_s": 24.08,
+   "agent_step": 3,
+   "tool": "impedance_matching",
+   "args": {
+    "power_ratio_list": [
+     0.55,
+     0.25,
+     0.2
+    ],
+    "config_id": "crit_large__noncrit_small",
+    "nf_headroom_db": 0,
+    "gain_require_db": 12
+   },
+   "observation": "{\"cid\": \"C005\", \"origin\": \"search\", \"power_ratio_list\": [0.55, 0.25, 0.2], \"config_id\": \"crit_large__noncrit_small\", \"nf_cp_db\": 4.209, \"s11_cp_db\": -24.74, \"gain_cp_db\": 13.4, \"ip1db_cp_dbm\": -7.81, \"stage2_feasible\": false, \"nf_headroom_db\": 0, \"gain_require_db\": 12, \"score\": 0.291, \"summary\": \"C005 nf_cp=4.209 gain_cp=13.4 feasible=False\"}"
+  },
+  {
+   "role": "searcher",
+   "response": "<rationale>C004 and C005 both miss the 2.5 dB NF target by 1.485\u20131.709 dB and leave Stage 2 infeasible; the smaller 45 \u00b5m Stage-2 device in crit_small__noncrit_large has much higher fT (96.39 GHz versus 62.65 GHz), making it the most promising feasibility alternative.</rationale><tools>{\"tool\":\"impedance_matching\",\"args\":{\"power_ratio_list\":[0.55,0.25,0.2],\"config_id\":\"crit_small__noncrit_large\",\"nf_headroom_db\":0,\"gain_require_db\":null}}</tools>",
+   "prompt_tokens": 17159,
+   "completion_tokens": 179,
+   "latency_s": 13.923,
+   "agent_step": 4,
+   "tool": "impedance_matching",
+   "args": {
+    "power_ratio_list": [
+     0.55,
+     0.25,
+     0.2
+    ],
+    "config_id": "crit_small__noncrit_large",
+    "nf_headroom_db": 0,
+    "gain_require_db": null
+   },
+   "observation": "{\"cid\": \"C006\", \"origin\": \"search\", \"power_ratio_list\": [0.55, 0.25, 0.2], \"config_id\": \"crit_small__noncrit_large\", \"nf_cp_db\": 4.155, \"s11_cp_db\": -31.22, \"gain_cp_db\": 19.12, \"ip1db_cp_dbm\": -12.37, \"stage2_feasible\": false, \"nf_headroom_db\": 0, \"gain_require_db\": null, \"score\": 0.31, \"summary\": \"C006 nf_cp=4.155 gain_cp=19.12 feasible=False\"}"
+  },
+  {
+   "role": "searcher",
+   "response": "<rationale>C004 is the best available candidate with the lowest NF (3.985 dB), strongest score (0.515), excellent S11 (-29.59 dB), and ample IP1dB (-6.52 dBm), though it remains NF-limited and Stage-2-infeasible; C006 is a secondary refinement option for its much higher 19.12 dB critical gain.</rationale><tools>{\"tool\":\"finish\",\"args\":{\"cids\":[\"C004\",\"C006\"],\"note\":\"Refine C004 first for its best NF/score and C006 second for gain margin; all candidates miss the 2.5 dB NF target and remain Stage-2-infeasible.\"}}</tools>",
+   "prompt_tokens": 17495,
+   "completion_tokens": 401,
+   "latency_s": 18.469,
+   "agent_step": 2,
+   "tool": "search_candidates",
+   "args": {
+    "power_ratio_list": [
+     0.55,
+     0.25,
+     0.2
+    ],
+    "nf_headroom_db": 0,
+    "gain_cp_targets": [
+     10,
+     12,
+     14
+    ],
+    "note": "NF and Stage-2 feasibility are the bottlenecks; allocate 55% current to Stage 1, retain 25% for Stage 2, and constrain critical gain to avoid downstream compression."
+   },
+   "observation": "{\"terminated_reason\": \"finish\", \"new_candidates\": [{\"cid\": \"C004\", \"origin\": \"search\", \"power_ratio_list\": [0.55, 0.25, 0.2], \"config_id\": \"crit_large__noncrit_small\", \"nf_cp_db\": 3.985, \"s11_cp_db\": -29.59, \"gain_cp_db\": 13.9, \"ip1db_cp_dbm\": -6.52, \"stage2_feasible\": false, \"nf_headroom_db\": 0, \"gain_require_db\": null, \"score\": 0.515}, {\"cid\": \"C006\", \"origin\": \"search\", \"power_ratio_list\": [0.5"
+  },
+  {
+   "role": "manager",
+   "response": "<rationale>The best critical-stage NF is 3.985 dB, still 1.485 dB above the 2.5 dB target, and every Stage-2 candidate is infeasible. Increase Stage-1 current to the maximum allowed while preserving minimum current for Stages 2 and 3.</rationale><tools>{\"tool\":\"search_candidates\",\"args\":{\"power_ratio_list\":[0.7,0.15,0.15],\"nf_headroom_db\":0,\"gain_cp_targets\":[10,12,14],\"note\":\"Severe NF bottleneck: maximize Stage-1 current. Seek lower critical gain and any feasible Stage-2 load; retain minimum Stage-3 allocation for later refinement.\"}}</tools>",
+   "prompt_tokens": 17180,
+   "completion_tokens": 389,
+   "latency_s": 17.016
+  },
+  {
+   "role": "searcher",
+   "response": "<rationale>The specified split [0.7, 0.15, 0.15] maximizes Stage-1 current while preserving the minimum allowed allocations for Stages 2 and 3, and it has not been tried earlier.</rationale><tools>{\"tool\":\"active_sizing\",\"args\":{\"power_ratio_list\":[0.7,0.15,0.15]}}</tools>",
+   "prompt_tokens": 15725,
+   "completion_tokens": 111,
+   "latency_s": 12.598,
+   "agent_step": 1,
+   "tool": "active_sizing",
+   "args": {
+    "power_ratio_list": [
+     0.7,
+     0.15,
+     0.15
+    ]
+   },
+   "observation": "{\"power_ratio_list\": [0.7, 0.15, 0.15], \"status\": \"infeasible\", \"reason\": \"no device within +-15% of the current for stage(s) [1]\", \"configs\": [], \"summary\": \"infeasible: []\"}"
+  },
+  {
+   "role": "searcher",
+   "response": "<rationale>The required [0.70, 0.15, 0.15] split is infeasible because no Stage-1 device lies within \u00b115% of its allocated current, so no configurations or candidates can be evaluated.</rationale><tools>{\"tool\":\"finish\",\"args\":{\"cids\":[],\"note\":\"Required power split was infeasible at active sizing; no candidate could be generated.\"}}</tools>",
+   "prompt_tokens": 15842,
+   "completion_tokens": 142,
+   "latency_s": 13.97,
+   "agent_step": 3,
+   "tool": "search_candidates",
+   "args": {
+    "power_ratio_list": [
+     0.7,
+     0.15,
+     0.15
+    ],
+    "nf_headroom_db": 0,
+    "gain_cp_targets": [
+     10,
+     12,
+     14
+    ],
+    "note": "Severe NF bottleneck: maximize Stage-1 current. Seek lower critical gain and any feasible Stage-2 load; retain minimum Stage-3 allocation for later refinement."
+   },
+   "observation": "{\"terminated_reason\": \"finish\", \"new_candidates\": [], \"summary\": \"searcher finish: 0 new candidates []\"}"
+  },
+  {
+   "role": "manager",
+   "response": "<rationale>C004 has the best critical NF at 3.985 dB but remains 1.485 dB above target and Stage 2 is infeasible; shifting another 5% current to Stage 1 while preserving Stage 2\u2019s 25% is the most promising untried allocation.</rationale><tools>{\"tool\":\"search_candidates\",\"args\":{\"power_ratio_list\":[0.6,0.25,0.15],\"nf_headroom_db\":0,\"gain_cp_targets\":[10,12,14],\"note\":\"Improve the dominant NF bottleneck with 60% Stage-1 current while preserving Stage-2 current for feasibility; prioritize feasible Stage-2 candidates and moderate critical gain.\"}}</tools>",
+   "prompt_tokens": 17327,
+   "completion_tokens": 296,
+   "latency_s": 16.582
+  },
+  {
+   "role": "searcher",
+   "response": "<rationale>The prescribed split allocates 18 mA to Stage 1, 7.5 mA to Stage 2, and 4.5 mA to Stage 3, emphasizing the dominant NF bottleneck while retaining Stage-2 feasibility.</rationale><tools>{\"tool\":\"active_sizing\",\"args\":{\"power_ratio_list\":[0.6,0.25,0.15]}}</tools>",
+   "prompt_tokens": 15738,
+   "completion_tokens": 108,
+   "latency_s": 12.233,
+   "agent_step": 1,
+   "tool": "active_sizing",
+   "args": {
+    "power_ratio_list": [
+     0.6,
+     0.25,
+     0.15
+    ]
+   },
+   "observation": "{\"power_ratio_list\": [0.6, 0.25, 0.15], \"status\": \"ok\", \"reason\": null, \"configs\": [{\"config_id\": \"crit_large__noncrit_large\", \"stages\": [{\"kind\": \"cascode\", \"w_um\": 180.0, \"stage_current_ma\": 15.8571, \"gm_s\": 0.102, \"ft_ghz\": 92.4955}, {\"kind\": \"diff\", \"w_um\": 108.0, \"stage_current_ma\": 7.3353, \"gm_s\": 0.0377, \"ft_ghz\": 62.6522}, {\"kind\": \"diff\", \"w_um\": 108.0, \"stage_current_ma\": 4.222, \"gm_s\": "
+  },
+  {
+   "role": "searcher",
+   "response": "<rationale>The critical-large configuration gives Stage 2 the higher gm (0.0377 S versus 0.0266 S) while retaining 62.65 GHz fT, so it is the strongest first feasibility check at 30 GHz.</rationale><tools>{\"tool\":\"impedance_matching\",\"args\":{\"power_ratio_list\":[0.6,0.25,0.15],\"config_id\":\"crit_large__noncrit_large\",\"nf_headroom_db\":0,\"gain_require_db\":null}}</tools>",
+   "prompt_tokens": 16509,
+   "completion_tokens": 198,
+   "latency_s": 14.485,
+   "agent_step": 2,
+   "tool": "impedance_matching",
+   "args": {
+    "power_ratio_list": [
+     0.6,
+     0.25,
+     0.15
+    ],
+    "config_id": "crit_large__noncrit_large",
+    "nf_headroom_db": 0,
+    "gain_require_db": null
+   },
+   "observation": "{\"cid\": \"C007\", \"origin\": \"search\", \"power_ratio_list\": [0.6, 0.25, 0.15], \"config_id\": \"crit_large__noncrit_large\", \"nf_cp_db\": 3.789, \"s11_cp_db\": -20.31, \"gain_cp_db\": 14.84, \"ip1db_cp_dbm\": -8.61, \"stage2_feasible\": false, \"nf_headroom_db\": 0, \"gain_require_db\": null, \"score\": 0.711, \"summary\": \"C007 nf_cp=3.789 gain_cp=14.84 feasible=False\"}"
+  },
+  {
+   "role": "searcher",
+   "response": "<rationale>C007 has strong S11 (-20.31 dB), gain (14.84 dB), and IP1dB (-8.61 dBm), but misses the 2.5 dB NF target by 1.289 dB and Stage 2 is infeasible. The critical-small configuration raises Stage-2 fT from 62.65 to 96.39 GHz, making it the most promising feasibility correction.</rationale><tools>{\"tool\":\"impedance_matching\",\"args\":{\"power_ratio_list\":[0.6,0.25,0.15],\"config_id\":\"crit_small__noncrit_small\",\"nf_headroom_db\":0,\"gain_require_db\":null}}</tools>",
+   "prompt_tokens": 16846,
+   "completion_tokens": 296,
+   "latency_s": 15.959,
+   "agent_step": 3,
+   "tool": "impedance_matching",
+   "args": {
+    "power_ratio_list": [
+     0.6,
+     0.25,
+     0.15
+    ],
+    "config_id": "crit_small__noncrit_small",
+    "nf_headroom_db": 0,
+    "gain_require_db": null
+   },
+   "observation": "{\"cid\": \"C008\", \"origin\": \"search\", \"power_ratio_list\": [0.6, 0.25, 0.15], \"config_id\": \"crit_small__noncrit_small\", \"nf_cp_db\": 3.864, \"s11_cp_db\": -29.59, \"gain_cp_db\": 22.39, \"ip1db_cp_dbm\": -15.31, \"stage2_feasible\": false, \"nf_headroom_db\": 0, \"gain_require_db\": null, \"score\": -0.38, \"summary\": \"C008 nf_cp=3.864 gain_cp=22.39 feasible=False\"}"
+  },
+  {
+   "role": "searcher",
+   "response": "<rationale>C007 has the better NF (3.789 dB) and linearity (-8.61 dBm) with moderate 14.84 dB gain, but Stage 2 is infeasible; a 12 dB gain constraint may trade excess gain for a feasible match.</rationale><tools>{\"tool\":\"impedance_matching\",\"args\":{\"power_ratio_list\":[0.6,0.25,0.15],\"config_id\":\"crit_large__noncrit_large\",\"nf_headroom_db\":0,\"gain_require_db\":12}}</tools>",
+   "prompt_tokens": 17182,
+   "completion_tokens": 247,
+   "latency_s": 14.897,
+   "agent_step": 4,
+   "tool": "impedance_matching",
+   "args": {
+    "power_ratio_list": [
+     0.6,
+     0.25,
+     0.15
+    ],
+    "config_id": "crit_large__noncrit_large",
+    "nf_headroom_db": 0,
+    "gain_require_db": 12
+   },
+   "observation": "{\"cid\": \"C009\", \"origin\": \"search\", \"power_ratio_list\": [0.6, 0.25, 0.15], \"config_id\": \"crit_large__noncrit_large\", \"nf_cp_db\": 4.03, \"s11_cp_db\": -29.6, \"gain_cp_db\": 12.94, \"ip1db_cp_dbm\": -6.2, \"stage2_feasible\": false, \"nf_headroom_db\": 0, \"gain_require_db\": 12, \"score\": 0.47, \"summary\": \"C009 nf_cp=4.03 gain_cp=12.94 feasible=False\"}"
+  },
+  {
+   "role": "searcher",
+   "response": "<rationale>The critical-small configuration reached 22.39 dB gain but remained Stage-2-infeasible with 3.864 dB NF; constraining it to a moderate 12 dB may trade excess gain for feasibility and NF improvement.</rationale><tools>{\"tool\":\"impedance_matching\",\"args\":{\"power_ratio_list\":[0.6,0.25,0.15],\"config_id\":\"crit_small__noncrit_large\",\"nf_headroom_db\":0,\"gain_require_db\":12}}</tools>",
+   "prompt_tokens": 17521,
+   "completion_tokens": 267,
+   "latency_s": 17.887,
+   "agent_step": 5,
+   "tool": "impedance_matching",
+   "args": {
+    "power_ratio_list": [
+     0.6,
+     0.25,
+     0.15
+    ],
+    "config_id": "crit_small__noncrit_large",
+    "nf_headroom_db": 0,
+    "gain_require_db": 12
+   },
+   "observation": "{\"cid\": \"C010\", \"origin\": \"search\", \"power_ratio_list\": [0.6, 0.25, 0.15], \"config_id\": \"crit_small__noncrit_large\", \"nf_cp_db\": 3.701, \"s11_cp_db\": -27.97, \"gain_cp_db\": 21.12, \"ip1db_cp_dbm\": -14.04, \"stage2_feasible\": false, \"nf_headroom_db\": 0, \"gain_require_db\": 12, \"score\": 0.162, \"summary\": \"C010 nf_cp=3.701 gain_cp=21.12 feasible=False\"}"
+  },
+  {
+   "role": "searcher",
+   "response": "<rationale>C010 has the best observed NF at 3.701 dB with strong 21.12 dB critical gain and \u221227.97 dB S11, so removing its 12 dB gain constraint may trade excess gain for lower NF and improved Stage-2 feasibility.</rationale><tools>{\"tool\":\"impedance_matching\",\"args\":{\"power_ratio_list\":[0.6,0.25,0.15],\"config_id\":\"crit_small__noncrit_large\",\"nf_headroom_db\":0,\"gain_require_db\":null}}</tools>",
+   "prompt_tokens": 17858,
+   "completion_tokens": 310,
+   "latency_s": 17.234,
+   "agent_step": 6,
+   "tool": "impedance_matching",
+   "args": {
+    "power_ratio_list": [
+     0.6,
+     0.25,
+     0.15
+    ],
+    "config_id": "crit_small__noncrit_large",
+    "nf_headroom_db": 0,
+    "gain_require_db": null
+   },
+   "observation": "{\"cid\": \"C011\", \"origin\": \"search\", \"power_ratio_list\": [0.6, 0.25, 0.15], \"config_id\": \"crit_small__noncrit_large\", \"nf_cp_db\": 4.078, \"s11_cp_db\": -31.79, \"gain_cp_db\": 17.94, \"ip1db_cp_dbm\": -11.24, \"stage2_feasible\": false, \"nf_headroom_db\": 0, \"gain_require_db\": null, \"score\": 0.422, \"summary\": \"C011 nf_cp=4.078 gain_cp=17.94 feasible=False\"}"
+  },
+  {
+   "role": "searcher",
+   "response": "<rationale>The only untested configuration is crit_large__noncrit_small; its Stage-2 sizing matches C007\u2019s relatively strong 14.84 dB gain and \u22128.61 dBm IP1dB, while the smaller noncritical stage may improve overall feasibility.</rationale><tools>{\"tool\":\"impedance_matching\",\"args\":{\"power_ratio_list\":[0.6,0.25,0.15],\"config_id\":\"crit_large__noncrit_small\",\"nf_headroom_db\":0,\"gain_require_db\":null}}</tools>",
+   "prompt_tokens": 18196,
+   "completion_tokens": 171,
+   "latency_s": 15.739,
+   "agent_step": 7,
+   "tool": "impedance_matching",
+   "args": {
+    "power_ratio_list": [
+     0.6,
+     0.25,
+     0.15
+    ],
+    "config_id": "crit_large__noncrit_small",
+    "nf_headroom_db": 0,
+    "gain_require_db": null
+   },
+   "observation": "{\"cid\": \"C012\", \"origin\": \"search\", \"power_ratio_list\": [0.6, 0.25, 0.15], \"config_id\": \"crit_large__noncrit_small\", \"nf_cp_db\": 4.266, \"s11_cp_db\": -24.08, \"gain_cp_db\": 13.08, \"ip1db_cp_dbm\": -8.71, \"stage2_feasible\": false, \"nf_headroom_db\": 0, \"gain_require_db\": null, \"score\": 0.234, \"summary\": \"C012 nf_cp=4.266 gain_cp=13.08 feasible=False\"}"
+  },
+  {
+   "role": "searcher",
+   "response": "<rationale>C008 has strong S11 (-29.59 dB) and ample critical gain (22.39 dB) but remains Stage-2-infeasible with NF 3.864 dB, so a moderate 10 dB gain target may trade excess gain for feasibility and lower NF.</rationale><tools>{\"tool\":\"impedance_matching\",\"args\":{\"power_ratio_list\":[0.6,0.25,0.15],\"config_id\":\"crit_small__noncrit_small\",\"nf_headroom_db\":0,\"gain_require_db\":10}}</tools>",
+   "prompt_tokens": 17813,
+   "completion_tokens": 248,
+   "latency_s": 16.881,
+   "agent_step": 8,
+   "tool": "impedance_matching",
+   "args": {
+    "power_ratio_list": [
+     0.6,
+     0.25,
+     0.15
+    ],
+    "config_id": "crit_small__noncrit_small",
+    "nf_headroom_db": 0,
+    "gain_require_db": 10
+   },
+   "observation": "{\"cid\": \"C013\", \"origin\": \"search\", \"power_ratio_list\": [0.6, 0.25, 0.15], \"config_id\": \"crit_small__noncrit_small\", \"nf_cp_db\": 4.94, \"s11_cp_db\": -26.25, \"gain_cp_db\": 15.88, \"ip1db_cp_dbm\": -9.97, \"stage2_feasible\": false, \"nf_headroom_db\": 0, \"gain_require_db\": 10, \"score\": -0.44, \"summary\": \"C013 nf_cp=4.94 gain_cp=15.88 feasible=False\"}"
+  },
+  {
+   "role": "searcher",
+   "response": "<rationale>The large-critical/small-noncritical configuration has only been tested unconstrained (C012: NF 4.266 dB, gain 13.08 dB, S11 \u221224.08 dB, infeasible); a moderate 10 dB gain target may improve its NF\u2013feasibility tradeoff.</rationale><tools>{\"tool\":\"impedance_matching\",\"args\":{\"power_ratio_list\":[0.6,0.25,0.15],\"config_id\":\"crit_large__noncrit_small\",\"nf_headroom_db\":0,\"gain_require_db\":10}}</tools>",
+   "prompt_tokens": 17968,
+   "completion_tokens": 251,
+   "latency_s": 17.389,
+   "agent_step": 9,
+   "tool": "impedance_matching",
+   "args": {
+    "power_ratio_list": [
+     0.6,
+     0.25,
+     0.15
+    ],
+    "config_id": "crit_large__noncrit_small",
+    "nf_headroom_db": 0,
+    "gain_require_db": 10
+   },
+   "observation": "{\"cid\": \"C014\", \"origin\": \"search\", \"power_ratio_list\": [0.6, 0.25, 0.15], \"config_id\": \"crit_large__noncrit_small\", \"nf_cp_db\": 3.963, \"s11_cp_db\": -31.97, \"gain_cp_db\": 13.13, \"ip1db_cp_dbm\": -5.35, \"stage2_feasible\": false, \"nf_headroom_db\": 0, \"gain_require_db\": 10, \"score\": 0.537, \"summary\": \"C014 nf_cp=3.963 gain_cp=13.13 feasible=False\"}"
+  },
+  {
+   "role": "searcher",
+   "response": "<rationale>All eight candidates are Stage-2-infeasible and exceed the 2.5 dB NF target; C010 has the lowest NF at 3.701 dB, while C007 offers the best score (0.711) with 14.84 dB gain and C014 combines a 0.537 score with \u221231.97 dB S11.</rationale><tools>{\"tool\":\"finish\",\"args\":{\"cids\":[\"C007\",\"C010\",\"C014\"],\"note\":\"No Stage-2-feasible result was found; refine the best-scoring candidate, the lowest-NF candidate, and the strongest matched moderate-gain alternative.\"}}</tools>",
+   "prompt_tokens": 18111,
+   "completion_tokens": 255,
+   "latency_s": 21.439,
+   "agent_step": 4,
+   "tool": "search_candidates",
+   "args": {
+    "power_ratio_list": [
+     0.6,
+     0.25,
+     0.15
+    ],
+    "nf_headroom_db": 0,
+    "gain_cp_targets": [
+     10,
+     12,
+     14
+    ],
+    "note": "Improve the dominant NF bottleneck with 60% Stage-1 current while preserving Stage-2 current for feasibility; prioritize feasible Stage-2 candidates and moderate critical gain."
+   },
+   "observation": "{\"terminated_reason\": \"finish\", \"new_candidates\": [{\"cid\": \"C007\", \"origin\": \"search\", \"power_ratio_list\": [0.6, 0.25, 0.15], \"config_id\": \"crit_large__noncrit_large\", \"nf_cp_db\": 3.789, \"s11_cp_db\": -20.31, \"gain_cp_db\": 14.84, \"ip1db_cp_dbm\": -8.61, \"stage2_feasible\": false, \"nf_headroom_db\": 0, \"gain_require_db\": null, \"score\": 0.711}, {\"cid\": \"C010\", \"origin\": \"search\", \"power_ratio_list\": [0."
+  },
+  {
+   "role": "manager",
+   "response": "<rationale>The best critical-stage NF is still 3.701 dB, 1.201 dB above target, and every queued candidate has an infeasible Stage 2. Search an untried 65/20/15 allocation to increase Stage-1 current while preserving more Stage-2 current than the failed 70/15/15 split.</rationale><tools>{\"tool\":\"search_candidates\",\"args\":{\"power_ratio_list\":[0.65,0.2,0.15],\"nf_headroom_db\":0,\"gain_cp_targets\":[10,12,14],\"note\":\"NF and Stage-2 feasibility remain dominant: use 65% Stage-1 current for lower NF, preserve 20% for Stage-2 feasibility, and favor moderate critical gain to protect downstream compression.\"}}</tools>",
+   "prompt_tokens": 18212,
+   "completion_tokens": 260,
+   "latency_s": 16.496
+  },
+  {
+   "role": "searcher",
+   "response": "<rationale>The prescribed split assigns 19.5 mA to Stage 1, 6 mA to Stage 2, and 4.5 mA to Stage 3, prioritizing the 2.5 dB NF limit while retaining Stage-2 feasibility.</rationale><tools>{\"tool\":\"active_sizing\",\"args\":{\"power_ratio_list\":[0.65,0.2,0.15]}}</tools>",
+   "prompt_tokens": 15758,
+   "completion_tokens": 121,
+   "latency_s": 14.203,
+   "agent_step": 1,
+   "tool": "active_sizing",
+   "args": {
+    "power_ratio_list": [
+     0.65,
+     0.2,
+     0.15
+    ]
+   },
+   "observation": "{\"power_ratio_list\": [0.65, 0.2, 0.15], \"status\": \"infeasible\", \"reason\": \"no device within +-15% of the current for stage(s) [1]\", \"configs\": [], \"summary\": \"infeasible: []\"}"
+  },
+  {
+   "role": "searcher",
+   "response": "<rationale>The instructed [0.65, 0.20, 0.15] split is infeasible because Stage 1 has no device within \u00b115% of its 19.5 mA allocation; shifting 0.9 mA to Stage 2 may restore sizing feasibility while retaining strong NF priority.</rationale><tools>{\"tool\":\"active_sizing\",\"args\":{\"power_ratio_list\":[0.62,0.23,0.15]}}</tools>",
+   "prompt_tokens": 15879,
+   "completion_tokens": 212,
+   "latency_s": 16.986,
+   "agent_step": 2,
+   "tool": "active_sizing",
+   "args": {
+    "power_ratio_list": [
+     0.62,
+     0.23,
+     0.15
+    ]
+   },
+   "observation": "{\"power_ratio_list\": [0.62, 0.23, 0.15], \"status\": \"ok\", \"reason\": null, \"configs\": [{\"config_id\": \"crit_large__noncrit_large\", \"stages\": [{\"kind\": \"cascode\", \"w_um\": 180.0, \"stage_current_ma\": 15.8571, \"gm_s\": 0.102, \"ft_ghz\": 92.4955}, {\"kind\": \"diff\", \"w_um\": 117.0, \"stage_current_ma\": 6.1392, \"gm_s\": 0.0348, \"ft_ghz\": 54.186}, {\"kind\": \"diff\", \"w_um\": 108.0, \"stage_current_ma\": 4.222, \"gm_s\": "
+  },
+  {
+   "role": "searcher",
+   "response": "<rationale>The feasible split provides a 15.86 mA, 0.102 S cascode and the large Stage-2 option has 0.0348 S gm; testing it unconstrained first establishes the best attainable NF, S11, and gain before imposing a moderate target.</rationale><tools>{\"tool\":\"impedance_matching\",\"args\":{\"power_ratio_list\":[0.62,0.23,0.15],\"config_id\":\"crit_large__noncrit_small\",\"nf_headroom_db\":0,\"gain_require_db\":null}}</tools>",
+   "prompt_tokens": 16656,
+   "completion_tokens": 219,
+   "latency_s": 20.19,
+   "agent_step": 3,
+   "tool": "impedance_matching",
+   "args": {
+    "power_ratio_list": [
+     0.62,
+     0.23,
+     0.15
+    ],
+    "config_id": "crit_large__noncrit_small",
+    "nf_headroom_db": 0,
+    "gain_require_db": null
+   },
+   "observation": "{\"cid\": \"C015\", \"origin\": \"search\", \"power_ratio_list\": [0.62, 0.23, 0.15], \"config_id\": \"crit_large__noncrit_small\", \"nf_cp_db\": 4.098, \"s11_cp_db\": -26.17, \"gain_cp_db\": 12.4, \"ip1db_cp_dbm\": -5.93, \"stage2_feasible\": false, \"nf_headroom_db\": 0, \"gain_require_db\": null, \"score\": 0.402, \"summary\": \"C015 nf_cp=4.098 gain_cp=12.4 feasible=False\"}"
+  },
+  {
+   "role": "searcher",
+   "response": "<rationale>C015 already reaches 12.4 dB critical gain and \u221226.17 dB S11, so an explicit gain constraint is unlikely to help its 4.098 dB NF or infeasible Stage 2. The smaller critical Stage-2 device has much higher ft (88.71 versus 54.19 GHz), making the unconstrained variant the next promising feasibility test.</rationale><tools>{\"tool\":\"impedance_matching\",\"args\":{\"power_ratio_list\":[0.62,0.23,0.15],\"config_id\":\"crit_small__noncrit_small\",\"nf_headroom_db\":0,\"gain_require_db\":null}}</tools>",
+   "prompt_tokens": 16992,
+   "completion_tokens": 259,
+   "latency_s": 16.247,
+   "agent_step": 4,
+   "tool": "impedance_matching",
+   "args": {
+    "power_ratio_list": [
+     0.62,
+     0.23,
+     0.15
+    ],
+    "config_id": "crit_small__noncrit_small",
+    "nf_headroom_db": 0,
+    "gain_require_db": null
+   },
+   "observation": "{\"cid\": \"C016\", \"origin\": \"search\", \"power_ratio_list\": [0.62, 0.23, 0.15], \"config_id\": \"crit_small__noncrit_small\", \"nf_cp_db\": 3.79, \"s11_cp_db\": -25.84, \"gain_cp_db\": 21.95, \"ip1db_cp_dbm\": -13.58, \"stage2_feasible\": false, \"nf_headroom_db\": 0, \"gain_require_db\": null, \"score\": -0.174, \"summary\": \"C016 nf_cp=3.79 gain_cp=21.95 feasible=False\"}"
+  },
+  {
+   "role": "searcher",
+   "response": "<rationale>C015 has moderate 12.4 dB critical gain and strong \u221226.17 dB S11 with excellent \u22125.93 dBm IP1dB, but its 4.098 dB NF and Stage-2 infeasibility warrant a gain-constrained rematch at the suggested 12 dB target.</rationale><tools>{\"tool\":\"impedance_matching\",\"args\":{\"power_ratio_list\":[0.62,0.23,0.15],\"config_id\":\"crit_large__noncrit_small\",\"nf_headroom_db\":0,\"gain_require_db\":12}}</tools>",
+   "prompt_tokens": 17326,
+   "completion_tokens": 301,
+   "latency_s": 17.07,
+   "agent_step": 5,
+   "tool": "impedance_matching",
+   "args": {
+    "power_ratio_list": [
+     0.62,
+     0.23,
+     0.15
+    ],
+    "config_id": "crit_large__noncrit_small",
+    "nf_headroom_db": 0,
+    "gain_require_db": 12
+   },
+   "observation": "{\"cid\": \"C017\", \"origin\": \"search\", \"power_ratio_list\": [0.62, 0.23, 0.15], \"config_id\": \"crit_large__noncrit_small\", \"nf_cp_db\": 4.236, \"s11_cp_db\": -31.11, \"gain_cp_db\": 10.75, \"ip1db_cp_dbm\": -4.94, \"stage2_feasible\": false, \"nf_headroom_db\": 0, \"gain_require_db\": 12, \"score\": 0.264, \"summary\": \"C017 nf_cp=4.236 gain_cp=10.75 feasible=False\"}"
+  },
+  {
+   "role": "searcher",
+   "response": "<rationale>C016 has the best NF so far at 3.79 dB and strong 21.95 dB critical gain, but remains Stage-2-infeasible; constraining this promising small critical configuration to 12 dB may trade excess gain for improved feasibility and compression.</rationale><tools>{\"tool\":\"impedance_matching\",\"args\":{\"power_ratio_list\":[0.62,0.23,0.15],\"config_id\":\"crit_small__noncrit_small\",\"nf_headroom_db\":0,\"gain_require_db\":12}}</tools>",
+   "prompt_tokens": 17663,
+   "completion_tokens": 253,
+   "latency_s": 16.818,
+   "agent_step": 6,
+   "tool": "impedance_matching",
+   "args": {
+    "power_ratio_list": [
+     0.62,
+     0.23,
+     0.15
+    ],
+    "config_id": "crit_small__noncrit_small",
+    "nf_headroom_db": 0,
+    "gain_require_db": 12
+   },
+   "observation": "{\"cid\": \"C018\", \"origin\": \"search\", \"power_ratio_list\": [0.62, 0.23, 0.15], \"config_id\": \"crit_small__noncrit_small\", \"nf_cp_db\": 3.901, \"s11_cp_db\": -31.27, \"gain_cp_db\": 18.43, \"ip1db_cp_dbm\": -10.45, \"stage2_feasible\": false, \"nf_headroom_db\": 0, \"gain_require_db\": 12, \"score\": 0.599, \"summary\": \"C018 nf_cp=3.901 gain_cp=18.43 feasible=False\"}"
+  },
+  {
+   "role": "searcher",
+   "response": "<rationale>All four candidates miss the 2.5 dB NF target by 1.29\u20131.74 dB and Stage 2 is infeasible; shifting more current to Stage 2 while retaining 58% for Stage 1 is the most promising unexplored split.</rationale><tools>{\"tool\":\"active_sizing\",\"args\":{\"power_ratio_list\":[0.58,0.27,0.15]}}</tools>",
+   "prompt_tokens": 18002,
+   "completion_tokens": 390,
+   "latency_s": 20.568,
+   "agent_step": 7,
+   "tool": "active_sizing",
+   "args": {
+    "power_ratio_list": [
+     0.58,
+     0.27,
+     0.15
+    ]
+   },
+   "observation": "{\"power_ratio_list\": [0.58, 0.27, 0.15], \"status\": \"ok\", \"reason\": null, \"configs\": [{\"config_id\": \"crit_large__noncrit_large\", \"stages\": [{\"kind\": \"cascode\", \"w_um\": 180.0, \"stage_current_ma\": 15.8571, \"gm_s\": 0.102, \"ft_ghz\": 92.4955}, {\"kind\": \"diff\", \"w_um\": 117.0, \"stage_current_ma\": 7.9721, \"gm_s\": 0.0408, \"ft_ghz\": 62.7488}, {\"kind\": \"diff\", \"w_um\": 108.0, \"stage_current_ma\": 4.222, \"gm_s\":"
+  },
+  {
+   "role": "searcher",
+   "response": "<rationale>The 0.58/0.27/0.15 split raises Stage-2 current from 6.14 mA to 7.97 mA for the large critical configuration, directly addressing the prior infeasibility while retaining the 180 \u00b5m, 15.86 mA cascode; test its unconstrained baseline first.</rationale><tools>{\"tool\":\"impedance_matching\",\"args\":{\"power_ratio_list\":[0.58,0.27,0.15],\"config_id\":\"crit_large__noncrit_small\",\"nf_headroom_db\":0,\"gain_require_db\":null}}</tools>",
+   "prompt_tokens": 18684,
+   "completion_tokens": 224,
+   "latency_s": 19.777,
+   "agent_step": 8,
+   "tool": "impedance_matching",
+   "args": {
+    "power_ratio_list": [
+     0.58,
+     0.27,
+     0.15
+    ],
+    "config_id": "crit_large__noncrit_small",
+    "nf_headroom_db": 0,
+    "gain_require_db": null
+   },
+   "observation": "{\"cid\": \"C019\", \"origin\": \"search\", \"power_ratio_list\": [0.58, 0.27, 0.15], \"config_id\": \"crit_large__noncrit_small\", \"nf_cp_db\": 3.969, \"s11_cp_db\": -22.33, \"gain_cp_db\": 15.65, \"ip1db_cp_dbm\": -8.57, \"stage2_feasible\": false, \"nf_headroom_db\": 0, \"gain_require_db\": null, \"score\": 0.531, \"summary\": \"C019 nf_cp=3.969 gain_cp=15.65 feasible=False\"}"
+  },
+  {
+   "role": "searcher",
+   "response": "<rationale>C019 improved NF to 3.969 dB with 15.65 dB critical gain and strong \u221222.33 dB S11, but Stage 2 remains infeasible; a 12 dB target may trade excess gain for feasibility and compression margin.</rationale><tools>{\"tool\":\"impedance_matching\",\"args\":{\"power_ratio_list\":[0.58,0.27,0.15],\"config_id\":\"crit_large__noncrit_small\",\"nf_headroom_db\":0,\"gain_require_db\":12}}</tools>",
+   "prompt_tokens": 18305,
+   "completion_tokens": 221,
+   "latency_s": 18.563,
+   "agent_step": 9,
+   "tool": "impedance_matching",
+   "args": {
+    "power_ratio_list": [
+     0.58,
+     0.27,
+     0.15
+    ],
+    "config_id": "crit_large__noncrit_small",
+    "nf_headroom_db": 0,
+    "gain_require_db": 12
+   },
+   "observation": "{\"cid\": \"C020\", \"origin\": \"search\", \"power_ratio_list\": [0.58, 0.27, 0.15], \"config_id\": \"crit_large__noncrit_small\", \"nf_cp_db\": 4.031, \"s11_cp_db\": -31.35, \"gain_cp_db\": 13.17, \"ip1db_cp_dbm\": -7.74, \"stage2_feasible\": false, \"nf_headroom_db\": 0, \"gain_require_db\": 12, \"score\": 0.469, \"summary\": \"C020 nf_cp=4.031 gain_cp=13.17 feasible=False\"}"
+  },
+  {
+   "role": "searcher",
+   "response": "<rationale>At the 0.62/0.23/0.15 split, the critical-small configuration gave the lowest observed NF (3.79 dB), while shifting Stage 2 to 27% may improve its repeated infeasibility; this combination has not yet been tested.</rationale><tools>{\"tool\":\"impedance_matching\",\"args\":{\"power_ratio_list\":[0.58,0.27,0.15],\"config_id\":\"crit_small__noncrit_small\",\"nf_headroom_db\":0,\"gain_require_db\":null}}</tools>",
+   "prompt_tokens": 18452,
+   "completion_tokens": 249,
+   "latency_s": 19.673,
+   "agent_step": 10,
+   "tool": "impedance_matching",
+   "args": {
+    "power_ratio_list": [
+     0.58,
+     0.27,
+     0.15
+    ],
+    "config_id": "crit_small__noncrit_small",
+    "nf_headroom_db": 0,
+    "gain_require_db": null
+   },
+   "observation": "{\"cid\": \"C021\", \"origin\": \"search\", \"power_ratio_list\": [0.58, 0.27, 0.15], \"config_id\": \"crit_small__noncrit_small\", \"nf_cp_db\": 3.719, \"s11_cp_db\": -20.82, \"gain_cp_db\": 22.93, \"ip1db_cp_dbm\": -15.91, \"stage2_feasible\": false, \"nf_headroom_db\": 0, \"gain_require_db\": null, \"score\": -0.397, \"summary\": \"C021 nf_cp=3.719 gain_cp=22.93 feasible=False\"}"
+  },
+  {
+   "role": "searcher",
+   "response": "<rationale>C021 has the best NF so far at 3.719 dB but excessive 22.93 dB critical gain and \u221215.91 dBm IP1dB; a 12 dB gain target may improve matching and compression while testing the most NF-promising configuration.</rationale><tools>{\"tool\":\"impedance_matching\",\"args\":{\"power_ratio_list\":[0.58,0.27,0.15],\"config_id\":\"crit_small__noncrit_small\",\"nf_headroom_db\":0,\"gain_require_db\":12}}</tools>",
+   "prompt_tokens": 18600,
+   "completion_tokens": 189,
+   "latency_s": 16.253,
+   "agent_step": 11,
+   "tool": "impedance_matching",
+   "args": {
+    "power_ratio_list": [
+     0.58,
+     0.27,
+     0.15
+    ],
+    "config_id": "crit_small__noncrit_small",
+    "nf_headroom_db": 0,
+    "gain_require_db": 12
+   },
+   "observation": "{\"cid\": \"C022\", \"origin\": \"search\", \"power_ratio_list\": [0.58, 0.27, 0.15], \"config_id\": \"crit_small__noncrit_small\", \"nf_cp_db\": 3.77, \"s11_cp_db\": -21.02, \"gain_cp_db\": 20.25, \"ip1db_cp_dbm\": -13.4, \"stage2_feasible\": false, \"nf_headroom_db\": 0, \"gain_require_db\": 12, \"score\": 0.354, \"summary\": \"C022 nf_cp=3.77 gain_cp=20.25 feasible=False\"}"
+  },
+  {
+   "role": "searcher",
+   "response": "<rationale>All eight matched candidates remain Stage-2 infeasible, while increasing Stage-2 allocation from 23% to 27% improved the best critical NF from 3.790 to 3.719 dB; shifting another 3% toward Stage 2 is therefore the most promising feasibility probe despite the 2.5 dB NF target.</rationale><tools>{\"tool\":\"active_sizing\",\"args\":{\"power_ratio_list\":[0.55,0.3,0.15]}}</tools>",
+   "prompt_tokens": 18749,
+   "completion_tokens": 324,
+   "latency_s": 17.979,
+   "agent_step": 12,
+   "tool": "active_sizing",
+   "args": {
+    "power_ratio_list": [
+     0.55,
+     0.3,
+     0.15
+    ]
+   },
+   "observation": "{\"power_ratio_list\": [0.55, 0.3, 0.15], \"status\": \"ok\", \"reason\": null, \"configs\": [{\"config_id\": \"crit_large__noncrit_large\", \"stages\": [{\"kind\": \"cascode\", \"w_um\": 180.0, \"stage_current_ma\": 15.8571, \"gm_s\": 0.102, \"ft_ghz\": 92.4955}, {\"kind\": \"diff\", \"w_um\": 117.0, \"stage_current_ma\": 7.9721, \"gm_s\": 0.0408, \"ft_ghz\": 62.7488}, {\"kind\": \"diff\", \"w_um\": 108.0, \"stage_current_ma\": 4.222, \"gm_s\": "
+  },
+  {
+   "role": "searcher",
+   "response": "<rationale>At the 0.55/0.30 split, the small critical configuration raises Stage-2 current from 7.413 to 8.784 mA while retaining high 103.34 GHz fT; although NF may worsen from C021\u2019s 3.719 dB, this is the most promising route to resolve repeated Stage-2 infeasibility.</rationale><tools>{\"tool\":\"impedance_matching\",\"args\":{\"power_ratio_list\":[0.55,0.3,0.15],\"config_id\":\"crit_small__noncrit_small\",\"nf_headroom_db\":0,\"gain_require_db\":null}}</tools>",
+   "prompt_tokens": 19334,
+   "completion_tokens": 296,
+   "latency_s": 19.126,
+   "agent_step": 13,
+   "tool": "impedance_matching",
+   "args": {
+    "power_ratio_list": [
+     0.55,
+     0.3,
+     0.15
+    ],
+    "config_id": "crit_small__noncrit_small",
+    "nf_headroom_db": 0,
+    "gain_require_db": null
+   },
+   "observation": "{\"cid\": \"C023\", \"origin\": \"search\", \"power_ratio_list\": [0.55, 0.3, 0.15], \"config_id\": \"crit_small__noncrit_small\", \"nf_cp_db\": 3.814, \"s11_cp_db\": -32.5, \"gain_cp_db\": 21.36, \"ip1db_cp_dbm\": -14.45, \"stage2_feasible\": false, \"nf_headroom_db\": 0, \"gain_require_db\": null, \"score\": -0.021, \"summary\": \"C023 nf_cp=3.814 gain_cp=21.36 feasible=False\"}"
+  },
+  {
+   "role": "searcher",
+   "response": "<rationale>C023 has the best S11 so far at -32.5 dB and adequate 21.36 dB critical gain, but its 3.814 dB NF exceeds the 2.5 dB target and Stage 2 remains infeasible; the 12 dB constraint may trade excess gain for feasibility.</rationale><tools>{\"tool\":\"impedance_matching\",\"args\":{\"power_ratio_list\":[0.55,0.3,0.15],\"config_id\":\"crit_small__noncrit_small\",\"nf_headroom_db\":0,\"gain_require_db\":12}}</tools>",
+   "prompt_tokens": 18838,
+   "completion_tokens": 230,
+   "latency_s": 18.808,
+   "agent_step": 14,
+   "tool": "impedance_matching",
+   "args": {
+    "power_ratio_list": [
+     0.55,
+     0.3,
+     0.15
+    ],
+    "config_id": "crit_small__noncrit_small",
+    "nf_headroom_db": 0,
+    "gain_require_db": 12
+   },
+   "observation": "{\"cid\": \"C024\", \"origin\": \"search\", \"power_ratio_list\": [0.55, 0.3, 0.15], \"config_id\": \"crit_small__noncrit_small\", \"nf_cp_db\": 4.038, \"s11_cp_db\": -31.21, \"gain_cp_db\": 18.23, \"ip1db_cp_dbm\": -11.69, \"stage2_feasible\": false, \"nf_headroom_db\": 0, \"gain_require_db\": 12, \"score\": 0.462, \"summary\": \"C024 nf_cp=4.038 gain_cp=18.23 feasible=False\"}"
+  },
+  {
+   "role": "searcher",
+   "response": "<rationale>The 30% Stage-2 allocation still yielded infeasible C023/C024, while their NF was 3.814\u20134.038 dB versus the 2.5 dB target; testing the larger critical configuration without a gain constraint may improve linearity and expose the best feasible tradeoff.</rationale><tools>{\"tool\":\"impedance_matching\",\"args\":{\"power_ratio_list\":[0.55,0.3,0.15],\"config_id\":\"crit_large__noncrit_small\",\"nf_headroom_db\":0,\"gain_require_db\":null}}</tools>",
+   "prompt_tokens": 18863,
+   "completion_tokens": 193,
+   "latency_s": 15.168,
+   "agent_step": 15,
+   "tool": "impedance_matching",
+   "args": {
+    "power_ratio_list": [
+     0.55,
+     0.3,
+     0.15
+    ],
+    "config_id": "crit_large__noncrit_small",
+    "nf_headroom_db": 0,
+    "gain_require_db": null
+   },
+   "observation": "{\"cid\": \"C025\", \"origin\": \"search\", \"power_ratio_list\": [0.55, 0.3, 0.15], \"config_id\": \"crit_large__noncrit_small\", \"nf_cp_db\": 4.016, \"s11_cp_db\": -27.58, \"gain_cp_db\": 12.88, \"ip1db_cp_dbm\": -5.55, \"stage2_feasible\": false, \"nf_headroom_db\": 0, \"gain_require_db\": null, \"score\": 0.484, \"summary\": \"C025 nf_cp=4.016 gain_cp=12.88 feasible=False\"}"
+  },
+  {
+   "role": "searcher",
+   "response": "<rationale>C025 has moderate 12.88 dB critical gain and strong \u221227.58 dB S11, but its 4.016 dB NF and infeasible Stage 2 warrant the prescribed 12 dB constrained variant before ranking.</rationale><tools>{\"tool\":\"impedance_matching\",\"args\":{\"power_ratio_list\":[0.55,0.3,0.15],\"config_id\":\"crit_large__noncrit_small\",\"nf_headroom_db\":0,\"gain_require_db\":12}}</tools>",
+   "prompt_tokens": 18888,
+   "completion_tokens": 190,
+   "latency_s": 17.195,
+   "agent_step": 16,
+   "tool": "impedance_matching",
+   "args": {
+    "power_ratio_list": [
+     0.55,
+     0.3,
+     0.15
+    ],
+    "config_id": "crit_large__noncrit_small",
+    "nf_headroom_db": 0,
+    "gain_require_db": 12
+   },
+   "observation": "{\"cid\": \"C026\", \"origin\": \"search\", \"power_ratio_list\": [0.55, 0.3, 0.15], \"config_id\": \"crit_large__noncrit_small\", \"nf_cp_db\": 5.002, \"s11_cp_db\": -35.56, \"gain_cp_db\": 11.89, \"ip1db_cp_dbm\": -5.05, \"stage2_feasible\": false, \"nf_headroom_db\": 0, \"gain_require_db\": 12, \"score\": -0.502, \"summary\": \"C026 nf_cp=5.002 gain_cp=11.89 feasible=False\"}"
+  },
+  {
+   "role": "searcher",
+   "response": "<rationale>All candidates remain Stage-2 infeasible even at a 30% Stage-2 allocation, while the best critical NF is still 3.719 dB versus the 2.5 dB target. Shift another 5% from Stage 1 to Stage 2 to test whether feasibility can be recovered before selecting candidates.</rationale><tools>{\"tool\":\"active_sizing\",\"args\":{\"power_ratio_list\":[0.5,0.35,0.15]}}</tools>",
+   "prompt_tokens": 18913,
+   "completion_tokens": 333,
+   "latency_s": 21.634,
+   "agent_step": 17,
+   "tool": "active_sizing",
+   "args": {
+    "power_ratio_list": [
+     0.5,
+     0.35,
+     0.15
+    ]
+   },
+   "observation": "{\"power_ratio_list\": [0.5, 0.35, 0.15], \"status\": \"ok\", \"reason\": null, \"configs\": [{\"config_id\": \"crit_large__noncrit_large\", \"stages\": [{\"kind\": \"cascode\", \"w_um\": 180.0, \"stage_current_ma\": 13.4033, \"gm_s\": 0.0947, \"ft_ghz\": 85.677}, {\"kind\": \"diff\", \"w_um\": 117.0, \"stage_current_ma\": 10.1071, \"gm_s\": 0.0469, \"ft_ghz\": 71.3016}, {\"kind\": \"diff\", \"w_um\": 108.0, \"stage_current_ma\": 4.222, \"gm_s\":"
+  },
+  {
+   "role": "searcher",
+   "response": "<rationale>At the prior 30% Stage-2 allocation, all candidates remained infeasible; the small critical configuration gave the best NF at 3.814 dB and strong 21.36 dB gain, so testing it with 35% Stage-2 current is the most promising next step.</rationale><tools>{\"tool\":\"impedance_matching\",\"args\":{\"power_ratio_list\":[0.5,0.35,0.15],\"config_id\":\"crit_small__noncrit_small\",\"nf_headroom_db\":0,\"gain_require_db\":null}}</tools>",
+   "prompt_tokens": 19493,
+   "completion_tokens": 160,
+   "latency_s": 15.064,
+   "agent_step": 18,
+   "tool": "impedance_matching",
+   "args": {
+    "power_ratio_list": [
+     0.5,
+     0.35,
+     0.15
+    ],
+    "config_id": "crit_small__noncrit_small",
+    "nf_headroom_db": 0,
+    "gain_require_db": null
+   },
+   "observation": "{\"cid\": \"C027\", \"origin\": \"search\", \"power_ratio_list\": [0.5, 0.35, 0.15], \"config_id\": \"crit_small__noncrit_small\", \"nf_cp_db\": 3.968, \"s11_cp_db\": -32.08, \"gain_cp_db\": 20.75, \"ip1db_cp_dbm\": -13.81, \"stage2_feasible\": false, \"nf_headroom_db\": 0, \"gain_require_db\": null, \"score\": 0.006, \"summary\": \"C027 nf_cp=3.968 gain_cp=20.75 feasible=False\"}"
+  },
+  {
+   "role": "searcher",
+   "response": "<rationale>C027 remains Stage-2-infeasible with NF 3.968 dB versus the 2.5 dB target, while its unconstrained gain is excessive at 20.75 dB; a moderate 12 dB constraint may improve compression and feasibility.</rationale><tools>{\"tool\":\"impedance_matching\",\"args\":{\"power_ratio_list\":[0.5,0.35,0.15],\"config_id\":\"crit_small__noncrit_small\",\"nf_headroom_db\":0,\"gain_require_db\":12}}</tools>",
+   "prompt_tokens": 18987,
+   "completion_tokens": 175,
+   "latency_s": 14.814,
+   "agent_step": 19,
+   "tool": "impedance_matching",
+   "args": {
+    "power_ratio_list": [
+     0.5,
+     0.35,
+     0.15
+    ],
+    "config_id": "crit_small__noncrit_small",
+    "nf_headroom_db": 0,
+    "gain_require_db": 12
+   },
+   "observation": "{\"cid\": \"C028\", \"origin\": \"search\", \"power_ratio_list\": [0.5, 0.35, 0.15], \"config_id\": \"crit_small__noncrit_small\", \"nf_cp_db\": 3.992, \"s11_cp_db\": -33.59, \"gain_cp_db\": 19.56, \"ip1db_cp_dbm\": -12.66, \"stage2_feasible\": false, \"nf_headroom_db\": 0, \"gain_require_db\": 12, \"score\": 0.34, \"summary\": \"C028 nf_cp=3.992 gain_cp=19.56 feasible=False\"}"
+  },
+  {
+   "role": "searcher",
+   "response": "<rationale>At the 0.50/0.35/0.15 split, the critical-small variants remain infeasible despite strong matching (S11 \u221232.08 to \u221233.59 dB); testing critical-large without a gain constraint is the remaining distinct option most likely to improve Stage-2 drive and feasibility.</rationale><tools>{\"tool\":\"impedance_matching\",\"args\":{\"power_ratio_list\":[0.5,0.35,0.15],\"config_id\":\"crit_large__noncrit_small\",\"nf_headroom_db\":0,\"gain_require_db\":null}}</tools>",
+   "prompt_tokens": 19016,
+   "completion_tokens": 283,
+   "latency_s": 20.379,
+   "agent_step": 20,
+   "tool": "impedance_matching",
+   "args": {
+    "power_ratio_list": [
+     0.5,
+     0.35,
+     0.15
+    ],
+    "config_id": "crit_large__noncrit_small",
+    "nf_headroom_db": 0,
+    "gain_require_db": null
+   },
+   "observation": "{\"cid\": \"C029\", \"origin\": \"search\", \"power_ratio_list\": [0.5, 0.35, 0.15], \"config_id\": \"crit_large__noncrit_small\", \"nf_cp_db\": 4.182, \"s11_cp_db\": -29.77, \"gain_cp_db\": 13.69, \"ip1db_cp_dbm\": -6.13, \"stage2_feasible\": false, \"nf_headroom_db\": 0, \"gain_require_db\": null, \"score\": 0.318, \"summary\": \"C029 nf_cp=4.182 gain_cp=13.69 feasible=False\"}"
+  },
+  {
+   "role": "searcher",
+   "response": "<rationale>C029 has moderate 13.69 dB critical gain and strong \u221229.77 dB S11, but its 4.182 dB NF and infeasible Stage 2 remain weak; the constrained variant is the last useful comparison for this configuration.</rationale><tools>{\"tool\":\"impedance_matching\",\"args\":{\"power_ratio_list\":[0.5,0.35,0.15],\"config_id\":\"crit_large__noncrit_small\",\"nf_headroom_db\":0,\"gain_require_db\":12}}</tools>",
+   "prompt_tokens": 19037,
+   "completion_tokens": 156,
+   "latency_s": 16.536,
+   "agent_step": 21,
+   "tool": "impedance_matching",
+   "args": {
+    "power_ratio_list": [
+     0.5,
+     0.35,
+     0.15
+    ],
+    "config_id": "crit_large__noncrit_small",
+    "nf_headroom_db": 0,
+    "gain_require_db": 12
+   },
+   "observation": "{\"cid\": \"C030\", \"origin\": \"search\", \"power_ratio_list\": [0.5, 0.35, 0.15], \"config_id\": \"crit_large__noncrit_small\", \"nf_cp_db\": 4.124, \"s11_cp_db\": -31.59, \"gain_cp_db\": 14.11, \"ip1db_cp_dbm\": -5.54, \"stage2_feasible\": false, \"nf_headroom_db\": 0, \"gain_require_db\": 12, \"score\": 0.376, \"summary\": \"C030 nf_cp=4.124 gain_cp=14.11 feasible=False\"}"
+  },
+  {
+   "role": "searcher",
+   "response": "<rationale>All tested candidates remain Stage-2-infeasible and exceed the 2.5 dB NF target; C021 has the lowest observed NF at 3.719 dB, while C018 offers stronger matching (-31.27 dB S11) and better compression (-10.45 dBm IP1dB) with 3.901 dB NF. C019 adds a moderate-gain option at 15.65 dB with 3.969 dB NF and -8.57 dBm IP1dB.</rationale><tools>{\"tool\":\"finish\",\"args\":{\"cids\":[\"C021\",\"C018\",\"C019\"],\"note\":\"Best available refinement seeds despite universal Stage-2 infeasibility; prioritize C021 for NF, C018 for matching/compression balance, and C019 for moderate critical gain.\"}}</tools>",
+   "prompt_tokens": 19064,
+   "completion_tokens": 430,
+   "latency_s": 21.242,
+   "agent_step": 5,
+   "tool": "search_candidates",
+   "args": {
+    "power_ratio_list": [
+     0.65,
+     0.2,
+     0.15
+    ],
+    "nf_headroom_db": 0,
+    "gain_cp_targets": [
+     10,
+     12,
+     14
+    ],
+    "note": "NF and Stage-2 feasibility remain dominant: use 65% Stage-1 current for lower NF, preserve 20% for Stage-2 feasibility, and favor moderate critical gain to protect downstream compression."
+   },
+   "observation": "{\"terminated_reason\": \"finish\", \"new_candidates\": [{\"cid\": \"C021\", \"origin\": \"search\", \"power_ratio_list\": [0.58, 0.27, 0.15], \"config_id\": \"crit_small__noncrit_small\", \"nf_cp_db\": 3.719, \"s11_cp_db\": -20.82, \"gain_cp_db\": 22.93, \"ip1db_cp_dbm\": -15.91, \"stage2_feasible\": false, \"nf_headroom_db\": 0, \"gain_require_db\": null, \"score\": -0.397}, {\"cid\": \"C018\", \"origin\": \"search\", \"power_ratio_list\": "
+  },
+  {
+   "role": "manager",
+   "response": "<rationale>The best critical-stage NF is still 3.701 dB versus the 2.5 dB target, while every queued candidate is Stage-2 infeasible; a new near-maximum Stage-1 allocation is warranted before spending budget refining an infeasible point.</rationale><tools>{\"tool\":\"search_candidates\",\"args\":{\"power_ratio_list\":[0.67,0.18,0.15],\"nf_headroom_db\":0,\"gain_cp_targets\":[10,12],\"note\":\"Critical NF remains at least 1.201 dB above target and all queued Stage-2 points are infeasible. Push Stage-1 current near maximum while keeping slightly more Stage-2 current than the unproductive 0.70/0.15/0.15 search; prioritize feasible Stage-2 loads and moderate critical gain.\"}}</tools>",
+   "prompt_tokens": 18987,
+   "completion_tokens": 563,
+   "latency_s": 24.634
+  },
+  {
+   "role": "searcher",
+   "response": "<rationale>The specified split allocates 20.1 mA to Stage 1, 5.4 mA to Stage 2, and 4.5 mA to Stage 3, pushing Stage-1 current near maximum while retaining more Stage-2 current than the prior 0.70/0.15/0.15 split.</rationale><tools>{\"tool\":\"active_sizing\",\"args\":{\"power_ratio_list\":[0.67,0.18,0.15]}}</tools>",
+   "prompt_tokens": 15864,
+   "completion_tokens": 147,
+   "latency_s": 15.541,
+   "agent_step": 1,
+   "tool": "active_sizing",
+   "args": {
+    "power_ratio_list": [
+     0.67,
+     0.18,
+     0.15
+    ]
+   },
+   "observation": "{\"power_ratio_list\": [0.67, 0.18, 0.15], \"status\": \"infeasible\", \"reason\": \"no device within +-15% of the current for stage(s) [1]\", \"configs\": [], \"summary\": \"infeasible: []\"}"
+  },
+  {
+   "role": "searcher",
+   "response": "<rationale>The prescribed 0.67/0.18/0.15 split produced no configurations because Stage 1 had no device within \u00b115% of its allocated current, so no impedance-matching candidate can be generated.</rationale><tools>{\"tool\":\"finish\",\"args\":{\"cids\":[],\"note\":\"Active sizing was infeasible at the prescribed split; no candidates are available for refinement.\"}}</tools>",
+   "prompt_tokens": 15979,
+   "completion_tokens": 184,
+   "latency_s": 17.633,
+   "agent_step": 6,
+   "tool": "search_candidates",
+   "args": {
+    "power_ratio_list": [
+     0.67,
+     0.18,
+     0.15
+    ],
+    "nf_headroom_db": 0,
+    "gain_cp_targets": [
+     10,
+     12
+    ],
+    "note": "Critical NF remains at least 1.201 dB above target and all queued Stage-2 points are infeasible. Push Stage-1 current near maximum while keeping slightly more Stage-2 current than the unproductive 0.70/0.15/0.15 search; prioritize feasible Stage-2 loads and moderate critical gain."
+   },
+   "observation": "{\"terminated_reason\": \"finish\", \"new_candidates\": [], \"summary\": \"searcher finish: 0 new candidates []\"}"
+  },
+  {
+   "role": "manager",
+   "response": "<rationale>The best queued NF is 3.701 dB, still 1.201 dB above target, and every Stage-2 candidate is infeasible; search a new allocation with strong Stage-1 current while restoring Stage-2 current for feasibility.</rationale><tools>{\"tool\":\"search_candidates\",\"args\":{\"power_ratio_list\":[0.63,0.22,0.15],\"nf_headroom_db\":0,\"gain_cp_targets\":[10,12],\"note\":\"No queued candidate can meet the 2.5 dB NF target and all Stage-2 loads are infeasible. Use 63% Stage-1 current for NF, 22% Stage-2 current for feasibility, and constrain critical gain to 10-12 dB to protect downstream compression.\"}}</tools>",
+   "prompt_tokens": 19150,
+   "completion_tokens": 654,
+   "latency_s": 26.654
+  },
+  {
+   "role": "searcher",
+   "response": "<rationale>The prescribed split allocates 18.9 mA to Stage 1, 6.6 mA to Stage 2, and 4.5 mA to Stage 3, prioritizing the 2.5 dB NF target while retaining Stage-2 feasibility.</rationale><tools>{\"tool\":\"active_sizing\",\"args\":{\"power_ratio_list\":[0.63,0.22,0.15]}}</tools>",
+   "prompt_tokens": 15868,
+   "completion_tokens": 132,
+   "latency_s": 15.914,
+   "agent_step": 1,
+   "tool": "active_sizing",
+   "args": {
+    "power_ratio_list": [
+     0.63,
+     0.22,
+     0.15
+    ]
+   },
+   "observation": "{\"power_ratio_list\": [0.63, 0.22, 0.15], \"status\": \"infeasible\", \"reason\": \"no device within +-15% of the current for stage(s) [1]\", \"configs\": [], \"summary\": \"infeasible: []\"}"
+  },
+  {
+   "role": "searcher",
+   "response": "<rationale>The required [0.63, 0.22, 0.15] split is infeasible because Stage 1 has no device within \u00b115% of its allocated current, so no configurations or candidates can be evaluated.</rationale><tools>{\"tool\":\"finish\",\"args\":{\"cids\":[],\"note\":\"Active sizing failed for the required split; no feasible device configuration was available for impedance matching.\"}}</tools>",
+   "prompt_tokens": 15991,
+   "completion_tokens": 264,
+   "latency_s": 19.787,
+   "agent_step": 7,
+   "tool": "search_candidates",
+   "args": {
+    "power_ratio_list": [
+     0.63,
+     0.22,
+     0.15
+    ],
+    "nf_headroom_db": 0,
+    "gain_cp_targets": [
+     10,
+     12
+    ],
+    "note": "No queued candidate can meet the 2.5 dB NF target and all Stage-2 loads are infeasible. Use 63% Stage-1 current for NF, 22% Stage-2 current for feasibility, and constrain critical gain to 10-12 dB to protect downstream compression."
+   },
+   "observation": "{\"terminated_reason\": \"finish\", \"new_candidates\": [], \"summary\": \"searcher finish: 0 new candidates []\"}"
+  },
+  {
+   "role": "manager",
+   "response": "<rationale>The best critical-stage NF is 3.701 dB, already 1.201 dB above the 2.5 dB limit, and every queued Stage-2 candidate is infeasible. Stage-1-heavy allocations up to the allowed 0.70 fraction produced no better candidates, so refinement cannot recover the NF deficit.</rationale><tools>{\"tool\":\"finish\",\"args\":{\"summary\":\"No feasible design found: best critical-stage NF is 3.701 dB versus 2.5 dB required, all Stage-2 candidates are infeasible, and searches spanning Stage-1 current fractions up to 0.70 did not close the NF gap.\"}}</tools>",
+   "prompt_tokens": 18947,
+   "completion_tokens": 411,
+   "latency_s": 26.072,
+   "agent_step": 8,
+   "tool": "finish",
+   "args": {
+    "summary": "No feasible design found: best critical-stage NF is 3.701 dB versus 2.5 dB required, all Stage-2 candidates are infeasible, and searches spanning Stage-1 current fractions up to 0.70 did not close the NF gap."
+   },
+   "observation": "{\"summary\": \"finish: No feasible design found: best critical-stage NF is 3.701 dB versus 2.5 dB required, all Stage-2 candidates are infeasible, and searches spanning Stage-\"}"
+  }
+ ],
+ "run_settings": {
+  "q_match": 25.0,
+  "budget_equiv_s": 3600.0,
+  "spectre_max_per_design": "60",
+  "llm_max_calls": 1000,
+  "memory_dir": null
+ },
+ "spectre_calls": 0,
+ "labels": {
+  "agent_impl": "v2",
+  "pdk": "crn65lp",
+  "not_silicon_result": true,
+  "note": "schematic-level PDK transistors, ideal passives, no layout parasitics"
+ }
+}

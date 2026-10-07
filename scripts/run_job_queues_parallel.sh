@@ -5,7 +5,8 @@
 # results/windows_checks/<ts>_job*/progress.txt; this script prefixes their console lines with the queue name and
 # waits for all of them.  Exit code = number of queues whose runner failed (individual design failures are only logged,
 # as in run_job_queue.sh; nothing is retried).  The stagger also keeps the per-second output folders of
-# run_job_queue.sh distinct.  Do not edit run_job_queue.sh while queues run: bash reads scripts incrementally.
+# run_job_queue.sh readable (it also picks unique folder names itself).  Do not edit run_job_queue.sh while queues
+# run: bash reads scripts incrementally.
 set -u
 here="$(cd "$(dirname "$0")" && pwd)"
 [ "$#" -ge 1 ] || { echo "usage: $0 jobs/<queue1>.txt [jobs/<queue2>.txt ...]" >&2; exit 2; }

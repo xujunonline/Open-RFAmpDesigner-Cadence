@@ -45,8 +45,14 @@ if [ -z "${HTTPS_PROXY:-}${https_proxy:-}" ] && [ "${ORFADC_QUEUE_SYSTEM_PROXY:-
 fi
 
 ts="$(date +%Y%m%dT%H%M%S)"
-out="${ORFADC_QUEUE_OUT_ROOT:-$repo/results/windows_checks}/${ts}_job"
-mkdir -p "$out" || exit 1
+root="${ORFADC_QUEUE_OUT_ROOT:-$repo/results/windows_checks}"
+mkdir -p "$root" || exit 1
+out="$root/${ts}_job"
+n=1
+until mkdir "$out" 2>/dev/null; do   # atomic: queues started in the same second get _job2, _job3, ...
+  n=$((n + 1)); out="$root/${ts}_job$n"
+  [ "$n" -gt 50 ] && { echo "cannot create an output folder under $root" >&2; exit 1; }
+done
 progress="$out/progress.txt"
 log() { line="$(date +%H:%M:%S) $1"; echo "$line"; echo "$line" >> "$progress"; }
 cp "$queue" "$out/queue.txt"

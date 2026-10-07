@@ -1,0 +1,1251 @@
+{
+ "spec": "S2",
+ "seed": 1,
+ "mode": 1,
+ "policy": "codex-mcp",
+ "success": true,
+ "report": {
+  "cid": "C002",
+  "success": true,
+  "did": "D007",
+  "metrics": {
+   "gain_fc_db": 24.1733,
+   "gain_min_db": 22.4038,
+   "gain_max_db": 24.2088,
+   "ripple_db": 1.8051,
+   "s11_fc_db": -37.5243,
+   "s11_max_inband_db": -21.5404,
+   "nf_fc_db": 4.6207,
+   "nfmin_fc_db": 4.5063,
+   "nf_max_inband_db": 5.1012,
+   "ip1db_dbm": -15.8754,
+   "power_ma": 24.9743,
+   "power_ma_planned": 27.4017
+  },
+  "violations": {
+   "gain": 0.0,
+   "ripple": 0.0,
+   "nf": 0.0,
+   "ip1db": 0.0,
+   "s11": 0.0,
+   "power": 0.0
+  },
+  "bottleneck": null,
+  "steps": 4,
+  "reason": ""
+ },
+ "sims": {
+  "hf_critical": 516,
+  "hf_full": 14,
+  "lf": 3682,
+  "hf_total": 530,
+  "equiv_time_s": 433.36,
+  "cpu_s": 15.02
+ },
+ "n_search": 1,
+ "n_refine": 1,
+ "splits_tried": [
+  [
+   0.4,
+   0.3,
+   0.3
+  ]
+ ],
+ "design": {
+  "active": [
+   {
+    "kind": "cascode",
+    "w_um": 126.0,
+    "vb_v": 0.675,
+    "stage_current_ma": 10.645864863122782
+   },
+   {
+    "kind": "diff",
+    "w_um": 45.0,
+    "vb_v": 0.625,
+    "stage_current_ma": 8.783782603702202
+   },
+   {
+    "kind": "diff",
+    "w_um": 117.0,
+    "vb_v": 0.5,
+    "stage_current_ma": 7.9720690063465875
+   }
+  ],
+  "ls_ph": 31.300480200461752,
+  "lg_ph": 43.548232101763325,
+  "lpar_ph": 229.5660147574324,
+  "mcr1": {
+   "k": 0.5644850052201917,
+   "l1_h": 1.998912257222678e-10,
+   "l2_h": 2.5345376007359037e-10,
+   "r1_ohm": 385.44026075472794,
+   "r2_ohm": 915.8545724902607,
+   "c1_f": 0.0,
+   "c2_f": 5e-14,
+   "q_ind": 15.0,
+   "f_loss_hz": 30000000000.0,
+   "flags": [],
+   "l1_ph": 199.8912257222678,
+   "l2_ph": 253.45376007359036,
+   "c1_ff": 0.0,
+   "c2_ff": 50.0
+  },
+  "mcr2": {
+   "k": 0.15344561410822988,
+   "l1_h": 1.3243481758113696e-10,
+   "l2_h": 1.3243481758113696e-10,
+   "r1_ohm": 12322.452501222584,
+   "r2_ohm": 333.7061203655366,
+   "c1_f": 1.319886736700856e-13,
+   "c2_f": 4.083470296260204e-14,
+   "q_ind": 15.0,
+   "f_loss_hz": 32775723968.840668,
+   "flags": [],
+   "l1_ph": 132.43481758113697,
+   "l2_ph": 132.43481758113697,
+   "c1_ff": 131.9886736700856,
+   "c2_ff": 40.834702962602044
+  },
+  "mcr3": {
+   "k": 0.4374940958835447,
+   "l1_h": 2.0220823034929215e-10,
+   "l2_h": 2.0220823034929215e-10,
+   "r1_ohm": Infinity,
+   "r2_ohm": 929.7850712510174,
+   "c1_f": 4.693081688750604e-14,
+   "c2_f": 9.921691502634116e-14,
+   "q_ind": 15.0,
+   "f_loss_hz": 27813295740.271496,
+   "flags": [
+    "q0_unattainable_pri"
+   ],
+   "l1_ph": 202.20823034929217,
+   "l2_ph": 202.20823034929217,
+   "c1_ff": 46.93081688750604,
+   "c2_ff": 99.21691502634117
+  },
+  "power_ma": 27.40171647317157,
+  "meta": {}
+ },
+ "sweep": {
+  "f_ghz": [
+   15.0,
+   16.125,
+   17.25,
+   18.375,
+   19.5,
+   20.625,
+   21.75,
+   22.875,
+   24.0,
+   25.125,
+   26.25,
+   27.0,
+   27.3,
+   27.375,
+   27.6,
+   27.9,
+   28.2,
+   28.5,
+   28.8,
+   29.1,
+   29.4,
+   29.625,
+   29.7,
+   30.0,
+   30.3,
+   30.6,
+   30.75,
+   30.900000000000002,
+   31.200000000000003,
+   31.500000000000004,
+   31.800000000000004,
+   31.875,
+   32.1,
+   32.400000000000006,
+   32.7,
+   33.0,
+   33.00000000000001,
+   34.125,
+   35.25,
+   36.375,
+   37.5,
+   38.625,
+   39.75,
+   40.875,
+   42.0,
+   43.125,
+   44.25,
+   45.375,
+   46.5,
+   47.625,
+   48.75,
+   49.875,
+   51.0,
+   52.125,
+   53.25,
+   54.375,
+   55.5,
+   56.625,
+   57.75,
+   58.875,
+   60.0
+  ],
+  "gain_db": [
+   -25.842501161206286,
+   -20.61097129603041,
+   -15.18063589220384,
+   -9.468042758524183,
+   -3.3723717910491313,
+   3.107740403844293,
+   9.539167008230011,
+   14.556911008967905,
+   17.587359062941804,
+   19.794571819594566,
+   21.559797526122363,
+   22.403753096651144,
+   22.673331874311007,
+   22.73585507052563,
+   22.913663443517418,
+   23.131623354050525,
+   23.33256304790408,
+   23.519650699482145,
+   23.69344005582675,
+   23.850847822479476,
+   23.987763687590192,
+   24.073026990615443,
+   24.097536483570813,
+   24.17331604416347,
+   24.208848264526473,
+   24.199852756596595,
+   24.17802794469494,
+   24.14462454600416,
+   24.04434069568165,
+   23.902761572072574,
+   23.72430761213794,
+   23.674841499405414,
+   23.514805143523496,
+   23.277770247127076,
+   23.015555604740165,
+   22.727874304505225,
+   22.727874304505225,
+   21.34866311196121,
+   19.24092175664058,
+   16.29803785670325,
+   12.75464761287477,
+   8.84550810477135,
+   4.742814856363802,
+   0.6189775940105836,
+   -3.3866302677977265,
+   -7.18998106762634,
+   -10.76711341603507,
+   -14.125821811187294,
+   -17.292746631902244,
+   -20.302774968221065,
+   -23.19324873745021,
+   -26.000025105376878,
+   -28.754044615788253,
+   -31.47847509435785,
+   -34.18698206849179,
+   -36.88385316361324,
+   -39.56582202898079,
+   -42.22504729864034,
+   -44.85167638535949,
+   -47.436464603982536,
+   -49.9716881831646
+  ],
+  "s11_db": [
+   -1.6269353799055586,
+   -1.9730545311173564,
+   -2.415195050863571,
+   -2.967851330750993,
+   -3.6640796461400216,
+   -4.531752550951977,
+   -5.626816206993565,
+   -7.0711401826554,
+   -9.108175552812044,
+   -12.254433716318434,
+   -17.256831991889456,
+   -21.540381066263173,
+   -23.203782951555,
+   -23.592033944086126,
+   -24.664951938316698,
+   -25.861656374901113,
+   -26.840149712487126,
+   -27.73482574759828,
+   -28.86105553244739,
+   -29.923620108020828,
+   -31.559292332054024,
+   -33.219710911600885,
+   -33.89108508228663,
+   -37.5243481228739,
+   -44.616185611490955,
+   -50.3126701391293,
+   -43.710257795140464,
+   -39.01893302941341,
+   -34.141165395171754,
+   -31.183456998346365,
+   -28.69556349009234,
+   -28.331460499997434,
+   -26.984447520604213,
+   -25.466757371188482,
+   -24.181060553340874,
+   -23.067364727375054,
+   -23.067364727375054,
+   -19.8840607804543,
+   -17.66485934154715,
+   -15.986584346982998,
+   -14.697251299778486,
+   -13.60654051620086,
+   -12.663020163231318,
+   -11.86532110162582,
+   -11.14042383481422,
+   -10.507618468453783,
+   -9.928197994469516,
+   -9.402500409590521,
+   -8.926355801017243,
+   -8.499186055071442,
+   -8.123112798623998,
+   -7.801541004233233,
+   -7.537403208541672,
+   -7.331168734777114,
+   -7.179589004211447,
+   -7.075608969107167,
+   -7.009595185712402,
+   -6.971055134329801,
+   -6.950261046838932,
+   -6.939325587061833,
+   -6.932433508113391
+  ],
+  "nf_db": [
+   28.43640861065417,
+   25.00385210983196,
+   21.66110282610554,
+   18.40992801978629,
+   15.26102085405364,
+   12.2870707036744,
+   9.62318272471143,
+   7.46273142796766,
+   5.963548083681209,
+   5.103745835047,
+   4.70008757115362,
+   4.58342547363059,
+   4.558362338192229,
+   4.553603804076849,
+   4.542519028293611,
+   4.534345616657077,
+   4.53262488283701,
+   4.536427322583767,
+   4.543894922472338,
+   4.558064544169315,
+   4.575104187419326,
+   4.590425482159112,
+   4.596008372407066,
+   4.620706687009847,
+   4.649212875861779,
+   4.68073528322394,
+   4.699296253872986,
+   4.717187984978064,
+   4.757813324914724,
+   4.803524298064175,
+   4.85234532383317,
+   4.866139489884832,
+   4.907308866890078,
+   4.966602238251451,
+   5.031145054857131,
+   5.101188589861835,
+   5.101188589861835,
+   5.417627712812251,
+   5.832652373802555,
+   6.370056320767119,
+   7.060175148167936,
+   7.932454334230298,
+   9.003782252549751,
+   10.26589749136515,
+   11.68912356927834,
+   13.22752637824069,
+   14.83973092804477,
+   16.49333224297811,
+   18.17074655934759,
+   19.86755637632678,
+   21.58906352487684,
+   23.34586359751115,
+   25.1491716817999,
+   27.00664694235984,
+   28.91962247933796,
+   30.88240545675359,
+   32.8835797572826,
+   34.90849004049961,
+   36.94183926917087,
+   38.96964376889791,
+   40.98030366655806
+  ],
+  "nfmin_db": [
+   23.40615031266806,
+   20.66513926019504,
+   18.02054112096285,
+   15.44861761794481,
+   12.95303482982296,
+   10.58134403406084,
+   8.43991071966774,
+   6.680728486885516,
+   5.431158004237054,
+   4.703275659467931,
+   4.38124402509404,
+   4.311649539742834,
+   4.304791781802066,
+   4.30453144354282,
+   4.306800299876402,
+   4.316059493105332,
+   4.331269373873991,
+   4.351415399576392,
+   4.375734021772495,
+   4.403677142539922,
+   4.434877637896511,
+   4.460279630304792,
+   4.469117297265381,
+   4.506297937318146,
+   4.546416045837533,
+   4.589541056737325,
+   4.612268257930919,
+   4.635797203942348,
+   4.685348813253422,
+   4.73838884364661,
+   4.795130457824328,
+   4.809920654835001,
+   4.855801381766232,
+   4.920640785166705,
+   4.989898390768988,
+   5.06383548936408,
+   5.06383548936408,
+   5.387705650149308,
+   5.799055221801999,
+   6.321766036104281,
+   6.9857889937457,
+   7.820577734629348,
+   8.843196498856654,
+   10.04808262726069,
+   11.40655762803341,
+   12.87692367890424,
+   14.41803132512823,
+   15.99905070847591,
+   17.603277657926,
+   19.22747518352551,
+   20.87874841299788,
+   22.57012919219023,
+   24.31553022199044,
+   26.12489507083055,
+   28.00073807447767,
+   29.93710434227304,
+   31.92105429555816,
+   33.93570146316389,
+   35.96341789526393,
+   37.98821221482149,
+   39.99697861309059
+  ]
+ },
+ "agent_impl": "v2",
+ "terminated_reason": "spec_met",
+ "trace": [
+  {
+   "t": 1.136,
+   "agent": "manager",
+   "event": "plan",
+   "sims": {
+    "hf_critical": 0,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 0,
+    "equiv_time_s": 0.0,
+    "cpu_s": 0.0
+   },
+   "mode": 1,
+   "hints": {},
+   "policy": "codex-mcp",
+   "agent_impl": "v2"
+  },
+  {
+   "t": 29.041,
+   "agent": "searcher",
+   "event": "active_sizing",
+   "sims": {
+    "hf_critical": 0,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 0,
+    "equiv_time_s": 0.0,
+    "cpu_s": 0.0
+   },
+   "split": [
+    0.4,
+    0.3,
+    0.3
+   ],
+   "status": "ok",
+   "n": 4
+  },
+  {
+   "t": 44.218,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 129,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 129,
+    "equiv_time_s": 64.5,
+    "cpu_s": 0.74
+   },
+   "cid": "C000",
+   "origin": "search",
+   "power_ratio_list": [
+    0.4,
+    0.3,
+    0.3
+   ],
+   "config_id": "crit_large__noncrit_large",
+   "nf_cp_db": 4.663,
+   "s11_cp_db": -28.58,
+   "gain_cp_db": 14.58,
+   "ip1db_cp_dbm": -6.26,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.5,
+   "gain_require_db": null,
+   "score": 0.0
+  },
+  {
+   "t": 59.275,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 258,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 258,
+    "equiv_time_s": 129.0,
+    "cpu_s": 1.442
+   },
+   "cid": "C001",
+   "origin": "search",
+   "power_ratio_list": [
+    0.4,
+    0.3,
+    0.3
+   ],
+   "config_id": "crit_large__noncrit_large",
+   "nf_cp_db": 5.066,
+   "s11_cp_db": -24.65,
+   "gain_cp_db": 13.23,
+   "ip1db_cp_dbm": -6.35,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.5,
+   "gain_require_db": 15,
+   "score": 0.0
+  },
+  {
+   "t": 74.376,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 387,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 387,
+    "equiv_time_s": 193.5,
+    "cpu_s": 2.113
+   },
+   "cid": "C002",
+   "origin": "search",
+   "power_ratio_list": [
+    0.4,
+    0.3,
+    0.3
+   ],
+   "config_id": "crit_small__noncrit_large",
+   "nf_cp_db": 4.473,
+   "s11_cp_db": -32.25,
+   "gain_cp_db": 21.11,
+   "ip1db_cp_dbm": -14.54,
+   "stage2_feasible": true,
+   "nf_headroom_db": 0.5,
+   "gain_require_db": null,
+   "score": 0.0
+  },
+  {
+   "t": 89.743,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 516,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 516,
+    "equiv_time_s": 258.0,
+    "cpu_s": 2.878
+   },
+   "cid": "C003",
+   "origin": "search",
+   "power_ratio_list": [
+    0.4,
+    0.3,
+    0.3
+   ],
+   "config_id": "crit_small__noncrit_large",
+   "nf_cp_db": 4.735,
+   "s11_cp_db": -32.24,
+   "gain_cp_db": 18.63,
+   "ip1db_cp_dbm": -12.53,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.5,
+   "gain_require_db": 19,
+   "score": 0.0
+  },
+  {
+   "t": 107.061,
+   "agent": "searcher",
+   "event": "terminated",
+   "sims": {
+    "hf_critical": 516,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 516,
+    "equiv_time_s": 258.0,
+    "cpu_s": 2.878
+   },
+   "reason": "finish",
+   "steps": 6
+  },
+  {
+   "t": 107.061,
+   "agent": "manager",
+   "event": "search_report",
+   "sims": {
+    "hf_critical": 516,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 516,
+    "equiv_time_s": 258.0,
+    "cpu_s": 2.878
+   },
+   "terminated": "finish",
+   "new": [
+    "C002"
+   ]
+  },
+  {
+   "t": 123.24,
+   "agent": "manager",
+   "event": "refine_candidate",
+   "sims": {
+    "hf_critical": 516,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 516,
+    "equiv_time_s": 258.0,
+    "cpu_s": 2.878
+   },
+   "cid": "C002",
+   "origin": "search",
+   "power_ratio_list": [
+    0.4,
+    0.3,
+    0.3
+   ],
+   "config_id": "crit_small__noncrit_large",
+   "nf_cp_db": 4.473,
+   "s11_cp_db": -32.25,
+   "gain_cp_db": 21.11,
+   "ip1db_cp_dbm": -14.54,
+   "stage2_feasible": true,
+   "nf_headroom_db": 0.5,
+   "gain_require_db": null,
+   "score": 6.894
+  },
+  {
+   "t": 138.109,
+   "agent": "refiner",
+   "event": "band_planning",
+   "sims": {
+    "hf_critical": 516,
+    "hf_full": 3,
+    "lf": 1351,
+    "hf_total": 519,
+    "equiv_time_s": 296.7,
+    "cpu_s": 2.896
+   },
+   "cid": "C002",
+   "did": "D004",
+   "gain_user_db": 25,
+   "gain_req_list": null
+  },
+  {
+   "t": 154.107,
+   "agent": "refiner",
+   "event": "evaluate",
+   "sims": {
+    "hf_critical": 516,
+    "hf_full": 4,
+    "lf": 1351,
+    "hf_total": 520,
+    "equiv_time_s": 308.7,
+    "cpu_s": 6.029
+   },
+   "cid": "C002",
+   "did": "D004",
+   "passed": false,
+   "violations": {
+    "gain": 0.0,
+    "ripple": 3.4675,
+    "nf": 0.0,
+    "ip1db": 0.0,
+    "s11": 0.0,
+    "power": 0.0
+   },
+   "metrics": {
+    "gain_fc_db": 26.5035,
+    "gain_min_db": 24.1917,
+    "gain_max_db": 30.6592,
+    "ripple_db": 6.4675,
+    "s11_fc_db": -41.9837,
+    "s11_max_inband_db": -20.5113,
+    "nf_fc_db": 4.4705,
+    "nfmin_fc_db": 4.3478,
+    "nf_max_inband_db": 5.0273,
+    "ip1db_dbm": -14.725,
+    "power_ma": 24.9605,
+    "power_ma_planned": 27.4017
+   }
+  },
+  {
+   "t": 171.318,
+   "agent": "refiner",
+   "event": "band_planning",
+   "sims": {
+    "hf_critical": 516,
+    "hf_full": 8,
+    "lf": 2500,
+    "hf_total": 524,
+    "equiv_time_s": 359.0,
+    "cpu_s": 6.057
+   },
+   "cid": "C002",
+   "did": "D005",
+   "gain_user_db": 23.5,
+   "gain_req_list": null
+  },
+  {
+   "t": 186.988,
+   "agent": "refiner",
+   "event": "evaluate",
+   "sims": {
+    "hf_critical": 516,
+    "hf_full": 9,
+    "lf": 2500,
+    "hf_total": 525,
+    "equiv_time_s": 371.0,
+    "cpu_s": 8.94
+   },
+   "cid": "C002",
+   "did": "D005",
+   "passed": false,
+   "violations": {
+    "gain": 2.5214,
+    "ripple": 0.0,
+    "nf": 0.0,
+    "ip1db": 0.0,
+    "s11": 0.0,
+    "power": 0.0
+   },
+   "metrics": {
+    "gain_fc_db": 21.4325,
+    "gain_min_db": 19.4786,
+    "gain_max_db": 22.2673,
+    "ripple_db": 2.7887,
+    "s11_fc_db": -36.6228,
+    "s11_max_inband_db": -21.5674,
+    "nf_fc_db": 4.8813,
+    "nfmin_fc_db": 4.7801,
+    "nf_max_inband_db": 5.2748,
+    "ip1db_dbm": -16.1698,
+    "power_ma": 24.9867,
+    "power_ma_planned": 27.4017
+   }
+  },
+  {
+   "t": 206.638,
+   "agent": "refiner",
+   "event": "band_planning",
+   "sims": {
+    "hf_critical": 516,
+    "hf_full": 10,
+    "lf": 2754,
+    "hf_total": 526,
+    "equiv_time_s": 383.51,
+    "cpu_s": 8.947
+   },
+   "cid": "C002",
+   "did": "D006",
+   "gain_user_db": 23.5,
+   "gain_req_list": [
+    13.7,
+    3.5,
+    6.5
+   ]
+  },
+  {
+   "t": 221.58,
+   "agent": "refiner",
+   "event": "evaluate",
+   "sims": {
+    "hf_critical": 516,
+    "hf_full": 11,
+    "lf": 2754,
+    "hf_total": 527,
+    "equiv_time_s": 395.51,
+    "cpu_s": 11.874
+   },
+   "cid": "C002",
+   "did": "D006",
+   "passed": false,
+   "violations": {
+    "gain": 1.0172,
+    "ripple": 0.0,
+    "nf": 0.0,
+    "ip1db": 0.0,
+    "s11": 0.0,
+    "power": 0.0
+   },
+   "metrics": {
+    "gain_fc_db": 23.1109,
+    "gain_min_db": 20.9828,
+    "gain_max_db": 23.1109,
+    "ripple_db": 2.1281,
+    "s11_fc_db": -41.7693,
+    "s11_max_inband_db": -20.6313,
+    "nf_fc_db": 4.5146,
+    "nfmin_fc_db": 4.3944,
+    "nf_max_inband_db": 5.1006,
+    "ip1db_dbm": -19.0012,
+    "power_ma": 24.9837,
+    "power_ma_planned": 27.4017
+   }
+  },
+  {
+   "t": 240.314,
+   "agent": "refiner",
+   "event": "band_planning",
+   "sims": {
+    "hf_critical": 516,
+    "hf_full": 13,
+    "lf": 3682,
+    "hf_total": 529,
+    "equiv_time_s": 421.36,
+    "cpu_s": 11.886
+   },
+   "cid": "C002",
+   "did": "D007",
+   "gain_user_db": 24.6,
+   "gain_req_list": [
+    13.7,
+    3.8,
+    7.1
+   ]
+  },
+  {
+   "t": 256.444,
+   "agent": "refiner",
+   "event": "evaluate",
+   "sims": {
+    "hf_critical": 516,
+    "hf_full": 14,
+    "lf": 3682,
+    "hf_total": 530,
+    "equiv_time_s": 433.36,
+    "cpu_s": 15.02
+   },
+   "cid": "C002",
+   "did": "D007",
+   "passed": true,
+   "violations": {
+    "gain": 0.0,
+    "ripple": 0.0,
+    "nf": 0.0,
+    "ip1db": 0.0,
+    "s11": 0.0,
+    "power": 0.0
+   },
+   "metrics": {
+    "gain_fc_db": 24.1733,
+    "gain_min_db": 22.4038,
+    "gain_max_db": 24.2088,
+    "ripple_db": 1.8051,
+    "s11_fc_db": -37.5243,
+    "s11_max_inband_db": -21.5404,
+    "nf_fc_db": 4.6207,
+    "nfmin_fc_db": 4.5063,
+    "nf_max_inband_db": 5.1012,
+    "ip1db_dbm": -15.8754,
+    "power_ma": 24.9743,
+    "power_ma_planned": 27.4017
+   }
+  },
+  {
+   "t": 256.444,
+   "agent": "refiner",
+   "event": "terminated",
+   "sims": {
+    "hf_critical": 516,
+    "hf_full": 14,
+    "lf": 3682,
+    "hf_total": 530,
+    "equiv_time_s": 433.36,
+    "cpu_s": 15.02
+   },
+   "reason": "spec_met",
+   "steps": 8
+  },
+  {
+   "t": 256.444,
+   "agent": "manager",
+   "event": "refine_report",
+   "sims": {
+    "hf_critical": 516,
+    "hf_full": 14,
+    "lf": 3682,
+    "hf_total": 530,
+    "equiv_time_s": 433.36,
+    "cpu_s": 15.02
+   },
+   "terminated": "spec_met",
+   "cid": "C002",
+   "success": true,
+   "did": "D007",
+   "metrics": {
+    "gain_fc_db": 24.1733,
+    "gain_min_db": 22.4038,
+    "gain_max_db": 24.2088,
+    "ripple_db": 1.8051,
+    "s11_fc_db": -37.5243,
+    "s11_max_inband_db": -21.5404,
+    "nf_fc_db": 4.6207,
+    "nfmin_fc_db": 4.5063,
+    "nf_max_inband_db": 5.1012,
+    "ip1db_dbm": -15.8754,
+    "power_ma": 24.9743,
+    "power_ma_planned": 27.4017
+   },
+   "violations": {
+    "gain": 0.0,
+    "ripple": 0.0,
+    "nf": 0.0,
+    "ip1db": 0.0,
+    "s11": 0.0,
+    "power": 0.0
+   },
+   "bottleneck": null,
+   "steps": 4,
+   "reason": ""
+  },
+  {
+   "t": 256.444,
+   "agent": "manager",
+   "event": "terminated",
+   "sims": {
+    "hf_critical": 516,
+    "hf_full": 14,
+    "lf": 3682,
+    "hf_total": 530,
+    "equiv_time_s": 433.36,
+    "cpu_s": 15.02
+   },
+   "reason": "spec_met",
+   "steps": 2
+  }
+ ],
+ "backend": "hybrid(surrogate_twoport_v1->cadence_spectre_crn65lp)",
+ "llm_usage": {
+  "calls": 16,
+  "prompt_tokens": 274218,
+  "completion_tokens": 3326,
+  "cached_prompt_tokens": 229376,
+  "notional_cost_usd": 0.0,
+  "errors": 0,
+  "invalid_actions": 0,
+  "latency_s": 239.44270875200164,
+  "fallbacks": 0,
+  "rule_after_disable": 0,
+  "disabled_reason": "",
+  "calls_by_role": {
+   "manager": 2,
+   "searcher": 6,
+   "refiner": 8
+  }
+ },
+ "llm_log": [
+  {
+   "role": "manager",
+   "response": "<rationale>The 5 dB NF and \u221225 dBm IP1dB targets favor a balanced initial allocation with extra Stage-1 current for noise, while critical-gain targets of 15\u201319 dB limit downstream compression risk.</rationale><tools>{\"tool\":\"search_candidates\",\"args\":{\"power_ratio_list\":[0.4,0.3,0.3],\"nf_headroom_db\":0.5,\"gain_cp_targets\":[15,17,19],\"note\":\"Initial balanced search: prioritize feasible Stage-2 loading, NF margin, and moderate critical gain for large-signal headroom.\"}}</tools>",
+   "prompt_tokens": 15897,
+   "completion_tokens": 268,
+   "latency_s": 15.311
+  },
+  {
+   "role": "searcher",
+   "response": "<rationale>The specified balanced allocation assigns 12 mA, 9 mA, and 9 mA to stages 1\u20133, respectively, and no configurations have yet been sized.</rationale><tools>{\"tool\":\"active_sizing\",\"args\":{\"power_ratio_list\":[0.4,0.3,0.3]}}</tools>",
+   "prompt_tokens": 15689,
+   "completion_tokens": 76,
+   "latency_s": 12.506,
+   "agent_step": 1,
+   "tool": "active_sizing",
+   "args": {
+    "power_ratio_list": [
+     0.4,
+     0.3,
+     0.3
+    ]
+   },
+   "observation": "{\"power_ratio_list\": [0.4, 0.3, 0.3], \"status\": \"ok\", \"reason\": null, \"configs\": [{\"config_id\": \"crit_large__noncrit_large\", \"stages\": [{\"kind\": \"cascode\", \"w_um\": 180.0, \"stage_current_ma\": 11.1448, \"gm_s\": 0.0866, \"ft_ghz\": 78.639}, {\"kind\": \"diff\", \"w_um\": 117.0, \"stage_current_ma\": 7.9721, \"gm_s\": 0.0408, \"ft_ghz\": 62.7488}, {\"kind\": \"diff\", \"w_um\": 117.0, \"stage_current_ma\": 7.9721, \"gm_s\": 0"
+  },
+  {
+   "role": "searcher",
+   "response": "<rationale>The critical-large configuration offers the strongest Stage-1/2 transconductance (86.6/40.8 mS) and should best establish achievable NF and gain before imposing a gain constraint.</rationale><tools>{\"tool\":\"impedance_matching\",\"args\":{\"power_ratio_list\":[0.4,0.3,0.3],\"config_id\":\"crit_large__noncrit_large\",\"nf_headroom_db\":0.5,\"gain_require_db\":null}}</tools>",
+   "prompt_tokens": 16462,
+   "completion_tokens": 196,
+   "latency_s": 14.355,
+   "agent_step": 2,
+   "tool": "impedance_matching",
+   "args": {
+    "power_ratio_list": [
+     0.4,
+     0.3,
+     0.3
+    ],
+    "config_id": "crit_large__noncrit_large",
+    "nf_headroom_db": 0.5,
+    "gain_require_db": null
+   },
+   "observation": "{\"cid\": \"C000\", \"origin\": \"search\", \"power_ratio_list\": [0.4, 0.3, 0.3], \"config_id\": \"crit_large__noncrit_large\", \"nf_cp_db\": 4.663, \"s11_cp_db\": -28.58, \"gain_cp_db\": 14.58, \"ip1db_cp_dbm\": -6.26, \"stage2_feasible\": false, \"nf_headroom_db\": 0.5, \"gain_require_db\": null, \"score\": 2.337, \"summary\": \"C000 nf_cp=4.663 gain_cp=14.58 feasible=False\"}"
+  },
+  {
+   "role": "searcher",
+   "response": "<rationale>C000 has acceptable NF (4.663 dB), excellent S11 (-28.58 dB), and ample IP1dB (-6.26 dBm), but misses the suggested 15 dB critical-gain target at 14.58 dB and is Stage-2 infeasible; testing the 15 dB constrained variant may improve loading feasibility without demanding excessive gain.</rationale><tools>{\"tool\":\"impedance_matching\",\"args\":{\"power_ratio_list\":[0.4,0.3,0.3],\"config_id\":\"crit_large__noncrit_large\",\"nf_headroom_db\":0.5,\"gain_require_db\":15}}</tools>",
+   "prompt_tokens": 16807,
+   "completion_tokens": 182,
+   "latency_s": 14.301,
+   "agent_step": 3,
+   "tool": "impedance_matching",
+   "args": {
+    "power_ratio_list": [
+     0.4,
+     0.3,
+     0.3
+    ],
+    "config_id": "crit_large__noncrit_large",
+    "nf_headroom_db": 0.5,
+    "gain_require_db": 15
+   },
+   "observation": "{\"cid\": \"C001\", \"origin\": \"search\", \"power_ratio_list\": [0.4, 0.3, 0.3], \"config_id\": \"crit_large__noncrit_large\", \"nf_cp_db\": 5.066, \"s11_cp_db\": -24.65, \"gain_cp_db\": 13.23, \"ip1db_cp_dbm\": -6.35, \"stage2_feasible\": false, \"nf_headroom_db\": 0.5, \"gain_require_db\": 15, \"score\": 1.934, \"summary\": \"C001 nf_cp=5.066 gain_cp=13.23 feasible=False\"}"
+  },
+  {
+   "role": "searcher",
+   "response": "<rationale>C000 has acceptable NF at 4.663 dB, strong S11 at -28.58 dB, and ample IP1dB at -6.26 dBm, but Stage 2 is infeasible; the 15 dB constraint worsened NF to 5.066 dB and gain to 13.23 dB, so the distinct smaller critical configuration should be tested unconstrained next.</rationale><tools>{\"tool\":\"impedance_matching\",\"args\":{\"power_ratio_list\":[0.4,0.3,0.3],\"config_id\":\"crit_small__noncrit_large\",\"nf_headroom_db\":0.5,\"gain_require_db\":null}}</tools>",
+   "prompt_tokens": 17150,
+   "completion_tokens": 245,
+   "latency_s": 14.378,
+   "agent_step": 4,
+   "tool": "impedance_matching",
+   "args": {
+    "power_ratio_list": [
+     0.4,
+     0.3,
+     0.3
+    ],
+    "config_id": "crit_small__noncrit_large",
+    "nf_headroom_db": 0.5,
+    "gain_require_db": null
+   },
+   "observation": "{\"cid\": \"C002\", \"origin\": \"search\", \"power_ratio_list\": [0.4, 0.3, 0.3], \"config_id\": \"crit_small__noncrit_large\", \"nf_cp_db\": 4.473, \"s11_cp_db\": -32.25, \"gain_cp_db\": 21.11, \"ip1db_cp_dbm\": -14.54, \"stage2_feasible\": true, \"nf_headroom_db\": 0.5, \"gain_require_db\": null, \"score\": 6.894, \"summary\": \"C002 nf_cp=4.473 gain_cp=21.11 feasible=True\"}"
+  },
+  {
+   "role": "searcher",
+   "response": "<rationale>C002 is stage-2 feasible with 4.473 dB NF, \u221232.25 dB S11, and 21.11 dB gain, so testing a 19 dB gain constraint may preserve feasibility while improving the gain-controlled solution.</rationale><tools>{\"tool\":\"impedance_matching\",\"args\":{\"power_ratio_list\":[0.4,0.3,0.3],\"config_id\":\"crit_small__noncrit_large\",\"nf_headroom_db\":0.5,\"gain_require_db\":19}}</tools>",
+   "prompt_tokens": 17488,
+   "completion_tokens": 173,
+   "latency_s": 14.543,
+   "agent_step": 5,
+   "tool": "impedance_matching",
+   "args": {
+    "power_ratio_list": [
+     0.4,
+     0.3,
+     0.3
+    ],
+    "config_id": "crit_small__noncrit_large",
+    "nf_headroom_db": 0.5,
+    "gain_require_db": 19
+   },
+   "observation": "{\"cid\": \"C003\", \"origin\": \"search\", \"power_ratio_list\": [0.4, 0.3, 0.3], \"config_id\": \"crit_small__noncrit_large\", \"nf_cp_db\": 4.735, \"s11_cp_db\": -32.24, \"gain_cp_db\": 18.63, \"ip1db_cp_dbm\": -12.53, \"stage2_feasible\": false, \"nf_headroom_db\": 0.5, \"gain_require_db\": 19, \"score\": 2.265, \"summary\": \"C003 nf_cp=4.735 gain_cp=18.63 feasible=False\"}"
+  },
+  {
+   "role": "searcher",
+   "response": "<rationale>C002 is the only Stage-2-feasible candidate, with 4.473 dB NF meeting the 4.5 dB headroom target, \u221232.25 dB S11, 21.11 dB critical gain, and \u221214.54 dBm IP1dB. The remaining configurations either duplicate the same critical stages or produced infeasible Stage-2 loads.</rationale><tools>{\"tool\":\"finish\",\"args\":{\"cids\":[\"C002\"],\"note\":\"Best and only feasible candidate; strong match, adequate NF margin, high critical gain, and IP1dB comfortably above specification.\"}}</tools>",
+   "prompt_tokens": 17839,
+   "completion_tokens": 354,
+   "latency_s": 17.318,
+   "agent_step": 1,
+   "tool": "search_candidates",
+   "args": {
+    "power_ratio_list": [
+     0.4,
+     0.3,
+     0.3
+    ],
+    "nf_headroom_db": 0.5,
+    "gain_cp_targets": [
+     15,
+     17,
+     19
+    ],
+    "note": "Initial balanced search: prioritize feasible Stage-2 loading, NF margin, and moderate critical gain for large-signal headroom."
+   },
+   "observation": "{\"terminated_reason\": \"finish\", \"new_candidates\": [{\"cid\": \"C002\", \"origin\": \"search\", \"power_ratio_list\": [0.4, 0.3, 0.3], \"config_id\": \"crit_small__noncrit_large\", \"nf_cp_db\": 4.473, \"s11_cp_db\": -32.25, \"gain_cp_db\": 21.11, \"ip1db_cp_dbm\": -14.54, \"stage2_feasible\": true, \"nf_headroom_db\": 0.5, \"gain_require_db\": null, \"score\": 6.894}], \"summary\": \"searcher finish: 1 new candidates ['C002']\"}"
+  },
+  {
+   "role": "manager",
+   "response": "<rationale>C002 is Stage-2 feasible with NF 4.473 dB, giving 0.527 dB margin, while its critical-stage IP1dB of -14.54 dBm exceeds the -25 dBm target by 10.46 dB; despite 21.11 dB critical gain, it is the sole and most promising queued candidate to refine.</rationale><tools>{\"tool\":\"refine_candidate\",\"args\":{\"cid\":\"C002\",\"note\":\"Complete the Stage-3/4 design while preserving the 0.527 dB NF margin; prioritize total gain \u226525 dB and IP1dB \u2265-25 dBm, using the available Stage-3 current and avoiding compression from the 21.11 dB critical gain.\"}}</tools>",
+   "prompt_tokens": 16279,
+   "completion_tokens": 166,
+   "latency_s": 16.179
+  },
+  {
+   "role": "refiner",
+   "response": "<rationale>The current candidate has 21.11 dB critical gain and 0.527 dB NF margin, while the required total gain is 25 dB; first plan the passband at the specified 25 dB target before evaluating it.</rationale><tools>{\"tool\":\"band_planning\",\"args\":{\"gain_user_db\":25}}</tools>",
+   "prompt_tokens": 16140,
+   "completion_tokens": 241,
+   "latency_s": 14.671,
+   "agent_step": 1,
+   "tool": "band_planning",
+   "args": {
+    "gain_user_db": 25
+   },
+   "observation": "{\"did\": \"D004\", \"stage3_cost\": {\"min_gain_db\": 24.1747, \"max_gain_db\": 30.7718, \"gain_violation\": 0.0, \"ripple_violation\": 3.5971, \"cost\": 3597.1053}, \"rounds\": [{\"round\": 0, \"lf_cost\": 0.069, \"hf_cost\": 3553.7923, \"max_abs_residual_db\": 4.426}, {\"round\": 1, \"lf_cost\": 0.2306, \"hf_cost\": 3597.1053, \"max_abs_residual_db\": 4.4284}, {\"round\": 2, \"lf_cost\": 3597.765, \"hf_cost\": 3597.1053, \"max_abs_res"
+  },
+  {
+   "role": "refiner",
+   "response": "<rationale>D004 is pending evaluation; its planned gain spans 24.17\u201330.77 dB with 3.60 dB ripple violation, so Stage 4 evaluation is required before any replanning.</rationale><tools>{\"tool\":\"fullchain_evaluation\",\"args\":{\"did\":\"D004\"}}</tools>",
+   "prompt_tokens": 16559,
+   "completion_tokens": 71,
+   "latency_s": 12.864,
+   "agent_step": 2,
+   "tool": "fullchain_evaluation",
+   "args": {
+    "did": "D004"
+   },
+   "observation": "{\"did\": \"D004\", \"pass\": false, \"sim_results_dict\": {\"gain_fc_db\": 26.5035, \"gain_min_db\": 24.1917, \"gain_max_db\": 30.6592, \"ripple_db\": 6.4675, \"s11_fc_db\": -41.9837, \"s11_max_inband_db\": -20.5113, \"nf_fc_db\": 4.4705, \"nfmin_fc_db\": 4.3478, \"nf_max_inband_db\": 5.0273, \"ip1db_dbm\": -14.725, \"power_ma\": 24.9605, \"power_ma_planned\": 27.4017}, \"violations\": {\"gain\": 0.0, \"ripple\": 3.4675, \"nf\": 0.0, \""
+  },
+  {
+   "role": "refiner",
+   "response": "<rationale>D004 meets gain, NF, S11, IP1dB, and power, but its 6.47 dB ripple exceeds the 3 dB limit by 3.47 dB while center gain is 1.50 dB above target. Re-plan at a lower 23.5 dB gain target to reduce the passband peak while retaining gain tolerance.</rationale><tools>{\"tool\":\"band_planning\",\"args\":{\"gain_user_db\":23.5}}</tools>",
+   "prompt_tokens": 16981,
+   "completion_tokens": 349,
+   "latency_s": 17.029,
+   "agent_step": 3,
+   "tool": "band_planning",
+   "args": {
+    "gain_user_db": 23.5
+   },
+   "observation": "{\"did\": \"D005\", \"stage3_cost\": {\"min_gain_db\": 19.8311, \"max_gain_db\": 22.2606, \"gain_violation\": 0.6689, \"ripple_violation\": 0.0, \"cost\": 668.9082}, \"rounds\": [{\"round\": 0, \"lf_cost\": 0.0818, \"hf_cost\": 121.0209, \"max_abs_residual_db\": 3.8796}, {\"round\": 1, \"lf_cost\": 0.097, \"hf_cost\": 1162.2969, \"max_abs_residual_db\": 3.3524}, {\"round\": 2, \"lf_cost\": 0.1306, \"hf_cost\": 4054.6874, \"max_abs_residu"
+  },
+  {
+   "role": "refiner",
+   "response": "<rationale>D005 is pending evaluation; its planned gain spans 19.83\u201322.26 dB with no predicted ripple violation, so Stage 4 must quantify the actual gain shortfall before replanning.</rationale><tools>{\"tool\":\"fullchain_evaluation\",\"args\":{\"did\":\"D005\"}}</tools>",
+   "prompt_tokens": 17447,
+   "completion_tokens": 85,
+   "latency_s": 12.786,
+   "agent_step": 4,
+   "tool": "fullchain_evaluation",
+   "args": {
+    "did": "D005"
+   },
+   "observation": "{\"did\": \"D005\", \"pass\": false, \"sim_results_dict\": {\"gain_fc_db\": 21.4325, \"gain_min_db\": 19.4786, \"gain_max_db\": 22.2673, \"ripple_db\": 2.7887, \"s11_fc_db\": -36.6228, \"s11_max_inband_db\": -21.5674, \"nf_fc_db\": 4.8813, \"nfmin_fc_db\": 4.7801, \"nf_max_inband_db\": 5.2748, \"ip1db_dbm\": -16.1698, \"power_ma\": 24.9867, \"power_ma_planned\": 27.4017}, \"violations\": {\"gain\": 2.5214, \"ripple\": 0.0, \"nf\": 0.0, "
+  },
+  {
+   "role": "refiner",
+   "response": "<rationale>D005 fixed ripple to 2.79 dB but its 0.13 dB stage-2 path gain caused total gain to fall to 19.48 dB minimum and worsened in-band NF to 5.27 dB. Re-plan with explicit distributed-gain requirements to restore stage-2 gain without returning to D004\u2019s 6.47 dB ripple.</rationale><tools>{\"tool\":\"band_planning\",\"args\":{\"gain_user_db\":23.5,\"gain_req_list\":[13.7,3.5,6.5]}}</tools>",
+   "prompt_tokens": 17865,
+   "completion_tokens": 466,
+   "latency_s": 19.6,
+   "agent_step": 5,
+   "tool": "band_planning",
+   "args": {
+    "gain_user_db": 23.5,
+    "gain_req_list": [
+     13.7,
+     3.5,
+     6.5
+    ]
+   },
+   "observation": "{\"did\": \"D006\", \"stage3_cost\": {\"min_gain_db\": 20.8844, \"max_gain_db\": 23.1389, \"gain_violation\": 0.0, \"ripple_violation\": 0.0, \"cost\": 0.0}, \"rounds\": [{\"round\": 0, \"lf_cost\": 0.0729, \"hf_cost\": 0.0, \"max_abs_residual_db\": 2.7127}], \"stage_gain_hf_db_at_fc\": [13.8799, 3.2248, 6.0342], \"passive_params_dict\": {\"mcr2\": {\"k\": 0.414, \"f0_ghz\": 27.5948, \"q0\": 6.6875, \"c_ff\": 181.0017}, \"mcr3\": {\"k\": 0."
+  },
+  {
+   "role": "refiner",
+   "response": "<rationale>D006 is the pending unevaluated design and its Stage-3 plan predicts acceptable 2.25 dB ripple with 20.88\u201323.14 dB gain; protocol requires evaluating it before any further planning.</rationale><tools>{\"tool\":\"fullchain_evaluation\",\"args\":{\"did\":\"D006\"}}</tools>",
+   "prompt_tokens": 18237,
+   "completion_tokens": 75,
+   "latency_s": 12.015,
+   "agent_step": 6,
+   "tool": "fullchain_evaluation",
+   "args": {
+    "did": "D006"
+   },
+   "observation": "{\"did\": \"D006\", \"pass\": false, \"sim_results_dict\": {\"gain_fc_db\": 23.1109, \"gain_min_db\": 20.9828, \"gain_max_db\": 23.1109, \"ripple_db\": 2.1281, \"s11_fc_db\": -41.7693, \"s11_max_inband_db\": -20.6313, \"nf_fc_db\": 4.5146, \"nfmin_fc_db\": 4.3944, \"nf_max_inband_db\": 5.1006, \"ip1db_dbm\": -19.0012, \"power_ma\": 24.9837, \"power_ma_planned\": 27.4017}, \"violations\": {\"gain\": 1.0172, \"ripple\": 0.0, \"nf\": 0.0, "
+  },
+  {
+   "role": "refiner",
+   "response": "<rationale>D006 meets ripple, S11, IP1dB, and power, but its 20.98 dB minimum gain is 1.02 dB below tolerance; raise the passband target by about 1.1 dB while retaining the balanced stage-gain constraints that eliminated ripple.</rationale><tools>{\"tool\":\"band_planning\",\"args\":{\"gain_user_db\":24.6,\"gain_req_list\":[13.7,3.8,7.1]}}</tools>",
+   "prompt_tokens": 18664,
+   "completion_tokens": 305,
+   "latency_s": 18.593,
+   "agent_step": 7,
+   "tool": "band_planning",
+   "args": {
+    "gain_user_db": 24.6,
+    "gain_req_list": [
+     13.7,
+     3.8,
+     7.1
+    ]
+   },
+   "observation": "{\"did\": \"D007\", \"stage3_cost\": {\"min_gain_db\": 22.6535, \"max_gain_db\": 24.3073, \"gain_violation\": 0.0, \"ripple_violation\": 0.0, \"cost\": 0.0}, \"rounds\": [{\"round\": 0, \"lf_cost\": 0.0767, \"hf_cost\": 2989.262, \"max_abs_residual_db\": 3.8199}, {\"round\": 1, \"lf_cost\": 0.1647, \"hf_cost\": 0.0, \"max_abs_residual_db\": 1.6906}], \"stage_gain_hf_db_at_fc\": [13.5719, 3.4966, 7.2388], \"passive_params_dict\": {\"mcr"
+  },
+  {
+   "role": "refiner",
+   "response": "<rationale>D007 is the pending planned design and predicts a compliant 1.65 dB ripple with 22.65\u201324.31 dB in-band gain; protocol requires its high-fidelity evaluation before any further planning.</rationale><tools>{\"tool\":\"fullchain_evaluation\",\"args\":{\"did\":\"D007\"}}</tools>",
+   "prompt_tokens": 18714,
+   "completion_tokens": 74,
+   "latency_s": 12.995,
+   "agent_step": 2,
+   "tool": "refine_candidate",
+   "args": {
+    "cid": "C002",
+    "note": "Complete the Stage-3/4 design while preserving the 0.527 dB NF margin; prioritize total gain \u226525 dB and IP1dB \u2265-25 dBm, using the available Stage-3 current and avoiding compression from the 21.11 dB critical gain."
+   },
+   "observation": "{\"cid\": \"C002\", \"success\": true, \"did\": \"D007\", \"metrics\": {\"gain_fc_db\": 24.1733, \"gain_min_db\": 22.4038, \"gain_max_db\": 24.2088, \"ripple_db\": 1.8051, \"s11_fc_db\": -37.5243, \"s11_max_inband_db\": -21.5404, \"nf_fc_db\": 4.6207, \"nfmin_fc_db\": 4.5063, \"nf_max_inband_db\": 5.1012, \"ip1db_dbm\": -15.8754, \"power_ma\": 24.9743, \"power_ma_planned\": 27.4017}, \"violations\": {\"gain\": 0.0, \"ripple\": 0.0, \"nf\": "
+  }
+ ],
+ "run_settings": {
+  "q_match": 25.0,
+  "budget_equiv_s": 3600.0,
+  "spectre_max_per_design": "60",
+  "llm_max_calls": 1000,
+  "memory_dir": null
+ },
+ "spectre_calls": 4,
+ "labels": {
+  "agent_impl": "v2",
+  "pdk": "crn65lp",
+  "not_silicon_result": true,
+  "note": "schematic-level PDK transistors, ideal passives, no layout parasitics"
+ }
+}

@@ -1,0 +1,13 @@
+# docs/130 A3 step 2 (docs/133 §4): agent v2 + codex-mcp on N65, S1-S8 seed 2; same settings as queue_a3_n65_v2_codex_s0.txt.
+# Seed 0 used 62 Spectre / 452 LLM calls. Seeds 1-4 run in parallel (one terminal tab per seed); designs record spectre_calls.
+set ORFADC_AGENT_IMPL=v2
+set ORFADC_LLM_MAX_CALLS=1000
+set ORFADC_SPECTRE_MAX_PER_DESIGN=60
+design --spec S1 --seed 2 --policy codex-mcp --agent-impl v2 --backend pdk
+design --spec S2 --seed 2 --policy codex-mcp --agent-impl v2 --backend pdk
+design --spec S3 --seed 2 --policy codex-mcp --agent-impl v2 --backend pdk
+design --spec S4 --seed 2 --policy codex-mcp --agent-impl v2 --backend pdk
+design --spec S5 --seed 2 --policy codex-mcp --agent-impl v2 --backend pdk
+design --spec S6 --seed 2 --policy codex-mcp --agent-impl v2 --backend pdk
+design --spec S7 --seed 2 --policy codex-mcp --agent-impl v2 --backend pdk
+design --spec S8 --seed 2 --policy codex-mcp --agent-impl v2 --backend pdk
