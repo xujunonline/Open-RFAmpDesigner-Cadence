@@ -18,6 +18,12 @@ _TOOL_NAME_RE = re.compile(r"^[A-Za-z0-9_.+/-]+$")
 _HOST_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9.:-]*$")
 _USER_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._-]*$")
 _REMOTE_PATH_RE = re.compile(r"^/[A-Za-z0-9._/+\-]+$")
+# ssh/scp messages that mean the TCP/SSH session was never established (so no remote command started).
+_CONNECT_FAILURE_RE = re.compile(
+    r"ssh: connect to host .*: (Connection refused|Connection timed out|Operation timed out|No route to host|"
+    r"Network is unreachable)|kex_exchange_identification|Connection closed by .* port \d+\s*$|"
+    r"Connection reset by .* port \d+\s*$|ssh_exchange_identification|Could not resolve hostname",
+    re.MULTILINE)
 
 
 @dataclass(frozen=True)
@@ -119,9 +125,16 @@ class RemoteRunner:
         config: RemoteCadenceConfig,
         *,
         executor: Executor = subprocess.run,
+        connect_retries: int = 1,
+        connect_retry_delay_s: float = 5.0,
+        sleep: Callable[[float], None] | None = None,
     ) -> None:
         self.config = config
         self._executor = executor
+        self.connect_retries = connect_retries
+        self.connect_retry_delay_s = connect_retry_delay_s
+        import time
+        self._sleep = sleep or time.sleep
 
     def run_remote(
         self,
@@ -344,6 +357,23 @@ class RemoteRunner:
         return options
 
     def _execute(
+        self,
+        action: str,
+        argv: list[str],
+        timeout_seconds: int | None,
+    ) -> CommandResult:
+        result = self._execute_once(action, argv, timeout_seconds)
+        # docs/132: one retry when ssh/scp could not even establish the connection (exit 255 with a connect-phase
+        # message), i.e. nothing ran on the host.  Any other failure is returned as is: a dropped session may have
+        # started Spectre, and uncertain results are never re-dispatched automatically.
+        for _ in range(self.connect_retries):
+            if not (result.returncode == 255 and _CONNECT_FAILURE_RE.search(result.stderr or "")):
+                break
+            self._sleep(self.connect_retry_delay_s)
+            result = self._execute_once(action, argv, timeout_seconds)
+        return result
+
+    def _execute_once(
         self,
         action: str,
         argv: list[str],
