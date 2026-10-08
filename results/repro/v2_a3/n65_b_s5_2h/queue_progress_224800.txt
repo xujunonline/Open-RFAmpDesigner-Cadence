@@ -1,0 +1,11 @@
+22:48:00 SET ORFADC_AGENT_IMPL=v2
+22:48:00 SET ORFADC_LLM_MAX_CALLS=1000
+22:48:00 SET ORFADC_SPECTRE_MAX_PER_DESIGN=60
+22:48:00 SET ORFADC_BUDGET_SCALE=2
+22:48:00 START 01_design : design --spec S5 --seed 0 --policy codex-mcp --agent-impl v2 --backend pdk
+23:59:01 END   01_design exit=3
+23:59:01 START 02_design : design --spec S5 --seed 1 --policy codex-mcp --agent-impl v2 --backend pdk
+00:51:49 END   02_design exit=3
+00:51:49 START 03_design : design --spec S5 --seed 2 --policy codex-mcp --agent-impl v2 --backend pdk
+01:43:36 END   03_design exit=3
+01:43:36 QUEUE DONE
