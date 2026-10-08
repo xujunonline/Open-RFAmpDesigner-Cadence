@@ -9,7 +9,7 @@ Table/figure commands run on the surrogate backend (no Cadence, no network) and 
 deterministic under the seed; their numbers are *trend-level* evidence, not silicon or
 PDK results (every artefact carries that label).  Other subcommands (see ``--help``):
 design (``--backend surrogate|cadence|pdk``), replot, llm-check, llm-table, llm-seeds,
-cadence-check and pdk-inventory|pdk-config|pdk-refit|pdk-characterize|pdk-characterize3|pdk-characterize-casc|pdk-check
+cadence-check and pdk-inventory|pdk-config|pdk-refit|pdk-spiral-char|pdk-characterize|pdk-characterize3|pdk-characterize-casc|pdk-check
 (the last two groups reach the Cadence VM and need an explicit user request).
 """
 from __future__ import annotations
@@ -789,7 +789,7 @@ def write_summary(out: Path, parts: dict) -> None:
 
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("cmd", choices=["all", "table4", "table5", "fig5", "fig7", "fig10", "smoke", "design", "replot", "llm-check", "cadence-check", "llm-table", "llm-seeds", "pdk-inventory", "pdk-config", "pdk-refit", "pdk-characterize", "pdk-characterize3", "pdk-characterize-casc", "pdk-check"])
+    ap.add_argument("cmd", choices=["all", "table4", "table5", "fig5", "fig7", "fig10", "smoke", "design", "replot", "llm-check", "cadence-check", "llm-table", "llm-seeds", "pdk-inventory", "pdk-config", "pdk-refit", "pdk-spiral-char", "pdk-characterize", "pdk-characterize3", "pdk-characterize-casc", "pdk-check"])
     ap.add_argument("--spec", default="S2", help="spec id for the 'design' command")
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--mode", type=int, default=1, choices=[1, 2])
@@ -923,6 +923,19 @@ def main(argv: list[str] | None = None) -> int:
             done.append({"from": d.name, "to": dst.name, "rows": len(rep["rows"]), "vds_v": rep.get("vds_v")})
         print(json.dumps(done, indent=1))
         return 0 if done else 8
+    if a.cmd == "pdk-spiral-char":  # docs/133 §8: PDK spiral L/Q table, ONE Spectre run (table stays in results/runs/)
+        from orfadc.cadence.remote_runner import RemoteRunner, load_remote_config
+        from orfadc.repro import pdk_spiral, pdk_v2
+        runner = RemoteRunner(load_remote_config(ROOT / "config" / "remote_cadence.local.yaml"))
+        rep = pdk_spiral.characterize(runner, pdk_v2.load_pdk_config())
+        rows30 = [r for r in rep["rows"] if abs(r["f_hz"] - 30e9) < 1]
+        print(json.dumps({"spectre_runs": rep["spectre_runs"], "ok": rep["steps"].get("ok"), "geometries": rep["geometries"],
+                          "rows": len(rep["rows"]),
+                          "l_ph_range_30g": [round(min((r["l_ph"] for r in rows30), default=0), 1),
+                                             round(max((r["l_ph"] for r in rows30), default=0), 1)],
+                          "q_max_30g": round(max((r["q"] for r in rows30 if r["q"] == r["q"]), default=0), 1),
+                          "local_dir": rep["local_dir"]}, indent=1))
+        return 0 if rep["rows"] else 7
     if a.cmd == "pdk-inventory":  # docs/120 V2-0: read-only listing of the PDKs on the Cadence host
         from orfadc.cadence.remote_runner import RemoteRunner, load_remote_config
         from orfadc.repro import pdk_v2

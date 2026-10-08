@@ -473,10 +473,24 @@ from .backend_cadence import (SAVE_NODES, T_NOISE_C, CadenceBackend, _expand, _g
                               parse_results)
 
 
+_SPIRAL_CACHE: dict = {}
+
+
+def _spiral_table() -> dict | None:
+    if os.environ.get("ORFADC_PDK_SPIRAL", "0") != "1":
+        return None
+    from . import pdk_spiral
+    if "t" not in _SPIRAL_CACHE:
+        _SPIRAL_CACHE["t"] = pdk_spiral.latest_table()
+        if _SPIRAL_CACHE["t"] is None:
+            raise FileNotFoundError("ORFADC_PDK_SPIRAL=1 but no spiral table; run `bench pdk-spiral-char` first")
+    return _SPIRAL_CACHE["t"]
+
+
 def render_pdk_netlist(design: ck.LNADesign, f_hz: np.ndarray, cfg: dict, usable_nr: list[int], *,
                        upto: str | None = None, include_match: bool = True,
                        nominal_load: tuple[float, float] | None = None,
-                       hb_pin_dbm: list[float] | None = None) -> tuple[str, float, dict]:
+                       hb_pin_dbm: list[float] | None = None, info: dict | None = None) -> tuple[str, float, dict]:
     """Fig. 3 chain with ``cfg['nmos']`` devices.  Inductor/resistor returns go to the supply or the next gate's
     bias source (AC grounds), ports are DC-blocked, stage-2/3 Cgd is neutralised by an ideal inverter + capacitor
     (the half-circuit view of the paper's cross-coupled pair).  Gate resistance is inside the RF cell."""
@@ -530,16 +544,28 @@ def render_pdk_netlist(design: ck.LNADesign, f_hz: np.ndarray, cfg: dict, usable
         L.append(f"EG{tag} (gn{tag} 0 {g} 0) vcvs gain=-1")
         L.append(f"CM{tag} (gn{tag} {d}) capacitor c={cn}")
 
+    from . import pdk_spiral
+    spiral_table = _spiral_table()   # docs/133 §8: PDK spirals for the input match when ORFADC_PDK_SPIRAL=1
+
+    def match_ind(tag, a, b, l_h):
+        geo = pdk_spiral.pick(spiral_table, l_h, f_ref) if spiral_table and l_h > 0 else None
+        if geo is None:
+            lossy(a, b, l_h, ck.Q_MATCH)
+        else:
+            L.append(pdk_spiral.instance(f"XS{tag}", a, b, geo))
+        if info is not None and spiral_table:
+            info.setdefault("spirals", {})[tag] = geo or {"ideal_q": ck.Q_MATCH, "target_ph": l_h * 1e12}
+
     if include_match:
-        lossy("in", "vb1", design.lpar_h, ck.Q_MATCH)
-        lossy("in", "g1", design.lg_h, ck.Q_MATCH)
+        match_ind("lpar", "in", "vb1", design.lpar_h)
+        match_ind("lg", "in", "g1", design.lg_h)
     else:
         L.append("RSHORT (in g1) resistor r=1e-6 isnoisy=no")
         L.append("LB1 (vb1 g1) inductor l=1")
     L.append("RG1 (g1 g1i) resistor r=1m isnoisy=no")
     fet("M1", "cas", "g1i", "s1", op1)
     if design.ls_h > 0:
-        lossy("s1", "0", design.ls_h, ck.Q_MATCH)
+        match_ind("ls", "s1", "0", design.ls_h)
     else:
         L.append("RLS0 (s1 0) resistor r=1e-6 isnoisy=no")
     fet("MCG", "d1", "vdd", "cas", ck.cascode_device(op1))
@@ -619,8 +645,10 @@ class PdkCadenceBackend(CadenceBackend):
         f_u, inv = np.unique(np.array([float(_g(x)) for x in f_req]), return_inverse=True)
         inv = np.asarray(inv).reshape(-1)
         pins = self.hb_pins if upto is None else None
+        info: dict = {}
         text, r_out, lays = render_pdk_netlist(design, f_u, self.cfg, self.usable_nr, upto=upto,
-                                               include_match=include_match, nominal_load=nominal_load, hb_pin_dbm=pins)
+                                               include_match=include_match, nominal_load=nominal_load, hb_pin_dbm=pins,
+                                               info=info)
         steps = run_spectre(self, text, str(PurePosixPath(self.remote_root) / tag), local, timeout_s=self.timeout_s)
         (local / "design.json").write_text(json.dumps({"summary": design.summary(), "fc_hz": design.fc_hz,
                                                       "load": list(design.load), "upto": upto}, default=float, indent=1),
@@ -657,7 +685,7 @@ class PdkCadenceBackend(CadenceBackend):
         dt = time.perf_counter() - t0
         self.wall_s += dt
         (local / "metrics.json").write_text(json.dumps({
-            "status": "ok", "backend": self.name, "wall_s": dt, "upto": upto, "steps": steps, "layouts": lays,
+            "status": "ok", "backend": self.name, "wall_s": dt, "upto": upto, "steps": steps, "layouts": lays, **info,
             "gain_db": out["gain_db"].tolist(), "s11_db": out["s11_db"].tolist(), "nf_db": out["nf_db"].tolist(),
             "ip1db_dbm": out["compression"]["ip1db_dbm"], "hb": out.get("hb"), "supply_ma": out["supply_ma"],
             "drain_ma": out.get("drain_ma"), "power_ma_measured": out.get("power_ma_measured"),
