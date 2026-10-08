@@ -1,0 +1,100 @@
+{
+ "spec": "S10s",
+ "seed": 2,
+ "mode": 1,
+ "policy": "codex-mcp",
+ "success": false,
+ "report": null,
+ "sims": {
+  "hf_critical": 0,
+  "hf_full": 0,
+  "lf": 0,
+  "hf_total": 0,
+  "equiv_time_s": 0.0,
+  "cpu_s": 0.0
+ },
+ "n_search": 0,
+ "n_refine": 0,
+ "splits_tried": [],
+ "design": null,
+ "sweep": null,
+ "agent_impl": "v2",
+ "terminated_reason": "llm_unavailable",
+ "prompt_rev": 2,
+ "trace": [
+  {
+   "t": 31.979,
+   "agent": "manager",
+   "event": "plan",
+   "sims": {
+    "hf_critical": 0,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 0,
+    "equiv_time_s": 0.0,
+    "cpu_s": 0.0
+   },
+   "mode": 1,
+   "hints": {},
+   "policy": "codex-mcp",
+   "agent_impl": "v2"
+  },
+  {
+   "t": 188.864,
+   "agent": "manager",
+   "event": "terminated",
+   "sims": {
+    "hf_critical": 0,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 0,
+    "equiv_time_s": 0.0,
+    "cpu_s": 0.0
+   },
+   "reason": "llm_unavailable",
+   "steps": 0
+  }
+ ],
+ "backend": "surrogate_twoport_v1",
+ "llm_usage": {
+  "calls": 0,
+  "prompt_tokens": 0,
+  "completion_tokens": 0,
+  "cached_prompt_tokens": 0,
+  "notional_cost_usd": 0.0,
+  "errors": 3,
+  "invalid_actions": 0,
+  "latency_s": 0.0,
+  "fallbacks": 0,
+  "rule_after_disable": 0,
+  "disabled_reason": "3 consecutive transport errors; last: TransportError('codex bridge: codex exec returned no answer (rc=1): workspace routing discovery failed')",
+  "calls_by_role": {}
+ },
+ "llm_log": [
+  {
+   "role": "manager",
+   "error": "TransportError('codex bridge: codex exec returned no answer (rc=1): workspace routing discovery failed')"
+  },
+  {
+   "role": "manager",
+   "error": "TransportError('codex bridge: codex exec returned no answer (rc=1): workspace routing discovery failed')"
+  },
+  {
+   "role": "manager",
+   "error": "TransportError('codex bridge: codex exec returned no answer (rc=1): workspace routing discovery failed')"
+  }
+ ],
+ "run_settings": {
+  "q_match": 25.0,
+  "budget_equiv_s": 18000.0,
+  "spectre_max_per_design": null,
+  "llm_max_calls": 1000,
+  "memory_dir": null
+ },
+ "labels": {
+  "agent_impl": "v2",
+  "pdk": null,
+  "not_silicon_result": true,
+  "note": "surrogate backend (open EKV-class model); trend-level, not PDK/silicon"
+ }
+}
