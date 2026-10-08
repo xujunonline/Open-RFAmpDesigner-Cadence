@@ -70,6 +70,7 @@ class UsageV2:
     rule_after_disable: int = 0      # always 0 in v2
     disabled_reason: str = ""
     calls_by_role: dict = field(default_factory=dict)
+    transient_retries: int = 0       # codex calls repeated after "workspace routing discovery" errors (llm_cli)
 
 
 class Brain:
@@ -118,8 +119,13 @@ class Brain:
         self.usage.completion_tokens += int(u.get("completion_tokens", 0))
         self.usage.cached_prompt_tokens += int(u.get("cached_prompt_tokens", 0))
         self.usage.notional_cost_usd += float(u.get("notional_cost_usd", 0.0))
-        self.log.append({"role": role, "response": text[-1500:], "prompt_tokens": int(u.get("prompt_tokens", 0)),
-                         "completion_tokens": int(u.get("completion_tokens", 0)), "latency_s": round(dt, 3)})
+        retries = int(u.get("transient_retries", 0))
+        self.usage.transient_retries += retries
+        entry = {"role": role, "response": text[-1500:], "prompt_tokens": int(u.get("prompt_tokens", 0)),
+                 "completion_tokens": int(u.get("completion_tokens", 0)), "latency_s": round(dt, 3)}
+        if retries:
+            entry["transient_retries"] = retries
+        self.log.append(entry)
         return text
 
 

@@ -1,0 +1,7 @@
+# docs/133 §9: original S9/S10 (Table V) on the N65 PDK, never run before; v2 + codex, 5 h equivalent budget, seed 0.
+# Guard 80 Spectre per design (max 160); estimate 60-120. Surrogate devices could not reach S9/S10 (linearity front ~5 dB short).
+set ORFADC_AGENT_IMPL=v2
+set ORFADC_LLM_MAX_CALLS=1000
+set ORFADC_SPECTRE_MAX_PER_DESIGN=80
+design --spec S9 --seed 0 --policy codex-mcp --agent-impl v2 --backend pdk
+design --spec S10 --seed 0 --policy codex-mcp --agent-impl v2 --backend pdk

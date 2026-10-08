@@ -202,3 +202,12 @@ def test_prompt_rev2_scripted_s2_still_passes(monkeypatch):
     monkeypatch.setenv("ORFADC_V2_PROMPT_REV", "2")
     r = _run()
     assert r["success"] and r["prompt_rev"] == 2 and r["terminated_reason"] == "spec_met"
+
+
+def test_brain_records_transport_transient_retries():
+    class T:
+        def complete(self, system, user):
+            return "<rationale>x</rationale><tools>{\"tool\": \"finish\", \"args\": {}}</tools>", {"transient_retries": 2}
+    b = V.Brain(T())
+    assert b.ask("manager", "s", "u") is not None
+    assert b.usage.transient_retries == 2 and b.log[-1]["transient_retries"] == 2
