@@ -80,6 +80,23 @@ v1 行为冻结；每阶段一个提交，推送和打标签先问我，永不�
 
 > 2026-10-07 补注：IC618_rf 上没有 `userone` 用户，上面提示词中的 `userone` 实际为 `IC`（docs/132 §2）。
 
+## 4b. codex 命令行：改用固定的正式版（2026-10-08）
+
+**原因**：`~/.local/bin/codex` 原先链接到 ChatGPT.app 自带的 codex。App 用 Sparkle 自动更新，在长时间运行中途把它从
+0.159.0-alpha 换成了 0.162.0-alpha.2；新版间歇性报 `workspace routing discovery failed/timed out`，导致 4+2 次 v2 运行作废（docs/133 §6）。
+
+**处理**：
+1. 关闭 ChatGPT.app（bundle id `com.openai.codex`）的自动更新：
+   `defaults write com.openai.codex SUEnableAutomaticChecks -bool false`，`… SUAutomaticallyUpdate -bool false`（原值都是 1）。
+   - 撤销：把两项写回 `true`。
+   - App 在下次检查更新时读取这两项；要立即生效需重启 App。
+2. 安装官方 GitHub 正式版 `rust-v0.161.0`：
+   - 文件 `codex-x86_64-apple-darwin.tar.gz`（106 MB），SHA-256 `cb3d7222…63853`，与发布页一致；签名有效（Team ID 2DC432GLL2）。
+   - 装到 `~/.local/bin/codex-stable`；`codex-cli 0.161.0`，沿用 `~/.codex` 中的 ChatGPT 登录。`llm-check`：ok。
+3. 切换：后台任务等所有 codex 作业结束（相隔 2 分钟两次检查都空闲）后，把 `~/.local/bin/codex` 改指向 `codex-stable`，旧链接改名为 `codex-app`。
+   这样正在跑的运行不会在中途换 codex 版本。撤销：`mv ~/.local/bin/codex-app ~/.local/bin/codex`（覆盖新链接）。
+4. 兜底：`llm_cli.with_transient_retries` 仍然保留（只对该错误等 15/30/60 s 重试）；重试次数记在 `llm_usage.transient_retries`。
+
 ## 5. 边界
 
 - 本次迁移不改变任何结果；Windows 上的 crn40lp 结果与旧虚拟机保留。
