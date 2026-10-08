@@ -214,6 +214,27 @@ def codex_login_status() -> str:
     return (proc.stdout + proc.stderr).strip()
 
 
+# codex CLI errors where the request never reached the model (no answer, nothing decided): safe to retry the same call.
+# Seen with codex-cli 0.162.0-alpha after a ChatGPT.app auto-update (docs/133 §6): "workspace routing discovery
+# failed / timed out" for single calls, then fine again.
+_CODEX_TRANSIENT = ("workspace routing discovery",)
+CODEX_RETRY_DELAYS_S = (15.0, 30.0, 60.0)
+
+
+def with_transient_retries(fn, delays=CODEX_RETRY_DELAYS_S, sleep=time.sleep, markers=_CODEX_TRANSIENT):
+    """Call ``fn()``; on a TransportError whose text contains one of ``markers`` wait and retry (one retry per delay).
+    Returns ``(result, retries)``; other errors and the last transient error propagate unchanged."""
+    retries = 0
+    while True:
+        try:
+            return fn(), retries
+        except TransportError as exc:
+            if retries >= len(delays) or not any(m in str(exc) for m in markers):
+                raise
+            sleep(delays[retries])
+            retries += 1
+
+
 class CodexMCPTransport:
     """MCP client (stdio) to the codex-bridge server; one persistent session per policy."""
 
@@ -258,12 +279,15 @@ class CodexMCPTransport:
         return self._call(_lt(), 60)
 
     def complete(self, system: str, user: str) -> tuple[str, dict]:
-        p = self._call(self._ask(system, user))
+        p, retries = with_transient_retries(lambda: self._call(self._ask(system, user)))
         u = p.get("usage", {})
-        return p["text"], {"prompt_tokens": int(u.get("input_tokens", 0)),
-                           "completion_tokens": int(u.get("output_tokens", 0)),
-                           "cached_prompt_tokens": int(u.get("cached_input_tokens", 0)),
-                           "latency_s": float(p.get("latency_s", 0.0)), "backend": "codex-mcp"}
+        out = {"prompt_tokens": int(u.get("input_tokens", 0)),
+               "completion_tokens": int(u.get("output_tokens", 0)),
+               "cached_prompt_tokens": int(u.get("cached_input_tokens", 0)),
+               "latency_s": float(p.get("latency_s", 0.0)), "backend": "codex-mcp"}
+        if retries:
+            out["transient_retries"] = retries
+        return p["text"], out
 
     def close(self) -> None:
         if self._stack is not None:

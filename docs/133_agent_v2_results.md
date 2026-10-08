@@ -194,6 +194,14 @@ seed 1–4 由用户在两个终端标签里并行运行（`queue_a3_n65_v2_code
   v2 在连续 3 次传输错误后终止（`llm_unavailable`），不会改用规则策略，所以这 4 次不是有效结果。
   之后 `llm-check` 恢复正常（1 次调用、17 s）。这 4 次需要重跑。
 - 有效的 6 次中通过 2 次；修订 1 在同样 6 个（规格, seed）上通过 5 次。**以目前的数据看，修订 2 在代理后端上没有改善**，结论等重跑后再定。
+- **第一次重跑（10-08 21:24 起）也作废**：
+  - S9s seed 2 在 101 次调用后、S10s seed 1 在 99 次调用后，又出现同样的 `workspace routing discovery failed / timed out`；
+  - S10s seed 2、4 刚开始（2–3 次调用）就因执行者会话重启而中断。
+  - 这些文件都放在 `void_transport_codex_update/`，后缀 `_rerun1_transport` / `_rerun1_interrupted`。
+  - 结论：新版 codex（0.162.0-alpha）会**间歇性**出现这个错误，不是一次性的。
+- **修正（`llm_cli.with_transient_retries`）**：只对含 `workspace routing discovery` 的传输错误，等 15/30/60 s 后重试同一次调用（最多 3 次）。
+  这类失败时请求没有到达模型，重试不会重复任何决策；重试次数记在该次调用的 `transient_retries` 字段。其他错误的处理方式不变。
+  正在跑的 B/C-N65 批次在第一次 Spectre 之前停下（0 次 Spectre），修正后重新启动。
 
 ## 5. 下一步
 

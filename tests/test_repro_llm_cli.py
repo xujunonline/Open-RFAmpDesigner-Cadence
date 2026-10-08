@@ -107,3 +107,31 @@ def test_codex_home_isolated_from_desktop_app(monkeypatch, tmp_path):
     monkeypatch.delenv("CODEX_HOME", raising=False)
     monkeypatch.setenv("ORFADC_CODEX_HOME", str(tmp_path / "cli-home"))
     assert llm_cli._child_env("codex", False)["CODEX_HOME"] == str(tmp_path / "cli-home")
+
+
+def test_codex_transient_routing_errors_are_retried_and_others_are_not():
+    """docs/133 §6: codex-cli 0.162 alpha intermittently fails with 'workspace routing discovery'; nothing was asked,
+    so the same call is retried after a pause.  Any other transport error propagates at once."""
+    from orfadc.repro.llm_cli import TransportError, with_transient_retries
+    slept = []
+
+    def flaky(n_fail, msg):
+        state = {"n": 0}
+
+        def fn():
+            state["n"] += 1
+            if state["n"] <= n_fail:
+                raise TransportError(msg)
+            return "answer"
+        return fn, state
+    fn, st = flaky(2, "codex bridge: codex exec returned no answer (rc=1): workspace routing discovery failed")
+    assert with_transient_retries(fn, sleep=slept.append) == ("answer", 2) and st["n"] == 3
+    assert slept == [15.0, 30.0]
+    fn, st = flaky(9, "codex bridge: ... workspace routing discovery timed out")
+    with pytest.raises(TransportError):
+        with_transient_retries(fn, sleep=slept.append)
+    assert st["n"] == 4                                   # 1 call + 3 retries
+    fn, st = flaky(1, "codex bridge: You've hit your usage limit")
+    with pytest.raises(TransportError):
+        with_transient_retries(fn, sleep=slept.append)
+    assert st["n"] == 1
