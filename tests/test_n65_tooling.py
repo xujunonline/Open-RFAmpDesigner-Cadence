@@ -294,3 +294,11 @@ def test_job_queue_sh_same_second_starts_get_distinct_folders(tmp_path):
     assert all(p.wait(timeout=60) == 0 for p in procs)
     jobs = list((tmp_path / "out").iterdir())
     assert len(jobs) == 3 and all((j / "DONE.txt").exists() for j in jobs)
+
+
+def test_design_suffix_marks_spiral_runs():
+    from orfadc.repro import bench
+    base = bench.design_suffix(backend="pdk", pdk="crn65lp", env={"ORFADC_SPECTRE_MAX_PER_DESIGN": "60"})
+    spiral = bench.design_suffix(backend="pdk", pdk="crn65lp", env={"ORFADC_SPECTRE_MAX_PER_DESIGN": "60", "ORFADC_PDK_SPIRAL": "1"})
+    assert base == "_pdk_n65_smax60" and spiral == "_pdk_n65_spiral_smax60"
+    assert bench.design_suffix(backend="surrogate", env={"ORFADC_PDK_SPIRAL": "1"}) == ""

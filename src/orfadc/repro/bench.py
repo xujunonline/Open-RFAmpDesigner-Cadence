@@ -109,6 +109,8 @@ def design_suffix(*, backend: str, impl: str = "v1", pdk: str | None = None, llm
         if backend == "pdk":
             tag = _PDK_FILE_TAG.get(pdk or "crn40lp", pdk)
             s += f"_{tag}" if tag else ""
+            if env.get("ORFADC_PDK_SPIRAL", "0") == "1":                   # docs/133 §8: PDK spirals in Stage 4
+                s += "_spiral"
     if impl != "v1":
         s += f"_{impl}"
         rev = int(env.get("ORFADC_V2_PROMPT_REV", "1") or 1)
