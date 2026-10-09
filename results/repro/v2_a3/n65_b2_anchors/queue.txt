@@ -1,0 +1,9 @@
+# docs/133 §12 (experiment b): Spectre multi-fidelity anchors (ORFADC_SPECTRE_ANCHORS=1: Stage-2 candidate band sweep and
+# Stage-3 calibration in Spectre; PSO inner loop on the engine). v1 rule, 1 h, same seeds as N3 for a direct comparison.
+# Estimate ~415 Spectre (failing ~185, passing ~40); guard 200 per design -> worst 600, ledger <= 2814 of 3000.
+set ORFADC_AGENT_IMPL=v1
+set ORFADC_SPECTRE_MAX_PER_DESIGN=200
+set ORFADC_SPECTRE_ANCHORS=1
+design --spec S3 --seed 0 --policy rule --backend pdk
+design --spec S5 --seed 0 --policy rule --backend pdk
+design --spec S5 --seed 1 --policy rule --backend pdk

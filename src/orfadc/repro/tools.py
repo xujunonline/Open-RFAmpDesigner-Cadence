@@ -111,10 +111,16 @@ class ToolContext:
     def fc_hz(self) -> float:
         return self.spec.fc_ghz * 1e9
 
-    def sim(self, design: ck.LNADesign, f_hz: np.ndarray, kind: str, final: bool = False, **kw: Any) -> dict:
+    def sim(self, design: ck.LNADesign, f_hz: np.ndarray, kind: str, final: bool = False, anchor: bool = False,
+            **kw: Any) -> dict:
+        """``anchor`` marks the multi-fidelity anchor simulations (Stage-2 candidate band sweep, Stage-3 calibration).
+        With ORFADC_SPECTRE_ANCHORS=1 and a hybrid backend they also go to the Stage-4 (Spectre) simulator,
+        as in the paper; the Stage-2 PSO inner loop always stays on the engine (docs/133 §12)."""
         if self.counter.exhausted():
             raise BudgetExhausted("high-fidelity simulation budget exhausted")
         t = time.perf_counter()
+        if anchor and os.environ.get("ORFADC_SPECTRE_ANCHORS", "0") == "1":
+            final = True
         backend = getattr(self.backend, "final", None) if final else None
         out = (backend or self.backend).simulate(design, f_hz, **kw)
         self.counter.cpu_s += time.perf_counter() - t
@@ -261,7 +267,7 @@ def impedance_matching(ctx: ToolContext, active: dict, *, nf_headroom_db: float 
     # "simulated voltage response of the critical performance components")
     f = ck.sweep_grid(ctx.fc_hz, ctx.spec.fbw_ratio)
     band = ctx.sim(res["design"], f, "hf_critical", upto="stage2", include_match=True,
-                   nominal_load=NOMINAL_STAGE2_LOAD)
+                   nominal_load=NOMINAL_STAGE2_LOAD, anchor=True)
     passive = dict(res["x"]) | {"lg_ph": res["lg_ph"], "lpar_ph": res["lpar_ph"]}
     return {
         "passive_params_cpstages": passive,
@@ -358,7 +364,7 @@ def band_planning(ctx: ToolContext, active: dict, stage2: dict, *, gain_user_db:
 
     def hf_eval(x: np.ndarray) -> dict:
         d = _full_design(ops, cur, passive2, x, ctx.fc_hz)
-        r = ctx.sim(d, f_band, "hf_full")
+        r = ctx.sim(d, f_band, "hf_full", anchor=True)
         return {"design": d, "gain_db": r["gain_db"], "res": r}
 
     def hf_cost(x: np.ndarray) -> float:

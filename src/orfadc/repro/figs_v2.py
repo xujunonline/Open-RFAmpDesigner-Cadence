@@ -185,12 +185,110 @@ def plot_fig11(res: dict, out: Path) -> dict:
     return summary
 
 
+def fig10_tasks():
+    """The Fig. 10 task sequence of bench.cmd_fig10 (S4 narrow band, gain 20 -> 45 dB)."""
+    from .bench import specs
+    from ..schemas import Spec
+    base = specs()["S4"]
+    gains = [20, 25, 30, 35, 40, 45]
+    return gains, [Spec(id=f"G{g}", fc_ghz=base.fc_ghz, fbw_ratio=base.fbw_ratio, power_ma=base.power_ma,
+                        gain_db=g, nf_max_db=base.nf_max_db, ip1db_min_dbm=-(g + 5.0)) for g in gains]
+
+
+def run_fig10_v2(seed: int, out: Path, policy: str = "codex-mcp") -> list[dict]:
+    """Self-evolution with agent implementation v2 (docs/133 §13): the Fig. 10 tasks in order, mode 2, one KB/EB per
+    seed (fresh at the start, as in cmd_fig10), surrogate backend, 1 h equivalent per task.  Each task's design JSON is
+    written as soon as it finishes, so an interrupted run keeps the finished tasks."""
+    import shutil
+
+    from . import agents_v2
+    from .device import vdd
+    _, tasks = fig10_tasks()
+    mem = ROOT / "results" / "runs" / "fig10_v2_memory" / f"seed{seed}"
+    if mem.exists():
+        shutil.rmtree(mem)
+    out.mkdir(parents=True, exist_ok=True)
+    rows = []
+    for t in tasks:
+        r = agents_v2.run_design_v2(t, seed, mode=2, memory_dir=mem, budget_equiv_s=3600.0, policy_name=policy)
+        r.pop("_session", None)
+        m = (r.get("report") or {}).get("metrics")
+        row = {"task": t.id, "seed": seed, "sims": r["sims"]["hf_total"], "equiv_s": r["sims"]["equiv_time_s"],
+               "success": r["success"], "fom": fom(m, t, vdd()), "llm_calls": (r.get("llm_usage") or {}).get("calls"),
+               "terminated_reason": r.get("terminated_reason")}
+        rows.append(row)
+        (out / f"design_{t.id}_seed{seed}_mode2_{policy}_v2.json").write_text(
+            json.dumps(r | {"labels": {"agent_impl": "v2", "pdk": None, "not_silicon_result": True,
+                                       "note": "surrogate backend, trend-level"}}, indent=1, default=float),
+            encoding="utf-8")
+        (out / f"fig10_v2_seed{seed}.json").write_text(json.dumps(rows, indent=1, default=float), encoding="utf-8")
+    return rows
+
+
+def plot_fig10_v2(v2: list[list[dict]], ref: dict, out: Path) -> dict:
+    """Fig. 10/11-like with agent v2 added: (left) cumulative equivalent time per task, (right) FoM vs cumulative cost.
+    ``ref`` is fig11_like.json (v1 ours_eb, GA, BO on the same tasks and seeds)."""
+    import matplotlib
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+    runs = {"v2": v2, "ours_eb": ref["ours_eb"], "bo_vanilla": ref["bo_vanilla"], "ga_vanilla": ref["ga_vanilla"]}
+    colors = {"v2": SEARCH_C, "ours_eb": "#eda100", "bo_vanilla": "#1baf7a", "ga_vanilla": REFINE_C}
+    names = {"v2": "Ours v2 + Codex (memory)", "ours_eb": "Ours v1 rule (memory)", "bo_vanilla": "BO (vanilla)",
+             "ga_vanilla": "GA (vanilla)"}
+    fig, (a0, a1) = plt.subplots(1, 2, figsize=(11, 4.2))
+    summary = {}
+    for m, rows_by_seed in runs.items():
+        arr = np.array([[r["equiv_s"] for r in rows] for rows in rows_by_seed])
+        cum = np.cumsum(arr, axis=1)
+        x = np.arange(1, arr.shape[1] + 1)
+        a0.errorbar(x, cum.mean(0), yerr=cum.std(0), color=colors[m], marker="o", markersize=4, linewidth=1.4,
+                    capsize=2, label=names[m])
+        for s, rows in enumerate(rows_by_seed):
+            c = np.cumsum([r["equiv_s"] for r in rows])
+            ok = [(ci, r["fom"]) for ci, r in zip(c, rows) if r["success"] and r.get("fom")]
+            if ok:
+                xs, ys = zip(*ok)
+                a1.plot(xs, ys, color=colors[m], marker="o", markersize=3.5, linewidth=1.1, alpha=0.85,
+                        label=names[m] if s == 0 else None)
+        summary[m] = {"cum_equiv_s_mean": float(cum[:, -1].mean()), "cum_equiv_s_std": float(cum[:, -1].std()),
+                      "solved": int(sum(r["success"] for rows in rows_by_seed for r in rows)),
+                      "tasks": int(arr.size)}
+    for m in summary:
+        summary[m]["cost_ratio_vs_v2"] = summary[m]["cum_equiv_s_mean"] / summary["v2"]["cum_equiv_s_mean"]
+    a0.set(yscale="log", xlabel="Task (gain 20 → 45 dB)", ylabel="Cumulative equivalent time (s, log)")
+    a0.set_title("Fig. 10-like: cumulative cost (mean ± std, 3 seeds)", fontsize=9, color=INK)
+    a1.set(xscale="log", yscale="log", xlabel="Cumulative equivalent time (s, log)",
+           ylabel="FoM of each solved task (log)")
+    a1.set_title("Fig. 11-like: FoM vs cumulative cost", fontsize=9, color=INK)
+    for ax in (a0, a1):
+        ax.yaxis.grid(True, color=GRID, linewidth=0.8)
+        ax.set_axisbelow(True)
+        for side in ("top", "right"):
+            ax.spines[side].set_visible(False)
+        ax.tick_params(colors=MUTED, labelsize=7)
+        ax.xaxis.label.set_size(8); ax.yaxis.label.set_size(8)
+    a0.legend(frameon=False, fontsize=7)
+    fig.suptitle("Self-evolution with agent v2 (surrogate, trend-level; FoM = G·BW/((F−1)·P_DC), user-chosen)",
+                 fontsize=10, color=INK)
+    fig.tight_layout()
+    out.mkdir(parents=True, exist_ok=True)
+    fig.savefig(out / "fig10_v2_like.png", dpi=150)
+    plt.close(fig)
+    return summary
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("cmd", choices=["fig9", "fig11"])
+    ap.add_argument("cmd", choices=["fig9", "fig11", "fig10v2"])
     ap.add_argument("--out", type=Path, default=ROOT / "results" / "repro" / "v2_a3" / "figures")
     ap.add_argument("--seeds", type=int, default=3)
+    ap.add_argument("--seed", type=int, default=0, help="fig10v2: which seed to run")
+    ap.add_argument("--policy", default="codex-mcp", help="fig10v2: LLM policy")
     a = ap.parse_args(argv)
+    if a.cmd == "fig10v2":
+        rows = run_fig10_v2(a.seed, ROOT / "results" / "repro" / "v2_a3" / "fig10_v2", a.policy)
+        print(json.dumps(rows, indent=1, default=float))
+        return 0
     if a.cmd == "fig11":
         res = run_fig11(a.seeds)
         ref = ROOT / "results" / "repro" / "2026-10-03" / "raw" / "fig10.json"
