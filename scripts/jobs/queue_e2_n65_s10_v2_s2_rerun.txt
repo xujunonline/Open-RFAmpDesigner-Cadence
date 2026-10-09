@@ -1,0 +1,6 @@
+# docs/133 §9: rerun of v2 S10 seed 2 (first run crashed at its first Stage-4 call: VM DHCP address changed; 0 Spectre).
+# Cause fixed in ~/.ssh/config (address looked up via vmrun on every connection). 5 h, guard 60.
+set ORFADC_AGENT_IMPL=v2
+set ORFADC_LLM_MAX_CALLS=1000
+set ORFADC_SPECTRE_MAX_PER_DESIGN=60
+design --spec S10 --seed 2 --policy codex-mcp --agent-impl v2 --backend pdk
