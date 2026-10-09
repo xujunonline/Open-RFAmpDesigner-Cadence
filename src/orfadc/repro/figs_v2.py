@@ -185,12 +185,58 @@ def plot_fig11(res: dict, out: Path) -> dict:
     return summary
 
 
+def fig10_tasks():
+    """The Fig. 10 task sequence of bench.cmd_fig10 (S4 narrow band, gain 20 -> 45 dB)."""
+    from .bench import specs
+    from ..schemas import Spec
+    base = specs()["S4"]
+    gains = [20, 25, 30, 35, 40, 45]
+    return gains, [Spec(id=f"G{g}", fc_ghz=base.fc_ghz, fbw_ratio=base.fbw_ratio, power_ma=base.power_ma,
+                        gain_db=g, nf_max_db=base.nf_max_db, ip1db_min_dbm=-(g + 5.0)) for g in gains]
+
+
+def run_fig10_v2(seed: int, out: Path, policy: str = "codex-mcp") -> list[dict]:
+    """Self-evolution with agent implementation v2 (docs/133 §13): the Fig. 10 tasks in order, mode 2, one KB/EB per
+    seed (fresh at the start, as in cmd_fig10), surrogate backend, 1 h equivalent per task.  Each task's design JSON is
+    written as soon as it finishes, so an interrupted run keeps the finished tasks."""
+    import shutil
+
+    from . import agents_v2
+    from .device import vdd
+    _, tasks = fig10_tasks()
+    mem = ROOT / "results" / "runs" / "fig10_v2_memory" / f"seed{seed}"
+    if mem.exists():
+        shutil.rmtree(mem)
+    out.mkdir(parents=True, exist_ok=True)
+    rows = []
+    for t in tasks:
+        r = agents_v2.run_design_v2(t, seed, mode=2, memory_dir=mem, budget_equiv_s=3600.0, policy_name=policy)
+        r.pop("_session", None)
+        m = (r.get("report") or {}).get("metrics")
+        row = {"task": t.id, "seed": seed, "sims": r["sims"]["hf_total"], "equiv_s": r["sims"]["equiv_time_s"],
+               "success": r["success"], "fom": fom(m, t, vdd()), "llm_calls": (r.get("llm_usage") or {}).get("calls"),
+               "terminated_reason": r.get("terminated_reason")}
+        rows.append(row)
+        (out / f"design_{t.id}_seed{seed}_mode2_{policy}_v2.json").write_text(
+            json.dumps(r | {"labels": {"agent_impl": "v2", "pdk": None, "not_silicon_result": True,
+                                       "note": "surrogate backend, trend-level"}}, indent=1, default=float),
+            encoding="utf-8")
+        (out / f"fig10_v2_seed{seed}.json").write_text(json.dumps(rows, indent=1, default=float), encoding="utf-8")
+    return rows
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("cmd", choices=["fig9", "fig11"])
+    ap.add_argument("cmd", choices=["fig9", "fig11", "fig10v2"])
     ap.add_argument("--out", type=Path, default=ROOT / "results" / "repro" / "v2_a3" / "figures")
     ap.add_argument("--seeds", type=int, default=3)
+    ap.add_argument("--seed", type=int, default=0, help="fig10v2: which seed to run")
+    ap.add_argument("--policy", default="codex-mcp", help="fig10v2: LLM policy")
     a = ap.parse_args(argv)
+    if a.cmd == "fig10v2":
+        rows = run_fig10_v2(a.seed, ROOT / "results" / "repro" / "v2_a3" / "fig10_v2", a.policy)
+        print(json.dumps(rows, indent=1, default=float))
+        return 0
     if a.cmd == "fig11":
         res = run_fig11(a.seeds)
         ref = ROOT / "results" / "repro" / "2026-10-03" / "raw" / "fig10.json"

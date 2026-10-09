@@ -329,3 +329,12 @@ def test_fig11_fom_formula():
     assert figs_v2.fom(m, spec, 1.2) == pytest.approx(100 * 3.0 / (1.0 * 30.0))
     assert figs_v2.fom(None, spec, 1.2) is None
     assert figs_v2.fom({**m, "nf_fc_db": 0.0}, spec, 1.2) is None
+
+
+def test_fig10_tasks_match_bench_protocol():
+    from orfadc.repro import bench, figs_v2
+    gains, tasks = figs_v2.fig10_tasks()
+    s4 = bench.specs()["S4"]
+    assert gains == [20, 25, 30, 35, 40, 45] and [t.id for t in tasks] == ["G20", "G25", "G30", "G35", "G40", "G45"]
+    assert all(t.fc_ghz == s4.fc_ghz and t.fbw_ratio == s4.fbw_ratio and t.ip1db_min_dbm == -(g + 5.0)
+               for g, t in zip(gains, tasks))
