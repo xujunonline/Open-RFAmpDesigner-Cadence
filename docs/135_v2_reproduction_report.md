@@ -32,7 +32,7 @@
 | Fig. 5 多保真省时间（−88 %） | 代理 −99 % | — | ✅ 趋势复现 |
 | Fig. 9 search/refine 次数 | — | Fig. 9-like 已画（docs/133 §10） | ✅ 已画 |
 | Fig. 10 自进化（约 5.5×） | 代理 18/18，1.6×（对 BO）、3.5×（对 GA） | v2 的自进化未做 | ⚠️ 只有 v1 |
-| Fig. 11 FoM 随仿真成本变化 | — | 未做：FoM 定义在 [48]，正文没有公式 | ❌ |
+| Fig. 11 FoM 随仿真成本变化 | — | Fig. 11-like 已画（FoM 为用户选定的公式；成本优势一致，FoM 优势不一致，docs/133 §11） | ⚠️ 部分复现 |
 | Table VI 成本 | 订阅额度，不计费 | 同左；只记录调用次数与 token | 🚫 无法对照 |
 
 ## 3. v2 与 N65 的主要数字
@@ -41,7 +41,7 @@
 |---|---|---|---|
 | S9s/S10s，代理，5 h，Codex，5 seed | **6/10**（修订 2：3/10） | 0/10（v1 + Codex）；规则 0/10 | `results/repro/v2_a3/s9s10s{,_r2}/` |
 | N65 S1–S8，1 h，5 seed | 21/40（Spectre 373） | 24/40（Spectre 505） | `results/repro/v2_a3/n65/`、`results/repro/n65/n3/` |
-| N65 S9/S10，5 h，5 seed，护栏 60 | S9 4/5、S10 0/5（Spectre 141） | S9 4/5、S10 0/5（Spectre 401） | `results/repro/v2_a3/n65_s9s10/` |
+| N65 S9/S10，5 h，护栏 60 | S9 4/5、S10 0/5（Spectre 141）；S10 加跑到 0/9（+64） | S9 4/5、S10 0/5（Spectre 401） | `results/repro/v2_a3/n65_s9s10/` |
 | N65 S5，2 h（B） | 1/5（4 次碰到护栏） | —（1 h 时 4/5） | `results/repro/v2_a3/n65_b_s5_2h/` |
 | N65 S7 + PDK 螺旋电感（D3，v1） | — | 0/5，NF 差 1.4–1.8 dB | `results/repro/v2_a3/n65_d3_spiral/` |
 
@@ -55,7 +55,7 @@
 
 ## 5. 资源与工程记录
 
-- N65 Spectre 账本：2150/2400（`results/repro/n65/spectre_ledger.csv`）。其中 184 次是误操作重跑，12 次是一次中止的表征，都已注明不用于结果。
+- N65 Spectre 账本：2214/2400（`results/repro/n65/spectre_ledger.csv`）。其中 184 次是误操作重跑，12 次是一次中止的表征，都已注明不用于结果。
 - LLM：codex 共约 1.5 万次调用（v2 的 S9s/S10s、N65 运行）；claude 约 400 次。订阅额度，不计费。
 - 期间修复（docs/131–134）：
   - v2 增益要求为 null 时崩溃；
