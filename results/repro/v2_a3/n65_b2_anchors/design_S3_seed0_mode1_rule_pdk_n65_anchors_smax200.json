@@ -1,0 +1,3793 @@
+{
+ "spec": "S3",
+ "seed": 0,
+ "mode": 1,
+ "policy": "rule",
+ "success": false,
+ "report": {
+  "cid": "C006",
+  "success": false,
+  "did": "D015",
+  "metrics": {
+   "gain_fc_db": 18.3788,
+   "gain_min_db": 16.8442,
+   "gain_max_db": 21.3551,
+   "ripple_db": 4.5109,
+   "s11_fc_db": -33.1737,
+   "s11_max_inband_db": -14.6736,
+   "nf_fc_db": 8.546,
+   "nfmin_fc_db": 8.4465,
+   "nf_max_inband_db": 9.6546,
+   "ip1db_dbm": -10.2327,
+   "power_ma": 25.0875,
+   "power_ma_planned": 27.1472
+  },
+  "violations": {
+   "gain": 0.1558,
+   "ripple": 1.5109,
+   "nf": 3.546,
+   "ip1db": 0.0,
+   "s11": 0.0,
+   "power": 0.0
+  },
+  "bottleneck": "nf",
+  "steps": 1,
+  "reason": "NF headroom exhausted"
+ },
+ "sims": {
+  "hf_critical": 3096,
+  "hf_full": 161,
+  "lf": 62242,
+  "hf_total": 3257,
+  "equiv_time_s": 3604.48,
+  "cpu_s": 955.471
+ },
+ "n_search": 3,
+ "n_refine": 9,
+ "splits_tried": [
+  [
+   0.35,
+   0.15,
+   0.5
+  ],
+  [
+   0.4,
+   0.3,
+   0.3
+  ],
+  [
+   0.375,
+   0.35,
+   0.275
+  ]
+ ],
+ "design": {
+  "active": [
+   {
+    "kind": "cascode",
+    "w_um": 108.0,
+    "vb_v": 0.675,
+    "stage_current_ma": 9.119127000441434
+   },
+   {
+    "kind": "diff",
+    "w_um": 45.0,
+    "vb_v": 0.525,
+    "stage_current_ma": 4.0092385564045045
+   },
+   {
+    "kind": "diff",
+    "w_um": 54.0,
+    "vb_v": 0.675,
+    "stage_current_ma": 14.018857143518787
+   }
+  ],
+  "ls_ph": 0.0,
+  "lg_ph": 11.575474483278112,
+  "lpar_ph": 91.65272446404234,
+  "mcr1": {
+   "k": 0.7,
+   "l1_h": 2.319030744770676e-10,
+   "l2_h": 4.542019175484442e-10,
+   "r1_ohm": 556.7108380968733,
+   "r2_ohm": 989.6623405200452,
+   "c1_f": 8.130921877647136e-15,
+   "c2_f": 4.101269137738744e-15,
+   "q_ind": 15.0,
+   "f_loss_hz": 50000000000.0,
+   "flags": [],
+   "l1_ph": 231.9030744770676,
+   "l2_ph": 454.2019175484442,
+   "c1_ff": 8.130921877647136,
+   "c2_ff": 4.101269137738744
+  },
+  "mcr2": {
+   "k": 0.41635568197621287,
+   "l1_h": 1.7393658800428494e-10,
+   "l2_h": 1.7393658800428494e-10,
+   "r1_ohm": Infinity,
+   "r2_ohm": 825.9108452716293,
+   "c1_f": 2.684321696253647e-14,
+   "c2_f": 3.698267398630249e-15,
+   "q_ind": 15.0,
+   "f_loss_hz": 45000000000.0,
+   "flags": [
+    "q0_unattainable_pri"
+   ],
+   "l1_ph": 173.93658800428494,
+   "l2_ph": 173.93658800428494,
+   "c1_ff": 26.84321696253647,
+   "c2_ff": 3.6982673986302492
+  },
+  "mcr3": {
+   "k": 0.43383421965615643,
+   "l1_h": 1.8496964932176758e-10,
+   "l2_h": 1.8496964932176758e-10,
+   "r1_ohm": Infinity,
+   "r2_ohm": 1834.1556183590942,
+   "c1_f": 1.2768596796284938e-14,
+   "c2_f": 5.326934606441968e-15,
+   "q_ind": 15.0,
+   "f_loss_hz": 45000000000.0,
+   "flags": [
+    "q0_unattainable_pri"
+   ],
+   "l1_ph": 184.96964932176758,
+   "l2_ph": 184.96964932176758,
+   "c1_ff": 12.768596796284937,
+   "c2_ff": 5.326934606441968
+  },
+  "power_ma": 27.147222700364726,
+  "meta": {}
+ },
+ "sweep": {
+  "f_ghz": [
+   25.0,
+   26.875,
+   28.75,
+   30.625,
+   32.5,
+   34.375,
+   36.25,
+   38.125,
+   40.0,
+   41.875,
+   43.75,
+   45.0,
+   45.5,
+   45.625,
+   46.0,
+   46.5,
+   47.0,
+   47.5,
+   48.0,
+   48.5,
+   49.0,
+   49.375,
+   49.5,
+   50.0,
+   50.5,
+   51.0,
+   51.25,
+   51.50000000000001,
+   52.00000000000001,
+   52.50000000000001,
+   53.00000000000001,
+   53.125,
+   53.50000000000001,
+   54.00000000000001,
+   54.50000000000001,
+   55.0,
+   55.00000000000001,
+   56.875,
+   58.75,
+   60.625,
+   62.5,
+   64.375,
+   66.25,
+   68.125,
+   70.0,
+   71.875,
+   73.75,
+   75.625,
+   77.5,
+   79.375,
+   81.25,
+   83.125,
+   85.0,
+   86.875,
+   88.75,
+   90.625,
+   92.5,
+   94.375,
+   96.25,
+   98.125,
+   100.0
+  ],
+  "gain_db": [
+   5.583354254162456,
+   9.546184214698133,
+   12.628964273842044,
+   16.086007063214527,
+   20.140986190816154,
+   24.151189480834407,
+   26.5459824474412,
+   26.88833309512178,
+   26.031205768033153,
+   24.418013865935926,
+   22.527654823381354,
+   21.35510575644861,
+   20.928217095226263,
+   20.825832201120793,
+   20.52940893757392,
+   20.160050098875683,
+   19.820646369689065,
+   19.5112061100671,
+   19.231176825551714,
+   18.980178744639634,
+   18.75505568162141,
+   18.603209939636777,
+   18.555568846109093,
+   18.37879104211062,
+   18.221742337491385,
+   18.080885638671404,
+   18.01524263953151,
+   17.951909330967364,
+   17.829733255072156,
+   17.708315274587797,
+   17.580710860374108,
+   17.546943390804948,
+   17.439168269176605,
+   17.275106315399867,
+   17.07972553771459,
+   16.844200830748576,
+   16.844200830748576,
+   15.482624705094917,
+   13.271435802695706,
+   10.367793709946962,
+   7.005994479378512,
+   3.32544767071218,
+   -0.5920831672742866,
+   -4.664976920150174,
+   -8.805029570219048,
+   -12.92613292577209,
+   -16.969025475236215,
+   -20.89343766366852,
+   -24.68312948147875,
+   -28.328806489906807,
+   -31.830772590549422,
+   -35.19366674618603,
+   -38.426270968242655,
+   -41.53118761014535,
+   -44.521875956119786,
+   -47.40449185620544,
+   -50.1865929279743,
+   -52.87519043260528,
+   -55.47677201767656,
+   -57.997251589301214,
+   -60.44206873472878
+  ],
+  "s11_db": [
+   -1.389275378536974,
+   -1.8514054079788504,
+   -2.254665067466792,
+   -2.7103451429104815,
+   -3.2948890344017516,
+   -4.055902460314665,
+   -5.042542440246747,
+   -6.3050542924286965,
+   -7.872228115565159,
+   -9.8805719342769,
+   -12.439913331145856,
+   -14.673570852565923,
+   -15.74083101505759,
+   -16.02762669526218,
+   -16.94413301914188,
+   -18.322791116408194,
+   -19.936270057903748,
+   -21.880948664271216,
+   -24.326052441187322,
+   -27.922698409366777,
+   -32.38295127164459,
+   -36.852401356952306,
+   -37.59608494511228,
+   -33.17373734806707,
+   -28.374329692440746,
+   -25.16743839779727,
+   -23.922993753311896,
+   -22.84266499577926,
+   -21.043796351365724,
+   -19.590560769328505,
+   -18.381513533460087,
+   -18.109556707483318,
+   -17.354416680020524,
+   -16.46841862592094,
+   -15.695152623215167,
+   -15.014164646783318,
+   -15.014164646783318,
+   -13.052863712097967,
+   -11.70220091972765,
+   -10.725376183901137,
+   -10.001888550207976,
+   -9.45259165592939,
+   -9.018364090479706,
+   -8.656871055659241,
+   -8.328753260759834,
+   -8.040206716935746,
+   -7.770070117287302,
+   -7.523319133649048,
+   -7.280638757582704,
+   -7.051455799861981,
+   -6.835835897943743,
+   -6.633740726302112,
+   -6.438896075268303,
+   -6.268638437019743,
+   -6.10441114576536,
+   -5.951399575576745,
+   -5.808830303507161,
+   -5.675878557763139,
+   -5.551797925882087,
+   -5.435861007373984,
+   -5.327381389749972
+  ],
+  "nf_db": [
+   10.33883879944584,
+   9.595097832686372,
+   9.097104743508218,
+   8.688882981300214,
+   8.333228146782826,
+   8.034301415193946,
+   7.805297962404452,
+   7.6539564864932,
+   7.594596075824004,
+   7.615092290709005,
+   7.720970753768079,
+   7.830848909240185,
+   7.883283685456104,
+   7.897117816963091,
+   7.940321358997749,
+   8.00180533348754,
+   8.067587397075537,
+   8.137530415458647,
+   8.21151096236687,
+   8.287120712178451,
+   8.371174691639535,
+   8.434969175022001,
+   8.45670204845756,
+   8.54595987744497,
+   8.638929547678925,
+   8.735619857516042,
+   8.78537096497053,
+   8.836068905591498,
+   8.940345838900521,
+   9.048552480403936,
+   9.160824841998801,
+   9.18954750992885,
+   9.277334526687214,
+   9.398290025501186,
+   9.523937909792295,
+   9.65456391644643,
+   9.65456391644643,
+   10.19479387530508,
+   10.83263114684535,
+   11.59856579127181,
+   12.52968359086725,
+   13.66492591482732,
+   15.03592960703175,
+   16.65543076297555,
+   18.51132409608783,
+   20.56129390559558,
+   22.75469092498124,
+   25.03622771344668,
+   27.36398069159388,
+   29.70131909827567,
+   32.02392670811525,
+   34.31588408322486,
+   36.56917737710418,
+   38.77306068887086,
+   40.93014692964604,
+   43.03790823957238,
+   45.09674773225097,
+   47.10779379091525,
+   49.07259867671932,
+   50.9929408626891,
+   52.87069663399018
+  ],
+  "nfmin_db": [
+   5.475979077778199,
+   5.335738714396852,
+   5.378811114904046,
+   5.487383408228598,
+   5.626209236337594,
+   5.792294498942902,
+   5.991839884020389,
+   6.230480150926169,
+   6.50953083153346,
+   6.825450900186151,
+   7.171213431507053,
+   7.414212653314945,
+   7.51357971848289,
+   7.538589485167852,
+   7.613993376542379,
+   7.715346666550108,
+   7.817550936226534,
+   7.920537929189276,
+   8.024261673245052,
+   8.128700180625982,
+   8.233856975821501,
+   8.31321319473996,
+   8.339762466978273,
+   8.446475178380133,
+   8.554082862210475,
+   8.662703508390596,
+   8.71743906150133,
+   8.772486269834417,
+   8.883612321737285,
+   8.996295670762246,
+   9.110783930708086,
+   9.13972029136485,
+   9.227359077001072,
+   9.346338192275255,
+   9.468074208751922,
+   9.592956649042362,
+   9.592956649042362,
+   10.09702388869853,
+   10.67928522045081,
+   11.37476813143986,
+   12.22501613359317,
+   13.27372896918138,
+   14.55755691762837,
+   16.09367525994437,
+   17.87078825565349,
+   19.85059711561592,
+   21.979359778936,
+   24.20189056000525,
+   26.47105437572717,
+   28.75121236880877,
+   31.01763637591478,
+   33.25429384301751,
+   35.45146034602413,
+   37.60374048159677,
+   39.70860482901563,
+   41.76537010678588,
+   43.77451065483059,
+   45.73720201907453,
+   47.65502188027874,
+   49.52975589604572,
+   51.36327294122443
+  ]
+ },
+ "trace": [
+  {
+   "t": 0.0,
+   "agent": "manager",
+   "event": "plan",
+   "sims": {
+    "hf_critical": 0,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 0,
+    "equiv_time_s": 0.0,
+    "cpu_s": 0.0
+   },
+   "mode": 1,
+   "hints": {},
+   "policy": "rule"
+  },
+  {
+   "t": 0.094,
+   "agent": "searcher",
+   "event": "active_sizing",
+   "sims": {
+    "hf_critical": 0,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 0,
+    "equiv_time_s": 0.0,
+    "cpu_s": 0.0
+   },
+   "split": [
+    0.35,
+    0.15,
+    0.5
+   ],
+   "status": "ok",
+   "n": 4
+  },
+  {
+   "t": 5.566,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 129,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 129,
+    "equiv_time_s": 64.5,
+    "cpu_s": 5.397
+   },
+   "cid": "C000",
+   "origin": "search",
+   "power_ratio_list": [
+    0.35,
+    0.15,
+    0.5
+   ],
+   "config_id": "crit_large__noncrit_large",
+   "nf_cp_db": 12.147,
+   "s11_cp_db": -20.2,
+   "gain_cp_db": -6.35,
+   "ip1db_cp_dbm": -9.29,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": null,
+   "score": 0.0
+  },
+  {
+   "t": 10.9,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 258,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 258,
+    "equiv_time_s": 129.0,
+    "cpu_s": 10.672
+   },
+   "cid": "C001",
+   "origin": "search",
+   "power_ratio_list": [
+    0.35,
+    0.15,
+    0.5
+   ],
+   "config_id": "crit_large__noncrit_large",
+   "nf_cp_db": 11.078,
+   "s11_cp_db": -21.64,
+   "gain_cp_db": -5.62,
+   "ip1db_cp_dbm": -9.92,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": 9.0,
+   "score": 0.0
+  },
+  {
+   "t": 16.256,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 387,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 387,
+    "equiv_time_s": 193.5,
+    "cpu_s": 15.974
+   },
+   "cid": "C002",
+   "origin": "search",
+   "power_ratio_list": [
+    0.35,
+    0.15,
+    0.5
+   ],
+   "config_id": "crit_large__noncrit_small",
+   "nf_cp_db": 13.201,
+   "s11_cp_db": -29.93,
+   "gain_cp_db": -9.61,
+   "ip1db_cp_dbm": -6.11,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": null,
+   "score": 0.0
+  },
+  {
+   "t": 21.682,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 516,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 516,
+    "equiv_time_s": 258.0,
+    "cpu_s": 21.342
+   },
+   "cid": "C003",
+   "origin": "search",
+   "power_ratio_list": [
+    0.35,
+    0.15,
+    0.5
+   ],
+   "config_id": "crit_large__noncrit_small",
+   "nf_cp_db": 10.76,
+   "s11_cp_db": -23.13,
+   "gain_cp_db": -5.35,
+   "ip1db_cp_dbm": -10.16,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": 9.0,
+   "score": 0.0
+  },
+  {
+   "t": 27.138,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 645,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 645,
+    "equiv_time_s": 322.5,
+    "cpu_s": 26.74
+   },
+   "cid": "C004",
+   "origin": "search",
+   "power_ratio_list": [
+    0.35,
+    0.15,
+    0.5
+   ],
+   "config_id": "crit_small__noncrit_large",
+   "nf_cp_db": 8.265,
+   "s11_cp_db": -28.93,
+   "gain_cp_db": 5.19,
+   "ip1db_cp_dbm": -12.99,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": null,
+   "score": 0.0
+  },
+  {
+   "t": 32.502,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 774,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 774,
+    "equiv_time_s": 387.0,
+    "cpu_s": 32.047
+   },
+   "cid": "C005",
+   "origin": "search",
+   "power_ratio_list": [
+    0.35,
+    0.15,
+    0.5
+   ],
+   "config_id": "crit_small__noncrit_large",
+   "nf_cp_db": 9.241,
+   "s11_cp_db": -29.55,
+   "gain_cp_db": 4.88,
+   "ip1db_cp_dbm": -12.44,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": 9.0,
+   "score": 0.0
+  },
+  {
+   "t": 38.098,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 903,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 903,
+    "equiv_time_s": 451.5,
+    "cpu_s": 37.587
+   },
+   "cid": "C006",
+   "origin": "search",
+   "power_ratio_list": [
+    0.35,
+    0.15,
+    0.5
+   ],
+   "config_id": "crit_small__noncrit_small",
+   "nf_cp_db": 8.213,
+   "s11_cp_db": -28.78,
+   "gain_cp_db": 6.36,
+   "ip1db_cp_dbm": -13.92,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": null,
+   "score": 0.0
+  },
+  {
+   "t": 43.76,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 1032,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 1032,
+    "equiv_time_s": 516.0,
+    "cpu_s": 43.189
+   },
+   "cid": "C007",
+   "origin": "search",
+   "power_ratio_list": [
+    0.35,
+    0.15,
+    0.5
+   ],
+   "config_id": "crit_small__noncrit_small",
+   "nf_cp_db": 8.648,
+   "s11_cp_db": -28.99,
+   "gain_cp_db": 4.57,
+   "ip1db_cp_dbm": -12.33,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": 9.0,
+   "score": 0.0
+  },
+  {
+   "t": 43.76,
+   "agent": "manager",
+   "event": "refine_candidate",
+   "sims": {
+    "hf_critical": 1032,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 1032,
+    "equiv_time_s": 516.0,
+    "cpu_s": 43.189
+   },
+   "cid": "C004",
+   "origin": "search",
+   "power_ratio_list": [
+    0.35,
+    0.15,
+    0.5
+   ],
+   "config_id": "crit_small__noncrit_large",
+   "nf_cp_db": 8.265,
+   "s11_cp_db": -28.93,
+   "gain_cp_db": 5.19,
+   "ip1db_cp_dbm": -12.99,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": null,
+   "score": -1.758
+  },
+  {
+   "t": 71.193,
+   "agent": "refiner",
+   "event": "evaluate",
+   "sims": {
+    "hf_critical": 1032,
+    "hf_full": 5,
+    "lf": 1932,
+    "hf_total": 1037,
+    "equiv_time_s": 579.86,
+    "cpu_s": 70.311
+   },
+   "cid": "C004",
+   "did": "D008",
+   "passed": false,
+   "violations": {
+    "gain": 10.9866,
+    "ripple": 3.6813,
+    "nf": 4.6414,
+    "ip1db": 0.0,
+    "s11": 0.0,
+    "power": 0.0
+   },
+   "metrics": {
+    "gain_fc_db": 8.3476,
+    "gain_min_db": 6.0134,
+    "gain_max_db": 12.6947,
+    "ripple_db": 6.6813,
+    "s11_fc_db": -33.9992,
+    "s11_max_inband_db": -15.5119,
+    "nf_fc_db": 9.6414,
+    "nfmin_fc_db": 9.5942,
+    "nf_max_inband_db": 11.6121,
+    "ip1db_dbm": -6.3073,
+    "power_ma": 25.4325,
+    "power_ma_planned": 27.2322
+   }
+  },
+  {
+   "t": 71.193,
+   "agent": "refiner",
+   "event": "decide",
+   "sims": {
+    "hf_critical": 1032,
+    "hf_full": 5,
+    "lf": 1932,
+    "hf_total": 1037,
+    "equiv_time_s": 579.86,
+    "cpu_s": 70.311
+   },
+   "cid": "C004",
+   "action": "rerun_stage3",
+   "gain_req_list": [
+    4.5643,
+    9.9,
+    6.5
+   ],
+   "why": "later stages add noise because MCR2 is lossy: require stage-2 gain"
+  },
+  {
+   "t": 98.73,
+   "agent": "refiner",
+   "event": "evaluate",
+   "sims": {
+    "hf_critical": 1032,
+    "hf_full": 10,
+    "lf": 3936,
+    "hf_total": 1042,
+    "equiv_time_s": 643.87,
+    "cpu_s": 97.505
+   },
+   "cid": "C004",
+   "did": "D009",
+   "passed": false,
+   "violations": {
+    "gain": 10.7611,
+    "ripple": 4.236,
+    "nf": 4.2962,
+    "ip1db": 0.0,
+    "s11": 0.0,
+    "power": 0.0
+   },
+   "metrics": {
+    "gain_fc_db": 9.0508,
+    "gain_min_db": 6.2389,
+    "gain_max_db": 13.475,
+    "ripple_db": 7.236,
+    "s11_fc_db": -33.8503,
+    "s11_max_inband_db": -15.535,
+    "nf_fc_db": 9.2962,
+    "nfmin_fc_db": 9.241,
+    "nf_max_inband_db": 11.2859,
+    "ip1db_dbm": -6.9354,
+    "power_ma": 25.4484,
+    "power_ma_planned": 27.2322
+   }
+  },
+  {
+   "t": 98.73,
+   "agent": "refiner",
+   "event": "decide",
+   "sims": {
+    "hf_critical": 1032,
+    "hf_full": 10,
+    "lf": 3936,
+    "hf_total": 1042,
+    "equiv_time_s": 643.87,
+    "cpu_s": 97.505
+   },
+   "cid": "C004",
+   "action": "rerun_stage3",
+   "gain_req_list": [
+    4.53,
+    9.9,
+    6.6
+   ],
+   "why": "later stages add noise because MCR2 is lossy: require stage-2 gain"
+  },
+  {
+   "t": 126.121,
+   "agent": "refiner",
+   "event": "evaluate",
+   "sims": {
+    "hf_critical": 1032,
+    "hf_full": 15,
+    "lf": 5940,
+    "hf_total": 1047,
+    "equiv_time_s": 707.88,
+    "cpu_s": 124.556
+   },
+   "cid": "C004",
+   "did": "D010",
+   "passed": false,
+   "violations": {
+    "gain": 9.7824,
+    "ripple": 4.3723,
+    "nf": 4.2924,
+    "ip1db": 0.0,
+    "s11": 0.0,
+    "power": 0.0
+   },
+   "metrics": {
+    "gain_fc_db": 10.1403,
+    "gain_min_db": 7.2176,
+    "gain_max_db": 14.5899,
+    "ripple_db": 7.3723,
+    "s11_fc_db": -33.8506,
+    "s11_max_inband_db": -15.5356,
+    "nf_fc_db": 9.2924,
+    "nfmin_fc_db": 9.2371,
+    "nf_max_inband_db": 11.259,
+    "ip1db_dbm": -6.9025,
+    "power_ma": 25.4273,
+    "power_ma_planned": 27.2322
+   }
+  },
+  {
+   "t": 126.121,
+   "agent": "refiner",
+   "event": "decide",
+   "sims": {
+    "hf_critical": 1032,
+    "hf_full": 15,
+    "lf": 5940,
+    "hf_total": 1047,
+    "equiv_time_s": 707.88,
+    "cpu_s": 124.556
+   },
+   "cid": "C004",
+   "action": "rerun_stage3",
+   "gain_req_list": [
+    4.5336,
+    9.9,
+    6.6
+   ],
+   "why": "later stages add noise because MCR2 is lossy: require stage-2 gain"
+  },
+  {
+   "t": 153.716,
+   "agent": "refiner",
+   "event": "evaluate",
+   "sims": {
+    "hf_critical": 1032,
+    "hf_full": 20,
+    "lf": 7944,
+    "hf_total": 1052,
+    "equiv_time_s": 771.89,
+    "cpu_s": 151.809
+   },
+   "cid": "C004",
+   "did": "D011",
+   "passed": false,
+   "violations": {
+    "gain": 9.406,
+    "ripple": 4.271,
+    "nf": 4.2889,
+    "ip1db": 0.0,
+    "s11": 0.0,
+    "power": 0.0
+   },
+   "metrics": {
+    "gain_fc_db": 10.486,
+    "gain_min_db": 7.594,
+    "gain_max_db": 14.865,
+    "ripple_db": 7.271,
+    "s11_fc_db": -33.8536,
+    "s11_max_inband_db": -15.5354,
+    "nf_fc_db": 9.2889,
+    "nfmin_fc_db": 9.2335,
+    "nf_max_inband_db": 11.2425,
+    "ip1db_dbm": -6.9123,
+    "power_ma": 25.4142,
+    "power_ma_planned": 27.2322
+   }
+  },
+  {
+   "t": 153.717,
+   "agent": "refiner",
+   "event": "decide",
+   "sims": {
+    "hf_critical": 1032,
+    "hf_full": 20,
+    "lf": 7944,
+    "hf_total": 1052,
+    "equiv_time_s": 771.89,
+    "cpu_s": 151.809
+   },
+   "cid": "C004",
+   "action": "rerun_stage3",
+   "gain_req_list": [
+    4.5352,
+    9.9,
+    6.6
+   ],
+   "why": "later stages add noise because MCR2 is lossy: require stage-2 gain"
+  },
+  {
+   "t": 181.25,
+   "agent": "refiner",
+   "event": "evaluate",
+   "sims": {
+    "hf_critical": 1032,
+    "hf_full": 25,
+    "lf": 9948,
+    "hf_total": 1057,
+    "equiv_time_s": 835.9,
+    "cpu_s": 179.0
+   },
+   "cid": "C004",
+   "did": "D012",
+   "passed": false,
+   "violations": {
+    "gain": 10.6893,
+    "ripple": 5.5925,
+    "nf": 4.243,
+    "ip1db": 0.0,
+    "s11": 0.0,
+    "power": 0.0
+   },
+   "metrics": {
+    "gain_fc_db": 10.2879,
+    "gain_min_db": 6.3107,
+    "gain_max_db": 14.9032,
+    "ripple_db": 8.5925,
+    "s11_fc_db": -33.678,
+    "s11_max_inband_db": -15.5461,
+    "nf_fc_db": 9.243,
+    "nfmin_fc_db": 9.1865,
+    "nf_max_inband_db": 11.4732,
+    "ip1db_dbm": -7.1557,
+    "power_ma": 25.4434,
+    "power_ma_planned": 27.2322
+   }
+  },
+  {
+   "t": 181.25,
+   "agent": "refiner",
+   "event": "decide",
+   "sims": {
+    "hf_critical": 1032,
+    "hf_full": 25,
+    "lf": 9948,
+    "hf_total": 1057,
+    "equiv_time_s": 835.9,
+    "cpu_s": 179.0
+   },
+   "cid": "C004",
+   "action": "rerun_stage3",
+   "gain_req_list": [
+    4.4834,
+    9.9,
+    6.6
+   ],
+   "why": "later stages add noise because MCR2 is lossy: require stage-2 gain"
+  },
+  {
+   "t": 207.744,
+   "agent": "refiner",
+   "event": "evaluate",
+   "sims": {
+    "hf_critical": 1032,
+    "hf_full": 30,
+    "lf": 11952,
+    "hf_total": 1062,
+    "equiv_time_s": 899.9,
+    "cpu_s": 205.169
+   },
+   "cid": "C004",
+   "did": "D013",
+   "passed": false,
+   "violations": {
+    "gain": 9.0994,
+    "ripple": 4.9183,
+    "nf": 4.2453,
+    "ip1db": 0.0,
+    "s11": 0.0,
+    "power": 0.0
+   },
+   "metrics": {
+    "gain_fc_db": 11.2725,
+    "gain_min_db": 7.9006,
+    "gain_max_db": 15.8188,
+    "ripple_db": 7.9183,
+    "s11_fc_db": -33.7994,
+    "s11_max_inband_db": -15.542,
+    "nf_fc_db": 9.2453,
+    "nfmin_fc_db": 9.1889,
+    "nf_max_inband_db": 11.2451,
+    "ip1db_dbm": -6.9369,
+    "power_ma": 25.4136,
+    "power_ma_planned": 27.2322
+   }
+  },
+  {
+   "t": 207.744,
+   "agent": "refiner",
+   "event": "decide",
+   "sims": {
+    "hf_critical": 1032,
+    "hf_full": 30,
+    "lf": 11952,
+    "hf_total": 1062,
+    "equiv_time_s": 899.9,
+    "cpu_s": 205.169
+   },
+   "cid": "C004",
+   "action": "rerun_stage3",
+   "gain_req_list": [
+    4.5211,
+    9.9,
+    6.6
+   ],
+   "why": "later stages add noise because MCR2 is lossy: require stage-2 gain"
+  },
+  {
+   "t": 207.744,
+   "agent": "manager",
+   "event": "refine_report",
+   "sims": {
+    "hf_critical": 1032,
+    "hf_full": 30,
+    "lf": 11952,
+    "hf_total": 1062,
+    "equiv_time_s": 899.9,
+    "cpu_s": 205.169
+   },
+   "cid": "C004",
+   "success": false,
+   "did": "D011",
+   "metrics": {
+    "gain_fc_db": 10.486,
+    "gain_min_db": 7.594,
+    "gain_max_db": 14.865,
+    "ripple_db": 7.271,
+    "s11_fc_db": -33.8536,
+    "s11_max_inband_db": -15.5354,
+    "nf_fc_db": 9.2889,
+    "nfmin_fc_db": 9.2335,
+    "nf_max_inband_db": 11.2425,
+    "ip1db_dbm": -6.9123,
+    "power_ma": 25.4142,
+    "power_ma_planned": 27.2322
+   },
+   "violations": {
+    "gain": 9.406,
+    "ripple": 4.271,
+    "nf": 4.2889,
+    "ip1db": 0.0,
+    "s11": 0.0,
+    "power": 0.0
+   },
+   "bottleneck": "gain",
+   "steps": 6,
+   "reason": "refine budget exhausted"
+  },
+  {
+   "t": 207.744,
+   "agent": "manager",
+   "event": "refine_candidate",
+   "sims": {
+    "hf_critical": 1032,
+    "hf_full": 30,
+    "lf": 11952,
+    "hf_total": 1062,
+    "equiv_time_s": 899.9,
+    "cpu_s": 205.169
+   },
+   "cid": "C007",
+   "origin": "search",
+   "power_ratio_list": [
+    0.35,
+    0.15,
+    0.5
+   ],
+   "config_id": "crit_small__noncrit_small",
+   "nf_cp_db": 8.648,
+   "s11_cp_db": -28.99,
+   "gain_cp_db": 4.57,
+   "ip1db_cp_dbm": -12.33,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": 9.0,
+   "score": -1.812
+  },
+  {
+   "t": 233.821,
+   "agent": "refiner",
+   "event": "evaluate",
+   "sims": {
+    "hf_critical": 1032,
+    "hf_full": 35,
+    "lf": 13747,
+    "hf_total": 1067,
+    "equiv_time_s": 963.49,
+    "cpu_s": 230.975
+   },
+   "cid": "C007",
+   "did": "D014",
+   "passed": false,
+   "violations": {
+    "gain": 1.5831,
+    "ripple": 2.0931,
+    "nf": 4.134,
+    "ip1db": 0.0,
+    "s11": 0.0,
+    "power": 0.0
+   },
+   "metrics": {
+    "gain_fc_db": 17.1962,
+    "gain_min_db": 15.4169,
+    "gain_max_db": 20.51,
+    "ripple_db": 5.0931,
+    "s11_fc_db": -33.383,
+    "s11_max_inband_db": -15.1769,
+    "nf_fc_db": 9.134,
+    "nfmin_fc_db": 9.0681,
+    "nf_max_inband_db": 10.3372,
+    "ip1db_dbm": -9.0882,
+    "power_ma": 25.0943,
+    "power_ma_planned": 27.1472
+   }
+  },
+  {
+   "t": 233.821,
+   "agent": "refiner",
+   "event": "decide",
+   "sims": {
+    "hf_critical": 1032,
+    "hf_full": 35,
+    "lf": 13747,
+    "hf_total": 1067,
+    "equiv_time_s": 963.49,
+    "cpu_s": 230.975
+   },
+   "cid": "C007",
+   "action": "fail",
+   "bottleneck": "nf",
+   "reason": "NF headroom exhausted"
+  },
+  {
+   "t": 233.821,
+   "agent": "manager",
+   "event": "refine_report",
+   "sims": {
+    "hf_critical": 1032,
+    "hf_full": 35,
+    "lf": 13747,
+    "hf_total": 1067,
+    "equiv_time_s": 963.49,
+    "cpu_s": 230.975
+   },
+   "cid": "C007",
+   "success": false,
+   "did": "D014",
+   "metrics": {
+    "gain_fc_db": 17.1962,
+    "gain_min_db": 15.4169,
+    "gain_max_db": 20.51,
+    "ripple_db": 5.0931,
+    "s11_fc_db": -33.383,
+    "s11_max_inband_db": -15.1769,
+    "nf_fc_db": 9.134,
+    "nfmin_fc_db": 9.0681,
+    "nf_max_inband_db": 10.3372,
+    "ip1db_dbm": -9.0882,
+    "power_ma": 25.0943,
+    "power_ma_planned": 27.1472
+   },
+   "violations": {
+    "gain": 1.5831,
+    "ripple": 2.0931,
+    "nf": 4.134,
+    "ip1db": 0.0,
+    "s11": 0.0,
+    "power": 0.0
+   },
+   "bottleneck": "nf",
+   "steps": 1,
+   "reason": "NF headroom exhausted"
+  },
+  {
+   "t": 233.821,
+   "agent": "manager",
+   "event": "refine_candidate",
+   "sims": {
+    "hf_critical": 1032,
+    "hf_full": 35,
+    "lf": 13747,
+    "hf_total": 1067,
+    "equiv_time_s": 963.49,
+    "cpu_s": 230.975
+   },
+   "cid": "C006",
+   "origin": "search",
+   "power_ratio_list": [
+    0.35,
+    0.15,
+    0.5
+   ],
+   "config_id": "crit_small__noncrit_small",
+   "nf_cp_db": 8.213,
+   "s11_cp_db": -28.78,
+   "gain_cp_db": 6.36,
+   "ip1db_cp_dbm": -13.92,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": null,
+   "score": -2.175
+  },
+  {
+   "t": 259.849,
+   "agent": "refiner",
+   "event": "evaluate",
+   "sims": {
+    "hf_critical": 1032,
+    "hf_full": 40,
+    "lf": 15109,
+    "hf_total": 1072,
+    "equiv_time_s": 1026.22,
+    "cpu_s": 256.796
+   },
+   "cid": "C006",
+   "did": "D015",
+   "passed": false,
+   "violations": {
+    "gain": 0.1558,
+    "ripple": 1.5109,
+    "nf": 3.546,
+    "ip1db": 0.0,
+    "s11": 0.0,
+    "power": 0.0
+   },
+   "metrics": {
+    "gain_fc_db": 18.3788,
+    "gain_min_db": 16.8442,
+    "gain_max_db": 21.3551,
+    "ripple_db": 4.5109,
+    "s11_fc_db": -33.1737,
+    "s11_max_inband_db": -14.6736,
+    "nf_fc_db": 8.546,
+    "nfmin_fc_db": 8.4465,
+    "nf_max_inband_db": 9.6546,
+    "ip1db_dbm": -10.2327,
+    "power_ma": 25.0875,
+    "power_ma_planned": 27.1472
+   }
+  },
+  {
+   "t": 259.849,
+   "agent": "refiner",
+   "event": "decide",
+   "sims": {
+    "hf_critical": 1032,
+    "hf_full": 40,
+    "lf": 15109,
+    "hf_total": 1072,
+    "equiv_time_s": 1026.22,
+    "cpu_s": 256.796
+   },
+   "cid": "C006",
+   "action": "fail",
+   "bottleneck": "nf",
+   "reason": "NF headroom exhausted"
+  },
+  {
+   "t": 259.85,
+   "agent": "manager",
+   "event": "refine_report",
+   "sims": {
+    "hf_critical": 1032,
+    "hf_full": 40,
+    "lf": 15109,
+    "hf_total": 1072,
+    "equiv_time_s": 1026.22,
+    "cpu_s": 256.796
+   },
+   "cid": "C006",
+   "success": false,
+   "did": "D015",
+   "metrics": {
+    "gain_fc_db": 18.3788,
+    "gain_min_db": 16.8442,
+    "gain_max_db": 21.3551,
+    "ripple_db": 4.5109,
+    "s11_fc_db": -33.1737,
+    "s11_max_inband_db": -14.6736,
+    "nf_fc_db": 8.546,
+    "nfmin_fc_db": 8.4465,
+    "nf_max_inband_db": 9.6546,
+    "ip1db_dbm": -10.2327,
+    "power_ma": 25.0875,
+    "power_ma_planned": 27.1472
+   },
+   "violations": {
+    "gain": 0.1558,
+    "ripple": 1.5109,
+    "nf": 3.546,
+    "ip1db": 0.0,
+    "s11": 0.0,
+    "power": 0.0
+   },
+   "bottleneck": "nf",
+   "steps": 1,
+   "reason": "NF headroom exhausted"
+  },
+  {
+   "t": 259.85,
+   "agent": "searcher",
+   "event": "active_sizing",
+   "sims": {
+    "hf_critical": 1032,
+    "hf_full": 40,
+    "lf": 15109,
+    "hf_total": 1072,
+    "equiv_time_s": 1026.22,
+    "cpu_s": 256.796
+   },
+   "split": [
+    0.4,
+    0.3,
+    0.3
+   ],
+   "status": "ok",
+   "n": 4
+  },
+  {
+   "t": 265.327,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 1161,
+    "hf_full": 40,
+    "lf": 15109,
+    "hf_total": 1201,
+    "equiv_time_s": 1090.72,
+    "cpu_s": 262.214
+   },
+   "cid": "C016",
+   "origin": "search",
+   "power_ratio_list": [
+    0.4,
+    0.3,
+    0.3
+   ],
+   "config_id": "crit_large__noncrit_large",
+   "nf_cp_db": 11.36,
+   "s11_cp_db": -31.33,
+   "gain_cp_db": -5.48,
+   "ip1db_cp_dbm": -5.12,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": null,
+   "score": 0.0
+  },
+  {
+   "t": 270.699,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 1290,
+    "hf_full": 40,
+    "lf": 15109,
+    "hf_total": 1330,
+    "equiv_time_s": 1155.22,
+    "cpu_s": 267.531
+   },
+   "cid": "C017",
+   "origin": "search",
+   "power_ratio_list": [
+    0.4,
+    0.3,
+    0.3
+   ],
+   "config_id": "crit_large__noncrit_large",
+   "nf_cp_db": 9.832,
+   "s11_cp_db": -32.89,
+   "gain_cp_db": -3.37,
+   "ip1db_cp_dbm": -7.06,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": 9.0,
+   "score": 0.0
+  },
+  {
+   "t": 276.076,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 1419,
+    "hf_full": 40,
+    "lf": 15109,
+    "hf_total": 1459,
+    "equiv_time_s": 1219.72,
+    "cpu_s": 272.852
+   },
+   "cid": "C018",
+   "origin": "search",
+   "power_ratio_list": [
+    0.4,
+    0.3,
+    0.3
+   ],
+   "config_id": "crit_large__noncrit_small",
+   "nf_cp_db": 9.446,
+   "s11_cp_db": -32.08,
+   "gain_cp_db": -1.47,
+   "ip1db_cp_dbm": -8.81,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": null,
+   "score": 0.0
+  },
+  {
+   "t": 281.437,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 1548,
+    "hf_full": 40,
+    "lf": 15109,
+    "hf_total": 1588,
+    "equiv_time_s": 1284.22,
+    "cpu_s": 278.155
+   },
+   "cid": "C019",
+   "origin": "search",
+   "power_ratio_list": [
+    0.4,
+    0.3,
+    0.3
+   ],
+   "config_id": "crit_large__noncrit_small",
+   "nf_cp_db": 11.826,
+   "s11_cp_db": -31.33,
+   "gain_cp_db": -6.76,
+   "ip1db_cp_dbm": -4.07,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": 9.0,
+   "score": 0.0
+  },
+  {
+   "t": 286.862,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 1677,
+    "hf_full": 40,
+    "lf": 15109,
+    "hf_total": 1717,
+    "equiv_time_s": 1348.72,
+    "cpu_s": 283.523
+   },
+   "cid": "C020",
+   "origin": "search",
+   "power_ratio_list": [
+    0.4,
+    0.3,
+    0.3
+   ],
+   "config_id": "crit_small__noncrit_large",
+   "nf_cp_db": 7.888,
+   "s11_cp_db": -25.02,
+   "gain_cp_db": 7.77,
+   "ip1db_cp_dbm": -8.82,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": null,
+   "score": 0.0
+  },
+  {
+   "t": 292.319,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 1806,
+    "hf_full": 40,
+    "lf": 15109,
+    "hf_total": 1846,
+    "equiv_time_s": 1413.22,
+    "cpu_s": 288.925
+   },
+   "cid": "C021",
+   "origin": "search",
+   "power_ratio_list": [
+    0.4,
+    0.3,
+    0.3
+   ],
+   "config_id": "crit_small__noncrit_large",
+   "nf_cp_db": 7.93,
+   "s11_cp_db": -24.83,
+   "gain_cp_db": 9.23,
+   "ip1db_cp_dbm": -10.67,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": 9.0,
+   "score": 0.0
+  },
+  {
+   "t": 297.748,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 1935,
+    "hf_full": 40,
+    "lf": 15109,
+    "hf_total": 1975,
+    "equiv_time_s": 1477.72,
+    "cpu_s": 294.298
+   },
+   "cid": "C022",
+   "origin": "search",
+   "power_ratio_list": [
+    0.4,
+    0.3,
+    0.3
+   ],
+   "config_id": "crit_small__noncrit_small",
+   "nf_cp_db": 7.485,
+   "s11_cp_db": -20.46,
+   "gain_cp_db": 9.6,
+   "ip1db_cp_dbm": -10.53,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": null,
+   "score": 0.0
+  },
+  {
+   "t": 303.117,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 2064,
+    "hf_full": 40,
+    "lf": 15109,
+    "hf_total": 2104,
+    "equiv_time_s": 1542.22,
+    "cpu_s": 299.611
+   },
+   "cid": "C023",
+   "origin": "search",
+   "power_ratio_list": [
+    0.4,
+    0.3,
+    0.3
+   ],
+   "config_id": "crit_small__noncrit_small",
+   "nf_cp_db": 10.468,
+   "s11_cp_db": -23.02,
+   "gain_cp_db": 4.53,
+   "ip1db_cp_dbm": -7.39,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": 9.0,
+   "score": 0.0
+  },
+  {
+   "t": 303.117,
+   "agent": "manager",
+   "event": "refine_candidate",
+   "sims": {
+    "hf_critical": 2064,
+    "hf_full": 40,
+    "lf": 15109,
+    "hf_total": 2104,
+    "equiv_time_s": 1542.22,
+    "cpu_s": 299.611
+   },
+   "cid": "C022",
+   "origin": "search",
+   "power_ratio_list": [
+    0.4,
+    0.3,
+    0.3
+   ],
+   "config_id": "crit_small__noncrit_small",
+   "nf_cp_db": 7.485,
+   "s11_cp_db": -20.46,
+   "gain_cp_db": 9.6,
+   "ip1db_cp_dbm": -10.53,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": null,
+   "score": -0.485
+  },
+  {
+   "t": 328.967,
+   "agent": "refiner",
+   "event": "evaluate",
+   "sims": {
+    "hf_critical": 2064,
+    "hf_full": 45,
+    "lf": 16683,
+    "hf_total": 2109,
+    "equiv_time_s": 1605.37,
+    "cpu_s": 325.216
+   },
+   "cid": "C022",
+   "did": "D024",
+   "passed": false,
+   "violations": {
+    "gain": 0.0,
+    "ripple": 3.5785,
+    "nf": 3.1095,
+    "ip1db": 0.0,
+    "s11": 0.0,
+    "power": 0.0
+   },
+   "metrics": {
+    "gain_fc_db": 21.857,
+    "gain_min_db": 19.0161,
+    "gain_max_db": 25.5946,
+    "ripple_db": 6.5785,
+    "s11_fc_db": -20.7371,
+    "s11_max_inband_db": -20.6702,
+    "nf_fc_db": 8.1095,
+    "nfmin_fc_db": 8.0731,
+    "nf_max_inband_db": 9.3528,
+    "ip1db_dbm": -14.4265,
+    "power_ma": 25.5752,
+    "power_ma_planned": 28.2134
+   }
+  },
+  {
+   "t": 328.968,
+   "agent": "refiner",
+   "event": "decide",
+   "sims": {
+    "hf_critical": 2064,
+    "hf_full": 45,
+    "lf": 16683,
+    "hf_total": 2109,
+    "equiv_time_s": 1605.37,
+    "cpu_s": 325.216
+   },
+   "cid": "C022",
+   "action": "fail",
+   "bottleneck": "nf",
+   "reason": "NF headroom exhausted"
+  },
+  {
+   "t": 328.968,
+   "agent": "manager",
+   "event": "refine_report",
+   "sims": {
+    "hf_critical": 2064,
+    "hf_full": 45,
+    "lf": 16683,
+    "hf_total": 2109,
+    "equiv_time_s": 1605.37,
+    "cpu_s": 325.216
+   },
+   "cid": "C022",
+   "success": false,
+   "did": "D024",
+   "metrics": {
+    "gain_fc_db": 21.857,
+    "gain_min_db": 19.0161,
+    "gain_max_db": 25.5946,
+    "ripple_db": 6.5785,
+    "s11_fc_db": -20.7371,
+    "s11_max_inband_db": -20.6702,
+    "nf_fc_db": 8.1095,
+    "nfmin_fc_db": 8.0731,
+    "nf_max_inband_db": 9.3528,
+    "ip1db_dbm": -14.4265,
+    "power_ma": 25.5752,
+    "power_ma_planned": 28.2134
+   },
+   "violations": {
+    "gain": 0.0,
+    "ripple": 3.5785,
+    "nf": 3.1095,
+    "ip1db": 0.0,
+    "s11": 0.0,
+    "power": 0.0
+   },
+   "bottleneck": "nf",
+   "steps": 1,
+   "reason": "NF headroom exhausted"
+  },
+  {
+   "t": 328.968,
+   "agent": "manager",
+   "event": "refine_candidate",
+   "sims": {
+    "hf_critical": 2064,
+    "hf_full": 45,
+    "lf": 16683,
+    "hf_total": 2109,
+    "equiv_time_s": 1605.37,
+    "cpu_s": 325.216
+   },
+   "cid": "C020",
+   "origin": "search",
+   "power_ratio_list": [
+    0.4,
+    0.3,
+    0.3
+   ],
+   "config_id": "crit_small__noncrit_large",
+   "nf_cp_db": 7.888,
+   "s11_cp_db": -25.02,
+   "gain_cp_db": 7.77,
+   "ip1db_cp_dbm": -8.82,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": null,
+   "score": -0.888
+  },
+  {
+   "t": 355.167,
+   "agent": "refiner",
+   "event": "evaluate",
+   "sims": {
+    "hf_critical": 2064,
+    "hf_full": 50,
+    "lf": 18687,
+    "hf_total": 2114,
+    "equiv_time_s": 1669.37,
+    "cpu_s": 351.115
+   },
+   "cid": "C020",
+   "did": "D025",
+   "passed": false,
+   "violations": {
+    "gain": 8.1617,
+    "ripple": 3.1743,
+    "nf": 3.9477,
+    "ip1db": 0.0,
+    "s11": 0.0,
+    "power": 0.0
+   },
+   "metrics": {
+    "gain_fc_db": 11.3552,
+    "gain_min_db": 8.8383,
+    "gain_max_db": 15.0126,
+    "ripple_db": 6.1743,
+    "s11_fc_db": -25.6493,
+    "s11_max_inband_db": -19.0103,
+    "nf_fc_db": 8.9477,
+    "nfmin_fc_db": 8.9094,
+    "nf_max_inband_db": 10.3183,
+    "ip1db_dbm": -5.0,
+    "power_ma": 24.7744,
+    "power_ma_planned": 27.4017
+   }
+  },
+  {
+   "t": 355.167,
+   "agent": "refiner",
+   "event": "decide",
+   "sims": {
+    "hf_critical": 2064,
+    "hf_full": 50,
+    "lf": 18687,
+    "hf_total": 2114,
+    "equiv_time_s": 1669.37,
+    "cpu_s": 351.115
+   },
+   "cid": "C020",
+   "action": "rerun_stage3",
+   "gain_req_list": [
+    3.7393,
+    10.4,
+    6.9
+   ],
+   "why": "later stages add noise because MCR2 is lossy: require stage-2 gain"
+  },
+  {
+   "t": 380.988,
+   "agent": "refiner",
+   "event": "evaluate",
+   "sims": {
+    "hf_critical": 2064,
+    "hf_full": 55,
+    "lf": 20691,
+    "hf_total": 2119,
+    "equiv_time_s": 1733.38,
+    "cpu_s": 376.627
+   },
+   "cid": "C020",
+   "did": "D026",
+   "passed": false,
+   "violations": {
+    "gain": 8.9416,
+    "ripple": 2.8184,
+    "nf": 4.0576,
+    "ip1db": 0.0,
+    "s11": 0.0,
+    "power": 0.0
+   },
+   "metrics": {
+    "gain_fc_db": 10.24,
+    "gain_min_db": 8.0584,
+    "gain_max_db": 13.8767,
+    "ripple_db": 5.8184,
+    "s11_fc_db": -25.7664,
+    "s11_max_inband_db": -19.045,
+    "nf_fc_db": 9.0576,
+    "nfmin_fc_db": 9.0204,
+    "nf_max_inband_db": 10.4479,
+    "ip1db_dbm": -5.0,
+    "power_ma": 24.7741,
+    "power_ma_planned": 27.4017
+   }
+  },
+  {
+   "t": 380.988,
+   "agent": "refiner",
+   "event": "decide",
+   "sims": {
+    "hf_critical": 2064,
+    "hf_full": 55,
+    "lf": 20691,
+    "hf_total": 2119,
+    "equiv_time_s": 1733.38,
+    "cpu_s": 376.627
+   },
+   "cid": "C020",
+   "action": "rerun_stage3",
+   "gain_req_list": [
+    3.8136,
+    10.3,
+    6.9
+   ],
+   "why": "later stages add noise because MCR2 is lossy: require stage-2 gain"
+  },
+  {
+   "t": 406.913,
+   "agent": "refiner",
+   "event": "evaluate",
+   "sims": {
+    "hf_critical": 2064,
+    "hf_full": 60,
+    "lf": 22695,
+    "hf_total": 2124,
+    "equiv_time_s": 1797.39,
+    "cpu_s": 402.244
+   },
+   "cid": "C020",
+   "did": "D027",
+   "passed": false,
+   "violations": {
+    "gain": 11.4214,
+    "ripple": 0.3362,
+    "nf": 4.8403,
+    "ip1db": 0.0,
+    "s11": 0.0,
+    "power": 0.0
+   },
+   "metrics": {
+    "gain_fc_db": 8.5183,
+    "gain_min_db": 5.5786,
+    "gain_max_db": 8.9148,
+    "ripple_db": 3.3362,
+    "s11_fc_db": -25.6367,
+    "s11_max_inband_db": -18.7958,
+    "nf_fc_db": 9.8403,
+    "nfmin_fc_db": 9.8104,
+    "nf_max_inband_db": 10.6212,
+    "ip1db_dbm": -5.1184,
+    "power_ma": 24.7759,
+    "power_ma_planned": 27.4017
+   }
+  },
+  {
+   "t": 406.914,
+   "agent": "refiner",
+   "event": "decide",
+   "sims": {
+    "hf_critical": 2064,
+    "hf_full": 60,
+    "lf": 22695,
+    "hf_total": 2124,
+    "equiv_time_s": 1797.39,
+    "cpu_s": 402.244
+   },
+   "cid": "C020",
+   "action": "rerun_stage3",
+   "gain_req_list": [
+    3.4654,
+    10.5,
+    7.0
+   ],
+   "why": "later stages add noise because MCR2 is lossy: require stage-2 gain"
+  },
+  {
+   "t": 432.806,
+   "agent": "refiner",
+   "event": "evaluate",
+   "sims": {
+    "hf_critical": 2064,
+    "hf_full": 65,
+    "lf": 24699,
+    "hf_total": 2129,
+    "equiv_time_s": 1861.4,
+    "cpu_s": 427.827
+   },
+   "cid": "C020",
+   "did": "D028",
+   "passed": false,
+   "violations": {
+    "gain": 8.5482,
+    "ripple": 2.4858,
+    "nf": 3.9766,
+    "ip1db": 0.0,
+    "s11": 0.0,
+    "power": 0.0
+   },
+   "metrics": {
+    "gain_fc_db": 11.4267,
+    "gain_min_db": 8.4518,
+    "gain_max_db": 13.9376,
+    "ripple_db": 5.4858,
+    "s11_fc_db": -25.51,
+    "s11_max_inband_db": -18.9985,
+    "nf_fc_db": 8.9766,
+    "nfmin_fc_db": 8.9385,
+    "nf_max_inband_db": 10.423,
+    "ip1db_dbm": -5.0,
+    "power_ma": 24.7748,
+    "power_ma_planned": 27.4017
+   }
+  },
+  {
+   "t": 432.806,
+   "agent": "refiner",
+   "event": "decide",
+   "sims": {
+    "hf_critical": 2064,
+    "hf_full": 65,
+    "lf": 24699,
+    "hf_total": 2129,
+    "equiv_time_s": 1861.4,
+    "cpu_s": 427.827
+   },
+   "cid": "C020",
+   "action": "rerun_stage3",
+   "gain_req_list": [
+    3.6322,
+    10.4,
+    7.0
+   ],
+   "why": "later stages add noise because MCR2 is lossy: require stage-2 gain"
+  },
+  {
+   "t": 458.764,
+   "agent": "refiner",
+   "event": "evaluate",
+   "sims": {
+    "hf_critical": 2064,
+    "hf_full": 70,
+    "lf": 26703,
+    "hf_total": 2134,
+    "equiv_time_s": 1925.41,
+    "cpu_s": 453.466
+   },
+   "cid": "C020",
+   "did": "D029",
+   "passed": false,
+   "violations": {
+    "gain": 8.9772,
+    "ripple": 2.7194,
+    "nf": 4.0571,
+    "ip1db": 0.0,
+    "s11": 0.0,
+    "power": 0.0
+   },
+   "metrics": {
+    "gain_fc_db": 10.1986,
+    "gain_min_db": 8.0228,
+    "gain_max_db": 13.7422,
+    "ripple_db": 5.7194,
+    "s11_fc_db": -25.7674,
+    "s11_max_inband_db": -19.0476,
+    "nf_fc_db": 9.0571,
+    "nfmin_fc_db": 9.0199,
+    "nf_max_inband_db": 10.4395,
+    "ip1db_dbm": -5.0,
+    "power_ma": 24.7717,
+    "power_ma_planned": 27.4017
+   }
+  },
+  {
+   "t": 458.764,
+   "agent": "refiner",
+   "event": "decide",
+   "sims": {
+    "hf_critical": 2064,
+    "hf_full": 70,
+    "lf": 26703,
+    "hf_total": 2134,
+    "equiv_time_s": 1925.41,
+    "cpu_s": 453.466
+   },
+   "cid": "C020",
+   "action": "rerun_stage3",
+   "gain_req_list": [
+    3.8154,
+    10.3,
+    6.9
+   ],
+   "why": "later stages add noise because MCR2 is lossy: require stage-2 gain"
+  },
+  {
+   "t": 484.788,
+   "agent": "refiner",
+   "event": "evaluate",
+   "sims": {
+    "hf_critical": 2064,
+    "hf_full": 75,
+    "lf": 28707,
+    "hf_total": 2139,
+    "equiv_time_s": 1989.41,
+    "cpu_s": 479.178
+   },
+   "cid": "C020",
+   "did": "D030",
+   "passed": false,
+   "violations": {
+    "gain": 10.3461,
+    "ripple": 2.4791,
+    "nf": 4.1737,
+    "ip1db": 0.0,
+    "s11": 0.0,
+    "power": 0.0
+   },
+   "metrics": {
+    "gain_fc_db": 8.4943,
+    "gain_min_db": 6.6539,
+    "gain_max_db": 12.1331,
+    "ripple_db": 5.4791,
+    "s11_fc_db": -25.8399,
+    "s11_max_inband_db": -19.0579,
+    "nf_fc_db": 9.1737,
+    "nfmin_fc_db": 9.1377,
+    "nf_max_inband_db": 10.5719,
+    "ip1db_dbm": -5.0,
+    "power_ma": 24.7844,
+    "power_ma_planned": 27.4017
+   }
+  },
+  {
+   "t": 484.788,
+   "agent": "refiner",
+   "event": "decide",
+   "sims": {
+    "hf_critical": 2064,
+    "hf_full": 75,
+    "lf": 28707,
+    "hf_total": 2139,
+    "equiv_time_s": 1989.41,
+    "cpu_s": 479.178
+   },
+   "cid": "C020",
+   "action": "rerun_stage3",
+   "gain_req_list": [
+    3.8495,
+    10.3,
+    6.9
+   ],
+   "why": "later stages add noise because MCR2 is lossy: require stage-2 gain"
+  },
+  {
+   "t": 484.788,
+   "agent": "manager",
+   "event": "refine_report",
+   "sims": {
+    "hf_critical": 2064,
+    "hf_full": 75,
+    "lf": 28707,
+    "hf_total": 2139,
+    "equiv_time_s": 1989.41,
+    "cpu_s": 479.178
+   },
+   "cid": "C020",
+   "success": false,
+   "did": "D028",
+   "metrics": {
+    "gain_fc_db": 11.4267,
+    "gain_min_db": 8.4518,
+    "gain_max_db": 13.9376,
+    "ripple_db": 5.4858,
+    "s11_fc_db": -25.51,
+    "s11_max_inband_db": -18.9985,
+    "nf_fc_db": 8.9766,
+    "nfmin_fc_db": 8.9385,
+    "nf_max_inband_db": 10.423,
+    "ip1db_dbm": -5.0,
+    "power_ma": 24.7748,
+    "power_ma_planned": 27.4017
+   },
+   "violations": {
+    "gain": 8.5482,
+    "ripple": 2.4858,
+    "nf": 3.9766,
+    "ip1db": 0.0,
+    "s11": 0.0,
+    "power": 0.0
+   },
+   "bottleneck": "gain",
+   "steps": 6,
+   "reason": "refine budget exhausted"
+  },
+  {
+   "t": 484.788,
+   "agent": "manager",
+   "event": "refine_candidate",
+   "sims": {
+    "hf_critical": 2064,
+    "hf_full": 75,
+    "lf": 28707,
+    "hf_total": 2139,
+    "equiv_time_s": 1989.41,
+    "cpu_s": 479.178
+   },
+   "cid": "C021",
+   "origin": "search",
+   "power_ratio_list": [
+    0.4,
+    0.3,
+    0.3
+   ],
+   "config_id": "crit_small__noncrit_large",
+   "nf_cp_db": 7.93,
+   "s11_cp_db": -24.83,
+   "gain_cp_db": 9.23,
+   "ip1db_cp_dbm": -10.67,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": 9.0,
+   "score": -0.93
+  },
+  {
+   "t": 510.809,
+   "agent": "refiner",
+   "event": "evaluate",
+   "sims": {
+    "hf_critical": 2064,
+    "hf_full": 80,
+    "lf": 30601,
+    "hf_total": 2144,
+    "equiv_time_s": 2053.2,
+    "cpu_s": 504.9
+   },
+   "cid": "C021",
+   "did": "D031",
+   "passed": false,
+   "violations": {
+    "gain": 6.9652,
+    "ripple": 0.0,
+    "nf": 3.7995,
+    "ip1db": 0.0,
+    "s11": 0.0,
+    "power": 0.0
+   },
+   "metrics": {
+    "gain_fc_db": 12.646,
+    "gain_min_db": 10.0348,
+    "gain_max_db": 12.6935,
+    "ripple_db": 2.6587,
+    "s11_fc_db": -29.1359,
+    "s11_max_inband_db": -15.93,
+    "nf_fc_db": 8.7995,
+    "nfmin_fc_db": 8.7221,
+    "nf_max_inband_db": 9.922,
+    "ip1db_dbm": -7.277,
+    "power_ma": 25.1295,
+    "power_ma_planned": 27.4017
+   }
+  },
+  {
+   "t": 510.809,
+   "agent": "refiner",
+   "event": "decide",
+   "sims": {
+    "hf_critical": 2064,
+    "hf_full": 80,
+    "lf": 30601,
+    "hf_total": 2144,
+    "equiv_time_s": 2053.2,
+    "cpu_s": 504.9
+   },
+   "cid": "C021",
+   "action": "rerun_stage3",
+   "gain_req_list": [
+    5.1723,
+    9.5,
+    6.3
+   ],
+   "why": "later stages add noise because MCR2 is lossy: require stage-2 gain"
+  },
+  {
+   "t": 536.717,
+   "agent": "refiner",
+   "event": "evaluate",
+   "sims": {
+    "hf_critical": 2064,
+    "hf_full": 85,
+    "lf": 32605,
+    "hf_total": 2149,
+    "equiv_time_s": 2117.21,
+    "cpu_s": 530.488
+   },
+   "cid": "C021",
+   "did": "D032",
+   "passed": false,
+   "violations": {
+    "gain": 7.2566,
+    "ripple": 0.0,
+    "nf": 3.9278,
+    "ip1db": 0.0,
+    "s11": 0.0,
+    "power": 0.0
+   },
+   "metrics": {
+    "gain_fc_db": 12.5114,
+    "gain_min_db": 9.7434,
+    "gain_max_db": 12.5122,
+    "ripple_db": 2.7688,
+    "s11_fc_db": -29.1309,
+    "s11_max_inband_db": -15.9283,
+    "nf_fc_db": 8.9278,
+    "nfmin_fc_db": 8.8546,
+    "nf_max_inband_db": 10.088,
+    "ip1db_dbm": -7.7515,
+    "power_ma": 25.1301,
+    "power_ma_planned": 27.4017
+   }
+  },
+  {
+   "t": 536.717,
+   "agent": "refiner",
+   "event": "decide",
+   "sims": {
+    "hf_critical": 2064,
+    "hf_full": 85,
+    "lf": 32605,
+    "hf_total": 2149,
+    "equiv_time_s": 2117.21,
+    "cpu_s": 530.488
+   },
+   "cid": "C021",
+   "action": "rerun_stage3",
+   "gain_req_list": [
+    5.1289,
+    9.5,
+    6.4
+   ],
+   "why": "later stages add noise because MCR2 is lossy: require stage-2 gain"
+  },
+  {
+   "t": 562.735,
+   "agent": "refiner",
+   "event": "evaluate",
+   "sims": {
+    "hf_critical": 2064,
+    "hf_full": 90,
+    "lf": 34609,
+    "hf_total": 2154,
+    "equiv_time_s": 2181.22,
+    "cpu_s": 556.173
+   },
+   "cid": "C021",
+   "did": "D033",
+   "passed": false,
+   "violations": {
+    "gain": 7.8532,
+    "ripple": 4.5575,
+    "nf": 3.5943,
+    "ip1db": 0.0,
+    "s11": 0.0,
+    "power": 0.0
+   },
+   "metrics": {
+    "gain_fc_db": 12.4805,
+    "gain_min_db": 9.1468,
+    "gain_max_db": 16.7043,
+    "ripple_db": 7.5575,
+    "s11_fc_db": -28.8905,
+    "s11_max_inband_db": -16.0926,
+    "nf_fc_db": 8.5943,
+    "nfmin_fc_db": 8.5089,
+    "nf_max_inband_db": 10.0536,
+    "ip1db_dbm": -7.0802,
+    "power_ma": 25.1223,
+    "power_ma_planned": 27.4017
+   }
+  },
+  {
+   "t": 562.735,
+   "agent": "refiner",
+   "event": "decide",
+   "sims": {
+    "hf_critical": 2064,
+    "hf_full": 90,
+    "lf": 34609,
+    "hf_total": 2154,
+    "equiv_time_s": 2181.22,
+    "cpu_s": 556.173
+   },
+   "cid": "C021",
+   "action": "rerun_stage3",
+   "gain_req_list": [
+    5.296,
+    9.4,
+    6.3
+   ],
+   "why": "later stages add noise because MCR2 is lossy: require stage-2 gain"
+  },
+  {
+   "t": 588.617,
+   "agent": "refiner",
+   "event": "evaluate",
+   "sims": {
+    "hf_critical": 2064,
+    "hf_full": 95,
+    "lf": 36613,
+    "hf_total": 2159,
+    "equiv_time_s": 2245.23,
+    "cpu_s": 581.749
+   },
+   "cid": "C021",
+   "did": "D034",
+   "passed": false,
+   "violations": {
+    "gain": 7.6874,
+    "ripple": 3.9843,
+    "nf": 3.5944,
+    "ip1db": 0.0,
+    "s11": 0.0,
+    "power": 0.0
+   },
+   "metrics": {
+    "gain_fc_db": 12.247,
+    "gain_min_db": 9.3126,
+    "gain_max_db": 16.2969,
+    "ripple_db": 6.9843,
+    "s11_fc_db": -28.9523,
+    "s11_max_inband_db": -16.0892,
+    "nf_fc_db": 8.5944,
+    "nfmin_fc_db": 8.509,
+    "nf_max_inband_db": 10.0086,
+    "ip1db_dbm": -7.0892,
+    "power_ma": 25.1218,
+    "power_ma_planned": 27.4017
+   }
+  },
+  {
+   "t": 588.617,
+   "agent": "refiner",
+   "event": "decide",
+   "sims": {
+    "hf_critical": 2064,
+    "hf_full": 95,
+    "lf": 36613,
+    "hf_total": 2159,
+    "equiv_time_s": 2245.23,
+    "cpu_s": 581.749
+   },
+   "cid": "C021",
+   "action": "rerun_stage3",
+   "gain_req_list": [
+    5.3167,
+    9.4,
+    6.3
+   ],
+   "why": "later stages add noise because MCR2 is lossy: require stage-2 gain"
+  },
+  {
+   "t": 614.45,
+   "agent": "refiner",
+   "event": "evaluate",
+   "sims": {
+    "hf_critical": 2064,
+    "hf_full": 100,
+    "lf": 38617,
+    "hf_total": 2164,
+    "equiv_time_s": 2309.23,
+    "cpu_s": 607.256
+   },
+   "cid": "C021",
+   "did": "D035",
+   "passed": false,
+   "violations": {
+    "gain": 7.9899,
+    "ripple": 3.405,
+    "nf": 3.6343,
+    "ip1db": 0.0,
+    "s11": 0.0,
+    "power": 0.0
+   },
+   "metrics": {
+    "gain_fc_db": 11.6963,
+    "gain_min_db": 9.0101,
+    "gain_max_db": 15.4151,
+    "ripple_db": 6.405,
+    "s11_fc_db": -29.0295,
+    "s11_max_inband_db": -16.0567,
+    "nf_fc_db": 8.6343,
+    "nfmin_fc_db": 8.5503,
+    "nf_max_inband_db": 10.0203,
+    "ip1db_dbm": -7.1866,
+    "power_ma": 25.1227,
+    "power_ma_planned": 27.4017
+   }
+  },
+  {
+   "t": 614.45,
+   "agent": "refiner",
+   "event": "decide",
+   "sims": {
+    "hf_critical": 2064,
+    "hf_full": 100,
+    "lf": 38617,
+    "hf_total": 2164,
+    "equiv_time_s": 2309.23,
+    "cpu_s": 607.256
+   },
+   "cid": "C021",
+   "action": "rerun_stage3",
+   "gain_req_list": [
+    5.3475,
+    9.4,
+    6.3
+   ],
+   "why": "later stages add noise because MCR2 is lossy: require stage-2 gain"
+  },
+  {
+   "t": 640.314,
+   "agent": "refiner",
+   "event": "evaluate",
+   "sims": {
+    "hf_critical": 2064,
+    "hf_full": 105,
+    "lf": 40621,
+    "hf_total": 2169,
+    "equiv_time_s": 2373.24,
+    "cpu_s": 632.804
+   },
+   "cid": "C021",
+   "did": "D036",
+   "passed": false,
+   "violations": {
+    "gain": 7.2964,
+    "ripple": 4.4807,
+    "nf": 3.6361,
+    "ip1db": 0.0,
+    "s11": 0.0,
+    "power": 0.0
+   },
+   "metrics": {
+    "gain_fc_db": 13.0164,
+    "gain_min_db": 9.7036,
+    "gain_max_db": 17.1843,
+    "ripple_db": 7.4807,
+    "s11_fc_db": -28.9923,
+    "s11_max_inband_db": -16.0733,
+    "nf_fc_db": 8.6361,
+    "nfmin_fc_db": 8.5522,
+    "nf_max_inband_db": 10.0301,
+    "ip1db_dbm": -7.5352,
+    "power_ma": 25.125,
+    "power_ma_planned": 27.4017
+   }
+  },
+  {
+   "t": 640.314,
+   "agent": "refiner",
+   "event": "decide",
+   "sims": {
+    "hf_critical": 2064,
+    "hf_full": 105,
+    "lf": 40621,
+    "hf_total": 2169,
+    "equiv_time_s": 2373.24,
+    "cpu_s": 632.804
+   },
+   "cid": "C021",
+   "action": "rerun_stage3",
+   "gain_req_list": [
+    5.3421,
+    9.4,
+    6.3
+   ],
+   "why": "later stages add noise because MCR2 is lossy: require stage-2 gain"
+  },
+  {
+   "t": 640.314,
+   "agent": "manager",
+   "event": "refine_report",
+   "sims": {
+    "hf_critical": 2064,
+    "hf_full": 105,
+    "lf": 40621,
+    "hf_total": 2169,
+    "equiv_time_s": 2373.24,
+    "cpu_s": 632.804
+   },
+   "cid": "C021",
+   "success": false,
+   "did": "D031",
+   "metrics": {
+    "gain_fc_db": 12.646,
+    "gain_min_db": 10.0348,
+    "gain_max_db": 12.6935,
+    "ripple_db": 2.6587,
+    "s11_fc_db": -29.1359,
+    "s11_max_inband_db": -15.93,
+    "nf_fc_db": 8.7995,
+    "nfmin_fc_db": 8.7221,
+    "nf_max_inband_db": 9.922,
+    "ip1db_dbm": -7.277,
+    "power_ma": 25.1295,
+    "power_ma_planned": 27.4017
+   },
+   "violations": {
+    "gain": 6.9652,
+    "ripple": 0.0,
+    "nf": 3.7995,
+    "ip1db": 0.0,
+    "s11": 0.0,
+    "power": 0.0
+   },
+   "bottleneck": "gain",
+   "steps": 6,
+   "reason": "refine budget exhausted"
+  },
+  {
+   "t": 640.314,
+   "agent": "searcher",
+   "event": "active_sizing",
+   "sims": {
+    "hf_critical": 2064,
+    "hf_full": 105,
+    "lf": 40621,
+    "hf_total": 2169,
+    "equiv_time_s": 2373.24,
+    "cpu_s": 632.804
+   },
+   "split": [
+    0.375,
+    0.35,
+    0.275
+   ],
+   "status": "ok",
+   "n": 4
+  },
+  {
+   "t": 645.756,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 2193,
+    "hf_full": 105,
+    "lf": 40621,
+    "hf_total": 2298,
+    "equiv_time_s": 2437.74,
+    "cpu_s": 638.19
+   },
+   "cid": "C037",
+   "origin": "search",
+   "power_ratio_list": [
+    0.375,
+    0.35,
+    0.275
+   ],
+   "config_id": "crit_large__noncrit_large",
+   "nf_cp_db": 9.83,
+   "s11_cp_db": -24.57,
+   "gain_cp_db": -2.78,
+   "ip1db_cp_dbm": -5.93,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": null,
+   "score": 0.0
+  },
+  {
+   "t": 651.102,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 2322,
+    "hf_full": 105,
+    "lf": 40621,
+    "hf_total": 2427,
+    "equiv_time_s": 2502.24,
+    "cpu_s": 643.482
+   },
+   "cid": "C038",
+   "origin": "search",
+   "power_ratio_list": [
+    0.375,
+    0.35,
+    0.275
+   ],
+   "config_id": "crit_large__noncrit_large",
+   "nf_cp_db": 9.811,
+   "s11_cp_db": -26.06,
+   "gain_cp_db": -2.59,
+   "ip1db_cp_dbm": -6.07,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": 9.0,
+   "score": 0.0
+  },
+  {
+   "t": 656.438,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 2451,
+    "hf_full": 105,
+    "lf": 40621,
+    "hf_total": 2556,
+    "equiv_time_s": 2566.74,
+    "cpu_s": 648.759
+   },
+   "cid": "C039",
+   "origin": "search",
+   "power_ratio_list": [
+    0.375,
+    0.35,
+    0.275
+   ],
+   "config_id": "crit_large__noncrit_small",
+   "nf_cp_db": 9.585,
+   "s11_cp_db": -32.86,
+   "gain_cp_db": -1.89,
+   "ip1db_cp_dbm": -6.62,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": null,
+   "score": 0.0
+  },
+  {
+   "t": 661.843,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 2580,
+    "hf_full": 105,
+    "lf": 40621,
+    "hf_total": 2685,
+    "equiv_time_s": 2631.24,
+    "cpu_s": 654.108
+   },
+   "cid": "C040",
+   "origin": "search",
+   "power_ratio_list": [
+    0.375,
+    0.35,
+    0.275
+   ],
+   "config_id": "crit_large__noncrit_small",
+   "nf_cp_db": 9.829,
+   "s11_cp_db": -21.47,
+   "gain_cp_db": -2.2,
+   "ip1db_cp_dbm": -6.41,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": 9.0,
+   "score": 0.0
+  },
+  {
+   "t": 667.311,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 2709,
+    "hf_full": 105,
+    "lf": 40621,
+    "hf_total": 2814,
+    "equiv_time_s": 2695.74,
+    "cpu_s": 659.517
+   },
+   "cid": "C041",
+   "origin": "search",
+   "power_ratio_list": [
+    0.375,
+    0.35,
+    0.275
+   ],
+   "config_id": "crit_small__noncrit_large",
+   "nf_cp_db": 7.448,
+   "s11_cp_db": -21.0,
+   "gain_cp_db": 9.97,
+   "ip1db_cp_dbm": -9.99,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": null,
+   "score": 0.0
+  },
+  {
+   "t": 672.794,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 2838,
+    "hf_full": 105,
+    "lf": 40621,
+    "hf_total": 2943,
+    "equiv_time_s": 2760.24,
+    "cpu_s": 664.944
+   },
+   "cid": "C042",
+   "origin": "search",
+   "power_ratio_list": [
+    0.375,
+    0.35,
+    0.275
+   ],
+   "config_id": "crit_small__noncrit_large",
+   "nf_cp_db": 7.667,
+   "s11_cp_db": -37.44,
+   "gain_cp_db": 9.39,
+   "ip1db_cp_dbm": -9.12,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": 9.0,
+   "score": 0.0
+  },
+  {
+   "t": 678.185,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 2967,
+    "hf_full": 105,
+    "lf": 40621,
+    "hf_total": 3072,
+    "equiv_time_s": 2824.74,
+    "cpu_s": 670.281
+   },
+   "cid": "C043",
+   "origin": "search",
+   "power_ratio_list": [
+    0.375,
+    0.35,
+    0.275
+   ],
+   "config_id": "crit_small__noncrit_small",
+   "nf_cp_db": 7.835,
+   "s11_cp_db": -21.0,
+   "gain_cp_db": 9.35,
+   "ip1db_cp_dbm": -9.73,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": null,
+   "score": 0.0
+  },
+  {
+   "t": 683.707,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 3096,
+    "hf_full": 105,
+    "lf": 40621,
+    "hf_total": 3201,
+    "equiv_time_s": 2889.24,
+    "cpu_s": 675.745
+   },
+   "cid": "C044",
+   "origin": "search",
+   "power_ratio_list": [
+    0.375,
+    0.35,
+    0.275
+   ],
+   "config_id": "crit_small__noncrit_small",
+   "nf_cp_db": 8.395,
+   "s11_cp_db": -38.1,
+   "gain_cp_db": 8.2,
+   "ip1db_cp_dbm": -7.89,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": 9.0,
+   "score": 0.0
+  },
+  {
+   "t": 683.708,
+   "agent": "manager",
+   "event": "refine_candidate",
+   "sims": {
+    "hf_critical": 3096,
+    "hf_full": 105,
+    "lf": 40621,
+    "hf_total": 3201,
+    "equiv_time_s": 2889.24,
+    "cpu_s": 675.745
+   },
+   "cid": "C041",
+   "origin": "search",
+   "power_ratio_list": [
+    0.375,
+    0.35,
+    0.275
+   ],
+   "config_id": "crit_small__noncrit_large",
+   "nf_cp_db": 7.448,
+   "s11_cp_db": -21.0,
+   "gain_cp_db": 9.97,
+   "ip1db_cp_dbm": -9.99,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": null,
+   "score": -0.448
+  },
+  {
+   "t": 705.257,
+   "agent": "refiner",
+   "event": "evaluate",
+   "sims": {
+    "hf_critical": 3096,
+    "hf_full": 109,
+    "lf": 41883,
+    "hf_total": 3205,
+    "equiv_time_s": 2939.77,
+    "cpu_s": 697.103
+   },
+   "cid": "C041",
+   "did": "D045",
+   "passed": false,
+   "violations": {
+    "gain": 7.3621,
+    "ripple": 5.3792,
+    "nf": 3.1525,
+    "ip1db": 0.0,
+    "s11": 0.0,
+    "power": 0.0
+   },
+   "metrics": {
+    "gain_fc_db": 12.8642,
+    "gain_min_db": 9.6379,
+    "gain_max_db": 18.0171,
+    "ripple_db": 8.3792,
+    "s11_fc_db": -21.7982,
+    "s11_max_inband_db": -17.3015,
+    "nf_fc_db": 8.1525,
+    "nfmin_fc_db": 8.1103,
+    "nf_max_inband_db": 9.6395,
+    "ip1db_dbm": -6.2685,
+    "power_ma": 25.7627,
+    "power_ma_planned": 28.0678
+   }
+  },
+  {
+   "t": 705.258,
+   "agent": "refiner",
+   "event": "decide",
+   "sims": {
+    "hf_critical": 3096,
+    "hf_full": 109,
+    "lf": 41883,
+    "hf_total": 3205,
+    "equiv_time_s": 2939.77,
+    "cpu_s": 697.103
+   },
+   "cid": "C041",
+   "action": "rerun_stage3",
+   "gain_req_list": [
+    5.6938,
+    9.2,
+    6.1
+   ],
+   "why": "later stages add noise because MCR2 is lossy: require stage-2 gain"
+  },
+  {
+   "t": 731.934,
+   "agent": "refiner",
+   "event": "evaluate",
+   "sims": {
+    "hf_critical": 3096,
+    "hf_full": 114,
+    "lf": 43887,
+    "hf_total": 3210,
+    "equiv_time_s": 3003.77,
+    "cpu_s": 723.451
+   },
+   "cid": "C041",
+   "did": "D046",
+   "passed": false,
+   "violations": {
+    "gain": 7.2679,
+    "ripple": 5.4073,
+    "nf": 3.1634,
+    "ip1db": 0.0,
+    "s11": 0.0,
+    "power": 0.0
+   },
+   "metrics": {
+    "gain_fc_db": 12.8693,
+    "gain_min_db": 9.7321,
+    "gain_max_db": 18.1394,
+    "ripple_db": 8.4073,
+    "s11_fc_db": -21.8067,
+    "s11_max_inband_db": -17.3097,
+    "nf_fc_db": 8.1634,
+    "nfmin_fc_db": 8.1212,
+    "nf_max_inband_db": 9.6251,
+    "ip1db_dbm": -6.4975,
+    "power_ma": 25.762,
+    "power_ma_planned": 28.0678
+   }
+  },
+  {
+   "t": 731.934,
+   "agent": "refiner",
+   "event": "decide",
+   "sims": {
+    "hf_critical": 3096,
+    "hf_full": 114,
+    "lf": 43887,
+    "hf_total": 3210,
+    "equiv_time_s": 3003.77,
+    "cpu_s": 723.451
+   },
+   "cid": "C041",
+   "action": "rerun_stage3",
+   "gain_req_list": [
+    5.7179,
+    9.2,
+    6.1
+   ],
+   "why": "later stages add noise because MCR2 is lossy: require stage-2 gain"
+  },
+  {
+   "t": 751.763,
+   "agent": "refiner",
+   "event": "evaluate",
+   "sims": {
+    "hf_critical": 3096,
+    "hf_full": 118,
+    "lf": 45390,
+    "hf_total": 3214,
+    "equiv_time_s": 3054.78,
+    "cpu_s": 743.058
+   },
+   "cid": "C041",
+   "did": "D047",
+   "passed": false,
+   "violations": {
+    "gain": 8.881,
+    "ripple": 5.6369,
+    "nf": 3.1736,
+    "ip1db": 0.0,
+    "s11": 0.0,
+    "power": 0.0
+   },
+   "metrics": {
+    "gain_fc_db": 11.559,
+    "gain_min_db": 8.119,
+    "gain_max_db": 16.7559,
+    "ripple_db": 8.6369,
+    "s11_fc_db": -21.7848,
+    "s11_max_inband_db": -17.2958,
+    "nf_fc_db": 8.1736,
+    "nfmin_fc_db": 8.1316,
+    "nf_max_inband_db": 9.7319,
+    "ip1db_dbm": -5.8897,
+    "power_ma": 25.7732,
+    "power_ma_planned": 28.0678
+   }
+  },
+  {
+   "t": 751.763,
+   "agent": "refiner",
+   "event": "decide",
+   "sims": {
+    "hf_critical": 3096,
+    "hf_full": 118,
+    "lf": 45390,
+    "hf_total": 3214,
+    "equiv_time_s": 3054.78,
+    "cpu_s": 743.058
+   },
+   "cid": "C041",
+   "action": "rerun_stage3",
+   "gain_req_list": [
+    5.6727,
+    9.2,
+    6.1
+   ],
+   "why": "later stages add noise because MCR2 is lossy: require stage-2 gain"
+  },
+  {
+   "t": 776.749,
+   "agent": "refiner",
+   "event": "evaluate",
+   "sims": {
+    "hf_critical": 3096,
+    "hf_full": 123,
+    "lf": 47394,
+    "hf_total": 3219,
+    "equiv_time_s": 3118.79,
+    "cpu_s": 767.738
+   },
+   "cid": "C041",
+   "did": "D048",
+   "passed": false,
+   "violations": {
+    "gain": 7.317,
+    "ripple": 0.0,
+    "nf": 3.6602,
+    "ip1db": 0.0,
+    "s11": 0.0,
+    "power": 0.0
+   },
+   "metrics": {
+    "gain_fc_db": 11.6929,
+    "gain_min_db": 9.683,
+    "gain_max_db": 11.7021,
+    "ripple_db": 2.0192,
+    "s11_fc_db": -22.1538,
+    "s11_max_inband_db": -17.1339,
+    "nf_fc_db": 8.6602,
+    "nfmin_fc_db": 8.6221,
+    "nf_max_inband_db": 9.6657,
+    "ip1db_dbm": -6.8781,
+    "power_ma": 25.7761,
+    "power_ma_planned": 28.0678
+   }
+  },
+  {
+   "t": 776.749,
+   "agent": "refiner",
+   "event": "decide",
+   "sims": {
+    "hf_critical": 3096,
+    "hf_full": 123,
+    "lf": 47394,
+    "hf_total": 3219,
+    "equiv_time_s": 3118.79,
+    "cpu_s": 767.738
+   },
+   "cid": "C041",
+   "action": "rerun_stage3",
+   "gain_req_list": [
+    5.2654,
+    9.4,
+    6.3
+   ],
+   "why": "later stages add noise because MCR2 is lossy: require stage-2 gain"
+  },
+  {
+   "t": 801.862,
+   "agent": "refiner",
+   "event": "evaluate",
+   "sims": {
+    "hf_critical": 3096,
+    "hf_full": 128,
+    "lf": 49398,
+    "hf_total": 3224,
+    "equiv_time_s": 3182.8,
+    "cpu_s": 792.538
+   },
+   "cid": "C041",
+   "did": "D049",
+   "passed": false,
+   "violations": {
+    "gain": 9.0689,
+    "ripple": 4.5969,
+    "nf": 3.1723,
+    "ip1db": 0.0,
+    "s11": 0.0,
+    "power": 0.0
+   },
+   "metrics": {
+    "gain_fc_db": 10.5632,
+    "gain_min_db": 7.9311,
+    "gain_max_db": 15.5279,
+    "ripple_db": 7.5969,
+    "s11_fc_db": -21.816,
+    "s11_max_inband_db": -17.3099,
+    "nf_fc_db": 8.1723,
+    "nfmin_fc_db": 8.1302,
+    "nf_max_inband_db": 9.6521,
+    "ip1db_dbm": -5.9526,
+    "power_ma": 25.7754,
+    "power_ma_planned": 28.0678
+   }
+  },
+  {
+   "t": 801.862,
+   "agent": "refiner",
+   "event": "decide",
+   "sims": {
+    "hf_critical": 3096,
+    "hf_full": 128,
+    "lf": 49398,
+    "hf_total": 3224,
+    "equiv_time_s": 3182.8,
+    "cpu_s": 792.538
+   },
+   "cid": "C041",
+   "action": "rerun_stage3",
+   "gain_req_list": [
+    5.7185,
+    9.2,
+    6.1
+   ],
+   "why": "later stages add noise because MCR2 is lossy: require stage-2 gain"
+  },
+  {
+   "t": 821.765,
+   "agent": "refiner",
+   "event": "evaluate",
+   "sims": {
+    "hf_critical": 3096,
+    "hf_full": 132,
+    "lf": 50901,
+    "hf_total": 3228,
+    "equiv_time_s": 3233.8,
+    "cpu_s": 812.201
+   },
+   "cid": "C041",
+   "did": "D050",
+   "passed": false,
+   "violations": {
+    "gain": 8.0565,
+    "ripple": 5.5431,
+    "nf": 3.3203,
+    "ip1db": 0.0,
+    "s11": 0.0,
+    "power": 0.0
+   },
+   "metrics": {
+    "gain_fc_db": 12.2944,
+    "gain_min_db": 8.9435,
+    "gain_max_db": 17.4865,
+    "ripple_db": 8.5431,
+    "s11_fc_db": -21.8534,
+    "s11_max_inband_db": -17.3453,
+    "nf_fc_db": 8.3203,
+    "nfmin_fc_db": 8.2791,
+    "nf_max_inband_db": 9.8772,
+    "ip1db_dbm": -6.843,
+    "power_ma": 25.7739,
+    "power_ma_planned": 28.0678
+   }
+  },
+  {
+   "t": 821.765,
+   "agent": "refiner",
+   "event": "decide",
+   "sims": {
+    "hf_critical": 3096,
+    "hf_full": 132,
+    "lf": 50901,
+    "hf_total": 3228,
+    "equiv_time_s": 3233.8,
+    "cpu_s": 812.201
+   },
+   "cid": "C041",
+   "action": "rerun_stage3",
+   "gain_req_list": [
+    5.7787,
+    9.1,
+    6.1
+   ],
+   "why": "later stages add noise because MCR2 is lossy: require stage-2 gain"
+  },
+  {
+   "t": 821.765,
+   "agent": "manager",
+   "event": "refine_report",
+   "sims": {
+    "hf_critical": 3096,
+    "hf_full": 132,
+    "lf": 50901,
+    "hf_total": 3228,
+    "equiv_time_s": 3233.8,
+    "cpu_s": 812.201
+   },
+   "cid": "C041",
+   "success": false,
+   "did": "D048",
+   "metrics": {
+    "gain_fc_db": 11.6929,
+    "gain_min_db": 9.683,
+    "gain_max_db": 11.7021,
+    "ripple_db": 2.0192,
+    "s11_fc_db": -22.1538,
+    "s11_max_inband_db": -17.1339,
+    "nf_fc_db": 8.6602,
+    "nfmin_fc_db": 8.6221,
+    "nf_max_inband_db": 9.6657,
+    "ip1db_dbm": -6.8781,
+    "power_ma": 25.7761,
+    "power_ma_planned": 28.0678
+   },
+   "violations": {
+    "gain": 7.317,
+    "ripple": 0.0,
+    "nf": 3.6602,
+    "ip1db": 0.0,
+    "s11": 0.0,
+    "power": 0.0
+   },
+   "bottleneck": "gain",
+   "steps": 6,
+   "reason": "refine budget exhausted"
+  },
+  {
+   "t": 821.765,
+   "agent": "manager",
+   "event": "refine_candidate",
+   "sims": {
+    "hf_critical": 3096,
+    "hf_full": 132,
+    "lf": 50901,
+    "hf_total": 3228,
+    "equiv_time_s": 3233.8,
+    "cpu_s": 812.201
+   },
+   "cid": "C042",
+   "origin": "search",
+   "power_ratio_list": [
+    0.375,
+    0.35,
+    0.275
+   ],
+   "config_id": "crit_small__noncrit_large",
+   "nf_cp_db": 7.667,
+   "s11_cp_db": -37.44,
+   "gain_cp_db": 9.39,
+   "ip1db_cp_dbm": -9.12,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": 9.0,
+   "score": -0.667
+  },
+  {
+   "t": 846.758,
+   "agent": "refiner",
+   "event": "evaluate",
+   "sims": {
+    "hf_critical": 3096,
+    "hf_full": 137,
+    "lf": 52530,
+    "hf_total": 3233,
+    "equiv_time_s": 3297.06,
+    "cpu_s": 836.957
+   },
+   "cid": "C042",
+   "did": "D051",
+   "passed": false,
+   "violations": {
+    "gain": 8.5461,
+    "ripple": 5.4268,
+    "nf": 3.6464,
+    "ip1db": 0.0,
+    "s11": 0.0,
+    "power": 0.0
+   },
+   "metrics": {
+    "gain_fc_db": 12.131,
+    "gain_min_db": 8.4539,
+    "gain_max_db": 16.8807,
+    "ripple_db": 8.4268,
+    "s11_fc_db": -34.2323,
+    "s11_max_inband_db": -26.7462,
+    "nf_fc_db": 8.6464,
+    "nfmin_fc_db": 8.6384,
+    "nf_max_inband_db": 10.3356,
+    "ip1db_dbm": -5.9606,
+    "power_ma": 25.4499,
+    "power_ma_planned": 28.0678
+   }
+  },
+  {
+   "t": 846.758,
+   "agent": "refiner",
+   "event": "decide",
+   "sims": {
+    "hf_critical": 3096,
+    "hf_full": 137,
+    "lf": 52530,
+    "hf_total": 3233,
+    "equiv_time_s": 3297.06,
+    "cpu_s": 836.957
+   },
+   "cid": "C042",
+   "action": "rerun_stage3",
+   "gain_req_list": [
+    5.1638,
+    9.5,
+    6.3
+   ],
+   "why": "later stages add noise because MCR2 is lossy: require stage-2 gain"
+  },
+  {
+   "t": 871.518,
+   "agent": "refiner",
+   "event": "evaluate",
+   "sims": {
+    "hf_critical": 3096,
+    "hf_full": 142,
+    "lf": 54534,
+    "hf_total": 3238,
+    "equiv_time_s": 3361.07,
+    "cpu_s": 861.412
+   },
+   "cid": "C042",
+   "did": "D052",
+   "passed": false,
+   "violations": {
+    "gain": 9.3215,
+    "ripple": 5.1384,
+    "nf": 3.7151,
+    "ip1db": 0.0,
+    "s11": 0.0,
+    "power": 0.0
+   },
+   "metrics": {
+    "gain_fc_db": 11.2109,
+    "gain_min_db": 7.6785,
+    "gain_max_db": 15.8169,
+    "ripple_db": 8.1384,
+    "s11_fc_db": -34.3191,
+    "s11_max_inband_db": -26.8052,
+    "nf_fc_db": 8.7151,
+    "nfmin_fc_db": 8.7073,
+    "nf_max_inband_db": 10.4608,
+    "ip1db_dbm": -6.0462,
+    "power_ma": 25.4565,
+    "power_ma_planned": 28.0678
+   }
+  },
+  {
+   "t": 871.518,
+   "agent": "refiner",
+   "event": "decide",
+   "sims": {
+    "hf_critical": 3096,
+    "hf_full": 142,
+    "lf": 54534,
+    "hf_total": 3238,
+    "equiv_time_s": 3361.07,
+    "cpu_s": 861.412
+   },
+   "cid": "C042",
+   "action": "rerun_stage3",
+   "gain_req_list": [
+    5.1959,
+    9.5,
+    6.3
+   ],
+   "why": "later stages add noise because MCR2 is lossy: require stage-2 gain"
+  },
+  {
+   "t": 891.534,
+   "agent": "refiner",
+   "event": "evaluate",
+   "sims": {
+    "hf_critical": 3096,
+    "hf_full": 146,
+    "lf": 56037,
+    "hf_total": 3242,
+    "equiv_time_s": 3412.07,
+    "cpu_s": 881.194
+   },
+   "cid": "C042",
+   "did": "D053",
+   "passed": false,
+   "violations": {
+    "gain": 9.0817,
+    "ripple": 5.6681,
+    "nf": 3.654,
+    "ip1db": 0.0,
+    "s11": 0.0,
+    "power": 0.0
+   },
+   "metrics": {
+    "gain_fc_db": 11.8029,
+    "gain_min_db": 7.9183,
+    "gain_max_db": 16.5863,
+    "ripple_db": 8.6681,
+    "s11_fc_db": -34.2102,
+    "s11_max_inband_db": -26.7305,
+    "nf_fc_db": 8.654,
+    "nfmin_fc_db": 8.6461,
+    "nf_max_inband_db": 10.3918,
+    "ip1db_dbm": -5.7728,
+    "power_ma": 25.4536,
+    "power_ma_planned": 28.0678
+   }
+  },
+  {
+   "t": 891.534,
+   "agent": "refiner",
+   "event": "decide",
+   "sims": {
+    "hf_critical": 3096,
+    "hf_full": 146,
+    "lf": 56037,
+    "hf_total": 3242,
+    "equiv_time_s": 3412.07,
+    "cpu_s": 881.194
+   },
+   "cid": "C042",
+   "action": "rerun_stage3",
+   "gain_req_list": [
+    5.1426,
+    9.5,
+    6.4
+   ],
+   "why": "later stages add noise because MCR2 is lossy: require stage-2 gain"
+  },
+  {
+   "t": 911.508,
+   "agent": "refiner",
+   "event": "evaluate",
+   "sims": {
+    "hf_critical": 3096,
+    "hf_full": 150,
+    "lf": 57540,
+    "hf_total": 3246,
+    "equiv_time_s": 3463.08,
+    "cpu_s": 900.936
+   },
+   "cid": "C042",
+   "did": "D054",
+   "passed": false,
+   "violations": {
+    "gain": 11.0991,
+    "ripple": 0.0,
+    "nf": 4.7149,
+    "ip1db": 0.0,
+    "s11": 0.0,
+    "power": 0.0
+   },
+   "metrics": {
+    "gain_fc_db": 7.568,
+    "gain_min_db": 5.9009,
+    "gain_max_db": 7.6712,
+    "ripple_db": 1.7703,
+    "s11_fc_db": -38.4756,
+    "s11_max_inband_db": -25.7652,
+    "nf_fc_db": 9.7149,
+    "nfmin_fc_db": 9.7103,
+    "nf_max_inband_db": 10.789,
+    "ip1db_dbm": -6.39,
+    "power_ma": 25.4667,
+    "power_ma_planned": 28.0678
+   }
+  },
+  {
+   "t": 911.508,
+   "agent": "refiner",
+   "event": "decide",
+   "sims": {
+    "hf_critical": 3096,
+    "hf_full": 150,
+    "lf": 57540,
+    "hf_total": 3246,
+    "equiv_time_s": 3463.08,
+    "cpu_s": 900.936
+   },
+   "cid": "C042",
+   "action": "rerun_stage3",
+   "gain_req_list": [
+    4.815,
+    9.7,
+    6.5
+   ],
+   "why": "later stages add noise because MCR2 is lossy: require stage-2 gain"
+  },
+  {
+   "t": 936.659,
+   "agent": "refiner",
+   "event": "evaluate",
+   "sims": {
+    "hf_critical": 3096,
+    "hf_full": 155,
+    "lf": 59544,
+    "hf_total": 3251,
+    "equiv_time_s": 3527.09,
+    "cpu_s": 925.767
+   },
+   "cid": "C042",
+   "did": "D055",
+   "passed": false,
+   "violations": {
+    "gain": 8.7545,
+    "ripple": 6.0572,
+    "nf": 3.6364,
+    "ip1db": 0.0,
+    "s11": 0.0,
+    "power": 0.0
+   },
+   "metrics": {
+    "gain_fc_db": 12.4033,
+    "gain_min_db": 8.2455,
+    "gain_max_db": 17.3027,
+    "ripple_db": 9.0572,
+    "s11_fc_db": -34.1657,
+    "s11_max_inband_db": -26.71,
+    "nf_fc_db": 8.6364,
+    "nfmin_fc_db": 8.6284,
+    "nf_max_inband_db": 10.3748,
+    "ip1db_dbm": -5.9444,
+    "power_ma": 25.4507,
+    "power_ma_planned": 28.0678
+   }
+  },
+  {
+   "t": 936.659,
+   "agent": "refiner",
+   "event": "decide",
+   "sims": {
+    "hf_critical": 3096,
+    "hf_full": 155,
+    "lf": 59544,
+    "hf_total": 3251,
+    "equiv_time_s": 3527.09,
+    "cpu_s": 925.767
+   },
+   "cid": "C042",
+   "action": "rerun_stage3",
+   "gain_req_list": [
+    5.1195,
+    9.5,
+    6.4
+   ],
+   "why": "later stages add noise because MCR2 is lossy: require stage-2 gain"
+  },
+  {
+   "t": 961.677,
+   "agent": "refiner",
+   "event": "evaluate",
+   "sims": {
+    "hf_critical": 3096,
+    "hf_full": 160,
+    "lf": 61548,
+    "hf_total": 3256,
+    "equiv_time_s": 3591.1,
+    "cpu_s": 950.484
+   },
+   "cid": "C042",
+   "did": "D056",
+   "passed": false,
+   "violations": {
+    "gain": 8.7919,
+    "ripple": 5.5591,
+    "nf": 3.6476,
+    "ip1db": 0.0,
+    "s11": 0.0,
+    "power": 0.0
+   },
+   "metrics": {
+    "gain_fc_db": 12.0925,
+    "gain_min_db": 8.2081,
+    "gain_max_db": 16.7672,
+    "ripple_db": 8.5591,
+    "s11_fc_db": -34.2058,
+    "s11_max_inband_db": -26.7244,
+    "nf_fc_db": 8.6476,
+    "nfmin_fc_db": 8.6396,
+    "nf_max_inband_db": 10.3795,
+    "ip1db_dbm": -5.8136,
+    "power_ma": 25.4492,
+    "power_ma_planned": 28.0678
+   }
+  },
+  {
+   "t": 961.677,
+   "agent": "refiner",
+   "event": "decide",
+   "sims": {
+    "hf_critical": 3096,
+    "hf_full": 160,
+    "lf": 61548,
+    "hf_total": 3256,
+    "equiv_time_s": 3591.1,
+    "cpu_s": 950.484
+   },
+   "cid": "C042",
+   "action": "rerun_stage3",
+   "gain_req_list": [
+    5.1388,
+    9.5,
+    6.4
+   ],
+   "why": "later stages add noise because MCR2 is lossy: require stage-2 gain"
+  },
+  {
+   "t": 961.677,
+   "agent": "manager",
+   "event": "refine_report",
+   "sims": {
+    "hf_critical": 3096,
+    "hf_full": 160,
+    "lf": 61548,
+    "hf_total": 3256,
+    "equiv_time_s": 3591.1,
+    "cpu_s": 950.484
+   },
+   "cid": "C042",
+   "success": false,
+   "did": "D051",
+   "metrics": {
+    "gain_fc_db": 12.131,
+    "gain_min_db": 8.4539,
+    "gain_max_db": 16.8807,
+    "ripple_db": 8.4268,
+    "s11_fc_db": -34.2323,
+    "s11_max_inband_db": -26.7462,
+    "nf_fc_db": 8.6464,
+    "nfmin_fc_db": 8.6384,
+    "nf_max_inband_db": 10.3356,
+    "ip1db_dbm": -5.9606,
+    "power_ma": 25.4499,
+    "power_ma_planned": 28.0678
+   },
+   "violations": {
+    "gain": 8.5461,
+    "ripple": 5.4268,
+    "nf": 3.6464,
+    "ip1db": 0.0,
+    "s11": 0.0,
+    "power": 0.0
+   },
+   "bottleneck": "gain",
+   "steps": 6,
+   "reason": "refine budget exhausted"
+  },
+  {
+   "t": 961.677,
+   "agent": "manager",
+   "event": "refine_candidate",
+   "sims": {
+    "hf_critical": 3096,
+    "hf_full": 160,
+    "lf": 61548,
+    "hf_total": 3256,
+    "equiv_time_s": 3591.1,
+    "cpu_s": 950.484
+   },
+   "cid": "C043",
+   "origin": "search",
+   "power_ratio_list": [
+    0.375,
+    0.35,
+    0.275
+   ],
+   "config_id": "crit_small__noncrit_small",
+   "nf_cp_db": 7.835,
+   "s11_cp_db": -21.0,
+   "gain_cp_db": 9.35,
+   "ip1db_cp_dbm": -9.73,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": null,
+   "score": -0.835
+  },
+  {
+   "t": 966.765,
+   "agent": "manager",
+   "event": "refine_report",
+   "sims": {
+    "hf_critical": 3096,
+    "hf_full": 161,
+    "lf": 62242,
+    "hf_total": 3257,
+    "equiv_time_s": 3604.48,
+    "cpu_s": 955.471
+   },
+   "cid": "C043",
+   "success": false,
+   "did": null,
+   "metrics": null,
+   "violations": null,
+   "bottleneck": "budget",
+   "steps": 0,
+   "reason": "budget exhausted"
+  }
+ ],
+ "backend": "hybrid(surrogate_twoport_v1->cadence_spectre_crn65lp)",
+ "run_settings": {
+  "q_match": 25.0,
+  "budget_equiv_s": 3600.0,
+  "spectre_max_per_design": "200",
+  "spectre_anchors": true
+ },
+ "spectre_calls": 185,
+ "labels": {
+  "agent_impl": "v1",
+  "pdk": "crn65lp",
+  "not_silicon_result": true,
+  "note": "schematic-level PDK transistors, ideal passives, no layout parasitics"
+ }
+}
