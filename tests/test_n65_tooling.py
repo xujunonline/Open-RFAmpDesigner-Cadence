@@ -3,6 +3,7 @@ configurable roots / cds.lib files / Cadence prefixes of pdk_inventory.sh."""
 from __future__ import annotations
 
 import json
+import math
 import os
 import shutil
 import stat
@@ -317,3 +318,14 @@ def test_fig9_like_collects_counts_and_draws(tmp_path):
     summary = figs_v2.fig9(tmp_path / "fig", panels=[("t", [("m", "runs/design_*_x.json")])], root=tmp_path)
     assert (tmp_path / "fig" / "fig9_like.png").stat().st_size > 1000
     assert summary["t | m | S9"]["pass"] == "1/2" and summary["t | m | S9"]["search_mean"] == 3.0
+
+
+def test_fig11_fom_formula():
+    """FoM = G_lin * BW[GHz] / ((F_lin - 1) * P_DC[mW]); 20 dB gain, 3 dB NF, 10 % of 30 GHz, 25 mA at 1.2 V."""
+    from types import SimpleNamespace
+    from orfadc.repro import figs_v2
+    spec = SimpleNamespace(fbw_ratio=0.1, fc_ghz=30.0)
+    m = {"gain_fc_db": 20.0, "nf_fc_db": 10 * math.log10(2.0), "power_ma": 25.0}
+    assert figs_v2.fom(m, spec, 1.2) == pytest.approx(100 * 3.0 / (1.0 * 30.0))
+    assert figs_v2.fom(None, spec, 1.2) is None
+    assert figs_v2.fom({**m, "nf_fc_db": 0.0}, spec, 1.2) is None
