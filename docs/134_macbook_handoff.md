@@ -97,6 +97,17 @@ v1 行为冻结；每阶段一个提交，推送和打标签先问我，永不�
    这样正在跑的运行不会在中途换 codex 版本。撤销：`mv ~/.local/bin/codex-app ~/.local/bin/codex`（覆盖新链接）。
 4. 兜底：`llm_cli.with_transient_retries` 仍然保留（只对该错误等 15/30/60 s 重试）；重试次数记在 `llm_usage.transient_retries`。
 
+## 4c. 虚拟机 IP 会被 DHCP 改掉：ssh 每次连接时查当前地址（2026-10-09）
+
+**现象**：IC618_rf 用 VMware NAT 的 DHCP 拿地址，先后变成 .137 → .138 → .139。之前在 `~/.ssh/config` 里把 .137 重定向到写死的 .138；
+地址变成 .139 后，所有 ssh/scp 都返回 255，v2 S10 seed 2 因此崩溃（0 次 Spectre，docs/133 §9.1）。
+
+**处理**：`~/.ssh/config` 中 `Host ic618-vm 172.16.218.137` 改成
+`ProxyCommand sh -c 'exec nc "$("/Applications/VMware Fusion.app/Contents/Public/vmrun" getGuestIPAddress "/Users/jason/Desktop/IC618_rf/IC618_rf.vmx")" %p'`。
+- 每次连接都查虚拟机当前地址（需要客体里的 VMware Tools 在运行）。git 忽略的远程配置里的 `172.16.218.137` 只当作名字使用。
+- 其他 Host 条目没有改动；原文件备份为 `~/.ssh/config.bak-20261009`。
+- 更彻底的办法是在 VMware 的 `vmnet8/dhcpd.conf` 里为网卡 MAC 固定地址，但需要管理员密码，由用户决定是否做。
+
 ## 5. 边界
 
 - 本次迁移不改变任何结果；Windows 上的 crn40lp 结果与旧虚拟机保留。

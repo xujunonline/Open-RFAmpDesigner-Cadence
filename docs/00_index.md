@@ -23,6 +23,6 @@
 | `130_v2_kickoff.md` | v2 启动任务说明：A 线 ReAct 智能体 + B 线 N65（IC618_rf）接入与 v1 基线，在 Claude Code 中执行 |
 | `131_agent_v2_design.md` | 智能体实现 v2：LLM ReAct Manager/Searcher/Refiner 设计、论文对应、终止与预算、离线验证（A2） |
 | `132_n65_bringup.md` | N65（IC618_rf）接入记录：`run_job_queue.sh`、可配置的 PDK 盘点、N0 密钥登录（用户 IC）；N1 盘点与表征（CRN65LP v1.7）；N2 冒烟（上限 14，4/8）；N3 v1 基线 24/40（crn40lp 34/40，差距全在 S3）；Spectre 837/1500 |
-| `133_agent_v2_results.md` | v2 真实 LLM 结果（A3）：S2 冒烟 codex-mcp 与 claude-cli 都通过（55 / 39 次调用，0 非法动作）；S9s/S10s v2+codex 6/10（v1 0/10）；N65 v2+codex 21/40（v1 24/40，差在 S5）；B/C/D/E 实验（S9 首次在 N65 上通过）；Spectre 1620/2000 |
+| `133_agent_v2_results.md` | v2 真实 LLM 结果（A3）：S2 冒烟 codex-mcp 与 claude-cli 都通过（55 / 39 次调用，0 非法动作）；S9s/S10s v2+codex 6/10（v1 0/10）；N65 v2+codex 21/40（v1 24/40，差在 S5）；B/C/D/E 实验；N65 上 S9/S10：v2 与 v1 都是 S9 4/5、S10 0/5，v2 的 Spectre 用量约为 1/3；Spectre 2150/2400 |
 | `134_macbook_handoff.md` | 迁移到 MacBook 的交接状态、Mac 准备步骤、续接提示词（docs/132、133 预留给 N65 接入与 v2 结果） |
 | `LEGACY.md`、`LEGACY_files.txt` | v1.1 删除内容与找回方法 |
