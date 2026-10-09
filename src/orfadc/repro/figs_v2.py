@@ -225,6 +225,58 @@ def run_fig10_v2(seed: int, out: Path, policy: str = "codex-mcp") -> list[dict]:
     return rows
 
 
+def plot_fig10_v2(v2: list[list[dict]], ref: dict, out: Path) -> dict:
+    """Fig. 10/11-like with agent v2 added: (left) cumulative equivalent time per task, (right) FoM vs cumulative cost.
+    ``ref`` is fig11_like.json (v1 ours_eb, GA, BO on the same tasks and seeds)."""
+    import matplotlib
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+    runs = {"v2": v2, "ours_eb": ref["ours_eb"], "bo_vanilla": ref["bo_vanilla"], "ga_vanilla": ref["ga_vanilla"]}
+    colors = {"v2": SEARCH_C, "ours_eb": "#eda100", "bo_vanilla": "#1baf7a", "ga_vanilla": REFINE_C}
+    names = {"v2": "Ours v2 + Codex (memory)", "ours_eb": "Ours v1 rule (memory)", "bo_vanilla": "BO (vanilla)",
+             "ga_vanilla": "GA (vanilla)"}
+    fig, (a0, a1) = plt.subplots(1, 2, figsize=(11, 4.2))
+    summary = {}
+    for m, rows_by_seed in runs.items():
+        arr = np.array([[r["equiv_s"] for r in rows] for rows in rows_by_seed])
+        cum = np.cumsum(arr, axis=1)
+        x = np.arange(1, arr.shape[1] + 1)
+        a0.errorbar(x, cum.mean(0), yerr=cum.std(0), color=colors[m], marker="o", markersize=4, linewidth=1.4,
+                    capsize=2, label=names[m])
+        for s, rows in enumerate(rows_by_seed):
+            c = np.cumsum([r["equiv_s"] for r in rows])
+            ok = [(ci, r["fom"]) for ci, r in zip(c, rows) if r["success"] and r.get("fom")]
+            if ok:
+                xs, ys = zip(*ok)
+                a1.plot(xs, ys, color=colors[m], marker="o", markersize=3.5, linewidth=1.1, alpha=0.85,
+                        label=names[m] if s == 0 else None)
+        summary[m] = {"cum_equiv_s_mean": float(cum[:, -1].mean()), "cum_equiv_s_std": float(cum[:, -1].std()),
+                      "solved": int(sum(r["success"] for rows in rows_by_seed for r in rows)),
+                      "tasks": int(arr.size)}
+    for m in summary:
+        summary[m]["cost_ratio_vs_v2"] = summary[m]["cum_equiv_s_mean"] / summary["v2"]["cum_equiv_s_mean"]
+    a0.set(yscale="log", xlabel="Task (gain 20 → 45 dB)", ylabel="Cumulative equivalent time (s, log)")
+    a0.set_title("Fig. 10-like: cumulative cost (mean ± std, 3 seeds)", fontsize=9, color=INK)
+    a1.set(xscale="log", yscale="log", xlabel="Cumulative equivalent time (s, log)",
+           ylabel="FoM of each solved task (log)")
+    a1.set_title("Fig. 11-like: FoM vs cumulative cost", fontsize=9, color=INK)
+    for ax in (a0, a1):
+        ax.yaxis.grid(True, color=GRID, linewidth=0.8)
+        ax.set_axisbelow(True)
+        for side in ("top", "right"):
+            ax.spines[side].set_visible(False)
+        ax.tick_params(colors=MUTED, labelsize=7)
+        ax.xaxis.label.set_size(8); ax.yaxis.label.set_size(8)
+    a0.legend(frameon=False, fontsize=7)
+    fig.suptitle("Self-evolution with agent v2 (surrogate, trend-level; FoM = G·BW/((F−1)·P_DC), user-chosen)",
+                 fontsize=10, color=INK)
+    fig.tight_layout()
+    out.mkdir(parents=True, exist_ok=True)
+    fig.savefig(out / "fig10_v2_like.png", dpi=150)
+    plt.close(fig)
+    return summary
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("cmd", choices=["fig9", "fig11", "fig10v2"])
