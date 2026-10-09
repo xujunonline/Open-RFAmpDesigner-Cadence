@@ -106,7 +106,9 @@ v1 行为冻结；每阶段一个提交，推送和打标签先问我，永不�
 `ProxyCommand sh -c 'exec nc "$("/Applications/VMware Fusion.app/Contents/Public/vmrun" getGuestIPAddress "/Users/jason/Desktop/IC618_rf/IC618_rf.vmx")" %p'`。
 - 每次连接都查虚拟机当前地址（需要客体里的 VMware Tools 在运行）。git 忽略的远程配置里的 `172.16.218.137` 只当作名字使用。
 - 其他 Host 条目没有改动；原文件备份为 `~/.ssh/config.bak-20261009`。
-- 更彻底的办法是在 VMware 的 `vmnet8/dhcpd.conf` 里为网卡 MAC 固定地址，但需要管理员密码，由用户决定是否做。
+- 更彻底的办法：在 VMware 的 `vmnet8/dhcpd.conf` 里为网卡 MAC 固定地址。2026-10-09 已由用户执行 `sudo scripts/pin_vm_ip_mac.sh`：
+  MAC `00:0c:29:34:bb:40` 固定为 **172.16.218.100**（在动态范围 .128–.254 之外），原文件备份为 `dhcpd.conf.bak-20261009142044`。
+  软重启虚拟机后地址为 .100，ssh 和 Spectre 都正常。上面的动态查地址配置仍保留作兜底。
 
 ## 5. 边界
 

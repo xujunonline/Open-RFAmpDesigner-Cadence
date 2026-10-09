@@ -1,5 +1,7 @@
 # 125 RFAmpDesigner 复现总报告（截至 2026-10-02，含 docs/126–127）
 
+> **2026-10-09 更新**：加入 v2 智能体与 N65 结果的总报告见 [docs/135](135_v2_reproduction_report.md)；本文保留 v1 的结论不变。
+
 论文：*RFAmpDesigner: A Self-Evolving Multi-Agent LLM Framework for Automated RF Amplifier Design*（arXiv:2605.10093）。
 本报告汇总 docs/115–127 的结论。表格与数字均来自 `results/` 下的原始档。
 
