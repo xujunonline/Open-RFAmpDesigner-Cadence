@@ -1,0 +1,7 @@
+# docs/133 §12b: experiment b extended to agent v2 + codex-mcp (Spectre multi-fidelity anchors), N65, S5 seed 0, 1 h.
+# Same protocol as the A3 v2 N65 run except ORFADC_SPECTRE_ANCHORS=1; guard 180 per design (ledger 2619/3000, worst case 2 x 180).
+set ORFADC_AGENT_IMPL=v2
+set ORFADC_LLM_MAX_CALLS=1000
+set ORFADC_SPECTRE_MAX_PER_DESIGN=180
+set ORFADC_SPECTRE_ANCHORS=1
+design --spec S5 --seed 0 --policy codex-mcp --agent-impl v2 --backend pdk
