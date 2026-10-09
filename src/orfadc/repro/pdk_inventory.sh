@@ -1,6 +1,12 @@
 #!/bin/bash
 # Read-only PDK inventory for Cadence v2 (docs/120 V2-0). Lists, never modifies.
 # Output: tagged lines "##TAG<TAB>value" parsed by orfadc.repro.pdk_v2.parse_inventory.
+# Optional environment (docs/130 N1; unset = the original crn40lp behaviour):
+#   ORFADC_PDK_ROOTS      space-separated search roots replacing the default list
+#   PDK_EXTRA_ROOTS       extra roots appended to the list (e.g. /home/IC/Desktop/tsmc)
+#   ORFADC_CDSLIB_FILES   extra cds.lib files to read (e.g. the PDK owner's cds.lib)
+#   ORFADC_CDS_PREFIXES   Cadence install prefixes whose libraries are not PDKs (default /opt/eda/cadence)
+#   ORFADC_INV_SKIP_HOME  1 (default) skips cds.lib libraries below $HOME; 0 keeps them
 set -u
 emit() { printf '##%s\t%s\n' "$1" "$2"; }
 emit USER "$(id -un)"
@@ -9,14 +15,20 @@ emit SPECTRE_VERSION "$(spectre -W 2>/dev/null | head -1)"
 for v in CDSHOME CDS_INST_DIR PDK_HOME PDK_ROOT PDKPATH CDS_LIC_FILE; do
   val="${!v:-}"; [ -n "$val" ] && emit ENV "$v=$val"
 done
-# cds.lib DEFINEs (library name -> path) in the usual places
-for f in "$HOME/cds.lib" "$HOME"/*/cds.lib "$HOME"/*/*/cds.lib; do
+# cds.lib DEFINEs (library name -> path) in the usual places plus the configured extra files
+CDSLIBS=""
+for f in "$HOME/cds.lib" "$HOME"/*/cds.lib "$HOME"/*/*/cds.lib ${ORFADC_CDSLIB_FILES:-}; do
   [ -f "$f" ] || continue
+  case " $CDSLIBS " in *" $f "*) continue;; esac
+  CDSLIBS="$CDSLIBS $f"
   emit CDSLIB "$f"
   grep -iE '^[[:space:]]*(DEFINE|INCLUDE|SOFTINCLUDE)' "$f" 2>/dev/null | head -60 | while read -r line; do emit CDSLIB_LINE "$f|$line"; done
 done
 # candidate PDK directories
-ROOTS="/opt /eda /tools /usr/local /home/$(id -un) /pdk /data /PDKS /pdks ${PDK_EXTRA_ROOTS:-}"
+ROOTS="${ORFADC_PDK_ROOTS:-/opt /eda /tools /usr/local /home/$(id -un) /pdk /data /PDKS /pdks} ${PDK_EXTRA_ROOTS:-}"
+CDS_PREFIXES="${ORFADC_CDS_PREFIXES:-/opt/eda/cadence}"
+emit ROOTS "$(echo $ROOTS)"
+emit CDS_PREFIXES "$CDS_PREFIXES"
 for r in $ROOTS; do
   [ -d "$r" ] || continue
   timeout 40 find "$r" -maxdepth 5 -type d \( -iname '*pdk*' -o -iname 'gpdk*' -o -iname 'tsmc*' -o -iname 'smic*' \
@@ -40,8 +52,11 @@ for f in $(timeout 30 find "$HOME" -maxdepth 7 -type f -name 'input.scs' 2>/dev/
   grep -m 30 -iE '^[[:space:]]*(include|ahdl_include)|section|[[:space:]](nch|pch|nmos|pmos)[a-z0-9_]*[[:space:]]' "$f" 2>/dev/null | while read -r s; do emit NETLIST_LINE "$f|$s"; done
 done
 # PDK top-level layout (two levels) for every DEFINE'd library that lives outside the Cadence install
-for d in $(grep -hiE '^[[:space:]]*DEFINE' "$HOME"/cds.lib "$HOME"/*/cds.lib 2>/dev/null | awk '{print $3}' | sort -u); do
-  case "$d" in /opt/eda/cadence/*|"$HOME"/*) continue;; esac
+for d in $(grep -hiE '^[[:space:]]*DEFINE' $CDSLIBS /dev/null 2>/dev/null | awk '{print $3}' | sort -u); do
+  skip=0
+  for pre in $CDS_PREFIXES; do case "$d" in "${pre%/}"/*) skip=1;; esac; done
+  if [ "${ORFADC_INV_SKIP_HOME:-1}" = 1 ]; then case "$d" in "$HOME"/*) skip=1;; esac; fi
+  [ "$skip" = 1 ] && continue
   [ -d "$d" ] || { emit LIBDIR_MISSING "$d"; continue; }
   emit LIBDIR "$d"
   p=$(dirname "$d")

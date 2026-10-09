@@ -1,0 +1,11 @@
+# docs/133 §8 (experiment D3): S7 on N65 with PDK spiral inductors in Stage 4 (ORFADC_PDK_SPIRAL=1; Lpar becomes a
+# spiral_std_mu_z, Q ~35-49 at 30 GHz; Lg/Ls stay ideal Q=25 as no spiral is that small). v1 rule, 1 h, seeds 0-4,
+# guard 60 -- same protocol as N3 S7 (0/5 with ideal Q=25). Needs the spiral table from bench pdk-spiral-char. Estimate 60-100 Spectre.
+set ORFADC_AGENT_IMPL=v1
+set ORFADC_SPECTRE_MAX_PER_DESIGN=60
+set ORFADC_PDK_SPIRAL=1
+design --spec S7 --seed 0 --policy rule --backend pdk
+design --spec S7 --seed 1 --policy rule --backend pdk
+design --spec S7 --seed 2 --policy rule --backend pdk
+design --spec S7 --seed 3 --policy rule --backend pdk
+design --spec S7 --seed 4 --policy rule --backend pdk

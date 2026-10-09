@@ -9,7 +9,7 @@ Table/figure commands run on the surrogate backend (no Cadence, no network) and 
 deterministic under the seed; their numbers are *trend-level* evidence, not silicon or
 PDK results (every artefact carries that label).  Other subcommands (see ``--help``):
 design (``--backend surrogate|cadence|pdk``), replot, llm-check, llm-table, llm-seeds,
-cadence-check and pdk-inventory|pdk-characterize|pdk-characterize3|pdk-characterize-casc|pdk-check
+cadence-check and pdk-inventory|pdk-config|pdk-refit|pdk-spiral-char|pdk-characterize|pdk-characterize3|pdk-characterize-casc|pdk-check
 (the last two groups reach the Cadence VM and need an explicit user request).
 """
 from __future__ import annotations
@@ -59,6 +59,98 @@ def _rel(p: Path) -> str:
 def budget_for(spec_id: str) -> float:
     base = 18000.0 if spec_id.startswith(("S9", "S10")) else 3600.0
     return base * float(os.environ.get("ORFADC_BUDGET_SCALE", "1"))   # >1 only for explicit budget studies (docs/126)
+
+
+# ---------------------------------------------------------------------------
+# result labels and design-file naming (docs/130 A1: runs with different settings never share a file name)
+# ---------------------------------------------------------------------------
+
+AGENT_IMPLS = ("v1", "v2")
+LLM_MAX_CALLS_DEFAULT = 200
+
+
+def agent_impl(value: str | None = None) -> str:
+    """Agent implementation: explicit value, else ORFADC_AGENT_IMPL, else v1."""
+    v = (value or os.environ.get("ORFADC_AGENT_IMPL") or "v1").strip().lower()
+    if v not in AGENT_IMPLS:
+        raise ValueError(f"agent implementation must be one of {AGENT_IMPLS}, got {v!r}")
+    return v
+
+
+def spectre_calls_of(backend) -> int | None:
+    """Spectre runs made by a hybrid backend's final (Stage-4) simulator; None for the surrogate."""
+    n = getattr(getattr(backend, "final", None), "n_calls", None)
+    return int(n) if isinstance(n, int) else None
+
+
+def pdk_label(cfg: dict | None) -> str:
+    """Short PDK label from the local PDK config's ``name``.  A config without a name is the v1 crn40lp setup."""
+    name = str((cfg or {}).get("name") or "").strip().lower()
+    if not name or "40" in name:
+        return "crn40lp"
+    if "65" in name:
+        return "crn65lp"
+    return re.sub(r"[^a-z0-9]+", "", name) or "pdk"
+
+
+_PDK_FILE_TAG = {"crn40lp": "", "crn65lp": "n65"}   # crn40lp keeps the v1 file names
+
+
+def design_suffix(*, backend: str, impl: str = "v1", pdk: str | None = None, llm: bool = False,
+                  env: dict | None = None) -> str:
+    """Stable file-name suffix after ``design_<spec>_seed<n>_mode<m>_<policy>``; empty for the default settings.
+
+    Order: backend[_pdk-tag], v2, passive Q, budget scale, LLM call cap (LLM policies only),
+    Spectre cap (Spectre backends only), stage-2 back-off, report-best (vs the backend's default)."""
+    env = os.environ if env is None else env
+    s = ""
+    if backend != "surrogate":
+        s += f"_{backend}"
+        if backend == "pdk":
+            tag = _PDK_FILE_TAG.get(pdk or "crn40lp", pdk)
+            s += f"_{tag}" if tag else ""
+            if env.get("ORFADC_PDK_SPIRAL", "0") == "1":                   # docs/133 §8: PDK spirals in Stage 4
+                s += "_spiral"
+    if impl != "v1":
+        s += f"_{impl}"
+        rev = int(env.get("ORFADC_V2_PROMPT_REV", "1") or 1)
+        if impl == "v2" and rev != 1:                                    # docs/133 §6 prompt revision
+            s += f"_r{rev}"
+    if ck.Q_MATCH != 25.0 or ck.Q_IND != 15.0:                       # passive-Q study runs (docs/126)
+        s += f"_qm{ck.Q_MATCH:g}_qi{ck.Q_IND:g}"
+    if float(env.get("ORFADC_BUDGET_SCALE", "1")) != 1.0:
+        s += f"_b{float(env['ORFADC_BUDGET_SCALE']):g}x"
+    calls = int(env.get("ORFADC_LLM_MAX_CALLS") or LLM_MAX_CALLS_DEFAULT)
+    if llm and calls != LLM_MAX_CALLS_DEFAULT:
+        s += f"_calls{calls}"
+    smax = int(env.get("ORFADC_SPECTRE_MAX_PER_DESIGN") or 0)
+    if backend != "surrogate" and smax > 0:
+        s += f"_smax{smax}"
+    if env.get("ORFADC_STAGE2_BACKOFF", "0") == "1":
+        s += "_backoff"
+    rb_default = "1" if backend == "pdk" else "0"
+    rb = env.get("ORFADC_REPORT_BEST", rb_default)
+    if rb != rb_default:
+        s += f"_rb{rb}"
+    return s
+
+
+def default_memory_dir(impl: str = "v1", pdk: str | None = None) -> Path:
+    """KB/EB directory per agent implementation and process; v1 without N65 keeps the v1 location."""
+    tag = _PDK_FILE_TAG.get(pdk or "crn40lp", pdk)
+    return ROOT / "results" / "memory" / ("repro" + ("" if impl == "v1" else f"_{impl}") + (f"_{tag}" if tag else ""))
+
+
+DESIGN_FILE_RE =re.compile(r"design_(S\w+?)_seed(\d+)_mode(\d+)_([a-z-]+)((?:_[A-Za-z0-9.]+)*)\.json$")
+
+
+def parse_design_name(name: str) -> dict | None:
+    """Inverse of the design file naming: spec, seed, mode, policy and the settings suffix ('' = default)."""
+    m = DESIGN_FILE_RE.match(name)
+    if not m:
+        return None
+    return {"spec": m.group(1), "seed": int(m.group(2)), "mode": int(m.group(3)), "policy": m.group(4),
+            "suffix": m.group(5).lstrip("_")}
 
 
 def scaled_hard_specs() -> dict[str, Spec]:
@@ -407,8 +499,10 @@ def cmd_llm_table(out: Path) -> int:
         m, v = rep.get("metrics") or {}, rep.get("violations") or {}
         u = _usage(r)
         backend = r.get("backend") or "surrogate"
+        n = parse_design_name(p.name)
         rows.append({
-            "spec": r.get("spec"), "seed": r.get("seed"), "policy": r.get("policy"), "backend": backend, "success": r.get("success"),
+            "spec": r.get("spec"), "seed": r.get("seed"), "policy": r.get("policy"),
+            "variant": n["suffix"] if n else p.stem, "backend": backend, "success": r.get("success"),
             "viol": round(sum(x / B.NORM[k] for k, x in v.items()), 3) if v else None,
             "bottleneck": rep.get("bottleneck"), "gain_min_db": m.get("gain_min_db"), "nf_db": m.get("nf_fc_db"),
             "ip1db_dbm": m.get("ip1db_dbm"), "hf_sims": (r.get("sims") or {}).get("hf_total"),
@@ -428,11 +522,11 @@ def cmd_llm_table(out: Path) -> int:
     lines = ["# LLM backbone runs (surrogate simulator unless backend = spectre(stage4); trend-level)", "",
              "fallbacks = LLM answer rejected by validation or call failed; rule-after-cap = rule decisions after the "
              "ORFADC_LLM_MAX_CALLS cap / circuit breaker.", "",
-             "| spec | policy | backend | pass | viol | IP1dB | NF | gain_min | LLM calls | errors | fallbacks | rule-after-cap | prompt tok | compl tok | latency s | bottleneck |",
-             "|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|"]
+             "| spec | policy | variant | backend | pass | viol | IP1dB | NF | gain_min | LLM calls | errors | fallbacks | rule-after-cap | prompt tok | compl tok | latency s | bottleneck |",
+             "|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|"]
     for r in rows:
         be = "spectre(stage4)" if "cadence" in r["backend"] else "surrogate"
-        lines.append(f"| {r['spec']} | {r['policy']} | {be} | {'Y' if r['success'] else 'N'} | {f(r['viol'])} | {f(r['ip1db_dbm'],1)} | "
+        lines.append(f"| {r['spec']} | {r['policy']} | {r['variant'] or '-'} | {be} | {'Y' if r['success'] else 'N'} | {f(r['viol'])} | {f(r['ip1db_dbm'],1)} | "
                      f"{f(r['nf_db'])} | {f(r['gain_min_db'],1)} | {f(r['llm_calls'])} | {f(r['llm_errors'])} | {f(r['fallbacks'])} | "
                      f"{f(r['rule_after_cap'])} | {f(r['prompt_tokens'])} | {f(r['completion_tokens'])} | {f(r['llm_latency_s'],0)} | {f(r['bottleneck'])} |")
     (out / "llm_table.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
@@ -447,11 +541,13 @@ def cmd_llm_seeds(out: Path, inputs: list[Path]) -> int:
     runs: dict = {}
     for d in [out, *inputs]:
         for p in sorted(Path(d).glob("design_*_seed*_mode1_*.json")):
-            m = re.match(r"design_(S\w+?)_seed(\d+)_mode1_([a-z-]+)\.json$", p.name)
-            if not m:
-                continue                      # backend-suffixed (Spectre) runs are summarised elsewhere
-            spec, seed, pol = m.group(1), int(m.group(2)), m.group(3)
-            runs[(spec, pol, seed)] = json.loads(p.read_text(encoding="utf-8"))   # later folders win on duplicates
+            n = parse_design_name(p.name)
+            if not n or n["mode"] != 1:
+                print(f"skipped (unrecognised name): {p}")
+                continue
+            # the settings suffix (backend, v2, caps, ...) is part of the group key, never silently dropped
+            pol = n["policy"] + (f"[{n['suffix']}]" if n["suffix"] else "")
+            runs[(n["spec"], pol, n["seed"])] = json.loads(p.read_text(encoding="utf-8"))   # later folders win on duplicates
     if not runs:
         print("no runs")
         return 1
@@ -469,14 +565,16 @@ def cmd_llm_seeds(out: Path, inputs: list[Path]) -> int:
             "fallbacks": u.get("fallbacks"), "rule_after_cap": u.get("rule_after_disable"), "errors": u.get("errors"),
             "equiv_s": (r.get("sims") or {}).get("equiv_time_s")})
     order = {"rule": 0, "codex-mcp": 1, "claude-cli": 2}
-    lines = ["# Multi-seed LLM backbone summary (surrogate simulator; trend-level, not silicon/PDK results)", "",
-             "viol = normalised residual violation of the reported design (0 = all specs met; runs that reported no "
+    lines = ["# Multi-seed LLM backbone summary (trend-level, not silicon results)", "",
+             "policy[suffix] = run settings from the file name (pdk = Spectre stage 4 with PDK transistors, n65 = TSMC N65, "
+             "v2 = ReAct agents, calls1000 = LLM call cap, ...); no suffix = surrogate simulator, v1 agents, default settings.", "",
+             "viol =normalised residual violation of the reported design (0 = all specs met; runs that reported no "
              "design are left out, see 'reported'); best-eval = least violation among all full-chain evaluations of the run; "
              "calls/tokens per run.", "",
              "| spec | policy | seeds | pass | reported | viol mean | viol median | best-eval mean | best-eval median | calls mean | tokens mean | fallbacks | rule-after-cap | errors | equiv s mean |",
              "|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|"]
     summary = []
-    for (spec, pol), rr in sorted(groups.items(), key=lambda kv: (kv[0][0], order.get(kv[0][1], 9))):
+    for (spec, pol), rr in sorted(groups.items(), key=lambda kv: (kv[0][0], order.get(kv[0][1].split("[")[0], 9), kv[0][1])):
         vs = [x["viol"] for x in rr if x["viol"] == x["viol"]]
         bs = [x["best_eval_viol"] for x in rr if x["best_eval_viol"] == x["best_eval_viol"]]
         def mean(k):
@@ -693,7 +791,7 @@ def write_summary(out: Path, parts: dict) -> None:
 
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("cmd", choices=["all", "table4", "table5", "fig5", "fig7", "fig10", "smoke", "design", "replot", "llm-check", "cadence-check", "llm-table", "llm-seeds", "pdk-inventory", "pdk-characterize", "pdk-characterize3", "pdk-characterize-casc", "pdk-check"])
+    ap.add_argument("cmd", choices=["all", "table4", "table5", "fig5", "fig7", "fig10", "smoke", "design", "replot", "llm-check", "cadence-check", "llm-table", "llm-seeds", "pdk-inventory", "pdk-config", "pdk-refit", "pdk-spiral-char", "pdk-characterize", "pdk-characterize3", "pdk-characterize-casc", "pdk-check"])
     ap.add_argument("--spec", default="S2", help="spec id for the 'design' command")
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--mode", type=int, default=1, choices=[1, 2])
@@ -701,11 +799,23 @@ def main(argv: list[str] | None = None) -> int:
                     choices=["rule", "scripted", "anthropic", "openai", "claude-cli", "codex-mcp"])
     ap.add_argument("--vds", type=float, default=None, help="pdk-characterize: drain bias (default: PDK vdd)")
     ap.add_argument("--freqs", default="", help="pdk-characterize: extra S/noise frequencies in GHz, e.g. 15,25,35,45,60")
-    ap.add_argument("--inputs", default="", help="llm-seeds: extra comma-separated run folders merged with --out")
-    ap.add_argument("--widths", default="", help="pdk-characterize3: stage-1 widths in um (default 45,72,99,126,153,180)")
+    ap.add_argument("--inputs", default="", help="llm-seeds: extra comma-separated run folders merged with --out; pdk-refit: raw pdk_char folders")
+    ap.add_argument("--widths", default="", help="pdk-characterize3/-casc: stage-1 widths in um (default 45,72,99,126,153,180); pdk-characterize: probe widths")
     ap.add_argument("--backend", default="surrogate", choices=["surrogate", "cadence", "pdk"],
                     help="simulator for design/llm-check (cadence = remote Spectre, see backend_cadence.py)")
+    ap.add_argument("--agent-impl", default=None, choices=list(AGENT_IMPLS),
+                    help="design: agent implementation (default: ORFADC_AGENT_IMPL, else v1)")
     ap.add_argument("--memory", type=Path, default=None, help="KB/EB directory (mode 2 / self-evolution)")
+    ap.add_argument("--lr", default=None, help="pdk-config: RF nmos gate length, e.g. 60n (required)")
+    ap.add_argument("--wr-um", type=float, default=None, help="pdk-config: finger width in um (required)")
+    ap.add_argument("--vdd", type=float, default=None, help="pdk-config: supply in V (required)")
+    ap.add_argument("--mult-param", default=None, help="pdk-config: multiplicity instance parameter (default multi; N65: m)")
+    ap.add_argument("--prefer", default=None, help="pdk-config: substring of the preferred model file path")
+    ap.add_argument("--corner", default=None, help="pdk-config: corner section of toplevel.scs (default tt_lib/top_tt/tt)")
+    ap.add_argument("--nmos", default="nmos_rf", help="pdk-config: RF nmos cell name")
+    ap.add_argument("--force", action="store_true", help="pdk-config: replace an existing local model config")
+    ap.add_argument("--vds-cs", type=float, default=None, help="pdk-config: drain bias of the cs3 three-port (default 0.5 V)")
+    ap.add_argument("--vb-grid", default="", help="pdk-config: gate-bias grid in V, e.g. 0.4,0.45,0.5 (default: device grid)")
     ap.add_argument("--seeds", type=int, default=5)
     ap.add_argument("--workers", type=int, default=max(1, min(8, (os.cpu_count() or 2) - 1)))
     ap.add_argument("--out", type=Path, default=ROOT / "results" / "repro" / "latest")
@@ -742,6 +852,8 @@ def main(argv: list[str] | None = None) -> int:
         runner = RemoteRunner(load_remote_config(ROOT / "config" / "remote_cadence.local.yaml"))
         cfg = pdk_v2.load_pdk_config()
         widths = sorted(set(D.cascode_widths()) | set(D.diff_widths()))
+        if a.widths:  # docs/132: a one-width probe before the full table
+            widths = [float(x) for x in a.widths.split(",")]
         vbs = [float(v) for v in cfg.get("vb_grid") or D.bias_grid()]
         vds = a.vds
         freqs = [float(x) * 1e9 for x in a.freqs.split(",")] if a.freqs else None
@@ -777,11 +889,61 @@ def main(argv: list[str] | None = None) -> int:
                           "failed": [k for k, v in rep["runs"].items() if not v["steps"]["ok"] or "parse_error" in v],
                           "local_dir": rep["local_dir"]}, indent=1))
         return 0 if rep["rows"] else 7
+    if a.cmd == "pdk-config":  # docs/132 N1: local model config from the newest inventory (offline, 0 Spectre)
+        from orfadc.repro import pdk_v2
+        if a.lr is None or a.wr_um is None or a.vdd is None:
+            raise SystemExit("pdk-config needs --lr, --wr-um and --vdd")
+        invs = sorted((ROOT / "results" / "runs" / "pdk_inventory").glob("*/inventory.json"))
+        if not invs:
+            raise SystemExit("no inventory; run `bench pdk-inventory` first")
+        pdk = pdk_v2.propose_config(json.loads(invs[-1].read_text(encoding="utf-8")), nmos=a.nmos, prefer=a.prefer,
+                                    corner=a.corner)
+        pdk.update({"lr": a.lr, "wr_um": a.wr_um, "vdd": a.vdd})
+        if a.mult_param:
+            pdk["mult_param"] = a.mult_param
+        if a.vds_cs is not None:
+            pdk["vds_cs"] = a.vds_cs
+        if a.vb_grid:
+            pdk["vb_grid"] = [float(x) for x in a.vb_grid.split(",")]
+        path = pdk_v2.write_pdk_config(pdk, force=a.force)
+        # PDK paths stay in the git-ignored file; the console only shows the non-path choices.
+        print(json.dumps({"written": path.name, "inventory": invs[-1].parent.name, "toplevel": "<set>",
+                          **{k: v for k, v in pdk.items() if k != "toplevel"}}, indent=1))
+        return 0
+    if a.cmd == "pdk-refit":  # docs/122 fit + large-signal 1 dB point for raw device tables (offline, 0 Spectre)
+        from orfadc.repro import pdk_fit
+        root = ROOT / "results" / "runs" / "pdk_char"
+        dirs = [Path(x) for x in a.inputs.split(",") if x] or \
+            [d for d in sorted(root.glob("*")) if d.is_dir() and not d.name.endswith("_fit")
+             and (d / "device_table.json").exists() and not (root / f"{d.name}_fit").exists()]
+        done = []
+        for d in dirs:
+            rep = pdk_fit.add_large_signal(d, pdk_fit.refit_table(d))
+            dst = d.parent / f"{d.name}_fit"
+            dst.mkdir(exist_ok=True)
+            (dst / "device_table.json").write_text(json.dumps(rep, indent=1, default=float), encoding="utf-8")
+            done.append({"from": d.name, "to": dst.name, "rows": len(rep["rows"]), "vds_v": rep.get("vds_v")})
+        print(json.dumps(done, indent=1))
+        return 0 if done else 8
+    if a.cmd == "pdk-spiral-char":  # docs/133 §8: PDK spiral L/Q table, ONE Spectre run (table stays in results/runs/)
+        from orfadc.cadence.remote_runner import RemoteRunner, load_remote_config
+        from orfadc.repro import pdk_spiral, pdk_v2
+        runner = RemoteRunner(load_remote_config(ROOT / "config" / "remote_cadence.local.yaml"))
+        rep = pdk_spiral.characterize(runner, pdk_v2.load_pdk_config())
+        rows30 = [r for r in rep["rows"] if abs(r["f_hz"] - 30e9) < 1]
+        print(json.dumps({"spectre_runs": rep["spectre_runs"], "ok": rep["steps"].get("ok"), "geometries": rep["geometries"],
+                          "rows": len(rep["rows"]),
+                          "l_ph_range_30g": [round(min((r["l_ph"] for r in rows30), default=0), 1),
+                                             round(max((r["l_ph"] for r in rows30), default=0), 1)],
+                          "q_max_30g": round(max((r["q"] for r in rows30 if r["q"] == r["q"]), default=0), 1),
+                          "local_dir": rep["local_dir"]}, indent=1))
+        return 0 if rep["rows"] else 7
     if a.cmd == "pdk-inventory":  # docs/120 V2-0: read-only listing of the PDKs on the Cadence host
         from orfadc.cadence.remote_runner import RemoteRunner, load_remote_config
         from orfadc.repro import pdk_v2
-        runner = RemoteRunner(load_remote_config(ROOT / "config" / "remote_cadence.local.yaml"))
-        inv = pdk_v2.run_inventory(runner)
+        cfg_path = ROOT / "config" / "remote_cadence.local.yaml"
+        runner = RemoteRunner(load_remote_config(cfg_path))
+        inv = pdk_v2.run_inventory(runner, env=pdk_v2.load_inventory_env(cfg_path))  # optional `inventory:` block
         # PDK paths stay in the git-ignored results/runs/ folder; the console only gets counts.
         (Path(inv["local_dir"]) / "summary.txt").write_text(pdk_v2.summarize(inv) + "\n", encoding="utf-8")
         print(json.dumps({"complete": inv["complete"], "steps": inv["steps"], "pdk_dirs": len(inv["pdk_dirs"]),
@@ -795,9 +957,11 @@ def main(argv: list[str] | None = None) -> int:
     if a.cmd == "design":
         from orfadc.repro.llm import make_policy
         sp = {**specs(), **scaled_hard_specs()}[a.spec]
-        pol = make_policy(a.policy)
-        mem = a.memory or (ROOT / "results" / "memory" / "repro")
-        backend = None
+        backend, pdk = None, None
+        impl = agent_impl(a.agent_impl)
+        if impl == "v2" and a.policy == "rule":
+            raise SystemExit("agent implementation v2 is LLM-driven: use --policy scripted|claude-cli|codex-mcp|anthropic|openai")
+        pol = make_policy(a.policy) if impl == "v1" else None
         if a.backend == "cadence":
             from orfadc.repro.backend_cadence import CadenceBackend, HybridBackend
             backend = HybridBackend(T.SurrogateBackend(), CadenceBackend())
@@ -806,21 +970,35 @@ def main(argv: list[str] | None = None) -> int:
             from orfadc.repro import pdk_v2
             from orfadc.repro.backend_cadence import HybridBackend
             pdk_v2.install_table()
-            backend = HybridBackend(T.SurrogateBackend(), pdk_v2.PdkCadenceBackend(hb_pins=PDK_HB_PINS))
-        r = A.run_design(sp, a.seed, mode=a.mode, policy=pol, budget_equiv_s=budget_for(a.spec),
-                         memory_dir=mem if (a.mode == 2 or a.memory) else None, backend=backend)
+            final = pdk_v2.PdkCadenceBackend(hb_pins=PDK_HB_PINS)
+            pdk = pdk_label(final.cfg)
+            backend = HybridBackend(T.SurrogateBackend(), final)
+        mem = a.memory or default_memory_dir(impl, pdk)
+        mem_dir = mem if (a.mode == 2 or a.memory) else None
+        if impl == "v2":
+            from orfadc.repro import agents_v2
+            r = agents_v2.run_design_v2(sp, a.seed, mode=a.mode, memory_dir=mem_dir, budget_equiv_s=budget_for(a.spec),
+                                        policy_name=a.policy, backend=backend, pdk=pdk)
+        else:
+            r = A.run_design(sp, a.seed, mode=a.mode, policy=pol, budget_equiv_s=budget_for(a.spec),
+                             memory_dir=mem_dir, backend=backend)
         r.pop("_session", None)
         r["run_settings"] = {"q_match": ck.Q_MATCH, "budget_equiv_s": budget_for(a.spec),
                              "spectre_max_per_design": os.environ.get("ORFADC_SPECTRE_MAX_PER_DESIGN")}
+        n_spectre = spectre_calls_of(backend)
+        if n_spectre is not None:  # docs/132: per-design Spectre count for the ledger (parallel queues)
+            r["spectre_calls"] = n_spectre
+        if impl == "v2":
+            r["run_settings"]["llm_max_calls"] = int(os.environ.get("ORFADC_LLM_MAX_CALLS") or LLM_MAX_CALLS_DEFAULT)
+            r["run_settings"]["memory_dir"] = _rel(mem_dir) if mem_dir else None
         if hasattr(pol, "usage"):
             r["llm_usage"] = pol.usage.__dict__
             r["llm_log"] = pol.log
-        name = f"design_{a.spec}_seed{a.seed}_mode{a.mode}_{a.policy}" + ("" if a.backend == "surrogate" else f"_{a.backend}")
-        if ck.Q_MATCH != 25.0 or ck.Q_IND != 15.0:                       # passive-Q study runs (docs/126)
-            name += f"_qm{ck.Q_MATCH:g}_qi{ck.Q_IND:g}"
-        if float(os.environ.get("ORFADC_BUDGET_SCALE", "1")) != 1.0:
-            name += f"_b{float(os.environ['ORFADC_BUDGET_SCALE']):g}x"
-        name += ".json"
+        r["labels"] = {"agent_impl": impl, "pdk": pdk, "not_silicon_result": True,
+                       "note": ("schematic-level PDK transistors, ideal passives, no layout parasitics" if pdk else
+                                "Spectre-solved macromodel (surrogate devices)" if a.backend == "cadence" else LABEL)}
+        name = (f"design_{a.spec}_seed{a.seed}_mode{a.mode}_{a.policy}"
+                + design_suffix(backend=a.backend, impl=impl, pdk=pdk, llm=impl == "v2" or hasattr(pol, "usage")) + ".json")
         (out / name).write_text(json.dumps(r, indent=1, default=float), encoding="utf-8")
         rep = r.get("report") or {}
         print(json.dumps({"spec": a.spec, "success": r["success"], "sims": r["sims"], "bottleneck": rep.get("bottleneck"),

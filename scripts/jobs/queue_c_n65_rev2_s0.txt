@@ -1,0 +1,9 @@
+# docs/133 §6 (experiment C on N65): v2 prompt revision 2 + codex on the specs where rev 1 misbehaved/failed:
+# S3 and S7 (rev 1 reported no design), S5 (input match), seed 0, 1 h, PDK backend, guard 60. Estimate 40-100 Spectre.
+set ORFADC_AGENT_IMPL=v2
+set ORFADC_V2_PROMPT_REV=2
+set ORFADC_LLM_MAX_CALLS=1000
+set ORFADC_SPECTRE_MAX_PER_DESIGN=60
+design --spec S3 --seed 0 --policy codex-mcp --agent-impl v2 --backend pdk
+design --spec S5 --seed 0 --policy codex-mcp --agent-impl v2 --backend pdk
+design --spec S7 --seed 0 --policy codex-mcp --agent-impl v2 --backend pdk

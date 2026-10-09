@@ -1,0 +1,13 @@
+# docs/130 N2 (docs/132): N65 smoke, S1-S8 seed 0, agent implementation v1 rule policy, 1 h equivalent, PDK backend.
+# Capped smoke: <=14 Spectre per design keeps N2 inside its 120-run allocation (2 already used by pdk-check S2).
+# Not the paper protocol (uncapped); the N3 baseline runs uncapped with a 60-run safety guard.
+set ORFADC_AGENT_IMPL=v1
+set ORFADC_SPECTRE_MAX_PER_DESIGN=14
+design --spec S1 --seed 0 --policy rule --backend pdk
+design --spec S2 --seed 0 --policy rule --backend pdk
+design --spec S3 --seed 0 --policy rule --backend pdk
+design --spec S4 --seed 0 --policy rule --backend pdk
+design --spec S5 --seed 0 --policy rule --backend pdk
+design --spec S6 --seed 0 --policy rule --backend pdk
+design --spec S7 --seed 0 --policy rule --backend pdk
+design --spec S8 --seed 0 --policy rule --backend pdk

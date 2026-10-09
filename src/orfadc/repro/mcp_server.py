@@ -125,13 +125,22 @@ def query_memory(spec_id: str = "S2", k: int = 3, custom_spec: dict | None = Non
 
 @mcp.tool()
 def run_autonomous(spec_id: str = "S2", seed: int = 0, mode: int = 1, policy: str = "rule",
-                   budget_equiv_s: float | None = None) -> str:
-    """Run the full Manager/Searcher/Refiner loop (rule or LLM policy) and store results in KB/EB."""
-    from orfadc.repro.llm import make_policy
+                   budget_equiv_s: float | None = None, agent_impl: str | None = None) -> str:
+    """Run the full Manager/Searcher/Refiner loop and store results in KB/EB.
+    agent_impl v1 (default; rule or LLM decision points) or v2 (LLM ReAct agents, needs an LLM policy;
+    v2 uses its own memory directory)."""
+    from orfadc.repro.bench import agent_impl as _impl, budget_for, default_memory_dir
     spec = _specs()[spec_id]
-    from orfadc.repro.bench import budget_for
     b = budget_equiv_s or budget_for(spec_id)
-    r = A.run_design(spec, seed, mode=mode, memory_dir=MEMORY.root, budget_equiv_s=b, policy=make_policy(policy))
+    impl = _impl(agent_impl)
+    if impl == "v2":
+        from orfadc.repro import agents_v2
+        r = agents_v2.run_design_v2(spec, seed, mode=mode, memory_dir=default_memory_dir("v2"), budget_equiv_s=b,
+                                    policy_name=policy)
+        r.pop("llm_log", None)
+    else:
+        from orfadc.repro.llm import make_policy
+        r = A.run_design(spec, seed, mode=mode, memory_dir=MEMORY.root, budget_equiv_s=b, policy=make_policy(policy))
     r.pop("trace", None)
     r.pop("_session", None)
     r.pop("sweep", None)

@@ -211,3 +211,37 @@ def test_ocean_timeout_still_downloads_log(tmp_path: Path) -> None:
 
     assert payload["status"] == "ocean_timeout"
     assert payload["log_download"]["ok"] is True
+
+
+def _scripted_executor(results):
+    calls = []
+
+    def run(argv, **kw):
+        calls.append(argv)
+        rc, err = results[min(len(calls), len(results)) - 1]
+        return subprocess.CompletedProcess(argv, rc, stdout="", stderr=err)
+    return run, calls
+
+
+def test_connect_phase_failures_are_retried_once_and_nothing_else():
+    from orfadc.cadence.remote_runner import RemoteCadenceConfig, RemoteRunner
+    cfg = RemoteCadenceConfig(host="eda-host.example", user="edauser")
+    slept = []
+    cases = [
+        # (executor results, expected number of calls, expected final rc)
+        ([(255, "ssh: connect to host eda-host.example port 22: Connection refused\n"), (0, "")], 2, 0),
+        ([(255, "kex_exchange_identification: read: Connection reset by peer\n"), (255, "kex_exchange_identification: x\n")], 2, 255),
+        ([(255, "Connection closed by 10.0.0.5 port 22\n"), (0, "")], 2, 0),
+        ([(255, "client_loop: send disconnect: Broken pipe\n"), (0, "")], 1, 255),       # mid-session: never retried
+        ([(255, "Read from remote host x: Connection reset by peer\n"), (0, "")], 1, 255),
+        ([(1, "spectre failed\n"), (0, "")], 1, 1),                                        # remote command failed
+        ([(0, "")], 1, 0),
+    ]
+    for results, n_calls, rc in cases:
+        run, calls = _scripted_executor(results)
+        r = RemoteRunner(cfg, executor=run, sleep=slept.append).run_shell("echo hi")
+        assert (len(calls), r.returncode) == (n_calls, rc), results
+    assert slept and all(s == 5.0 for s in slept)
+    run, calls = _scripted_executor([(255, "ssh: connect to host h port 22: Connection timed out\n")] * 3)
+    RemoteRunner(cfg, executor=run, sleep=slept.append, connect_retries=0).run_shell("echo hi")
+    assert len(calls) == 1

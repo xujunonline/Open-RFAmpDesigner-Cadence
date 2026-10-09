@@ -1,0 +1,9 @@
+# docs/133 §9 (option alpha, user 2026-10-09): Table V on N65 -- v2 + codex, S9/S10 seeds 1-2
+# 5 h equivalent budget, guard 60 Spectre per design (same for v1 and v2), N65 cap 2400.
+set ORFADC_AGENT_IMPL=v2
+set ORFADC_LLM_MAX_CALLS=1000
+set ORFADC_SPECTRE_MAX_PER_DESIGN=60
+design --spec S9 --seed 1 --policy codex-mcp --agent-impl v2 --backend pdk
+design --spec S10 --seed 1 --policy codex-mcp --agent-impl v2 --backend pdk
+design --spec S9 --seed 2 --policy codex-mcp --agent-impl v2 --backend pdk
+design --spec S10 --seed 2 --policy codex-mcp --agent-impl v2 --backend pdk

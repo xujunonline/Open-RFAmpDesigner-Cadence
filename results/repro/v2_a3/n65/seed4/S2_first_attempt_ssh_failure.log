@@ -1,0 +1,52 @@
+Processing request of type CallToolRequest
+Processing request of type ListToolsRequest
+Processing request of type CallToolRequest
+Processing request of type CallToolRequest
+Processing request of type CallToolRequest
+Processing request of type CallToolRequest
+Processing request of type CallToolRequest
+Processing request of type CallToolRequest
+Processing request of type CallToolRequest
+Processing request of type CallToolRequest
+Processing request of type CallToolRequest
+Processing request of type CallToolRequest
+Processing request of type CallToolRequest
+Processing request of type CallToolRequest
+Processing request of type CallToolRequest
+Processing request of type CallToolRequest
+Processing request of type CallToolRequest
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/Users/jason/Documents/Open-RFAmpDesigner-Cadence/src/orfadc/repro/bench.py", line 1013, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/Users/jason/Documents/Open-RFAmpDesigner-Cadence/src/orfadc/repro/bench.py", line 962, in main
+    r = agents_v2.run_design_v2(sp, a.seed, mode=a.mode, memory_dir=mem_dir, budget_equiv_s=budget_for(a.spec),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jason/Documents/Open-RFAmpDesigner-Cadence/src/orfadc/repro/agents_v2.py", line 824, in run_design_v2
+    mgr.run()
+  File "/Users/jason/Documents/Open-RFAmpDesigner-Cadence/src/orfadc/repro/agents_v2.py", line 289, in run
+    obs = self.tools()[name].fn(**args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jason/Documents/Open-RFAmpDesigner-Cadence/src/orfadc/repro/agents_v2.py", line 644, in t_refine
+    reason = sub.run()
+             ^^^^^^^^^
+  File "/Users/jason/Documents/Open-RFAmpDesigner-Cadence/src/orfadc/repro/agents_v2.py", line 289, in run
+    obs = self.tools()[name].fn(**args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jason/Documents/Open-RFAmpDesigner-Cadence/src/orfadc/repro/agents_v2.py", line 471, in t_fullchain
+    fc = self.s.tool_fullchain_evaluation(did)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jason/Documents/Open-RFAmpDesigner-Cadence/src/orfadc/repro/agents.py", line 125, in tool_fullchain_evaluation
+    fc = T.fullchain_evaluation(self.ctx, rec["design"])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jason/Documents/Open-RFAmpDesigner-Cadence/src/orfadc/repro/tools.py", line 425, in fullchain_evaluation
+    r = ctx.sim(design, f, "hf_full", final=True)  # HybridBackend routes Stage 4 to Cadence
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jason/Documents/Open-RFAmpDesigner-Cadence/src/orfadc/repro/tools.py", line 119, in sim
+    out = (backend or self.backend).simulate(design, f_hz, **kw)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jason/Documents/Open-RFAmpDesigner-Cadence/src/orfadc/repro/pdk_v2.py", line 630, in simulate
+    raise RuntimeError(f"PDK Spectre run failed: {steps}")
+RuntimeError: PDK Spectre run failed: {'mkdir': 255, 'upload': 255, 'spectre': 255, 'download': 255, 'errors': None, 'warnings': None, 'ok': False}

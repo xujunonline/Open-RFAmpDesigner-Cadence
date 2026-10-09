@@ -1,0 +1,13 @@
+# docs/130 N3 (docs/132): N65 v1 baseline, S1-S8 x seed 0-4, agent implementation v1 rule policy, 1 h equivalent
+# (paper Table IV protocol: no per-design Spectre cap; 60 is only a safety guard, docs/127 §4). PDK backend.
+# Allocation <=550 Spectre (docs/130 §1.3); split into batches by seed and check the ledger between batches.
+set ORFADC_AGENT_IMPL=v1
+set ORFADC_SPECTRE_MAX_PER_DESIGN=60
+design --spec S1 --seed 0 --policy rule --backend pdk
+design --spec S2 --seed 0 --policy rule --backend pdk
+design --spec S3 --seed 0 --policy rule --backend pdk
+design --spec S4 --seed 0 --policy rule --backend pdk
+design --spec S5 --seed 0 --policy rule --backend pdk
+design --spec S6 --seed 0 --policy rule --backend pdk
+design --spec S7 --seed 0 --policy rule --backend pdk
+design --spec S8 --seed 0 --policy rule --backend pdk

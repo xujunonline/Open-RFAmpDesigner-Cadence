@@ -25,11 +25,15 @@ from . import pdk_v2 as P
 NOISE1_SCALE = 1.2
 
 MODES = ("cs3", "cg3", "cs2")   # cs2: grounded-source two-port at the diff-stage bias (docs/123 §7)
+CHAR3_MODES = ("cs3", "cg3")    # measured by characterize3; cs2 rows come from twoport_rows() of a pdk_char table
 
 
-def char3_netlist(cfg: dict, lay: dict, vbs: list[float], mode: str, freqs: list[float], vds_cs: float = 0.5) -> str:
-    """mode cs3: gate = vb, source = 0, drain = vds_cs.  mode cg3: gate = drain = VDD, source = VDD - vb."""
+def char3_netlist(cfg: dict, lay: dict, vbs: list[float], mode: str, freqs: list[float],
+                  vds_cs: float | None = None) -> str:
+    """mode cs3: gate = vb, source = 0, drain = vds_cs.  mode cg3: gate = drain = VDD, source = VDD - vb.
+    ``vds_cs`` defaults to the config's ``vds_cs`` (crn40lp: 0.5 V; N65: 0.6 V = VDD/2, docs/132)."""
     vdd = float(cfg["vdd"])
+    vds_cs = float(cfg.get("vds_cs", 0.5)) if vds_cs is None else vds_cs
     vals = " ".join(f"{v:.4g}" for v in vbs)
     if mode == "cs3":
         bias = ["VG (vg 0) vsource dc=vb", f"VD (vd 0) vsource dc={vds_cs:g}", "VS (vs 0) vsource dc=0"]
@@ -85,7 +89,7 @@ def characterize3(runner, cfg: dict, widths: list[float], vbs: list[float], freq
     rroot = str(PurePosixPath(runner.config.remote_root) / f"pdk_char3_{ts}")
     usable = usable_nr or list(range(2, 65, 2))
     rep: dict = {"ts": ts, "local_dir": str(local), "spectre_runs": 0, "runs": {}, "rows": []}
-    for mode in MODES:
+    for mode in CHAR3_MODES:
         for w in widths:
             lay = P.layout_for(w, float(cfg["wr_um"]), usable)
             tag = f"{mode}_w{w:g}"

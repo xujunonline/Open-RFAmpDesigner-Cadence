@@ -1,0 +1,76 @@
+Processing request of type CallToolRequest
+Processing request of type ListToolsRequest
+Processing request of type CallToolRequest
+Processing request of type CallToolRequest
+Processing request of type CallToolRequest
+Processing request of type CallToolRequest
+Processing request of type CallToolRequest
+Processing request of type CallToolRequest
+Processing request of type CallToolRequest
+Processing request of type CallToolRequest
+Processing request of type CallToolRequest
+Processing request of type CallToolRequest
+Processing request of type CallToolRequest
+Processing request of type CallToolRequest
+Processing request of type CallToolRequest
+Processing request of type CallToolRequest
+Processing request of type CallToolRequest
+Processing request of type CallToolRequest
+Processing request of type CallToolRequest
+Processing request of type CallToolRequest
+Processing request of type CallToolRequest
+Processing request of type CallToolRequest
+Processing request of type CallToolRequest
+Processing request of type CallToolRequest
+Processing request of type CallToolRequest
+Processing request of type CallToolRequest
+Processing request of type CallToolRequest
+Processing request of type CallToolRequest
+Processing request of type CallToolRequest
+Processing request of type CallToolRequest
+Processing request of type CallToolRequest
+Processing request of type CallToolRequest
+Processing request of type CallToolRequest
+Processing request of type CallToolRequest
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/Users/jason/Documents/Open-RFAmpDesigner-Cadence/src/orfadc/repro/bench.py", line 1004, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/Users/jason/Documents/Open-RFAmpDesigner-Cadence/src/orfadc/repro/bench.py", line 956, in main
+    r = agents_v2.run_design_v2(sp, a.seed, mode=a.mode, memory_dir=mem_dir, budget_equiv_s=budget_for(a.spec),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jason/Documents/Open-RFAmpDesigner-Cadence/src/orfadc/repro/agents_v2.py", line 824, in run_design_v2
+    mgr.run()
+  File "/Users/jason/Documents/Open-RFAmpDesigner-Cadence/src/orfadc/repro/agents_v2.py", line 289, in run
+    obs = self.tools()[name].fn(**args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jason/Documents/Open-RFAmpDesigner-Cadence/src/orfadc/repro/agents_v2.py", line 644, in t_refine
+    reason = sub.run()
+             ^^^^^^^^^
+  File "/Users/jason/Documents/Open-RFAmpDesigner-Cadence/src/orfadc/repro/agents_v2.py", line 289, in run
+    obs = self.tools()[name].fn(**args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jason/Documents/Open-RFAmpDesigner-Cadence/src/orfadc/repro/agents_v2.py", line 459, in t_band_planning
+    s3 = self.s.tool_band_planning(self.cid, gain_user_db=self.gain_user, gain_req_list=self.gain_req_list,
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jason/Documents/Open-RFAmpDesigner-Cadence/src/orfadc/repro/agents.py", line 113, in tool_band_planning
+    s3 = T.band_planning(self.ctx, cand.active, cand.stage2, gain_user_db=gain_user_db,
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jason/Documents/Open-RFAmpDesigner-Cadence/src/orfadc/repro/tools.py", line 371, in band_planning
+    opt = simulated_annealing(lf_cost, lb, ub, iters=sa_iters, seed=rs + rnd, x0=x_best, stop_at=0.1 * 1)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jason/Documents/Open-RFAmpDesigner-Cadence/src/orfadc/repro/optim.py", line 65, in simulated_annealing
+    fu = func(_scale(u, lb, ub))
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jason/Documents/Open-RFAmpDesigner-Cadence/src/orfadc/repro/tools.py", line 351, in lf_cost
+    return stage3_cost(g.tolist(), gain_user)["cost"] + 1000.0 * req_pen(per) + 0.1 * float(np.ptp(g))
+                                                                 ^^^^^^^^^^^^
+  File "/Users/jason/Documents/Open-RFAmpDesigner-Cadence/src/orfadc/repro/tools.py", line 345, in req_pen
+    return sum(max(0.0, abs(g - r) - 1.5) for g, r in zip(per_stage, gain_req_list[1:]))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jason/Documents/Open-RFAmpDesigner-Cadence/src/orfadc/repro/tools.py", line 345, in <genexpr>
+    return sum(max(0.0, abs(g - r) - 1.5) for g, r in zip(per_stage, gain_req_list[1:]))
+                            ~~^~~
+TypeError: unsupported operand type(s) for -: 'float' and 'NoneType'

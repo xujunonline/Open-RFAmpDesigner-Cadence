@@ -32,6 +32,12 @@ def test_char_netlist_is_ascii_and_has_sweep():
     t = P.char_netlist(CFG, {"nr": 16, "multi": 2, "w_um": 64.0}, [0.3, 0.35])
     assert t.isascii() and "section=top_tt" in t and "swp sweep param=vb values=[0.3 0.35]" in t
     assert "nmos_rf lr=40n wr=2.0u nr=16 multi=2" in t and "donoise=yes" in t
+    t65 = P.char_netlist({**CFG, "lr": "60n", "mult_param": "m"}, {"nr": 16, "multi": 2, "w_um": 64.0}, [0.3])
+    assert "nmos_rf lr=60n wr=2.0u nr=16 m=2" in t65 and "multi=" not in t65
+    t65 = P.char_netlist({**CFG, "section": "tt_lib", "pre_sections": ["pre_simu"]}, {"nr": 4, "multi": 1, "w_um": 8.0}, [0.3])
+    inc = [ln for ln in t65.splitlines() if ln.startswith("include")]
+    assert inc == ['include "/pdk/models/spectre/toplevel.scs" section=pre_simu',
+                   'include "/pdk/models/spectre/toplevel.scs" section=tt_lib']
 
 
 def _write_sp(path, fs, smats):

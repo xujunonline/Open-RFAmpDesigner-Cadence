@@ -10,6 +10,7 @@ from __future__ import annotations
 import json
 import os
 import re
+import shlex
 import time
 from collections import defaultdict
 from pathlib import Path, PurePosixPath
@@ -53,18 +54,63 @@ def parse_inventory(text: str) -> dict:
         "netlist_lines": out.get("NETLIST_LINE", []), "lib_dirs": out.get("LIBDIR", []),
         "lib_dirs_missing": out.get("LIBDIR_MISSING", []), "pdk_tree": out.get("PDKTREE", []),
         "pdk_models": out.get("PDKMODEL", []),
+        "roots": (out.get("ROOTS") or [""])[0].split(), "cds_prefixes": (out.get("CDS_PREFIXES") or [""])[0].split(),
         "complete": bool(out.get("DONE")),
     }
 
 
-def run_inventory(runner, out_root: Path | None = None, timeout_s: int = 290) -> dict:
+INVENTORY_KEYS = {"pdk_roots": "ORFADC_PDK_ROOTS", "extra_roots": "PDK_EXTRA_ROOTS",
+                  "cdslib_files": "ORFADC_CDSLIB_FILES", "cds_prefixes": "ORFADC_CDS_PREFIXES"}
+_ABS_PATH = re.compile(r"^/[A-Za-z0-9._/+\-]+$")
+
+
+def inventory_env(section: dict | None) -> dict[str, str]:
+    """Environment for pdk_inventory.sh from the optional ``inventory:`` block of the remote config.
+
+    Keys: ``pdk_roots`` / ``extra_roots`` / ``cdslib_files`` / ``cds_prefixes`` (lists of absolute remote paths)
+    and ``skip_home`` (bool).  An empty or missing block gives ``{}``, i.e. the original script defaults.
+    """
+    env: dict[str, str] = {}
+    for key, value in (section or {}).items():
+        if key == "skip_home":
+            if not isinstance(value, bool):
+                raise ValueError("inventory.skip_home must be true or false")
+            env["ORFADC_INV_SKIP_HOME"] = "1" if value else "0"
+            continue
+        if key not in INVENTORY_KEYS:
+            raise ValueError(f"unknown inventory key: {key}")
+        paths = [value] if isinstance(value, str) else list(value or [])
+        for p in paths:
+            if not isinstance(p, str) or not _ABS_PATH.fullmatch(p) or ".." in PurePosixPath(p).parts:
+                raise ValueError(f"inventory.{key}: not an absolute remote path without spaces: {p!r}")
+        if paths:
+            env[INVENTORY_KEYS[key]] = " ".join(paths)
+    return env
+
+
+def load_inventory_env(path: Path, environ: dict[str, str] | None = None) -> dict[str, str]:
+    """Config ``inventory:`` block, overridden by the same variables set in the local environment
+    (e.g. ``ORFADC_INV_SKIP_HOME=0 bench pdk-inventory``)."""
+    from orfadc.config_loader import load_yaml
+    env = inventory_env(load_yaml(path).get("inventory"))
+    environ = os.environ if environ is None else environ
+    for key, name in INVENTORY_KEYS.items():
+        if environ.get(name):
+            env.update(inventory_env({key: environ[name].split()}))
+    if environ.get("ORFADC_INV_SKIP_HOME") in ("0", "1"):
+        env["ORFADC_INV_SKIP_HOME"] = environ["ORFADC_INV_SKIP_HOME"]
+    return env
+
+
+def run_inventory(runner, out_root: Path | None = None, timeout_s: int = 290, env: dict[str, str] | None = None) -> dict:
     ts = time.strftime("%Y%m%dT%H%M%S")
     local = (out_root or ROOT / "results" / "runs" / "pdk_inventory") / ts
     local.mkdir(parents=True, exist_ok=True)
     rdir = str(PurePosixPath(runner.config.remote_root) / f"pdk_inventory_{ts}")
     steps = {"mkdir": runner.ensure_remote_dir(rdir).returncode,
              "upload": runner.upload(SCRIPT, rdir + "/pdk_inventory.sh").returncode}
-    res = runner.run_shell("bash pdk_inventory.sh", cwd=rdir, timeout_seconds=timeout_s)
+    prefix = "".join(f"{k}={shlex.quote(v)} " for k, v in sorted((env or {}).items()))
+    res = runner.run_shell(f"{prefix}bash pdk_inventory.sh", cwd=rdir, timeout_seconds=timeout_s)
     steps["run"] = res.returncode
     (local / "raw.txt").write_text(res.stdout, encoding="utf-8")
     (local / "stderr.txt").write_text(res.stderr[-20000:], encoding="utf-8")
@@ -72,6 +118,46 @@ def run_inventory(runner, out_root: Path | None = None, timeout_s: int = 290) ->
     inv["steps"], inv["local_dir"] = steps, str(local)
     (local / "inventory.json").write_text(json.dumps(inv, indent=1), encoding="utf-8")
     return inv
+
+
+def propose_config(inv: dict, nmos: str = "nmos_rf", prefer: str | None = None, corner: str | None = None) -> dict:
+    """Pick the Spectre ``toplevel.scs`` that sits next to a model file defining ``nmos`` (docs/132 N1).
+
+    The corner section is ``corner`` or the first of tt_lib / top_tt / tt found in it; a ``pre_simu`` section
+    (TSMC N65: global model flags) is included before it.  ``prefer`` (substring of the model file path) breaks
+    ties, then the highest model version (``_v1d7`` over ``_v1d5``), then the file name."""
+    files = inv.get("model_files") or {}
+    hits = []
+    for path, f in files.items():
+        if not any(m["name"] == nmos for m in f["models"]):
+            continue
+        top = str(PurePosixPath(path).parent / "toplevel.scs")
+        secs = [s["name"] for s in (files.get(top) or {}).get("sections", [])]
+        sec = corner if corner in secs else next((c for c in ("tt_lib", "top_tt", "tt") if c in secs), None)
+        if sec:
+            ver = tuple(int(x) for x in (re.search(r"_v(\d+)d(\d+)", path) or re.match("", "")).groups())
+            hits.append(((prefer is not None and prefer in path), ver, PurePosixPath(path).name, path, top, sec, secs))
+    if not hits:
+        raise ValueError(f"no toplevel.scs with a typical corner next to a model file defining {nmos}")
+    *_, model_name, _, top, sec, secs = max(hits)
+    name = re.match(r"[a-z]+\d+[a-z]*", model_name.lower())
+    return {"name": name.group(0) if name else "pdk", "toplevel": top, "section": sec,
+            "pre_sections": ["pre_simu"] if "pre_simu" in secs else [], "nmos": nmos}
+
+
+def write_pdk_config(pdk: dict, path: Path = None, force: bool = False) -> Path:
+    """Write the ``pdk:`` block of the git-ignored local model config (never committed or printed)."""
+    import yaml
+    path = path or LOCAL_CFG
+    if path.exists() and not force:
+        raise FileExistsError(f"{path.name} exists; pass --force to replace it")
+    need = ("toplevel", "section", "nmos", "lr", "wr_um", "vdd")
+    missing = [k for k in need if pdk.get(k) in (None, "")]
+    if missing:
+        raise ValueError(f"pdk.{missing} not set")
+    path.write_text("# written by `bench pdk-config` (docs/132); git-ignored, do not commit\n" +
+                    yaml.safe_dump({"pdk": pdk}, sort_keys=False, allow_unicode=False), encoding="utf-8")
+    return path
 
 
 def summarize(inv: dict, max_rows: int = 40) -> str:
@@ -131,13 +217,16 @@ def layout_for(w_um: float, wr_um: float, nr_choices: list[int]) -> dict:
 
 
 def _header(cfg: dict) -> list[str]:
-    return ["// orfadc.repro v2 PDK characterisation (auto-generated)", "simulator lang=spectre", "global 0",
-            f'include "{cfg["toplevel"]}" section={cfg["section"]}']
+    # optional pre_sections (N65: pre_simu, which defines the global model flags) come before the corner section
+    incs = [f'include "{cfg["toplevel"]}" section={sec}' for sec in [*(cfg.get("pre_sections") or []), cfg["section"]]]
+    return ["// orfadc.repro v2 PDK characterisation (auto-generated)", "simulator lang=spectre", "global 0", *incs]
 
 
 def _inst(cfg: dict, name: str, d: str, g: str, s: str, b: str, lay: dict) -> str:
+    # crn40lp's nmos_rf takes `multi`; N65's has no such parameter, so its config sets mult_param: m
+    # (Spectre's implicit subcircuit multiplicity).  The layout key stays "multi" in tables either way.
     return (f"{name} ({d} {g} {s} {b}) {cfg['nmos']} lr={cfg['lr']} wr={cfg['wr_um']}u "
-            f"nr={lay['nr']} multi={lay['multi']}")
+            f"nr={lay['nr']} {cfg.get('mult_param') or 'multi'}={lay['multi']}")
 
 
 def validation_netlist(cfg: dict, lay: dict) -> str:
@@ -384,17 +473,30 @@ from .backend_cadence import (SAVE_NODES, T_NOISE_C, CadenceBackend, _expand, _g
                               parse_results)
 
 
+_SPIRAL_CACHE: dict = {}
+
+
+def _spiral_table() -> dict | None:
+    if os.environ.get("ORFADC_PDK_SPIRAL", "0") != "1":
+        return None
+    from . import pdk_spiral
+    if "t" not in _SPIRAL_CACHE:
+        _SPIRAL_CACHE["t"] = pdk_spiral.latest_table()
+        if _SPIRAL_CACHE["t"] is None:
+            raise FileNotFoundError("ORFADC_PDK_SPIRAL=1 but no spiral table; run `bench pdk-spiral-char` first")
+    return _SPIRAL_CACHE["t"]
+
+
 def render_pdk_netlist(design: ck.LNADesign, f_hz: np.ndarray, cfg: dict, usable_nr: list[int], *,
                        upto: str | None = None, include_match: bool = True,
                        nominal_load: tuple[float, float] | None = None,
-                       hb_pin_dbm: list[float] | None = None) -> tuple[str, float, dict]:
+                       hb_pin_dbm: list[float] | None = None, info: dict | None = None) -> tuple[str, float, dict]:
     """Fig. 3 chain with ``cfg['nmos']`` devices.  Inductor/resistor returns go to the supply or the next gate's
     bias source (AC grounds), ports are DC-blocked, stage-2/3 Cgd is neutralised by an ideal inverter + capacitor
     (the half-circuit view of the paper's cross-coupled pair).  Gate resistance is inside the RF cell."""
     op1, op2, op3 = design.ops
     f_ref, vdd = design.fc_hz, float(cfg["vdd"])
-    L: list[str] = _header(cfg)[:-1] + [f'include "{cfg["toplevel"]}" section={cfg["section"]}',
-                                        f"opts options temp={T_NOISE_C} tnom=27"]
+    L: list[str] = _header(cfg) + [f"opts options temp={T_NOISE_C} tnom=27"]
     pin = hb_pin_dbm[0] if hb_pin_dbm else -60.0
     L.append(f"parameters pin={pin:g}")
     L += [f"VDD (vdd 0) vsource dc={vdd:g}", f"VB1 (vb1 0) vsource dc={op1.vgs_v:.6g}",
@@ -442,16 +544,28 @@ def render_pdk_netlist(design: ck.LNADesign, f_hz: np.ndarray, cfg: dict, usable
         L.append(f"EG{tag} (gn{tag} 0 {g} 0) vcvs gain=-1")
         L.append(f"CM{tag} (gn{tag} {d}) capacitor c={cn}")
 
+    from . import pdk_spiral
+    spiral_table = _spiral_table()   # docs/133 §8: PDK spirals for the input match when ORFADC_PDK_SPIRAL=1
+
+    def match_ind(tag, a, b, l_h):
+        geo = pdk_spiral.pick(spiral_table, l_h, f_ref) if spiral_table and l_h > 0 else None
+        if geo is None:
+            lossy(a, b, l_h, ck.Q_MATCH)
+        else:
+            L.append(pdk_spiral.instance(f"XS{tag}", a, b, geo))
+        if info is not None and spiral_table:
+            info.setdefault("spirals", {})[tag] = geo or {"ideal_q": ck.Q_MATCH, "target_ph": l_h * 1e12}
+
     if include_match:
-        lossy("in", "vb1", design.lpar_h, ck.Q_MATCH)
-        lossy("in", "g1", design.lg_h, ck.Q_MATCH)
+        match_ind("lpar", "in", "vb1", design.lpar_h)
+        match_ind("lg", "in", "g1", design.lg_h)
     else:
         L.append("RSHORT (in g1) resistor r=1e-6 isnoisy=no")
         L.append("LB1 (vb1 g1) inductor l=1")
     L.append("RG1 (g1 g1i) resistor r=1m isnoisy=no")
     fet("M1", "cas", "g1i", "s1", op1)
     if design.ls_h > 0:
-        lossy("s1", "0", design.ls_h, ck.Q_MATCH)
+        match_ind("ls", "s1", "0", design.ls_h)
     else:
         L.append("RLS0 (s1 0) resistor r=1e-6 isnoisy=no")
     fet("MCG", "d1", "vdd", "cas", ck.cascode_device(op1))
@@ -531,8 +645,10 @@ class PdkCadenceBackend(CadenceBackend):
         f_u, inv = np.unique(np.array([float(_g(x)) for x in f_req]), return_inverse=True)
         inv = np.asarray(inv).reshape(-1)
         pins = self.hb_pins if upto is None else None
+        info: dict = {}
         text, r_out, lays = render_pdk_netlist(design, f_u, self.cfg, self.usable_nr, upto=upto,
-                                               include_match=include_match, nominal_load=nominal_load, hb_pin_dbm=pins)
+                                               include_match=include_match, nominal_load=nominal_load, hb_pin_dbm=pins,
+                                               info=info)
         steps = run_spectre(self, text, str(PurePosixPath(self.remote_root) / tag), local, timeout_s=self.timeout_s)
         (local / "design.json").write_text(json.dumps({"summary": design.summary(), "fc_hz": design.fc_hz,
                                                       "load": list(design.load), "upto": upto}, default=float, indent=1),
@@ -569,7 +685,7 @@ class PdkCadenceBackend(CadenceBackend):
         dt = time.perf_counter() - t0
         self.wall_s += dt
         (local / "metrics.json").write_text(json.dumps({
-            "status": "ok", "backend": self.name, "wall_s": dt, "upto": upto, "steps": steps, "layouts": lays,
+            "status": "ok", "backend": self.name, "wall_s": dt, "upto": upto, "steps": steps, "layouts": lays, **info,
             "gain_db": out["gain_db"].tolist(), "s11_db": out["s11_db"].tolist(), "nf_db": out["nf_db"].tolist(),
             "ip1db_dbm": out["compression"]["ip1db_dbm"], "hb": out.get("hb"), "supply_ma": out["supply_ma"],
             "drain_ma": out.get("drain_ma"), "power_ma_measured": out.get("power_ma_measured"),

@@ -1,0 +1,5 @@
+# docs/130 A3 step 1: agent implementation v2 smoke, S2 seed 0, surrogate backend (trend-level), paper call cap
+# needs `claude` (logged in, or ORFADC_CLAUDE_BIN) and `codex` (logged in with ChatGPT); run: scripts/run_job_queue.sh jobs/queue_a3_smoke.txt
+set ORFADC_LLM_MAX_CALLS=1000
+design --spec S2 --seed 0 --policy claude-cli --agent-impl v2
+design --spec S2 --seed 0 --policy codex-mcp --agent-impl v2

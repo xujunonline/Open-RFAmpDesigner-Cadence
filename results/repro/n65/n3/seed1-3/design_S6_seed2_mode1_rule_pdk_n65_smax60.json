@@ -1,0 +1,3556 @@
+{
+ "spec": "S6",
+ "seed": 2,
+ "mode": 1,
+ "policy": "rule",
+ "success": false,
+ "report": {
+  "cid": "C018",
+  "success": false,
+  "did": "D016",
+  "metrics": {
+   "gain_fc_db": 23.0804,
+   "gain_min_db": 19.9523,
+   "gain_max_db": 25.1218,
+   "ripple_db": 5.1695,
+   "s11_fc_db": -36.7047,
+   "s11_max_inband_db": -2.2634,
+   "nf_fc_db": 4.5334,
+   "nfmin_fc_db": 4.3669,
+   "nf_max_inband_db": 8.4167,
+   "ip1db_dbm": -16.3533,
+   "power_ma": 24.8455,
+   "power_ma_planned": 27.1472
+  },
+  "violations": {
+   "gain": 0.0,
+   "ripple": 2.1695,
+   "nf": 0.0,
+   "ip1db": 0.0,
+   "s11": 7.7366,
+   "power": 0.0
+  },
+  "bottleneck": "stage2_infeasible",
+  "steps": 4,
+  "reason": "critical stages cannot meet NF/S11 at the requested gain"
+ },
+ "sims": {
+  "hf_critical": 3612,
+  "hf_full": 141,
+  "lf": 55611,
+  "hf_total": 3753,
+  "equiv_time_s": 3609.22,
+  "cpu_s": 123.04
+ },
+ "n_search": 3,
+ "n_refine": 7,
+ "splits_tried": [
+  [
+   0.35,
+   0.15,
+   0.5
+  ],
+  [
+   0.4,
+   0.3,
+   0.3
+  ],
+  [
+   0.45,
+   0.25,
+   0.3
+  ]
+ ],
+ "design": {
+  "active": [
+   {
+    "kind": "cascode",
+    "w_um": 108.0,
+    "vb_v": 0.675,
+    "stage_current_ma": 9.119127000441434
+   },
+   {
+    "kind": "diff",
+    "w_um": 45.0,
+    "vb_v": 0.525,
+    "stage_current_ma": 4.0092385564045045
+   },
+   {
+    "kind": "diff",
+    "w_um": 54.0,
+    "vb_v": 0.675,
+    "stage_current_ma": 14.018857143518787
+   }
+  ],
+  "ls_ph": 30.733440645162965,
+  "lg_ph": 61.968259948117975,
+  "lpar_ph": 227.58737142253256,
+  "mcr1": {
+   "k": 0.452964504190729,
+   "l1_h": 2.731373084962596e-10,
+   "l2_h": 2.7770806724500983e-10,
+   "r1_ohm": 1000.0,
+   "r2_ohm": 513.7117375878881,
+   "c1_f": 0.0,
+   "c2_f": 3.2019740830460906e-14,
+   "q_ind": 15.0,
+   "f_loss_hz": 30000000000.0,
+   "flags": [],
+   "l1_ph": 273.1373084962596,
+   "l2_ph": 277.70806724500983,
+   "c1_ff": 0.0,
+   "c2_ff": 32.019740830460904
+  },
+  "mcr2": {
+   "k": 0.7847836368769476,
+   "l1_h": 5.23097687535696e-10,
+   "l2_h": 5.23097687535696e-10,
+   "r1_ohm": Infinity,
+   "r2_ohm": 974.0259315426712,
+   "c1_f": 8.84089171786816e-14,
+   "c2_f": 6.526396761477539e-14,
+   "q_ind": 15.0,
+   "f_loss_hz": 19027140368.29842,
+   "flags": [
+    "q0_unattainable_pri"
+   ],
+   "l1_ph": 523.097687535696,
+   "l2_ph": 523.097687535696,
+   "c1_ff": 88.4089171786816,
+   "c2_ff": 65.26396761477538
+  },
+  "mcr3": {
+   "k": 0.7339344161977681,
+   "l1_h": 6.573577397831962e-10,
+   "l2_h": 6.573577397831962e-10,
+   "r1_ohm": Infinity,
+   "r2_ohm": 3575.830203265364,
+   "c1_f": 1.5217563787300678e-14,
+   "c2_f": 7.775901597457708e-15,
+   "q_ind": 15.0,
+   "f_loss_hz": 23447878353.426826,
+   "flags": [
+    "q0_unattainable_pri"
+   ],
+   "l1_ph": 657.3577397831963,
+   "l2_ph": 657.3577397831963,
+   "c1_ff": 15.217563787300678,
+   "c2_ff": 7.775901597457708
+  },
+  "power_ma": 27.147222700364726,
+  "meta": {}
+ },
+ "sweep": {
+  "f_ghz": [
+   15.0,
+   16.125,
+   17.25,
+   18.0,
+   18.375,
+   19.2,
+   19.5,
+   20.4,
+   20.625,
+   21.6,
+   21.75,
+   22.8,
+   22.875,
+   24.0,
+   25.125,
+   25.2,
+   26.25,
+   26.4,
+   27.375,
+   27.6,
+   28.5,
+   28.8,
+   29.625,
+   30.0,
+   30.75,
+   31.2,
+   31.875,
+   32.4,
+   33.0,
+   33.6,
+   34.125,
+   34.8,
+   35.25,
+   36.0,
+   36.375,
+   37.2,
+   37.5,
+   38.4,
+   38.625,
+   39.6,
+   39.75,
+   40.8,
+   40.875,
+   42.0,
+   43.125,
+   44.25,
+   45.375,
+   46.5,
+   47.625,
+   48.75,
+   49.875,
+   51.0,
+   52.125,
+   53.25,
+   54.375,
+   55.5,
+   56.625,
+   57.75,
+   58.875,
+   60.0
+  ],
+  "gain_db": [
+   22.829555373211843,
+   22.99733706561708,
+   23.40251670322256,
+   23.540724287760728,
+   23.53748419450688,
+   23.40499945647304,
+   23.339431203524033,
+   23.16348198917613,
+   23.14039860064128,
+   23.157164761667822,
+   23.17764684297898,
+   23.480758794358096,
+   23.511425487025733,
+   24.07664529890586,
+   24.702099714714624,
+   24.739452648719077,
+   25.102542728784414,
+   25.12181202886943,
+   24.995215718925124,
+   24.90385532667334,
+   24.348244461620816,
+   24.11317995949291,
+   23.40771750227949,
+   23.08040033105363,
+   22.454468181476095,
+   22.111933524325906,
+   21.660878736733743,
+   21.368941476251536,
+   21.10280276198238,
+   20.910000812962824,
+   20.80166792934196,
+   20.740791166600022,
+   20.747204115329016,
+   20.82997434323177,
+   20.89955409904737,
+   21.098791903360002,
+   21.178391726286108,
+   21.395367127038973,
+   21.435434730874505,
+   21.473271539721004,
+   21.452371160336064,
+   21.04819652152988,
+   21.000003686341845,
+   19.9522673336655,
+   18.33635177036116,
+   16.238863458574283,
+   13.732109556031705,
+   10.873663447608582,
+   7.733081878277076,
+   4.398274581228481,
+   0.9613348158590145,
+   -2.4977748399266058,
+   -5.919598589700192,
+   -9.264877464334356,
+   -12.510850530423838,
+   -15.64634531709329,
+   -18.66773989613511,
+   -21.576154396557058,
+   -24.375340504708838,
+   -27.070457216793635
+  ],
+  "s11_db": [
+   -1.3827220279100372,
+   -1.6478547874339107,
+   -1.988721949501679,
+   -2.2634319317573266,
+   -2.418743610136143,
+   -2.806437370426151,
+   -2.96708895150271,
+   -3.5043459086091016,
+   -3.6590444843347063,
+   -4.4121408835308005,
+   -4.540118030287186,
+   -5.609682035211097,
+   -5.697887583972095,
+   -7.2821370108253,
+   -9.58396271068914,
+   -9.773976926014235,
+   -13.11429700497914,
+   -13.716294211197477,
+   -18.667773456635995,
+   -20.129674484851144,
+   -28.020379259360393,
+   -32.03912680075131,
+   -45.93925508508714,
+   -36.704734839616215,
+   -30.441125436328498,
+   -28.287007957433204,
+   -25.791319149984805,
+   -24.098346052169354,
+   -22.3568594900116,
+   -20.76353085915131,
+   -19.56026777068977,
+   -18.114425365445356,
+   -17.28143168155476,
+   -15.993469561120893,
+   -15.390779924241622,
+   -14.233424379099901,
+   -13.841922368765655,
+   -12.766581369108124,
+   -12.51936603843713,
+   -11.539883361570016,
+   -11.394945357618042,
+   -10.52453049030381,
+   -10.467509672057895,
+   -9.690346882493913,
+   -9.057916683400522,
+   -8.549577868845713,
+   -8.1642656092025,
+   -7.891706265278618,
+   -7.71081711134792,
+   -7.594176581701106,
+   -7.51527734017277,
+   -7.453582074010084,
+   -7.395884144200773,
+   -7.335222945732351,
+   -7.268790350188798,
+   -7.196294913254407,
+   -7.118583407070669,
+   -7.037008516231133,
+   -6.95289584620588,
+   -6.867442200451554
+  ],
+  "nf_db": [
+   11.63262658306018,
+   10.26137255998238,
+   9.097043300456574,
+   8.41670444918219,
+   8.099552502338202,
+   7.453689532645227,
+   7.233736300101022,
+   6.633156976576192,
+   6.492594936215089,
+   5.945111398111771,
+   5.870188243395813,
+   5.39145345341876,
+   5.3610643596096,
+   4.965457629563513,
+   4.680519661802582,
+   4.665345542549749,
+   4.500944724915702,
+   4.4845493602858,
+   4.418349099077647,
+   4.412504848131762,
+   4.42121721932977,
+   4.433278207697043,
+   4.49548122001335,
+   4.533439493361747,
+   4.625661469442903,
+   4.688938557658589,
+   4.796320018330926,
+   4.885798884830604,
+   4.993506871527462,
+   5.104888610467856,
+   5.205945119348674,
+   5.336861246047863,
+   5.425837850338995,
+   5.574490293394867,
+   5.648982875722971,
+   5.815389833331587,
+   5.876509715666975,
+   6.063645910025097,
+   6.111637976395335,
+   6.327988311748171,
+   6.36263567155565,
+   6.622320830127135,
+   6.642127705346484,
+   6.966248822847276,
+   7.358292107572015,
+   7.848207539065378,
+   8.475290505598021,
+   9.284831122119318,
+   10.31895800444326,
+   11.6014621971215,
+   13.12500073917651,
+   14.85091570342827,
+   16.72237627454548,
+   18.68104771064971,
+   20.67811616444493,
+   22.67783999167772,
+   24.65641232408047,
+   26.59916653785464,
+   28.49780527518658,
+   30.3482285123109
+  ],
+  "nfmin_db": [
+   7.049813633499053,
+   6.37041986688266,
+   5.848765683349824,
+   5.560245137466493,
+   5.429354486735999,
+   5.166710907430403,
+   5.078698342819386,
+   4.835450906107095,
+   4.779210683177495,
+   4.555909157339189,
+   4.524526993637709,
+   4.328314260066828,
+   4.315945886770145,
+   4.159329738333405,
+   4.062002503606165,
+   4.057780643088233,
+   4.029631974766938,
+   4.030361630266313,
+   4.063596713773903,
+   4.078073700631977,
+   4.159598315787683,
+   4.19454730510668,
+   4.307991186683775,
+   4.366873990362445,
+   4.495590008251674,
+   4.578394087865759,
+   4.708137996934093,
+   4.812100659199707,
+   4.932584480434263,
+   5.053478666205997,
+   5.158699024140397,
+   5.292288615022311,
+   5.379960512503125,
+   5.523377760794876,
+   5.593883183427679,
+   5.746827186959417,
+   5.80198824831426,
+   5.967741645938656,
+   6.009603242117575,
+   6.19595299736773,
+   6.225661470317469,
+   6.445954307510473,
+   6.462721474386845,
+   6.737506147168689,
+   7.072249266451481,
+   7.496777456514581,
+   8.050221529243627,
+   8.779570833399106,
+   9.731385955286536,
+   10.93613496402139,
+   12.39270967628168,
+   14.0652517026602,
+   15.89572667213551,
+   17.82240699201702,
+   19.79294879680047,
+   21.76895983538876,
+   23.72498360822481,
+   25.64546107480061,
+   27.52167941529303,
+   29.34939183610007
+  ]
+ },
+ "trace": [
+  {
+   "t": 0.0,
+   "agent": "manager",
+   "event": "plan",
+   "sims": {
+    "hf_critical": 0,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 0,
+    "equiv_time_s": 0.0,
+    "cpu_s": 0.0
+   },
+   "mode": 1,
+   "hints": {},
+   "policy": "rule"
+  },
+  {
+   "t": 0.087,
+   "agent": "searcher",
+   "event": "active_sizing",
+   "sims": {
+    "hf_critical": 0,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 0,
+    "equiv_time_s": 0.0,
+    "cpu_s": 0.0
+   },
+   "split": [
+    0.35,
+    0.15,
+    0.5
+   ],
+   "status": "ok",
+   "n": 4
+  },
+  {
+   "t": 0.921,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 129,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 129,
+    "equiv_time_s": 64.5,
+    "cpu_s": 0.757
+   },
+   "cid": "C000",
+   "origin": "search",
+   "power_ratio_list": [
+    0.35,
+    0.15,
+    0.5
+   ],
+   "config_id": "crit_large__noncrit_large",
+   "nf_cp_db": 5.486,
+   "s11_cp_db": -24.88,
+   "gain_cp_db": 9.06,
+   "ip1db_cp_dbm": -0.66,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": null,
+   "score": 0.0
+  },
+  {
+   "t": 1.678,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 258,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 258,
+    "equiv_time_s": 129.0,
+    "cpu_s": 1.459
+   },
+   "cid": "C001",
+   "origin": "search",
+   "power_ratio_list": [
+    0.35,
+    0.15,
+    0.5
+   ],
+   "config_id": "crit_large__noncrit_large",
+   "nf_cp_db": 4.929,
+   "s11_cp_db": -29.52,
+   "gain_cp_db": 9.29,
+   "ip1db_cp_dbm": -1.29,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": 9.0,
+   "score": 0.0
+  },
+  {
+   "t": 2.4,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 387,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 387,
+    "equiv_time_s": 193.5,
+    "cpu_s": 2.129
+   },
+   "cid": "C002",
+   "origin": "search",
+   "power_ratio_list": [
+    0.35,
+    0.15,
+    0.5
+   ],
+   "config_id": "crit_large__noncrit_small",
+   "nf_cp_db": 5.37,
+   "s11_cp_db": -27.62,
+   "gain_cp_db": 8.33,
+   "ip1db_cp_dbm": -0.32,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": null,
+   "score": 0.0
+  },
+  {
+   "t": 3.143,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 516,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 516,
+    "equiv_time_s": 258.0,
+    "cpu_s": 2.817
+   },
+   "cid": "C003",
+   "origin": "search",
+   "power_ratio_list": [
+    0.35,
+    0.15,
+    0.5
+   ],
+   "config_id": "crit_large__noncrit_small",
+   "nf_cp_db": 5.597,
+   "s11_cp_db": -25.35,
+   "gain_cp_db": 10.07,
+   "ip1db_cp_dbm": -2.8,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": 9.0,
+   "score": 0.0
+  },
+  {
+   "t": 3.9,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 645,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 645,
+    "equiv_time_s": 322.5,
+    "cpu_s": 3.519
+   },
+   "cid": "C004",
+   "origin": "search",
+   "power_ratio_list": [
+    0.35,
+    0.15,
+    0.5
+   ],
+   "config_id": "crit_small__noncrit_large",
+   "nf_cp_db": 4.484,
+   "s11_cp_db": -33.37,
+   "gain_cp_db": 19.59,
+   "ip1db_cp_dbm": -10.42,
+   "stage2_feasible": true,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": null,
+   "score": 0.0
+  },
+  {
+   "t": 4.677,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 774,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 774,
+    "equiv_time_s": 387.0,
+    "cpu_s": 4.24
+   },
+   "cid": "C005",
+   "origin": "search",
+   "power_ratio_list": [
+    0.35,
+    0.15,
+    0.5
+   ],
+   "config_id": "crit_small__noncrit_large",
+   "nf_cp_db": 4.773,
+   "s11_cp_db": -38.31,
+   "gain_cp_db": 14.07,
+   "ip1db_cp_dbm": -7.08,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": 9.0,
+   "score": 0.0
+  },
+  {
+   "t": 5.446,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 903,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 903,
+    "equiv_time_s": 451.5,
+    "cpu_s": 4.954
+   },
+   "cid": "C006",
+   "origin": "search",
+   "power_ratio_list": [
+    0.35,
+    0.15,
+    0.5
+   ],
+   "config_id": "crit_small__noncrit_small",
+   "nf_cp_db": 4.532,
+   "s11_cp_db": -31.68,
+   "gain_cp_db": 20.07,
+   "ip1db_cp_dbm": -11.2,
+   "stage2_feasible": true,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": null,
+   "score": 0.0
+  },
+  {
+   "t": 6.224,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 1032,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 1032,
+    "equiv_time_s": 516.0,
+    "cpu_s": 5.676
+   },
+   "cid": "C007",
+   "origin": "search",
+   "power_ratio_list": [
+    0.35,
+    0.15,
+    0.5
+   ],
+   "config_id": "crit_small__noncrit_small",
+   "nf_cp_db": 4.776,
+   "s11_cp_db": -37.68,
+   "gain_cp_db": 14.08,
+   "ip1db_cp_dbm": -7.08,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": 9.0,
+   "score": 0.0
+  },
+  {
+   "t": 6.224,
+   "agent": "manager",
+   "event": "refine_candidate",
+   "sims": {
+    "hf_critical": 1032,
+    "hf_full": 0,
+    "lf": 0,
+    "hf_total": 1032,
+    "equiv_time_s": 516.0,
+    "cpu_s": 5.676
+   },
+   "cid": "C004",
+   "origin": "search",
+   "power_ratio_list": [
+    0.35,
+    0.15,
+    0.5
+   ],
+   "config_id": "crit_small__noncrit_large",
+   "nf_cp_db": 4.484,
+   "s11_cp_db": -33.37,
+   "gain_cp_db": 19.59,
+   "ip1db_cp_dbm": -10.42,
+   "stage2_feasible": true,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": null,
+   "score": 5.84
+  },
+  {
+   "t": 9.885,
+   "agent": "refiner",
+   "event": "evaluate",
+   "sims": {
+    "hf_critical": 1032,
+    "hf_full": 4,
+    "lf": 1503,
+    "hf_total": 1036,
+    "equiv_time_s": 567.01,
+    "cpu_s": 9.144
+   },
+   "cid": "C004",
+   "did": "D008",
+   "passed": false,
+   "violations": {
+    "gain": 5.8664,
+    "ripple": 9.3446,
+    "nf": 0.0,
+    "ip1db": 0.0,
+    "s11": 6.9795,
+    "power": 0.0
+   },
+   "metrics": {
+    "gain_fc_db": 18.3251,
+    "gain_min_db": 11.1336,
+    "gain_max_db": 23.4782,
+    "ripple_db": 12.3446,
+    "s11_fc_db": -36.1971,
+    "s11_max_inband_db": -3.0205,
+    "nf_fc_db": 4.4817,
+    "nfmin_fc_db": 4.3836,
+    "nf_max_inband_db": 8.3999,
+    "ip1db_dbm": -15.7033,
+    "power_ma": 25.1938,
+    "power_ma_planned": 27.2322
+   }
+  },
+  {
+   "t": 9.885,
+   "agent": "refiner",
+   "event": "decide",
+   "sims": {
+    "hf_critical": 1032,
+    "hf_full": 4,
+    "lf": 1503,
+    "hf_total": 1036,
+    "equiv_time_s": 567.01,
+    "cpu_s": 9.144
+   },
+   "cid": "C004",
+   "action": "rerun_stage3",
+   "gain_user_db": 25.32,
+   "why": "minimum in-band gain off by 8.9 dB"
+  },
+  {
+   "t": 13.307,
+   "agent": "refiner",
+   "event": "evaluate",
+   "sims": {
+    "hf_critical": 1032,
+    "hf_full": 9,
+    "lf": 3507,
+    "hf_total": 1041,
+    "equiv_time_s": 631.01,
+    "cpu_s": 12.291
+   },
+   "cid": "C004",
+   "did": "D009",
+   "passed": false,
+   "violations": {
+    "gain": 4.8575,
+    "ripple": 6.1723,
+    "nf": 0.0,
+    "ip1db": 0.0,
+    "s11": 6.9781,
+    "power": 0.0
+   },
+   "metrics": {
+    "gain_fc_db": 19.2387,
+    "gain_min_db": 12.1425,
+    "gain_max_db": 21.3147,
+    "ripple_db": 9.1723,
+    "s11_fc_db": -35.97,
+    "s11_max_inband_db": -3.0219,
+    "nf_fc_db": 4.5881,
+    "nfmin_fc_db": 4.4958,
+    "nf_max_inband_db": 8.588,
+    "ip1db_dbm": -14.424,
+    "power_ma": 25.1684,
+    "power_ma_planned": 27.2322
+   }
+  },
+  {
+   "t": 13.307,
+   "agent": "refiner",
+   "event": "decide",
+   "sims": {
+    "hf_critical": 1032,
+    "hf_full": 9,
+    "lf": 3507,
+    "hf_total": 1041,
+    "equiv_time_s": 631.01,
+    "cpu_s": 12.291
+   },
+   "cid": "C004",
+   "action": "rerun_stage3",
+   "gain_user_db": 24.71,
+   "why": "minimum in-band gain off by 7.9 dB"
+  },
+  {
+   "t": 16.908,
+   "agent": "refiner",
+   "event": "evaluate",
+   "sims": {
+    "hf_critical": 1032,
+    "hf_full": 13,
+    "lf": 5010,
+    "hf_total": 1045,
+    "equiv_time_s": 682.02,
+    "cpu_s": 15.692
+   },
+   "cid": "C004",
+   "did": "D010",
+   "passed": false,
+   "violations": {
+    "gain": 4.6666,
+    "ripple": 7.45,
+    "nf": 0.0,
+    "ip1db": 0.0,
+    "s11": 6.9781,
+    "power": 0.0
+   },
+   "metrics": {
+    "gain_fc_db": 21.1627,
+    "gain_min_db": 12.3334,
+    "gain_max_db": 22.7833,
+    "ripple_db": 10.45,
+    "s11_fc_db": -36.1615,
+    "s11_max_inband_db": -3.0219,
+    "nf_fc_db": 4.5356,
+    "nfmin_fc_db": 4.4405,
+    "nf_max_inband_db": 8.56,
+    "ip1db_dbm": -15.5816,
+    "power_ma": 25.1348,
+    "power_ma_planned": 27.2322
+   }
+  },
+  {
+   "t": 16.908,
+   "agent": "refiner",
+   "event": "decide",
+   "sims": {
+    "hf_critical": 1032,
+    "hf_full": 13,
+    "lf": 5010,
+    "hf_total": 1045,
+    "equiv_time_s": 682.02,
+    "cpu_s": 15.692
+   },
+   "cid": "C004",
+   "action": "rerun_stage3",
+   "gain_user_db": 24.6,
+   "why": "minimum in-band gain off by 7.7 dB"
+  },
+  {
+   "t": 20.543,
+   "agent": "refiner",
+   "event": "evaluate",
+   "sims": {
+    "hf_critical": 1032,
+    "hf_full": 17,
+    "lf": 6513,
+    "hf_total": 1049,
+    "equiv_time_s": 733.03,
+    "cpu_s": 19.084
+   },
+   "cid": "C004",
+   "did": "D011",
+   "passed": false,
+   "violations": {
+    "gain": 7.4972,
+    "ripple": 6.0735,
+    "nf": 0.0,
+    "ip1db": 0.0,
+    "s11": 6.9783,
+    "power": 0.0
+   },
+   "metrics": {
+    "gain_fc_db": 17.2376,
+    "gain_min_db": 9.5028,
+    "gain_max_db": 18.5763,
+    "ripple_db": 9.0735,
+    "s11_fc_db": -35.9416,
+    "s11_max_inband_db": -3.0217,
+    "nf_fc_db": 4.699,
+    "nfmin_fc_db": 4.6121,
+    "nf_max_inband_db": 9.0871,
+    "ip1db_dbm": -13.3267,
+    "power_ma": 25.1016,
+    "power_ma_planned": 27.2322
+   }
+  },
+  {
+   "t": 20.543,
+   "agent": "refiner",
+   "event": "decide",
+   "sims": {
+    "hf_critical": 1032,
+    "hf_full": 17,
+    "lf": 6513,
+    "hf_total": 1049,
+    "equiv_time_s": 733.03,
+    "cpu_s": 19.084
+   },
+   "cid": "C004",
+   "action": "rerun_stage3",
+   "gain_user_db": 26.3,
+   "why": "minimum in-band gain off by 10.5 dB"
+  },
+  {
+   "t": 24.212,
+   "agent": "refiner",
+   "event": "evaluate",
+   "sims": {
+    "hf_critical": 1032,
+    "hf_full": 21,
+    "lf": 8016,
+    "hf_total": 1053,
+    "equiv_time_s": 784.03,
+    "cpu_s": 22.476
+   },
+   "cid": "C004",
+   "did": "D012",
+   "passed": false,
+   "violations": {
+    "gain": 5.7223,
+    "ripple": 9.0478,
+    "nf": 0.0,
+    "ip1db": 0.0,
+    "s11": 6.978,
+    "power": 0.0
+   },
+   "metrics": {
+    "gain_fc_db": 19.4089,
+    "gain_min_db": 11.2777,
+    "gain_max_db": 23.3255,
+    "ripple_db": 12.0478,
+    "s11_fc_db": -36.1933,
+    "s11_max_inband_db": -3.022,
+    "nf_fc_db": 4.5104,
+    "nfmin_fc_db": 4.4139,
+    "nf_max_inband_db": 8.4976,
+    "ip1db_dbm": -15.6698,
+    "power_ma": 25.1888,
+    "power_ma_planned": 27.2322
+   }
+  },
+  {
+   "t": 24.212,
+   "agent": "refiner",
+   "event": "decide",
+   "sims": {
+    "hf_critical": 1032,
+    "hf_full": 21,
+    "lf": 8016,
+    "hf_total": 1053,
+    "equiv_time_s": 784.03,
+    "cpu_s": 22.476
+   },
+   "cid": "C004",
+   "action": "rerun_stage3",
+   "gain_user_db": 25.23,
+   "why": "minimum in-band gain off by 8.7 dB"
+  },
+  {
+   "t": 27.826,
+   "agent": "refiner",
+   "event": "evaluate",
+   "sims": {
+    "hf_critical": 1032,
+    "hf_full": 26,
+    "lf": 10020,
+    "hf_total": 1058,
+    "equiv_time_s": 848.04,
+    "cpu_s": 25.78
+   },
+   "cid": "C004",
+   "did": "D013",
+   "passed": false,
+   "violations": {
+    "gain": 6.3698,
+    "ripple": 9.5433,
+    "nf": 0.0,
+    "ip1db": 0.0,
+    "s11": 6.9777,
+    "power": 0.0
+   },
+   "metrics": {
+    "gain_fc_db": 17.9267,
+    "gain_min_db": 10.6302,
+    "gain_max_db": 23.1734,
+    "ripple_db": 12.5433,
+    "s11_fc_db": -36.1777,
+    "s11_max_inband_db": -3.0223,
+    "nf_fc_db": 4.4773,
+    "nfmin_fc_db": 4.3791,
+    "nf_max_inband_db": 8.304,
+    "ip1db_dbm": -16.4263,
+    "power_ma": 25.1783,
+    "power_ma_planned": 27.2322
+   }
+  },
+  {
+   "t": 27.826,
+   "agent": "refiner",
+   "event": "decide",
+   "sims": {
+    "hf_critical": 1032,
+    "hf_full": 26,
+    "lf": 10020,
+    "hf_total": 1058,
+    "equiv_time_s": 848.04,
+    "cpu_s": 25.78
+   },
+   "cid": "C004",
+   "action": "rerun_stage3",
+   "gain_user_db": 25.62,
+   "why": "minimum in-band gain off by 9.4 dB"
+  },
+  {
+   "t": 27.826,
+   "agent": "manager",
+   "event": "refine_report",
+   "sims": {
+    "hf_critical": 1032,
+    "hf_full": 26,
+    "lf": 10020,
+    "hf_total": 1058,
+    "equiv_time_s": 848.04,
+    "cpu_s": 25.78
+   },
+   "cid": "C004",
+   "success": false,
+   "did": "D009",
+   "metrics": {
+    "gain_fc_db": 19.2387,
+    "gain_min_db": 12.1425,
+    "gain_max_db": 21.3147,
+    "ripple_db": 9.1723,
+    "s11_fc_db": -35.97,
+    "s11_max_inband_db": -3.0219,
+    "nf_fc_db": 4.5881,
+    "nfmin_fc_db": 4.4958,
+    "nf_max_inband_db": 8.588,
+    "ip1db_dbm": -14.424,
+    "power_ma": 25.1684,
+    "power_ma_planned": 27.2322
+   },
+   "violations": {
+    "gain": 4.8575,
+    "ripple": 6.1723,
+    "nf": 0.0,
+    "ip1db": 0.0,
+    "s11": 6.9781,
+    "power": 0.0
+   },
+   "bottleneck": "s11",
+   "steps": 6,
+   "reason": "refine budget exhausted"
+  },
+  {
+   "t": 27.826,
+   "agent": "manager",
+   "event": "refine_candidate",
+   "sims": {
+    "hf_critical": 1032,
+    "hf_full": 26,
+    "lf": 10020,
+    "hf_total": 1058,
+    "equiv_time_s": 848.04,
+    "cpu_s": 25.78
+   },
+   "cid": "C006",
+   "origin": "search",
+   "power_ratio_list": [
+    0.35,
+    0.15,
+    0.5
+   ],
+   "config_id": "crit_small__noncrit_small",
+   "nf_cp_db": 4.532,
+   "s11_cp_db": -31.68,
+   "gain_cp_db": 20.07,
+   "ip1db_cp_dbm": -11.2,
+   "stage2_feasible": true,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": null,
+   "score": 5.645
+  },
+  {
+   "t": 31.158,
+   "agent": "refiner",
+   "event": "evaluate",
+   "sims": {
+    "hf_critical": 1032,
+    "hf_full": 31,
+    "lf": 12024,
+    "hf_total": 1063,
+    "equiv_time_s": 912.05,
+    "cpu_s": 28.797
+   },
+   "cid": "C006",
+   "did": "D014",
+   "passed": false,
+   "violations": {
+    "gain": 0.0,
+    "ripple": 3.1821,
+    "nf": 0.0,
+    "ip1db": 0.0,
+    "s11": 7.7365,
+    "power": 0.0
+   },
+   "metrics": {
+    "gain_fc_db": 19.4074,
+    "gain_min_db": 17.2268,
+    "gain_max_db": 23.4089,
+    "ripple_db": 6.1821,
+    "s11_fc_db": -36.8864,
+    "s11_max_inband_db": -2.2635,
+    "nf_fc_db": 4.4765,
+    "nfmin_fc_db": 4.3048,
+    "nf_max_inband_db": 8.319,
+    "ip1db_dbm": -17.4501,
+    "power_ma": 24.9361,
+    "power_ma_planned": 27.1472
+   }
+  },
+  {
+   "t": 31.158,
+   "agent": "refiner",
+   "event": "decide",
+   "sims": {
+    "hf_critical": 1032,
+    "hf_full": 31,
+    "lf": 12024,
+    "hf_total": 1063,
+    "equiv_time_s": 912.05,
+    "cpu_s": 28.797
+   },
+   "cid": "C006",
+   "action": "rerun_stage3",
+   "why": "ripple/S11: re-plan passband"
+  },
+  {
+   "t": 34.494,
+   "agent": "refiner",
+   "event": "evaluate",
+   "sims": {
+    "hf_critical": 1032,
+    "hf_full": 36,
+    "lf": 14028,
+    "hf_total": 1068,
+    "equiv_time_s": 976.06,
+    "cpu_s": 31.857
+   },
+   "cid": "C006",
+   "did": "D015",
+   "passed": false,
+   "violations": {
+    "gain": 0.0,
+    "ripple": 2.2873,
+    "nf": 0.0,
+    "ip1db": 0.6153,
+    "s11": 7.7356,
+    "power": 0.0
+   },
+   "metrics": {
+    "gain_fc_db": 23.7341,
+    "gain_min_db": 20.0739,
+    "gain_max_db": 25.3612,
+    "ripple_db": 5.2873,
+    "s11_fc_db": -37.2043,
+    "s11_max_inband_db": -2.2644,
+    "nf_fc_db": 4.3928,
+    "nfmin_fc_db": 4.2132,
+    "nf_max_inband_db": 8.1551,
+    "ip1db_dbm": -20.6153,
+    "power_ma": 24.8859,
+    "power_ma_planned": 27.1472
+   }
+  },
+  {
+   "t": 34.494,
+   "agent": "refiner",
+   "event": "decide",
+   "sims": {
+    "hf_critical": 1032,
+    "hf_full": 36,
+    "lf": 14028,
+    "hf_total": 1068,
+    "equiv_time_s": 976.06,
+    "cpu_s": 31.857
+   },
+   "cid": "C006",
+   "action": "rerun_stage3",
+   "gain_user_db": 17.8,
+   "why": "IP1dB short by 0.6 dB: trade surplus gain for linearity"
+  },
+  {
+   "t": 38.088,
+   "agent": "refiner",
+   "event": "evaluate",
+   "sims": {
+    "hf_critical": 1032,
+    "hf_full": 41,
+    "lf": 16032,
+    "hf_total": 1073,
+    "equiv_time_s": 1040.06,
+    "cpu_s": 35.11
+   },
+   "cid": "C006",
+   "did": "D016",
+   "passed": false,
+   "violations": {
+    "gain": 0.0,
+    "ripple": 2.1695,
+    "nf": 0.0,
+    "ip1db": 0.0,
+    "s11": 7.7366,
+    "power": 0.0
+   },
+   "metrics": {
+    "gain_fc_db": 23.0804,
+    "gain_min_db": 19.9523,
+    "gain_max_db": 25.1218,
+    "ripple_db": 5.1695,
+    "s11_fc_db": -36.7047,
+    "s11_max_inband_db": -2.2634,
+    "nf_fc_db": 4.5334,
+    "nfmin_fc_db": 4.3669,
+    "nf_max_inband_db": 8.4167,
+    "ip1db_dbm": -16.3533,
+    "power_ma": 24.8455,
+    "power_ma_planned": 27.1472
+   }
+  },
+  {
+   "t": 38.088,
+   "agent": "refiner",
+   "event": "decide",
+   "sims": {
+    "hf_critical": 1032,
+    "hf_full": 41,
+    "lf": 16032,
+    "hf_total": 1073,
+    "equiv_time_s": 1040.06,
+    "cpu_s": 35.11
+   },
+   "cid": "C006",
+   "action": "rerun_stage3",
+   "why": "ripple/S11: re-plan passband"
+  },
+  {
+   "t": 41.694,
+   "agent": "refiner",
+   "event": "evaluate",
+   "sims": {
+    "hf_critical": 1032,
+    "hf_full": 46,
+    "lf": 18036,
+    "hf_total": 1078,
+    "equiv_time_s": 1104.07,
+    "cpu_s": 38.425
+   },
+   "cid": "C006",
+   "did": "D017",
+   "passed": false,
+   "violations": {
+    "gain": 0.0,
+    "ripple": 2.5864,
+    "nf": 0.0,
+    "ip1db": 1.0299,
+    "s11": 7.7381,
+    "power": 0.0
+   },
+   "metrics": {
+    "gain_fc_db": 20.0942,
+    "gain_min_db": 17.5603,
+    "gain_max_db": 23.1467,
+    "ripple_db": 5.5864,
+    "s11_fc_db": -37.506,
+    "s11_max_inband_db": -2.2619,
+    "nf_fc_db": 4.3769,
+    "nfmin_fc_db": 4.1958,
+    "nf_max_inband_db": 8.3055,
+    "ip1db_dbm": -21.0299,
+    "power_ma": 24.9902,
+    "power_ma_planned": 27.1472
+   }
+  },
+  {
+   "t": 41.694,
+   "agent": "refiner",
+   "event": "decide",
+   "sims": {
+    "hf_critical": 1032,
+    "hf_full": 46,
+    "lf": 18036,
+    "hf_total": 1078,
+    "equiv_time_s": 1104.07,
+    "cpu_s": 38.425
+   },
+   "cid": "C006",
+   "action": "rerun_stage2",
+   "gain_require_db": 9.5,
+   "nf_headroom_db": 0.2,
+   "why": "critical gain 20.1 dB leaves no room for later stages: target 9.5 dB"
+  },
+  {
+   "t": 42.428,
+   "agent": "refiner",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 1161,
+    "hf_full": 46,
+    "lf": 18036,
+    "hf_total": 1207,
+    "equiv_time_s": 1168.57,
+    "cpu_s": 39.106
+   },
+   "cid": "C018",
+   "origin": "refine",
+   "power_ratio_list": [
+    0.35,
+    0.15,
+    0.5
+   ],
+   "config_id": "crit_small__noncrit_small",
+   "nf_cp_db": 4.79,
+   "s11_cp_db": -38.76,
+   "gain_cp_db": 14.9,
+   "ip1db_cp_dbm": -6.78,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": 9.5,
+   "score": 0.0
+  },
+  {
+   "t": 42.428,
+   "agent": "manager",
+   "event": "refine_report",
+   "sims": {
+    "hf_critical": 1161,
+    "hf_full": 46,
+    "lf": 18036,
+    "hf_total": 1207,
+    "equiv_time_s": 1168.57,
+    "cpu_s": 39.106
+   },
+   "cid": "C018",
+   "success": false,
+   "did": "D016",
+   "metrics": {
+    "gain_fc_db": 23.0804,
+    "gain_min_db": 19.9523,
+    "gain_max_db": 25.1218,
+    "ripple_db": 5.1695,
+    "s11_fc_db": -36.7047,
+    "s11_max_inband_db": -2.2634,
+    "nf_fc_db": 4.5334,
+    "nfmin_fc_db": 4.3669,
+    "nf_max_inband_db": 8.4167,
+    "ip1db_dbm": -16.3533,
+    "power_ma": 24.8455,
+    "power_ma_planned": 27.1472
+   },
+   "violations": {
+    "gain": 0.0,
+    "ripple": 2.1695,
+    "nf": 0.0,
+    "ip1db": 0.0,
+    "s11": 7.7366,
+    "power": 0.0
+   },
+   "bottleneck": "stage2_infeasible",
+   "steps": 4,
+   "reason": "critical stages cannot meet NF/S11 at the requested gain"
+  },
+  {
+   "t": 42.429,
+   "agent": "manager",
+   "event": "refine_candidate",
+   "sims": {
+    "hf_critical": 1161,
+    "hf_full": 46,
+    "lf": 18036,
+    "hf_total": 1207,
+    "equiv_time_s": 1168.57,
+    "cpu_s": 39.106
+   },
+   "cid": "C005",
+   "origin": "search",
+   "power_ratio_list": [
+    0.35,
+    0.15,
+    0.5
+   ],
+   "config_id": "crit_small__noncrit_large",
+   "nf_cp_db": 4.773,
+   "s11_cp_db": -38.31,
+   "gain_cp_db": 14.07,
+   "ip1db_cp_dbm": -7.08,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": 9.0,
+   "score": 2.204
+  },
+  {
+   "t": 45.948,
+   "agent": "refiner",
+   "event": "evaluate",
+   "sims": {
+    "hf_critical": 1161,
+    "hf_full": 50,
+    "lf": 19539,
+    "hf_total": 1211,
+    "equiv_time_s": 1219.58,
+    "cpu_s": 42.429
+   },
+   "cid": "C005",
+   "did": "D019",
+   "passed": false,
+   "violations": {
+    "gain": 4.9625,
+    "ripple": 4.5558,
+    "nf": 0.3014,
+    "ip1db": 0.0,
+    "s11": 4.0669,
+    "power": 0.0
+   },
+   "metrics": {
+    "gain_fc_db": 19.3667,
+    "gain_min_db": 12.0375,
+    "gain_max_db": 19.5932,
+    "ripple_db": 7.5558,
+    "s11_fc_db": -40.0709,
+    "s11_max_inband_db": -5.9331,
+    "nf_fc_db": 5.3014,
+    "nfmin_fc_db": 5.2916,
+    "nf_max_inband_db": 8.914,
+    "ip1db_dbm": -14.367,
+    "power_ma": 25.0946,
+    "power_ma_planned": 27.2322
+   }
+  },
+  {
+   "t": 45.948,
+   "agent": "refiner",
+   "event": "decide",
+   "sims": {
+    "hf_critical": 1161,
+    "hf_full": 50,
+    "lf": 19539,
+    "hf_total": 1211,
+    "equiv_time_s": 1219.58,
+    "cpu_s": 42.429
+   },
+   "cid": "C005",
+   "action": "rerun_stage2",
+   "nf_headroom_db": 0.66,
+   "gain_require_db": 9.0,
+   "why": "NF short by 0.30 dB: raise headroom to 0.66"
+  },
+  {
+   "t": 46.704,
+   "agent": "refiner",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 1290,
+    "hf_full": 50,
+    "lf": 19539,
+    "hf_total": 1340,
+    "equiv_time_s": 1284.08,
+    "cpu_s": 43.132
+   },
+   "cid": "C020",
+   "origin": "refine",
+   "power_ratio_list": [
+    0.35,
+    0.15,
+    0.5
+   ],
+   "config_id": "crit_small__noncrit_large",
+   "nf_cp_db": 4.504,
+   "s11_cp_db": -36.82,
+   "gain_cp_db": 16.05,
+   "ip1db_cp_dbm": -8.06,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.66,
+   "gain_require_db": 9.0,
+   "score": 0.0
+  },
+  {
+   "t": 46.704,
+   "agent": "manager",
+   "event": "refine_report",
+   "sims": {
+    "hf_critical": 1290,
+    "hf_full": 50,
+    "lf": 19539,
+    "hf_total": 1340,
+    "equiv_time_s": 1284.08,
+    "cpu_s": 43.132
+   },
+   "cid": "C020",
+   "success": false,
+   "did": "D019",
+   "metrics": {
+    "gain_fc_db": 19.3667,
+    "gain_min_db": 12.0375,
+    "gain_max_db": 19.5932,
+    "ripple_db": 7.5558,
+    "s11_fc_db": -40.0709,
+    "s11_max_inband_db": -5.9331,
+    "nf_fc_db": 5.3014,
+    "nfmin_fc_db": 5.2916,
+    "nf_max_inband_db": 8.914,
+    "ip1db_dbm": -14.367,
+    "power_ma": 25.0946,
+    "power_ma_planned": 27.2322
+   },
+   "violations": {
+    "gain": 4.9625,
+    "ripple": 4.5558,
+    "nf": 0.3014,
+    "ip1db": 0.0,
+    "s11": 4.0669,
+    "power": 0.0
+   },
+   "bottleneck": "stage2_infeasible",
+   "steps": 1,
+   "reason": "critical stages cannot meet NF/S11 at the requested gain"
+  },
+  {
+   "t": 46.704,
+   "agent": "searcher",
+   "event": "active_sizing",
+   "sims": {
+    "hf_critical": 1290,
+    "hf_full": 50,
+    "lf": 19539,
+    "hf_total": 1340,
+    "equiv_time_s": 1284.08,
+    "cpu_s": 43.132
+   },
+   "split": [
+    0.4,
+    0.3,
+    0.3
+   ],
+   "status": "ok",
+   "n": 4
+  },
+  {
+   "t": 47.43,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 1419,
+    "hf_full": 50,
+    "lf": 19539,
+    "hf_total": 1469,
+    "equiv_time_s": 1348.58,
+    "cpu_s": 43.805
+   },
+   "cid": "C021",
+   "origin": "search",
+   "power_ratio_list": [
+    0.4,
+    0.3,
+    0.3
+   ],
+   "config_id": "crit_large__noncrit_large",
+   "nf_cp_db": 4.822,
+   "s11_cp_db": -36.02,
+   "gain_cp_db": 11.33,
+   "ip1db_cp_dbm": -2.18,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": null,
+   "score": 0.0
+  },
+  {
+   "t": 48.142,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 1548,
+    "hf_full": 50,
+    "lf": 19539,
+    "hf_total": 1598,
+    "equiv_time_s": 1413.08,
+    "cpu_s": 44.465
+   },
+   "cid": "C022",
+   "origin": "search",
+   "power_ratio_list": [
+    0.4,
+    0.3,
+    0.3
+   ],
+   "config_id": "crit_large__noncrit_large",
+   "nf_cp_db": 5.296,
+   "s11_cp_db": -26.44,
+   "gain_cp_db": 10.53,
+   "ip1db_cp_dbm": -8.09,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": 9.0,
+   "score": 0.0
+  },
+  {
+   "t": 48.851,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 1677,
+    "hf_full": 50,
+    "lf": 19539,
+    "hf_total": 1727,
+    "equiv_time_s": 1477.58,
+    "cpu_s": 45.122
+   },
+   "cid": "C023",
+   "origin": "search",
+   "power_ratio_list": [
+    0.4,
+    0.3,
+    0.3
+   ],
+   "config_id": "crit_large__noncrit_small",
+   "nf_cp_db": 4.552,
+   "s11_cp_db": -31.02,
+   "gain_cp_db": 12.08,
+   "ip1db_cp_dbm": -3.44,
+   "stage2_feasible": true,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": null,
+   "score": 0.0
+  },
+  {
+   "t": 49.556,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 1806,
+    "hf_full": 50,
+    "lf": 19539,
+    "hf_total": 1856,
+    "equiv_time_s": 1542.08,
+    "cpu_s": 45.776
+   },
+   "cid": "C024",
+   "origin": "search",
+   "power_ratio_list": [
+    0.4,
+    0.3,
+    0.3
+   ],
+   "config_id": "crit_large__noncrit_small",
+   "nf_cp_db": 4.829,
+   "s11_cp_db": -28.61,
+   "gain_cp_db": 9.51,
+   "ip1db_cp_dbm": -3.96,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": 9.0,
+   "score": 0.0
+  },
+  {
+   "t": 50.271,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 1935,
+    "hf_full": 50,
+    "lf": 19539,
+    "hf_total": 1985,
+    "equiv_time_s": 1606.58,
+    "cpu_s": 46.439
+   },
+   "cid": "C025",
+   "origin": "search",
+   "power_ratio_list": [
+    0.4,
+    0.3,
+    0.3
+   ],
+   "config_id": "crit_small__noncrit_large",
+   "nf_cp_db": 4.477,
+   "s11_cp_db": -33.31,
+   "gain_cp_db": 20.56,
+   "ip1db_cp_dbm": -14.0,
+   "stage2_feasible": true,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": null,
+   "score": 0.0
+  },
+  {
+   "t": 50.993,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 2064,
+    "hf_full": 50,
+    "lf": 19539,
+    "hf_total": 2114,
+    "equiv_time_s": 1671.08,
+    "cpu_s": 47.109
+   },
+   "cid": "C026",
+   "origin": "search",
+   "power_ratio_list": [
+    0.4,
+    0.3,
+    0.3
+   ],
+   "config_id": "crit_small__noncrit_large",
+   "nf_cp_db": 4.775,
+   "s11_cp_db": -36.4,
+   "gain_cp_db": 16.2,
+   "ip1db_cp_dbm": -10.34,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": 9.0,
+   "score": 0.0
+  },
+  {
+   "t": 51.697,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 2193,
+    "hf_full": 50,
+    "lf": 19539,
+    "hf_total": 2243,
+    "equiv_time_s": 1735.58,
+    "cpu_s": 47.761
+   },
+   "cid": "C027",
+   "origin": "search",
+   "power_ratio_list": [
+    0.4,
+    0.3,
+    0.3
+   ],
+   "config_id": "crit_small__noncrit_small",
+   "nf_cp_db": 4.608,
+   "s11_cp_db": -30.49,
+   "gain_cp_db": 22.0,
+   "ip1db_cp_dbm": -15.4,
+   "stage2_feasible": true,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": null,
+   "score": 0.0
+  },
+  {
+   "t": 52.401,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 2322,
+    "hf_full": 50,
+    "lf": 19539,
+    "hf_total": 2372,
+    "equiv_time_s": 1800.08,
+    "cpu_s": 48.414
+   },
+   "cid": "C028",
+   "origin": "search",
+   "power_ratio_list": [
+    0.4,
+    0.3,
+    0.3
+   ],
+   "config_id": "crit_small__noncrit_small",
+   "nf_cp_db": 4.78,
+   "s11_cp_db": -38.68,
+   "gain_cp_db": 16.1,
+   "ip1db_cp_dbm": -10.12,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": 9.0,
+   "score": 0.0
+  },
+  {
+   "t": 52.401,
+   "agent": "manager",
+   "event": "refine_candidate",
+   "sims": {
+    "hf_critical": 2322,
+    "hf_full": 50,
+    "lf": 19539,
+    "hf_total": 2372,
+    "equiv_time_s": 1800.08,
+    "cpu_s": 48.414
+   },
+   "cid": "C023",
+   "origin": "search",
+   "power_ratio_list": [
+    0.4,
+    0.3,
+    0.3
+   ],
+   "config_id": "crit_large__noncrit_small",
+   "nf_cp_db": 4.552,
+   "s11_cp_db": -31.02,
+   "gain_cp_db": 12.08,
+   "ip1db_cp_dbm": -3.44,
+   "stage2_feasible": true,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": null,
+   "score": 7.448
+  },
+  {
+   "t": 55.647,
+   "agent": "refiner",
+   "event": "evaluate",
+   "sims": {
+    "hf_critical": 2322,
+    "hf_full": 53,
+    "lf": 20541,
+    "hf_total": 2375,
+    "equiv_time_s": 1838.08,
+    "cpu_s": 51.535
+   },
+   "cid": "C023",
+   "did": "D029",
+   "passed": false,
+   "violations": {
+    "gain": 8.6216,
+    "ripple": 9.6041,
+    "nf": 0.0,
+    "ip1db": 0.0,
+    "s11": 5.0944,
+    "power": 0.0
+   },
+   "metrics": {
+    "gain_fc_db": 20.6131,
+    "gain_min_db": 8.3784,
+    "gain_max_db": 20.9825,
+    "ripple_db": 12.6041,
+    "s11_fc_db": -31.2542,
+    "s11_max_inband_db": -4.9056,
+    "nf_fc_db": 4.8167,
+    "nfmin_fc_db": 4.7984,
+    "nf_max_inband_db": 11.1488,
+    "ip1db_dbm": -15.2768,
+    "power_ma": 25.4928,
+    "power_ma_planned": 27.9006
+   }
+  },
+  {
+   "t": 55.647,
+   "agent": "refiner",
+   "event": "decide",
+   "sims": {
+    "hf_critical": 2322,
+    "hf_full": 53,
+    "lf": 20541,
+    "hf_total": 2375,
+    "equiv_time_s": 1838.08,
+    "cpu_s": 51.535
+   },
+   "cid": "C023",
+   "action": "rerun_stage3",
+   "gain_user_db": 26.97,
+   "why": "minimum in-band gain off by 11.6 dB"
+  },
+  {
+   "t": 58.916,
+   "agent": "refiner",
+   "event": "evaluate",
+   "sims": {
+    "hf_critical": 2322,
+    "hf_full": 56,
+    "lf": 21543,
+    "hf_total": 2378,
+    "equiv_time_s": 1876.09,
+    "cpu_s": 54.662
+   },
+   "cid": "C023",
+   "did": "D030",
+   "passed": false,
+   "violations": {
+    "gain": 3.9277,
+    "ripple": 9.9806,
+    "nf": 0.0,
+    "ip1db": 0.0,
+    "s11": 5.1401,
+    "power": 0.0
+   },
+   "metrics": {
+    "gain_fc_db": 25.8669,
+    "gain_min_db": 13.0723,
+    "gain_max_db": 26.0529,
+    "ripple_db": 12.9806,
+    "s11_fc_db": -31.1731,
+    "s11_max_inband_db": -4.8599,
+    "nf_fc_db": 4.8286,
+    "nfmin_fc_db": 4.8106,
+    "nf_max_inband_db": 11.1932,
+    "ip1db_dbm": -16.0903,
+    "power_ma": 25.4606,
+    "power_ma_planned": 27.9006
+   }
+  },
+  {
+   "t": 58.916,
+   "agent": "refiner",
+   "event": "decide",
+   "sims": {
+    "hf_critical": 2322,
+    "hf_full": 56,
+    "lf": 21543,
+    "hf_total": 2378,
+    "equiv_time_s": 1876.09,
+    "cpu_s": 54.662
+   },
+   "cid": "C023",
+   "action": "rerun_stage3",
+   "gain_user_db": 24.16,
+   "why": "minimum in-band gain off by 6.9 dB"
+  },
+  {
+   "t": 62.358,
+   "agent": "refiner",
+   "event": "evaluate",
+   "sims": {
+    "hf_critical": 2322,
+    "hf_full": 61,
+    "lf": 23547,
+    "hf_total": 2383,
+    "equiv_time_s": 1940.09,
+    "cpu_s": 57.833
+   },
+   "cid": "C023",
+   "did": "D031",
+   "passed": false,
+   "violations": {
+    "gain": 4.9855,
+    "ripple": 7.8385,
+    "nf": 0.0485,
+    "ip1db": 0.0,
+    "s11": 5.2003,
+    "power": 0.0
+   },
+   "metrics": {
+    "gain_fc_db": 22.0321,
+    "gain_min_db": 12.0145,
+    "gain_max_db": 22.853,
+    "ripple_db": 10.8385,
+    "s11_fc_db": -31.0104,
+    "s11_max_inband_db": -4.7997,
+    "nf_fc_db": 5.0485,
+    "nfmin_fc_db": 5.0329,
+    "nf_max_inband_db": 11.6405,
+    "ip1db_dbm": -14.1476,
+    "power_ma": 25.4711,
+    "power_ma_planned": 27.9006
+   }
+  },
+  {
+   "t": 62.358,
+   "agent": "refiner",
+   "event": "decide",
+   "sims": {
+    "hf_critical": 2322,
+    "hf_full": 61,
+    "lf": 23547,
+    "hf_total": 2383,
+    "equiv_time_s": 1940.09,
+    "cpu_s": 57.833
+   },
+   "cid": "C023",
+   "action": "rerun_stage2",
+   "nf_headroom_db": 0.36,
+   "gain_require_db": null,
+   "why": "NF short by 0.05 dB: raise headroom to 0.36"
+  },
+  {
+   "t": 63.097,
+   "agent": "refiner",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 2451,
+    "hf_full": 61,
+    "lf": 23547,
+    "hf_total": 2512,
+    "equiv_time_s": 2004.59,
+    "cpu_s": 58.519
+   },
+   "cid": "C032",
+   "origin": "refine",
+   "power_ratio_list": [
+    0.4,
+    0.3,
+    0.3
+   ],
+   "config_id": "crit_large__noncrit_small",
+   "nf_cp_db": 4.374,
+   "s11_cp_db": -20.13,
+   "gain_cp_db": 13.94,
+   "ip1db_cp_dbm": -6.68,
+   "stage2_feasible": true,
+   "nf_headroom_db": 0.36,
+   "gain_require_db": null,
+   "score": 0.0
+  },
+  {
+   "t": 66.477,
+   "agent": "refiner",
+   "event": "evaluate",
+   "sims": {
+    "hf_critical": 2451,
+    "hf_full": 65,
+    "lf": 25050,
+    "hf_total": 2516,
+    "equiv_time_s": 2055.6,
+    "cpu_s": 61.712
+   },
+   "cid": "C032",
+   "did": "D033",
+   "passed": false,
+   "violations": {
+    "gain": 1.057,
+    "ripple": 7.7362,
+    "nf": 0.0,
+    "ip1db": 0.0,
+    "s11": 7.8451,
+    "power": 0.0
+   },
+   "metrics": {
+    "gain_fc_db": 22.9987,
+    "gain_min_db": 15.943,
+    "gain_max_db": 26.6792,
+    "ripple_db": 10.7362,
+    "s11_fc_db": -22.114,
+    "s11_max_inband_db": -2.1549,
+    "nf_fc_db": 4.3867,
+    "nfmin_fc_db": 4.3238,
+    "nf_max_inband_db": 8.5014,
+    "ip1db_dbm": -16.2415,
+    "power_ma": 25.6211,
+    "power_ma_planned": 27.9006
+   }
+  },
+  {
+   "t": 66.477,
+   "agent": "refiner",
+   "event": "decide",
+   "sims": {
+    "hf_critical": 2451,
+    "hf_full": 65,
+    "lf": 25050,
+    "hf_total": 2516,
+    "equiv_time_s": 2055.6,
+    "cpu_s": 61.712
+   },
+   "cid": "C032",
+   "action": "rerun_stage3",
+   "gain_user_db": 22.43,
+   "why": "minimum in-band gain off by 4.1 dB"
+  },
+  {
+   "t": 69.748,
+   "agent": "refiner",
+   "event": "evaluate",
+   "sims": {
+    "hf_critical": 2451,
+    "hf_full": 69,
+    "lf": 26553,
+    "hf_total": 2520,
+    "equiv_time_s": 2106.61,
+    "cpu_s": 64.77
+   },
+   "cid": "C032",
+   "did": "D034",
+   "passed": false,
+   "violations": {
+    "gain": 0.0,
+    "ripple": 7.9961,
+    "nf": 0.0,
+    "ip1db": 0.0,
+    "s11": 7.8444,
+    "power": 0.0
+   },
+   "metrics": {
+    "gain_fc_db": 24.5217,
+    "gain_min_db": 17.0634,
+    "gain_max_db": 28.0595,
+    "ripple_db": 10.9961,
+    "s11_fc_db": -22.1244,
+    "s11_max_inband_db": -2.1556,
+    "nf_fc_db": 4.3203,
+    "nfmin_fc_db": 4.2551,
+    "nf_max_inband_db": 8.3531,
+    "ip1db_dbm": -17.4466,
+    "power_ma": 25.6014,
+    "power_ma_planned": 27.9006
+   }
+  },
+  {
+   "t": 69.748,
+   "agent": "refiner",
+   "event": "decide",
+   "sims": {
+    "hf_critical": 2451,
+    "hf_full": 69,
+    "lf": 26553,
+    "hf_total": 2520,
+    "equiv_time_s": 2106.61,
+    "cpu_s": 64.77
+   },
+   "cid": "C032",
+   "action": "rerun_stage3",
+   "why": "ripple/S11: re-plan passband"
+  },
+  {
+   "t": 73.186,
+   "agent": "refiner",
+   "event": "evaluate",
+   "sims": {
+    "hf_critical": 2451,
+    "hf_full": 73,
+    "lf": 28056,
+    "hf_total": 2524,
+    "equiv_time_s": 2157.61,
+    "cpu_s": 67.989
+   },
+   "cid": "C032",
+   "did": "D035",
+   "passed": false,
+   "violations": {
+    "gain": 1.8154,
+    "ripple": 6.0385,
+    "nf": 0.0,
+    "ip1db": 0.0,
+    "s11": 7.8443,
+    "power": 0.0
+   },
+   "metrics": {
+    "gain_fc_db": 22.1284,
+    "gain_min_db": 15.1846,
+    "gain_max_db": 24.2231,
+    "ripple_db": 9.0385,
+    "s11_fc_db": -22.117,
+    "s11_max_inband_db": -2.1557,
+    "nf_fc_db": 4.3221,
+    "nfmin_fc_db": 4.257,
+    "nf_max_inband_db": 8.3602,
+    "ip1db_dbm": -17.6921,
+    "power_ma": 25.5621,
+    "power_ma_planned": 27.9006
+   }
+  },
+  {
+   "t": 73.186,
+   "agent": "refiner",
+   "event": "decide",
+   "sims": {
+    "hf_critical": 2451,
+    "hf_full": 73,
+    "lf": 28056,
+    "hf_total": 2524,
+    "equiv_time_s": 2157.61,
+    "cpu_s": 67.989
+   },
+   "cid": "C032",
+   "action": "rerun_stage3",
+   "gain_user_db": 22.89,
+   "why": "minimum in-band gain off by 4.8 dB"
+  },
+  {
+   "t": 73.186,
+   "agent": "manager",
+   "event": "refine_report",
+   "sims": {
+    "hf_critical": 2451,
+    "hf_full": 73,
+    "lf": 28056,
+    "hf_total": 2524,
+    "equiv_time_s": 2157.61,
+    "cpu_s": 67.989
+   },
+   "cid": "C032",
+   "success": false,
+   "did": "D035",
+   "metrics": {
+    "gain_fc_db": 22.1284,
+    "gain_min_db": 15.1846,
+    "gain_max_db": 24.2231,
+    "ripple_db": 9.0385,
+    "s11_fc_db": -22.117,
+    "s11_max_inband_db": -2.1557,
+    "nf_fc_db": 4.3221,
+    "nfmin_fc_db": 4.257,
+    "nf_max_inband_db": 8.3602,
+    "ip1db_dbm": -17.6921,
+    "power_ma": 25.5621,
+    "power_ma_planned": 27.9006
+   },
+   "violations": {
+    "gain": 1.8154,
+    "ripple": 6.0385,
+    "nf": 0.0,
+    "ip1db": 0.0,
+    "s11": 7.8443,
+    "power": 0.0
+   },
+   "bottleneck": "s11",
+   "steps": 6,
+   "reason": "refine budget exhausted"
+  },
+  {
+   "t": 73.186,
+   "agent": "manager",
+   "event": "refine_candidate",
+   "sims": {
+    "hf_critical": 2451,
+    "hf_full": 73,
+    "lf": 28056,
+    "hf_total": 2524,
+    "equiv_time_s": 2157.61,
+    "cpu_s": 67.989
+   },
+   "cid": "C025",
+   "origin": "search",
+   "power_ratio_list": [
+    0.4,
+    0.3,
+    0.3
+   ],
+   "config_id": "crit_small__noncrit_large",
+   "nf_cp_db": 4.477,
+   "s11_cp_db": -33.31,
+   "gain_cp_db": 20.56,
+   "ip1db_cp_dbm": -14.0,
+   "stage2_feasible": true,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": null,
+   "score": 4.557
+  },
+  {
+   "t": 76.676,
+   "agent": "refiner",
+   "event": "evaluate",
+   "sims": {
+    "hf_critical": 2451,
+    "hf_full": 77,
+    "lf": 29559,
+    "hf_total": 2528,
+    "equiv_time_s": 2208.62,
+    "cpu_s": 71.271
+   },
+   "cid": "C025",
+   "did": "D036",
+   "passed": false,
+   "violations": {
+    "gain": 4.8124,
+    "ripple": 10.2237,
+    "nf": 0.0,
+    "ip1db": 0.0,
+    "s11": 6.5543,
+    "power": 0.0
+   },
+   "metrics": {
+    "gain_fc_db": 21.7329,
+    "gain_min_db": 12.1876,
+    "gain_max_db": 25.4113,
+    "ripple_db": 13.2237,
+    "s11_fc_db": -46.6928,
+    "s11_max_inband_db": -3.4457,
+    "nf_fc_db": 4.5082,
+    "nfmin_fc_db": 4.4289,
+    "nf_max_inband_db": 7.9999,
+    "ip1db_dbm": -12.7086,
+    "power_ma": 24.8967,
+    "power_ma_planned": 27.4017
+   }
+  },
+  {
+   "t": 76.676,
+   "agent": "refiner",
+   "event": "decide",
+   "sims": {
+    "hf_critical": 2451,
+    "hf_full": 77,
+    "lf": 29559,
+    "hf_total": 2528,
+    "equiv_time_s": 2208.62,
+    "cpu_s": 71.271
+   },
+   "cid": "C025",
+   "action": "rerun_stage3",
+   "gain_user_db": 24.69,
+   "why": "minimum in-band gain off by 7.8 dB"
+  },
+  {
+   "t": 80.429,
+   "agent": "refiner",
+   "event": "evaluate",
+   "sims": {
+    "hf_critical": 2451,
+    "hf_full": 82,
+    "lf": 31563,
+    "hf_total": 2533,
+    "equiv_time_s": 2272.63,
+    "cpu_s": 74.733
+   },
+   "cid": "C025",
+   "did": "D037",
+   "passed": false,
+   "violations": {
+    "gain": 5.2733,
+    "ripple": 9.2426,
+    "nf": 0.0,
+    "ip1db": 0.0,
+    "s11": 6.5538,
+    "power": 0.0
+   },
+   "metrics": {
+    "gain_fc_db": 21.1476,
+    "gain_min_db": 11.7267,
+    "gain_max_db": 23.9693,
+    "ripple_db": 12.2426,
+    "s11_fc_db": -44.4089,
+    "s11_max_inband_db": -3.4462,
+    "nf_fc_db": 4.6156,
+    "nfmin_fc_db": 4.5405,
+    "nf_max_inband_db": 8.3454,
+    "ip1db_dbm": -14.458,
+    "power_ma": 24.8847,
+    "power_ma_planned": 27.4017
+   }
+  },
+  {
+   "t": 80.429,
+   "agent": "refiner",
+   "event": "decide",
+   "sims": {
+    "hf_critical": 2451,
+    "hf_full": 82,
+    "lf": 31563,
+    "hf_total": 2533,
+    "equiv_time_s": 2272.63,
+    "cpu_s": 74.733
+   },
+   "cid": "C025",
+   "action": "rerun_stage3",
+   "gain_user_db": 24.96,
+   "why": "minimum in-band gain off by 8.3 dB"
+  },
+  {
+   "t": 84.086,
+   "agent": "refiner",
+   "event": "evaluate",
+   "sims": {
+    "hf_critical": 2451,
+    "hf_full": 86,
+    "lf": 33066,
+    "hf_total": 2537,
+    "equiv_time_s": 2323.63,
+    "cpu_s": 78.155
+   },
+   "cid": "C025",
+   "did": "D038",
+   "passed": false,
+   "violations": {
+    "gain": 2.8771,
+    "ripple": 8.6012,
+    "nf": 0.0,
+    "ip1db": 0.0,
+    "s11": 6.5542,
+    "power": 0.0
+   },
+   "metrics": {
+    "gain_fc_db": 24.4927,
+    "gain_min_db": 14.1229,
+    "gain_max_db": 25.7241,
+    "ripple_db": 11.6012,
+    "s11_fc_db": -43.8292,
+    "s11_max_inband_db": -3.4458,
+    "nf_fc_db": 4.5156,
+    "nfmin_fc_db": 4.4367,
+    "nf_max_inband_db": 7.9434,
+    "ip1db_dbm": -14.2488,
+    "power_ma": 24.8835,
+    "power_ma_planned": 27.4017
+   }
+  },
+  {
+   "t": 84.086,
+   "agent": "refiner",
+   "event": "decide",
+   "sims": {
+    "hf_critical": 2451,
+    "hf_full": 86,
+    "lf": 33066,
+    "hf_total": 2537,
+    "equiv_time_s": 2323.63,
+    "cpu_s": 78.155
+   },
+   "cid": "C025",
+   "action": "rerun_stage3",
+   "gain_user_db": 23.53,
+   "why": "minimum in-band gain off by 5.9 dB"
+  },
+  {
+   "t": 87.595,
+   "agent": "refiner",
+   "event": "evaluate",
+   "sims": {
+    "hf_critical": 2451,
+    "hf_full": 90,
+    "lf": 34569,
+    "hf_total": 2541,
+    "equiv_time_s": 2374.64,
+    "cpu_s": 81.428
+   },
+   "cid": "C025",
+   "did": "D039",
+   "passed": false,
+   "violations": {
+    "gain": 4.0661,
+    "ripple": 6.9477,
+    "nf": 0.0,
+    "ip1db": 0.0,
+    "s11": 6.5539,
+    "power": 0.0
+   },
+   "metrics": {
+    "gain_fc_db": 22.8584,
+    "gain_min_db": 12.9339,
+    "gain_max_db": 22.8816,
+    "ripple_db": 9.9477,
+    "s11_fc_db": -40.4398,
+    "s11_max_inband_db": -3.4461,
+    "nf_fc_db": 4.5944,
+    "nfmin_fc_db": 4.5185,
+    "nf_max_inband_db": 9.4946,
+    "ip1db_dbm": -15.6267,
+    "power_ma": 24.8888,
+    "power_ma_planned": 27.4017
+   }
+  },
+  {
+   "t": 87.596,
+   "agent": "refiner",
+   "event": "decide",
+   "sims": {
+    "hf_critical": 2451,
+    "hf_full": 90,
+    "lf": 34569,
+    "hf_total": 2541,
+    "equiv_time_s": 2374.64,
+    "cpu_s": 81.428
+   },
+   "cid": "C025",
+   "action": "rerun_stage3",
+   "gain_user_db": 24.24,
+   "why": "minimum in-band gain off by 7.1 dB"
+  },
+  {
+   "t": 90.948,
+   "agent": "refiner",
+   "event": "evaluate",
+   "sims": {
+    "hf_critical": 2451,
+    "hf_full": 95,
+    "lf": 36573,
+    "hf_total": 2546,
+    "equiv_time_s": 2438.65,
+    "cpu_s": 84.493
+   },
+   "cid": "C025",
+   "did": "D040",
+   "passed": false,
+   "violations": {
+    "gain": 4.4013,
+    "ripple": 6.7226,
+    "nf": 0.0,
+    "ip1db": 0.0,
+    "s11": 6.554,
+    "power": 0.0
+   },
+   "metrics": {
+    "gain_fc_db": 22.2074,
+    "gain_min_db": 12.5987,
+    "gain_max_db": 22.3212,
+    "ripple_db": 9.7226,
+    "s11_fc_db": -41.8059,
+    "s11_max_inband_db": -3.446,
+    "nf_fc_db": 4.5326,
+    "nfmin_fc_db": 4.4543,
+    "nf_max_inband_db": 9.0566,
+    "ip1db_dbm": -13.9171,
+    "power_ma": 24.9127,
+    "power_ma_planned": 27.4017
+   }
+  },
+  {
+   "t": 90.948,
+   "agent": "refiner",
+   "event": "decide",
+   "sims": {
+    "hf_critical": 2451,
+    "hf_full": 95,
+    "lf": 36573,
+    "hf_total": 2546,
+    "equiv_time_s": 2438.65,
+    "cpu_s": 84.493
+   },
+   "cid": "C025",
+   "action": "rerun_stage3",
+   "gain_user_db": 24.44,
+   "why": "minimum in-band gain off by 7.4 dB"
+  },
+  {
+   "t": 94.255,
+   "agent": "refiner",
+   "event": "evaluate",
+   "sims": {
+    "hf_critical": 2451,
+    "hf_full": 100,
+    "lf": 38577,
+    "hf_total": 2551,
+    "equiv_time_s": 2502.65,
+    "cpu_s": 87.523
+   },
+   "cid": "C025",
+   "did": "D041",
+   "passed": false,
+   "violations": {
+    "gain": 12.5373,
+    "ripple": 9.2244,
+    "nf": 0.4481,
+    "ip1db": 0.0,
+    "s11": 6.5537,
+    "power": 0.0
+   },
+   "metrics": {
+    "gain_fc_db": 11.4864,
+    "gain_min_db": 4.4627,
+    "gain_max_db": 16.6871,
+    "ripple_db": 12.2244,
+    "s11_fc_db": -39.3931,
+    "s11_max_inband_db": -3.4463,
+    "nf_fc_db": 5.4481,
+    "nfmin_fc_db": 5.398,
+    "nf_max_inband_db": 14.5654,
+    "ip1db_dbm": -16.2344,
+    "power_ma": 24.9141,
+    "power_ma_planned": 27.4017
+   }
+  },
+  {
+   "t": 94.255,
+   "agent": "refiner",
+   "event": "decide",
+   "sims": {
+    "hf_critical": 2451,
+    "hf_full": 100,
+    "lf": 38577,
+    "hf_total": 2551,
+    "equiv_time_s": 2502.65,
+    "cpu_s": 87.523
+   },
+   "cid": "C025",
+   "action": "rerun_stage3",
+   "gain_req_list": [
+    13.6754,
+    6.0,
+    1.3
+   ],
+   "why": "later stages add noise because MCR2 is lossy: require stage-2 gain"
+  },
+  {
+   "t": 94.255,
+   "agent": "manager",
+   "event": "refine_report",
+   "sims": {
+    "hf_critical": 2451,
+    "hf_full": 100,
+    "lf": 38577,
+    "hf_total": 2551,
+    "equiv_time_s": 2502.65,
+    "cpu_s": 87.523
+   },
+   "cid": "C025",
+   "success": false,
+   "did": "D039",
+   "metrics": {
+    "gain_fc_db": 22.8584,
+    "gain_min_db": 12.9339,
+    "gain_max_db": 22.8816,
+    "ripple_db": 9.9477,
+    "s11_fc_db": -40.4398,
+    "s11_max_inband_db": -3.4461,
+    "nf_fc_db": 4.5944,
+    "nfmin_fc_db": 4.5185,
+    "nf_max_inband_db": 9.4946,
+    "ip1db_dbm": -15.6267,
+    "power_ma": 24.8888,
+    "power_ma_planned": 27.4017
+   },
+   "violations": {
+    "gain": 4.0661,
+    "ripple": 6.9477,
+    "nf": 0.0,
+    "ip1db": 0.0,
+    "s11": 6.5539,
+    "power": 0.0
+   },
+   "bottleneck": "ripple",
+   "steps": 6,
+   "reason": "refine budget exhausted"
+  },
+  {
+   "t": 94.255,
+   "agent": "manager",
+   "event": "refine_candidate",
+   "sims": {
+    "hf_critical": 2451,
+    "hf_full": 100,
+    "lf": 38577,
+    "hf_total": 2551,
+    "equiv_time_s": 2502.65,
+    "cpu_s": 87.523
+   },
+   "cid": "C027",
+   "origin": "search",
+   "power_ratio_list": [
+    0.4,
+    0.3,
+    0.3
+   ],
+   "config_id": "crit_small__noncrit_small",
+   "nf_cp_db": 4.608,
+   "s11_cp_db": -30.49,
+   "gain_cp_db": 22.0,
+   "ip1db_cp_dbm": -15.4,
+   "stage2_feasible": true,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": null,
+   "score": 3.293
+  },
+  {
+   "t": 97.571,
+   "agent": "refiner",
+   "event": "evaluate",
+   "sims": {
+    "hf_critical": 2451,
+    "hf_full": 105,
+    "lf": 40581,
+    "hf_total": 2556,
+    "equiv_time_s": 2566.66,
+    "cpu_s": 90.564
+   },
+   "cid": "C027",
+   "did": "D042",
+   "passed": false,
+   "violations": {
+    "gain": 0.0,
+    "ripple": 9.9438,
+    "nf": 0.0,
+    "ip1db": 2.4604,
+    "s11": 7.8899,
+    "power": 0.0
+   },
+   "metrics": {
+    "gain_fc_db": 23.1752,
+    "gain_min_db": 18.8312,
+    "gain_max_db": 31.775,
+    "ripple_db": 12.9438,
+    "s11_fc_db": -34.7066,
+    "s11_max_inband_db": -2.1101,
+    "nf_fc_db": 4.5264,
+    "nfmin_fc_db": 4.3091,
+    "nf_max_inband_db": 6.9621,
+    "ip1db_dbm": -22.4604,
+    "power_ma": 25.8804,
+    "power_ma_planned": 28.2134
+   }
+  },
+  {
+   "t": 97.571,
+   "agent": "refiner",
+   "event": "decide",
+   "sims": {
+    "hf_critical": 2451,
+    "hf_full": 105,
+    "lf": 40581,
+    "hf_total": 2556,
+    "equiv_time_s": 2566.66,
+    "cpu_s": 90.564
+   },
+   "cid": "C027",
+   "action": "rerun_stage3",
+   "gain_user_db": 17.8,
+   "why": "IP1dB short by 2.5 dB: trade surplus gain for linearity"
+  },
+  {
+   "t": 101.234,
+   "agent": "refiner",
+   "event": "evaluate",
+   "sims": {
+    "hf_critical": 2451,
+    "hf_full": 110,
+    "lf": 42585,
+    "hf_total": 2561,
+    "equiv_time_s": 2630.67,
+    "cpu_s": 93.943
+   },
+   "cid": "C027",
+   "did": "D043",
+   "passed": false,
+   "violations": {
+    "gain": 2.4394,
+    "ripple": 6.5506,
+    "nf": 0.0,
+    "ip1db": 0.0,
+    "s11": 7.8966,
+    "power": 0.0
+   },
+   "metrics": {
+    "gain_fc_db": 20.7343,
+    "gain_min_db": 14.5606,
+    "gain_max_db": 24.1112,
+    "ripple_db": 9.5506,
+    "s11_fc_db": -33.5133,
+    "s11_max_inband_db": -2.1034,
+    "nf_fc_db": 4.9325,
+    "nfmin_fc_db": 4.7534,
+    "nf_max_inband_db": 10.8763,
+    "ip1db_dbm": -17.9471,
+    "power_ma": 25.8925,
+    "power_ma_planned": 28.2134
+   }
+  },
+  {
+   "t": 101.235,
+   "agent": "refiner",
+   "event": "decide",
+   "sims": {
+    "hf_critical": 2451,
+    "hf_full": 110,
+    "lf": 42585,
+    "hf_total": 2561,
+    "equiv_time_s": 2630.67,
+    "cpu_s": 93.943
+   },
+   "cid": "C027",
+   "action": "rerun_stage3",
+   "gain_user_db": 23.26,
+   "why": "minimum in-band gain off by 5.4 dB"
+  },
+  {
+   "t": 105.275,
+   "agent": "refiner",
+   "event": "evaluate",
+   "sims": {
+    "hf_critical": 2451,
+    "hf_full": 115,
+    "lf": 44589,
+    "hf_total": 2566,
+    "equiv_time_s": 2694.68,
+    "cpu_s": 97.654
+   },
+   "cid": "C027",
+   "did": "D044",
+   "passed": false,
+   "violations": {
+    "gain": 0.0,
+    "ripple": 10.9562,
+    "nf": 0.0,
+    "ip1db": 0.0,
+    "s11": 7.897,
+    "power": 0.0
+   },
+   "metrics": {
+    "gain_fc_db": 20.9824,
+    "gain_min_db": 17.513,
+    "gain_max_db": 31.4692,
+    "ripple_db": 13.9562,
+    "s11_fc_db": -34.288,
+    "s11_max_inband_db": -2.103,
+    "nf_fc_db": 4.6799,
+    "nfmin_fc_db": 4.4783,
+    "nf_max_inband_db": 7.3357,
+    "ip1db_dbm": -19.3479,
+    "power_ma": 25.8794,
+    "power_ma_planned": 28.2134
+   }
+  },
+  {
+   "t": 105.275,
+   "agent": "refiner",
+   "event": "decide",
+   "sims": {
+    "hf_critical": 2451,
+    "hf_full": 115,
+    "lf": 44589,
+    "hf_total": 2566,
+    "equiv_time_s": 2694.68,
+    "cpu_s": 97.654
+   },
+   "cid": "C027",
+   "action": "rerun_stage3",
+   "why": "ripple/S11: re-plan passband"
+  },
+  {
+   "t": 109.559,
+   "agent": "refiner",
+   "event": "evaluate",
+   "sims": {
+    "hf_critical": 2451,
+    "hf_full": 119,
+    "lf": 46092,
+    "hf_total": 2570,
+    "equiv_time_s": 2745.68,
+    "cpu_s": 101.617
+   },
+   "cid": "C027",
+   "did": "D045",
+   "passed": false,
+   "violations": {
+    "gain": 0.0,
+    "ripple": 8.7633,
+    "nf": 0.0,
+    "ip1db": 2.4399,
+    "s11": 7.89,
+    "power": 0.0
+   },
+   "metrics": {
+    "gain_fc_db": 27.147,
+    "gain_min_db": 20.7921,
+    "gain_max_db": 32.5554,
+    "ripple_db": 11.7633,
+    "s11_fc_db": -34.8311,
+    "s11_max_inband_db": -2.11,
+    "nf_fc_db": 4.5283,
+    "nfmin_fc_db": 4.3113,
+    "nf_max_inband_db": 7.0465,
+    "ip1db_dbm": -22.4399,
+    "power_ma": 25.796,
+    "power_ma_planned": 28.2134
+   }
+  },
+  {
+   "t": 109.56,
+   "agent": "refiner",
+   "event": "decide",
+   "sims": {
+    "hf_critical": 2451,
+    "hf_full": 119,
+    "lf": 46092,
+    "hf_total": 2570,
+    "equiv_time_s": 2745.68,
+    "cpu_s": 101.617
+   },
+   "cid": "C027",
+   "action": "rerun_stage2",
+   "gain_require_db": 8.8,
+   "nf_headroom_db": 0.2,
+   "why": "critical gain 22.0 dB leaves no room for later stages: target 8.8 dB"
+  },
+  {
+   "t": 110.487,
+   "agent": "refiner",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 2580,
+    "hf_full": 119,
+    "lf": 46092,
+    "hf_total": 2699,
+    "equiv_time_s": 2810.18,
+    "cpu_s": 102.477
+   },
+   "cid": "C046",
+   "origin": "refine",
+   "power_ratio_list": [
+    0.4,
+    0.3,
+    0.3
+   ],
+   "config_id": "crit_small__noncrit_small",
+   "nf_cp_db": 4.845,
+   "s11_cp_db": -37.42,
+   "gain_cp_db": 15.78,
+   "ip1db_cp_dbm": -9.93,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": 8.8,
+   "score": 0.0
+  },
+  {
+   "t": 110.487,
+   "agent": "manager",
+   "event": "refine_report",
+   "sims": {
+    "hf_critical": 2580,
+    "hf_full": 119,
+    "lf": 46092,
+    "hf_total": 2699,
+    "equiv_time_s": 2810.18,
+    "cpu_s": 102.477
+   },
+   "cid": "C046",
+   "success": false,
+   "did": "D043",
+   "metrics": {
+    "gain_fc_db": 20.7343,
+    "gain_min_db": 14.5606,
+    "gain_max_db": 24.1112,
+    "ripple_db": 9.5506,
+    "s11_fc_db": -33.5133,
+    "s11_max_inband_db": -2.1034,
+    "nf_fc_db": 4.9325,
+    "nfmin_fc_db": 4.7534,
+    "nf_max_inband_db": 10.8763,
+    "ip1db_dbm": -17.9471,
+    "power_ma": 25.8925,
+    "power_ma_planned": 28.2134
+   },
+   "violations": {
+    "gain": 2.4394,
+    "ripple": 6.5506,
+    "nf": 0.0,
+    "ip1db": 0.0,
+    "s11": 7.8966,
+    "power": 0.0
+   },
+   "bottleneck": "stage2_infeasible",
+   "steps": 4,
+   "reason": "critical stages cannot meet NF/S11 at the requested gain"
+  },
+  {
+   "t": 110.487,
+   "agent": "searcher",
+   "event": "active_sizing",
+   "sims": {
+    "hf_critical": 2580,
+    "hf_full": 119,
+    "lf": 46092,
+    "hf_total": 2699,
+    "equiv_time_s": 2810.18,
+    "cpu_s": 102.477
+   },
+   "split": [
+    0.45,
+    0.25,
+    0.3
+   ],
+   "status": "ok",
+   "n": 4
+  },
+  {
+   "t": 111.404,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 2709,
+    "hf_full": 119,
+    "lf": 46092,
+    "hf_total": 2828,
+    "equiv_time_s": 2874.68,
+    "cpu_s": 103.328
+   },
+   "cid": "C047",
+   "origin": "search",
+   "power_ratio_list": [
+    0.45,
+    0.25,
+    0.3
+   ],
+   "config_id": "crit_large__noncrit_large",
+   "nf_cp_db": 4.36,
+   "s11_cp_db": -34.39,
+   "gain_cp_db": 14.31,
+   "ip1db_cp_dbm": -6.23,
+   "stage2_feasible": true,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": null,
+   "score": 0.0
+  },
+  {
+   "t": 112.275,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 2838,
+    "hf_full": 119,
+    "lf": 46092,
+    "hf_total": 2957,
+    "equiv_time_s": 2939.18,
+    "cpu_s": 104.136
+   },
+   "cid": "C048",
+   "origin": "search",
+   "power_ratio_list": [
+    0.45,
+    0.25,
+    0.3
+   ],
+   "config_id": "crit_large__noncrit_large",
+   "nf_cp_db": 4.74,
+   "s11_cp_db": -32.03,
+   "gain_cp_db": 9.39,
+   "ip1db_cp_dbm": -3.64,
+   "stage2_feasible": true,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": 9.0,
+   "score": 0.0
+  },
+  {
+   "t": 113.136,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 2967,
+    "hf_full": 119,
+    "lf": 46092,
+    "hf_total": 3086,
+    "equiv_time_s": 3003.68,
+    "cpu_s": 104.934
+   },
+   "cid": "C049",
+   "origin": "search",
+   "power_ratio_list": [
+    0.45,
+    0.25,
+    0.3
+   ],
+   "config_id": "crit_large__noncrit_small",
+   "nf_cp_db": 4.584,
+   "s11_cp_db": -26.11,
+   "gain_cp_db": 17.48,
+   "ip1db_cp_dbm": -8.82,
+   "stage2_feasible": true,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": null,
+   "score": 0.0
+  },
+  {
+   "t": 113.998,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 3096,
+    "hf_full": 119,
+    "lf": 46092,
+    "hf_total": 3215,
+    "equiv_time_s": 3068.18,
+    "cpu_s": 105.734
+   },
+   "cid": "C050",
+   "origin": "search",
+   "power_ratio_list": [
+    0.45,
+    0.25,
+    0.3
+   ],
+   "config_id": "crit_large__noncrit_small",
+   "nf_cp_db": 4.545,
+   "s11_cp_db": -33.43,
+   "gain_cp_db": 9.83,
+   "ip1db_cp_dbm": -3.26,
+   "stage2_feasible": true,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": 9.0,
+   "score": 0.0
+  },
+  {
+   "t": 114.868,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 3225,
+    "hf_full": 119,
+    "lf": 46092,
+    "hf_total": 3344,
+    "equiv_time_s": 3132.68,
+    "cpu_s": 106.541
+   },
+   "cid": "C051",
+   "origin": "search",
+   "power_ratio_list": [
+    0.45,
+    0.25,
+    0.3
+   ],
+   "config_id": "crit_small__noncrit_large",
+   "nf_cp_db": 4.084,
+   "s11_cp_db": -31.49,
+   "gain_cp_db": 21.35,
+   "ip1db_cp_dbm": -14.5,
+   "stage2_feasible": true,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": null,
+   "score": 0.0
+  },
+  {
+   "t": 115.722,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 3354,
+    "hf_full": 119,
+    "lf": 46092,
+    "hf_total": 3473,
+    "equiv_time_s": 3197.18,
+    "cpu_s": 107.334
+   },
+   "cid": "C052",
+   "origin": "search",
+   "power_ratio_list": [
+    0.45,
+    0.25,
+    0.3
+   ],
+   "config_id": "crit_small__noncrit_large",
+   "nf_cp_db": 4.844,
+   "s11_cp_db": -34.6,
+   "gain_cp_db": 15.32,
+   "ip1db_cp_dbm": -9.45,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": 9.0,
+   "score": 0.0
+  },
+  {
+   "t": 116.575,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 3483,
+    "hf_full": 119,
+    "lf": 46092,
+    "hf_total": 3602,
+    "equiv_time_s": 3261.68,
+    "cpu_s": 108.126
+   },
+   "cid": "C053",
+   "origin": "search",
+   "power_ratio_list": [
+    0.45,
+    0.25,
+    0.3
+   ],
+   "config_id": "crit_small__noncrit_small",
+   "nf_cp_db": 4.578,
+   "s11_cp_db": -28.26,
+   "gain_cp_db": 20.97,
+   "ip1db_cp_dbm": -14.42,
+   "stage2_feasible": true,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": null,
+   "score": 0.0
+  },
+  {
+   "t": 117.425,
+   "agent": "searcher",
+   "event": "impedance_matching",
+   "sims": {
+    "hf_critical": 3612,
+    "hf_full": 119,
+    "lf": 46092,
+    "hf_total": 3731,
+    "equiv_time_s": 3326.18,
+    "cpu_s": 108.914
+   },
+   "cid": "C054",
+   "origin": "search",
+   "power_ratio_list": [
+    0.45,
+    0.25,
+    0.3
+   ],
+   "config_id": "crit_small__noncrit_small",
+   "nf_cp_db": 4.719,
+   "s11_cp_db": -38.76,
+   "gain_cp_db": 15.9,
+   "ip1db_cp_dbm": -9.57,
+   "stage2_feasible": false,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": 9.0,
+   "score": 0.0
+  },
+  {
+   "t": 117.425,
+   "agent": "manager",
+   "event": "refine_candidate",
+   "sims": {
+    "hf_critical": 3612,
+    "hf_full": 119,
+    "lf": 46092,
+    "hf_total": 3731,
+    "equiv_time_s": 3326.18,
+    "cpu_s": 108.914
+   },
+   "cid": "C047",
+   "origin": "search",
+   "power_ratio_list": [
+    0.45,
+    0.25,
+    0.3
+   ],
+   "config_id": "crit_large__noncrit_large",
+   "nf_cp_db": 4.36,
+   "s11_cp_db": -34.39,
+   "gain_cp_db": 14.31,
+   "ip1db_cp_dbm": -6.23,
+   "stage2_feasible": true,
+   "nf_headroom_db": 0.2,
+   "gain_require_db": null,
+   "score": 7.548
+  },
+  {
+   "t": 121.333,
+   "agent": "refiner",
+   "event": "evaluate",
+   "sims": {
+    "hf_critical": 3612,
+    "hf_full": 124,
+    "lf": 48096,
+    "hf_total": 3736,
+    "equiv_time_s": 3390.19,
+    "cpu_s": 112.522
+   },
+   "cid": "C047",
+   "did": "D055",
+   "passed": false,
+   "violations": {
+    "gain": 6.6655,
+    "ripple": 9.7436,
+    "nf": 0.0,
+    "ip1db": 0.0,
+    "s11": 4.3993,
+    "power": 0.0
+   },
+   "metrics": {
+    "gain_fc_db": 18.7909,
+    "gain_min_db": 10.3345,
+    "gain_max_db": 23.0781,
+    "ripple_db": 12.7436,
+    "s11_fc_db": -34.1966,
+    "s11_max_inband_db": -5.6007,
+    "nf_fc_db": 4.6504,
+    "nfmin_fc_db": 4.641,
+    "nf_max_inband_db": 8.6652,
+    "ip1db_dbm": -7.3923,
+    "power_ma": 25.6284,
+    "power_ma_planned": 28.7106
+   }
+  },
+  {
+   "t": 121.333,
+   "agent": "refiner",
+   "event": "decide",
+   "sims": {
+    "hf_critical": 3612,
+    "hf_full": 124,
+    "lf": 48096,
+    "hf_total": 3736,
+    "equiv_time_s": 3390.19,
+    "cpu_s": 112.522
+   },
+   "cid": "C047",
+   "action": "rerun_stage3",
+   "gain_user_db": 25.8,
+   "why": "minimum in-band gain off by 9.7 dB"
+  },
+  {
+   "t": 125.372,
+   "agent": "refiner",
+   "event": "evaluate",
+   "sims": {
+    "hf_critical": 3612,
+    "hf_full": 129,
+    "lf": 50100,
+    "hf_total": 3741,
+    "equiv_time_s": 3454.2,
+    "cpu_s": 116.216
+   },
+   "cid": "C047",
+   "did": "D056",
+   "passed": false,
+   "violations": {
+    "gain": 7.9315,
+    "ripple": 9.5743,
+    "nf": 0.0,
+    "ip1db": 0.0,
+    "s11": 4.4052,
+    "power": 0.0
+   },
+   "metrics": {
+    "gain_fc_db": 16.1927,
+    "gain_min_db": 9.0685,
+    "gain_max_db": 21.6428,
+    "ripple_db": 12.5743,
+    "s11_fc_db": -34.1945,
+    "s11_max_inband_db": -5.5948,
+    "nf_fc_db": 4.6247,
+    "nfmin_fc_db": 4.6152,
+    "nf_max_inband_db": 8.7489,
+    "ip1db_dbm": -5.0,
+    "power_ma": 25.6432,
+    "power_ma_planned": 28.7106
+   }
+  },
+  {
+   "t": 125.372,
+   "agent": "refiner",
+   "event": "decide",
+   "sims": {
+    "hf_critical": 3612,
+    "hf_full": 129,
+    "lf": 50100,
+    "hf_total": 3741,
+    "equiv_time_s": 3454.2,
+    "cpu_s": 116.216
+   },
+   "cid": "C047",
+   "action": "rerun_stage3",
+   "gain_user_db": 26.56,
+   "why": "minimum in-band gain off by 10.9 dB"
+  },
+  {
+   "t": 129.1,
+   "agent": "refiner",
+   "event": "evaluate",
+   "sims": {
+    "hf_critical": 3612,
+    "hf_full": 134,
+    "lf": 52104,
+    "hf_total": 3746,
+    "equiv_time_s": 3518.21,
+    "cpu_s": 119.622
+   },
+   "cid": "C047",
+   "did": "D057",
+   "passed": false,
+   "violations": {
+    "gain": 8.5465,
+    "ripple": 7.1848,
+    "nf": 0.0,
+    "ip1db": 0.0,
+    "s11": 4.3992,
+    "power": 0.0
+   },
+   "metrics": {
+    "gain_fc_db": 14.4779,
+    "gain_min_db": 8.4535,
+    "gain_max_db": 18.6383,
+    "ripple_db": 10.1848,
+    "s11_fc_db": -34.0655,
+    "s11_max_inband_db": -5.6008,
+    "nf_fc_db": 4.7263,
+    "nfmin_fc_db": 4.7172,
+    "nf_max_inband_db": 8.8297,
+    "ip1db_dbm": -5.0,
+    "power_ma": 25.6209,
+    "power_ma_planned": 28.7106
+   }
+  },
+  {
+   "t": 129.1,
+   "agent": "refiner",
+   "event": "decide",
+   "sims": {
+    "hf_critical": 3612,
+    "hf_full": 134,
+    "lf": 52104,
+    "hf_total": 3746,
+    "equiv_time_s": 3518.21,
+    "cpu_s": 119.622
+   },
+   "cid": "C047",
+   "action": "rerun_stage3",
+   "gain_user_db": 26.93,
+   "why": "minimum in-band gain off by 11.5 dB"
+  },
+  {
+   "t": 132.814,
+   "agent": "refiner",
+   "event": "evaluate",
+   "sims": {
+    "hf_critical": 3612,
+    "hf_full": 139,
+    "lf": 54108,
+    "hf_total": 3751,
+    "equiv_time_s": 3582.22,
+    "cpu_s": 123.023
+   },
+   "cid": "C047",
+   "did": "D058",
+   "passed": false,
+   "violations": {
+    "gain": 8.6054,
+    "ripple": 9.1079,
+    "nf": 0.0,
+    "ip1db": 0.0,
+    "s11": 4.4007,
+    "power": 0.0
+   },
+   "metrics": {
+    "gain_fc_db": 15.066,
+    "gain_min_db": 8.3946,
+    "gain_max_db": 20.5025,
+    "ripple_db": 12.1079,
+    "s11_fc_db": -34.1656,
+    "s11_max_inband_db": -5.5993,
+    "nf_fc_db": 4.7302,
+    "nfmin_fc_db": 4.7211,
+    "nf_max_inband_db": 8.8612,
+    "ip1db_dbm": -5.0,
+    "power_ma": 25.654,
+    "power_ma_planned": 28.7106
+   }
+  },
+  {
+   "t": 132.814,
+   "agent": "refiner",
+   "event": "decide",
+   "sims": {
+    "hf_critical": 3612,
+    "hf_full": 139,
+    "lf": 54108,
+    "hf_total": 3751,
+    "equiv_time_s": 3582.22,
+    "cpu_s": 123.023
+   },
+   "cid": "C047",
+   "action": "rerun_stage3",
+   "gain_user_db": 26.96,
+   "why": "minimum in-band gain off by 11.6 dB"
+  },
+  {
+   "t": 133.079,
+   "agent": "manager",
+   "event": "refine_report",
+   "sims": {
+    "hf_critical": 3612,
+    "hf_full": 141,
+    "lf": 55611,
+    "hf_total": 3753,
+    "equiv_time_s": 3609.22,
+    "cpu_s": 123.04
+   },
+   "cid": "C047",
+   "success": false,
+   "did": "D057",
+   "metrics": {
+    "gain_fc_db": 14.4779,
+    "gain_min_db": 8.4535,
+    "gain_max_db": 18.6383,
+    "ripple_db": 10.1848,
+    "s11_fc_db": -34.0655,
+    "s11_max_inband_db": -5.6008,
+    "nf_fc_db": 4.7263,
+    "nfmin_fc_db": 4.7172,
+    "nf_max_inband_db": 8.8297,
+    "ip1db_dbm": -5.0,
+    "power_ma": 25.6209,
+    "power_ma_planned": 28.7106
+   },
+   "violations": {
+    "gain": 8.5465,
+    "ripple": 7.1848,
+    "nf": 0.0,
+    "ip1db": 0.0,
+    "s11": 4.3992,
+    "power": 0.0
+   },
+   "bottleneck": "gain",
+   "steps": 6,
+   "reason": "refine budget exhausted"
+  }
+ ],
+ "backend": "hybrid(surrogate_twoport_v1->cadence_spectre_crn65lp)",
+ "run_settings": {
+  "q_match": 25.0,
+  "budget_equiv_s": 3600.0,
+  "spectre_max_per_design": "60"
+ },
+ "labels": {
+  "agent_impl": "v1",
+  "pdk": "crn65lp",
+  "not_silicon_result": true,
+  "note": "schematic-level PDK transistors, ideal passives, no layout parasitics"
+ }
+}
