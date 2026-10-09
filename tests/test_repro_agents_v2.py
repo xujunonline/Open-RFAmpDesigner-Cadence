@@ -211,3 +211,36 @@ def test_brain_records_transport_transient_retries():
     b = V.Brain(T())
     assert b.ask("manager", "s", "u") is not None
     assert b.usage.transient_retries == 2 and b.log[-1]["transient_retries"] == 2
+
+
+def test_spectre_anchors_route_only_stage2_band_and_stage3_calibration(monkeypatch):
+    """docs/133 §12: ORFADC_SPECTRE_ANCHORS=1 sends the Stage-2 candidate band sweep and the Stage-3 calibration
+    simulations to the hybrid backend's final (Spectre) simulator; the Stage-2 PSO inner loop stays on the engine."""
+    from orfadc.repro import tools as T
+    from orfadc.repro.backend_cadence import HybridBackend
+
+    class Counting:
+        def __init__(self):
+            self.inner, self.n_calls, self.name = T.SurrogateBackend(), 0, "counting_final"
+
+        def simulate(self, design, f_hz, **kw):
+            self.n_calls += 1
+            return self.inner.simulate(design, f_hz, **kw)
+
+    def run(flag):
+        monkeypatch.setenv("ORFADC_SPECTRE_ANCHORS", flag)
+        final = Counting()
+        sess = DesignSession(SPECS["S2"], backend=HybridBackend(T.SurrogateBackend(), final))
+        brain = V.Brain(V.ScriptedReActTransport())
+        srch = V.SearcherAgent(sess, brain, {"power_ratio_list": [0.4, 0.3, 0.3]}, tried_before=[], splits_log=[])
+        srch.t_active_sizing([0.4, 0.3, 0.3])
+        cid = srch.t_impedance_matching([0.4, 0.3, 0.3], "crit_large__noncrit_large")["cid"]
+        after_stage2 = final.n_calls
+        V.RefinerAgent(sess, brain, cid).t_band_planning()
+        return after_stage2, final.n_calls, sess.ctx.counter.hf_critical
+    s2_off, s3_off, crit_off = run("0")
+    s2_on, s3_on, crit_on = run("1")
+    assert (s2_off, s3_off) == (0, 0)
+    assert s2_on == 1                       # one band sweep of the chosen candidate
+    assert s3_on > s2_on                    # plus the Stage-3 calibration rounds
+    assert crit_on == crit_off > 20 * s2_on  # the PSO inner loop (most HF sims) never reaches the final backend

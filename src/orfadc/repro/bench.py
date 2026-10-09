@@ -111,6 +111,8 @@ def design_suffix(*, backend: str, impl: str = "v1", pdk: str | None = None, llm
             s += f"_{tag}" if tag else ""
             if env.get("ORFADC_PDK_SPIRAL", "0") == "1":                   # docs/133 §8: PDK spirals in Stage 4
                 s += "_spiral"
+        if env.get("ORFADC_SPECTRE_ANCHORS", "0") == "1":                 # docs/133 §12: Stage 2/3 anchors in Spectre
+            s += "_anchors"
     if impl != "v1":
         s += f"_{impl}"
         rev = int(env.get("ORFADC_V2_PROMPT_REV", "1") or 1)
@@ -985,6 +987,8 @@ def main(argv: list[str] | None = None) -> int:
         r.pop("_session", None)
         r["run_settings"] = {"q_match": ck.Q_MATCH, "budget_equiv_s": budget_for(a.spec),
                              "spectre_max_per_design": os.environ.get("ORFADC_SPECTRE_MAX_PER_DESIGN")}
+        if os.environ.get("ORFADC_SPECTRE_ANCHORS", "0") == "1" and a.backend != "surrogate":
+            r["run_settings"]["spectre_anchors"] = True
         n_spectre = spectre_calls_of(backend)
         if n_spectre is not None:  # docs/132: per-design Spectre count for the ledger (parallel queues)
             r["spectre_calls"] = n_spectre
