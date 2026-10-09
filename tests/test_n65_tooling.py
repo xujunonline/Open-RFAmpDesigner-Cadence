@@ -2,6 +2,7 @@
 configurable roots / cds.lib files / Cadence prefixes of pdk_inventory.sh."""
 from __future__ import annotations
 
+import json
 import os
 import shutil
 import stat
@@ -302,3 +303,17 @@ def test_design_suffix_marks_spiral_runs():
     spiral = bench.design_suffix(backend="pdk", pdk="crn65lp", env={"ORFADC_SPECTRE_MAX_PER_DESIGN": "60", "ORFADC_PDK_SPIRAL": "1"})
     assert base == "_pdk_n65_smax60" and spiral == "_pdk_n65_spiral_smax60"
     assert bench.design_suffix(backend="surrogate", env={"ORFADC_PDK_SPIRAL": "1"}) == ""
+
+
+def test_fig9_like_collects_counts_and_draws(tmp_path):
+    from orfadc.repro import figs_v2
+    d = tmp_path / "runs"
+    d.mkdir()
+    for spec, seed, ns, nr, ok in (("S9", 0, 2, 3, True), ("S9", 1, 4, 5, False), ("S10", 0, 1, 1, False)):
+        (d / f"design_{spec}_seed{seed}_x.json").write_text(json.dumps(
+            {"spec": spec, "seed": seed, "n_search": ns, "n_refine": nr, "success": ok}))
+    got = figs_v2.collect("runs/design_*_x.json", root=tmp_path)
+    assert got["S9"]["search"] == [2, 4] and got["S9"]["refine"] == [3, 5] and got["S10"]["pass"] == [False]
+    summary = figs_v2.fig9(tmp_path / "fig", panels=[("t", [("m", "runs/design_*_x.json")])], root=tmp_path)
+    assert (tmp_path / "fig" / "fig9_like.png").stat().st_size > 1000
+    assert summary["t | m | S9"]["pass"] == "1/2" and summary["t | m | S9"]["search_mean"] == 3.0
