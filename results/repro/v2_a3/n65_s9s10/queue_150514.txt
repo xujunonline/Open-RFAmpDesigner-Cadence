@@ -1,0 +1,7 @@
+# docs/133 §9.2: more S10 seeds on N65 for v2 + codex (seeds 5-8), 5 h, guard 60 (same as §9.1). Worst case 240 Spectre,
+# ledger <= 2390 of 2400; v2 S10 runs so far used 2-10 Spectre each.
+set ORFADC_AGENT_IMPL=v2
+set ORFADC_LLM_MAX_CALLS=1000
+set ORFADC_SPECTRE_MAX_PER_DESIGN=60
+design --spec S10 --seed 5 --policy codex-mcp --agent-impl v2 --backend pdk
+design --spec S10 --seed 6 --policy codex-mcp --agent-impl v2 --backend pdk
