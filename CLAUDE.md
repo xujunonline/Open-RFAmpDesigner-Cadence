@@ -9,8 +9,8 @@
 | Cadence/PDK 后端 | `repro/backend_cadence.py`（Spectre 宏模型）、`repro/pdk_v2.py`、`pdk3.py`、`pdk_fit.py`（PDK 器件） | Stage 4 由 Spectre 判定；示意 PDK pass@1 34/40（docs/127） | ❌ 需 Cadence 虚拟机 |
 
 版本：v1 = 标签 `v1-decision-points`（e80dfd3）；v1.1 = 标签 `v1.1-clean`（4feb7a0，清理版，docs/129），均已推送到私有仓库 `xujunonline/Open-RFAmpDesigner-Cadence`。
-**当前任务：按 `docs/130_v2_kickoff.md` 分阶段执行（分支 `v2-agentic`）：A 线 v2 智能体，B 线迁移到新虚拟机 IC618_rf 的 TSMC N65 并先跑 v1 规则基线。N65 的 Spectre 单独记账，上限 1500，2026-10-07 提高到 2000，2026-10-09 提高到 2400，再提高到 3000（`results/repro/n65/spectre_ledger.csv`）。**
-进度（2026-10-07，macOS Intel，见 docs/132、134）：阶段 0、A1、A2、N0、N1、N2 完成；N3 完成（N65 v1 基线 24/40）；A3 完成：S9s/S10s v2+codex 6/10（v1 0/10，代理后端），N65 v2+codex 21/40（v1 24/40）；N65 上 S9/S10 v2 与 v1 都是 4/5、0/5；B/C/D 实验完成；N65 Spectre 2967/3000；PR #1–#3 已合并；Fig. 9/11-like 已画；实验 a（v2 自进化，18/18，比 GA 低 9.0×）与 b（Spectre 锚点：v1 3 个设计通过与否不变；v2 S5 两个，一个不变、一个碰护栏）完成（docs/133 §12–13）。
+**当前任务：按 `docs/130_v2_kickoff.md` 分阶段执行（分支 `v2-agentic`）：A 线 v2 智能体，B 线迁移到新虚拟机 IC618_rf 的 TSMC N65 并先跑 v1 规则基线。N65 的 Spectre 单独记账，上限 1500，2026-10-07 提高到 2000，2026-10-09 提高到 2400，再提高到 3000，2026-10-10 提高到 3300（`results/repro/n65/spectre_ledger.csv`）。**
+进度（2026-10-07，macOS Intel，见 docs/132、134）：阶段 0、A1、A2、N0、N1、N2 完成；N3 完成（N65 v1 基线 24/40）；A3 完成：S9s/S10s v2+codex 6/10（v1 0/10，代理后端），N65 v2+codex 21/40（v1 24/40）；N65 上 S9/S10 v2 与 v1 都是 4/5、0/5；B/C/D 实验完成；N65 Spectre 3144/3300；PR #1–#3 已合并；Fig. 9/11-like 已画；实验 a（v2 自进化，18/18，比 GA 低 9.0×）与 b（Spectre 锚点：v1 3 个设计通过与否不变；v2 S5 两个仍失败；seed 1 原来通过，但本身不稳定）完成（docs/133 §12–13）。
 路线 B 历史（Virtuoso/OCEAN 实机链路、教学电路、远程恢复与隔离）已删除，可从 v1 标签找回（`docs/LEGACY.md`）。
 PDK：v1 结果用虚拟机 `RedHat_9_7_A_and_D_10T` 上的 TSMC 40 nm LP RF（crn40lp）；新虚拟机 `IC618_rf`（登录用户 `IC`，无 `userone`）上为 TSMC 65 nm LP RF（CRN65LP v1.7，docs/128、132），v2 的 N65 结果标 `pdk=crn65lp`。
 
@@ -61,7 +61,7 @@ PowerShell：`$env:PYTHONPATH="$PWD\src"`，其余相同。
    不得把代理结果写进论文 Table IV/V/VI 的"实测"位置，也不得宣称 PDK/硅通过。
 2. **不读、不打印、不提交** `config/remote_cadence.local.yaml`、私钥、`model_paths.local.yaml`；
    远程 Cadence 操作（ssh/scp、`bench cadence-check`、`bench pdk-*`、`--backend cadence|pdk`）只在用户明确要求时进行：
-   事先报告预计 Spectre 次数；累计不超过用户批准的上限（crn40lp 旧账约 1000，已用约 697；N65 新账 3000，见 docs/130）；每设计用 `ORFADC_SPECTRE_MAX_PER_DESIGN` 设护栏；
+   事先报告预计 Spectre 次数；累计不超过用户批准的上限（crn40lp 旧账约 1000，已用约 697；N65 新账 3300，见 docs/130）；每设计用 `ORFADC_SPECTRE_MAX_PER_DESIGN` 设护栏；
    结果不确定（连接中断、无返回）时不自动重派，先查远程状态。`.claude/hooks/guard_bash.py` 会对这类命令要求确认。
 3. 改 `src/` 后先跑 `python -m pytest tests/test_repro_core.py -q`，提交前跑全量 `pytest tests -q`。
 4. 论文勘误以代码与测试为准：Eq.(3) Y11 分母末项应为 `R_S ω0³ Q s`（`tests/test_repro_core.py` 用节点分析验证）；
