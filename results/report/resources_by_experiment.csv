@@ -1,0 +1,14 @@
+experiment,description,evidence,designs,passed,spectre_calls_in_json,equiv_time_s_total,equiv_time_s_median,llm_calls,prompt_tokens,completion_tokens
+N2,"N65 smoke, v1 rule, seed 0, guard 14",pdk_schematic,8,4,,11169.1,1475.7,,,
+N3,"N65 baseline, v1 rule, S1-S8 x 5 seeds, 1 h",pdk_schematic,40,24,,74417.6,1019.9,,,
+A3-smoke,"surrogate S2 smoke, v2 (codex-mcp, claude-cli)",surrogate,2,2,,2537.6,1523.2,94,1147742,27838
+A3-S9sS10s,"surrogate S9s/S10s, v2, 5 h, prompt rev 1",surrogate,13,9,,115248.5,6259.3,3687,63761466,1064559
+C-surrogate,"surrogate S9s/S10s, v2 codex, prompt rev 2",surrogate,10,3,,134354.2,16616.6,4262,78379117,1241483
+A3-N65,"N65 S1-S8, v2 codex, 5 seeds, 1 h",pdk_schematic,40,21,373,71579.0,1999.5,2246,39396118,538543
+B,"N65 S5, v2 codex, 2 h budget, 5 seeds",pdk_schematic,5,1,272,26175.6,5747.2,878,16397343,208375
+C-N65,"N65 S3/S5/S7 seed 0, v2 codex, prompt rev 2",pdk_schematic,3,0,38,4596.7,604.7,156,2861152,34980
+D3,"N65 S7, v1 rule, PDK spiral inductors, 5 seeds",pdk_schematic,5,0,85,18011.7,3600.4,,,
+E,"N65 original S9/S10, v1 rule and v2 codex, 5 h",pdk_schematic,24,8,606,179874.9,8768.6,2833,50811072,767700
+a,"surrogate self-evolution (Fig. 10 protocol), v2 codex, 3 seeds",surrogate,18,18,,3874.9,127.5,163,2763217,28525
+b-v1,"N65 Spectre anchors, v1 rule",pdk_schematic,3,1,405,8014.8,3600.3,,,
+b-v2,"N65 Spectre anchors, v2 codex (incl. guard-300 rerun)",pdk_schematic,3,0,525,9555.2,3180.8,325,5859669,73349

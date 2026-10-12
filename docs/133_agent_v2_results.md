@@ -161,7 +161,7 @@ seed 1–4 由用户在两个终端标签里并行运行（`queue_a3_n65_v2_code
 | S8 | ✅✅✅✅✅ | **5/5** | ✅✅✅✅✅ | 5/5 | 835 s | 801 s | 39 | 132 | 5/5 |
 | **合计** | | **21/40** | | **24/40** | | | **373** | **2246** | |
 
-（crn40lp v1 rule 34/40、论文 Ours 32/40；见 docs/132 §5.3。）
+（crn40lp v1 rule 29/40（原记 34/40 为加法错误，已更正）、论文 Ours 32/40；见 docs/132 §5.3。）
 
 读法与边界：
 - **差距全部来自 S5**（1/5 对 4/5），其余 7 个规格逐项相同。
@@ -363,7 +363,7 @@ seed 0 的 v2 结果来自上表（当时护栏为 80，实际只用了 6 次，
 ## 12. 实验 b：Spectre 用作多保真锚点（`ORFADC_SPECTRE_ANCHORS=1`，v1 rule，2026-10-09，405 次 Spectre）
 
 目的：本项目把论文中由 Spectre 完成的内层高保真仿真交给引擎（docs/135 §5.1）。本实验检验，把其中的**锚点仿真**改用 Spectre 后，结论是否变化。
-锚点指 Stage 2 每个候选的带内扫描，以及 Stage 3 的高保真校准。PSO 内层（每设计 1k–12k 次关键级仿真）仍用引擎，因为全部改用 Spectre 在 2 核虚拟机上不可行。
+锚点指 Stage 2 每个候选的带内扫描，以及 Stage 3 的高保真校准。PSO 内层（每设计 1k–12k 次关键级仿真）仍用引擎，因为全部改用 Spectre 在 4 vCPU 的虚拟机上不可行。
 代码：`tools.ToolContext.sim(..., anchor=True)`，开关打开时路由到最终后端（提交 08ef2a9）。等效时间记账不变，所以预算口径与 N3 相同。
 命令：`scripts/run_job_queue.sh scripts/jobs/queue_b2_n65_anchors_v1.txt`（v1 rule，1 h，`ORFADC_SPECTRE_MAX_PER_DESIGN=200`）。
 选择 N3 中两个失败的设计和一个通过的设计。原始档在 `results/repro/v2_a3/n65_b2_anchors/`；对照组为 `results/repro/n65/n3/`，与本实验同 seed、同预算。

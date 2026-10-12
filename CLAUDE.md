@@ -6,7 +6,7 @@
 | 部分 | 目录 | 现状 | 能否无 Cadence 运行 |
 |---|---|---|---|
 | 可运行复现 | `src/orfadc/repro/` | 论文 Stage 1–4 工具、Eq.(1)(2)(3)、Manager/Searcher/Refiner、KB/EB、GA/BO 基线、Table IV/V、Fig.5/7/8/10 端到端 | ✅ 是（代理仿真器） |
-| Cadence/PDK 后端 | `repro/backend_cadence.py`（Spectre 宏模型）、`repro/pdk_v2.py`、`pdk3.py`、`pdk_fit.py`（PDK 器件） | Stage 4 由 Spectre 判定；示意 PDK pass@1 34/40（docs/127） | ❌ 需 Cadence 虚拟机 |
+| Cadence/PDK 后端 | `repro/backend_cadence.py`（Spectre 宏模型）、`repro/pdk_v2.py`、`pdk3.py`、`pdk_fit.py`（PDK 器件） | Stage 4 由 Spectre 判定；示意 PDK pass@1 29/40（docs/127；原记 34/40 为加法错误，已更正） | ❌ 需 Cadence 虚拟机 |
 
 版本：v1 = 标签 `v1-decision-points`（e80dfd3）；v1.1 = 标签 `v1.1-clean`（4feb7a0，清理版，docs/129）；**v2 = 标签 `v2.0`**（175b06e，`main` 上 PR #7 的合并提交；LLM ReAct 三智能体 + TSMC N65，总报告 docs/135）；均已推送到私有仓库 `xujunonline/Open-RFAmpDesigner-Cadence`。
 **当前状态：v2 已完成并封版（标签 `v2.0`，2026-10-12）；没有进行中的任务，新工作需用户另行指定。** v2 按 `docs/130_v2_kickoff.md` 分阶段执行（分支 `v2-agentic`，已全部合并到 `main`）：A 线 v2 智能体，B 线迁移到新虚拟机 IC618_rf 的 TSMC N65 并先跑 v1 规则基线。N65 的 Spectre 单独记账，上限 1500，2026-10-07 提高到 2000，2026-10-09 提高到 2400，再提高到 3000，2026-10-10 提高到 3300（`results/repro/n65/spectre_ledger.csv`）；v2 封版时已用 3144，剩余次数按约定不再使用。
