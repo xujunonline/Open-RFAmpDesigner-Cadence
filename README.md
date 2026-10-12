@@ -5,7 +5,7 @@ RFAmpDesigner（arXiv:2605.10093，*A Self-Evolving Multi-Agent LLM Framework fo
 不是作者 TSMC N65 后仿的数值。
 
 - 版本：v1 = 标签 `v1-decision-points`（提交 e80dfd3）；v1.1 = 标签 `v1.1-clean`（docs/129）；
-  **v2 = 分支 `v2-agentic`**（已合并到 `main`，标签 `v2-agentic-alpha`）；总报告见 docs/135：LLM 驱动的 ReAct 三智能体（docs/131），以及迁移到 TSMC N65 PDK（docs/132、133）。
+  **v2 = 标签 `v2.0`**（2026-10-12 封版，`main` 上的提交 175b06e；开发分支 `v2-agentic`，中间版本标签 `v2-agentic-alpha`）；总报告见 docs/135：LLM 驱动的 ReAct 三智能体（docs/131），以及迁移到 TSMC N65 PDK（docs/132、133）。
 - 远程仓库：GitHub 私有仓库 `xujunonline/Open-RFAmpDesigner-Cadence`（含论文全文与 PDK 相关信息，**必须保持私有**）。
 
 ## 复现了什么（证据分级，详见 docs/125）
