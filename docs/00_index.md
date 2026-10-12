@@ -26,4 +26,6 @@
 | `133_agent_v2_results.md` | v2 真实 LLM 结果（A3）：S2 冒烟 codex-mcp 与 claude-cli 都通过（55 / 39 次调用，0 非法动作）；S9s/S10s v2+codex 6/10（v1 0/10）；N65 v2+codex 21/40（v1 24/40，差在 S5）；B/C/D/E 实验；N65 上 S9/S10：v2 与 v1 都是 S9 4/5、S10 0/5，v2 的 Spectre 用量约为 1/3；Fig. 9/11-like；实验 a：v2 自进化 18/18（§13）；实验 b：Spectre 锚点，v1 通过与否不变，v2 S5 两个仍失败，seed 1 原来的通过不稳定（§12、§12b）；Spectre 3144/3300 |
 | `134_macbook_handoff.md` | 迁移到 MacBook 的交接状态、Mac 准备步骤、续接提示词（docs/132、133 预留给 N65 接入与 v2 结果） |
 | `135_v2_reproduction_report.md` | 复现总报告 v2 更新版：论文结论逐条对照（v1、v2、N65）、主要数字、未复现原因、资源与工程记录 |
+| `136_student_guide_prompt.md` | 提示词：为微电子专业本科生生成《项目设计方案与仿真过程学习指南》（输出到 docs/137） |
+| `137_student_guide.md` | 学习指南（面向微电子本科生）：射频预备知识、规格、电路方案与 Eq.(3) 勘误、两端口仿真引擎与 IP1dB、四个工具、v1/v2 智能体与记忆、Spectre/PDK 链路、动手实践、结果解读、术语表与思考题；算例来自 S2 实际运行（代理结果） |
 | `LEGACY.md`、`LEGACY_files.txt` | v1.1 删除内容与找回方法 |
