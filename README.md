@@ -5,7 +5,7 @@ RFAmpDesigner（arXiv:2605.10093，*A Self-Evolving Multi-Agent LLM Framework fo
 不是作者 TSMC N65 后仿的数值。
 
 - 版本：v1 = 标签 `v1-decision-points`（提交 e80dfd3）；v1.1 = 标签 `v1.1-clean`（docs/129）；
-  **v2 = 分支 `v2-agentic`**（标签 `v2-agentic-alpha`）：LLM 驱动的 ReAct 三智能体（docs/131），以及迁移到 TSMC N65 PDK（docs/132、133）。
+  **v2 = 分支 `v2-agentic`**（已合并到 `main`，标签 `v2-agentic-alpha`）；总报告见 docs/135：LLM 驱动的 ReAct 三智能体（docs/131），以及迁移到 TSMC N65 PDK（docs/132、133）。
 - 远程仓库：GitHub 私有仓库 `xujunonline/Open-RFAmpDesigner-Cadence`（含论文全文与 PDK 相关信息，**必须保持私有**）。
 
 ## 复现了什么（证据分级，详见 docs/125）
@@ -17,7 +17,9 @@ RFAmpDesigner（arXiv:2605.10093，*A Self-Evolving Multi-Agent LLM Framework fo
 | 示意 PDK | TSMC 40 nm LP RF 器件 + 理想无源 + HB，Stage 4 由 Spectre 判定 | 论文口径（1 h、5 seed）pass@1 **34/40**（论文 Ours 32/40）；S6、S7 0/5 |
 | LLM 主干 | 订阅额度的 Claude / Codex（智能体实现 v1：Searcher 为程序，LLM 只在 Manager 选功率分配与 Refiner 选动作两处决策） | Table V 未复现：Codex 不封顶 S9s/S10s 违规 0.46/0.61，规则 0.22/0.28 |
 | **v2 智能体（代理，趋势级）** | 三个智能体都由 LLM 以 ReAct 方式驱动（docs/131），Codex，与 v1 同口径（S9s/S10s、5 h、5 seed） | **6/10 通过**（v1 + Codex 0/10，v1 规则 0/10）；失败的 4 次 NF 只差 0.14–0.47 dB（docs/133 §3） |
-| **N65 示意 PDK** | TSMC 65 nm LP RF（CRN65LP v1.7）器件 + 理想无源 + HB，原理图级，Stage 4 由 Spectre 判定 | 论文口径（1 h、5 seed）pass@1：**v1 规则 24/40**，**v2 + Codex 21/40**（差在 S5）；与 crn40lp 34/40 的差距全在 S3（50 GHz 下器件受限）（docs/132、133） |
+| **N65 示意 PDK** | TSMC 65 nm LP RF（CRN65LP v1.7）器件 + 理想无源 + HB，原理图级，Stage 4 由 Spectre 判定 | 论文口径（1 h、5 seed）pass@1：**v1 规则 24/40**，**v2 + Codex 21/40**（差在 S5）；与 crn40lp 34/40 的差距全在 S3（50 GHz 下器件受限）；原始 S9/S10：两者都是 S9 4/5、S10 0/5（docs/132、133） |
+| **v2 自进化（代理，趋势级）** | Fig. 10 流程（S4 增益 20→45 dB 共 6 个任务，带记忆，3 seed） | **18/18**，累计等效时间比 v1 低 2.6 倍、比 BO 低 4.1 倍、比 GA 低 9.0 倍（论文约 5.5 倍）（docs/133 §13） |
+| **Spectre 锚点（N65）** | Stage 2 候选带内扫描与 Stage 3 校准也改用 Spectre（`ORFADC_SPECTRE_ANCHORS=1`） | v1 3 个设计、v2 2 个设计：没有一个因此从失败变成通过；用 Spectre 换掉引擎锚点不改变结论（docs/133 §12） |
 
 以上均**不是**论文 N65 后仿或硅结果，不填论文 Table IV/V/VI 的"实测"位置。
 
@@ -49,13 +51,13 @@ python -m orfadc.repro.bench replot --out results/repro/2026-10-03   # 从原始
 - `results/repro/2026-10-03/`：代理基线（SUMMARY、tables、figures、raw）。
 - `results/repro/pdk_pass_at1_20261002/`：示意 PDK pass@1 汇总（只含指标，不含 PDK 器件数据）。
 - `results/repro/llm_live/`：LLM 主干运行与汇总；`results/repro/ablation_backoff_20261002/`：B21 消融。
-- `results/repro/n65/`：N65 的 v1 冒烟与基线（N2、N3）及 Spectre 账本；`results/repro/v2_a3/`：v2 的 LLM 运行（冒烟、S9s/S10s、N65）。
+- `results/repro/n65/`：N65 的 v1 冒烟与基线（N2、N3）及 Spectre 账本；`results/repro/v2_a3/`：v2 的 LLM 运行（冒烟、S9s/S10s、N65、S9/S10、B/C/D 实验、自进化 `fig10_v2/`、Spectre 锚点 `n65_b2_anchors*/`）及图 `figures/`（Fig. 9/10/11-like）。
 - 含 PDK 器件参数的原始数据只放在 git 忽略的 `results/runs/`、`results/windows_checks/`。
 
 ## 边界与保密
 
 - 本仓库不包含任何 TSMC、Cadence 或商业 PDK 文件；`config/*.example.yaml` 只是模板。
-- 时间为等效 EDA 时间（成本模型），只做相对比较；Spectre 总量上限（crn40lp 约 1000，已用约 697；N65 另记 1500）与 40 次 LLM 封顶是资源保护，不是论文设置（docs/127、130）。
+- 时间为等效 EDA 时间（成本模型），只做相对比较；Spectre 总量上限（crn40lp 约 1000，已用约 697；N65 另记，用户批准的上限从 1500 逐步提高到 3300，已用 3144）与 40 次 LLM 封顶是资源保护，不是论文设置（docs/127、130）。
 - 新虚拟机 IC618_rf 上为 TSMC 65 nm LP RF（CRN65LP v1.7），v2 的 N65 结果全部是原理图级、理想无源、无版图寄生（docs/128、132）。
 - 路线 B（Virtuoso/OCEAN 实机链路、教学电路、远程恢复）的历史代码与文档已在 v1.1 删除，可从标签找回（docs/LEGACY.md）。
 - 第三方参考见 `third_party_notes/README.md`。
