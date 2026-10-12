@@ -14,10 +14,10 @@ RFAmpDesigner（arXiv:2605.10093，*A Self-Evolving Multi-Agent LLM Framework fo
 |---|---|---|
 | 代理（趋势级） | 开放 EKV 类器件 + 两端口噪声相关矩阵引擎 | Table IV-like：Ours 22/40，最佳基线 BO-vanilla 11/40；Fig. 5 多保真省时 −99 %；Fig. 10 自进化 18/18 |
 | Spectre 宏模型 | 同一网表在 Spectre 上交叉验证引擎 | 增益/S11/NF 逐点一致（只验证引擎） |
-| 示意 PDK | TSMC 40 nm LP RF 器件 + 理想无源 + HB，Stage 4 由 Spectre 判定 | 论文口径（1 h、5 seed）pass@1 **34/40**（论文 Ours 32/40）；S6、S7 0/5 |
+| 示意 PDK | TSMC 40 nm LP RF 器件 + 理想无源 + HB，Stage 4 由 Spectre 判定 | 论文口径（1 h、5 seed）pass@1 **29/40**（论文 Ours 32/40）；S6、S7 0/5（原记 34/40 为加法错误，2026-10-12 更正，见 docs/127 §5.1） |
 | LLM 主干 | 订阅额度的 Claude / Codex（智能体实现 v1：Searcher 为程序，LLM 只在 Manager 选功率分配与 Refiner 选动作两处决策） | Table V 未复现：Codex 不封顶 S9s/S10s 违规 0.46/0.61，规则 0.22/0.28 |
 | **v2 智能体（代理，趋势级）** | 三个智能体都由 LLM 以 ReAct 方式驱动（docs/131），Codex，与 v1 同口径（S9s/S10s、5 h、5 seed） | **6/10 通过**（v1 + Codex 0/10，v1 规则 0/10）；失败的 4 次 NF 只差 0.14–0.47 dB（docs/133 §3） |
-| **N65 示意 PDK** | TSMC 65 nm LP RF（CRN65LP v1.7）器件 + 理想无源 + HB，原理图级，Stage 4 由 Spectre 判定 | 论文口径（1 h、5 seed）pass@1：**v1 规则 24/40**，**v2 + Codex 21/40**（差在 S5）；与 crn40lp 34/40 的差距全在 S3（50 GHz 下器件受限）；原始 S9/S10：两者都是 S9 4/5、S10 0/5（docs/132、133） |
+| **N65 示意 PDK** | TSMC 65 nm LP RF（CRN65LP v1.7）器件 + 理想无源 + HB，原理图级，Stage 4 由 Spectre 判定 | 论文口径（1 h、5 seed）pass@1：**v1 规则 24/40**，**v2 + Codex 21/40**（差在 S5）；与 crn40lp 29/40 的差距全在 S3（50 GHz 下器件受限）；原始 S9/S10：两者都是 S9 4/5、S10 0/5（docs/132、133） |
 | **v2 自进化（代理，趋势级）** | Fig. 10 流程（S4 增益 20→45 dB 共 6 个任务，带记忆，3 seed） | **18/18**，累计等效时间比 v1 低 2.6 倍、比 BO 低 4.1 倍、比 GA 低 9.0 倍（论文约 5.5 倍）（docs/133 §13） |
 | **Spectre 锚点（N65）** | Stage 2 候选带内扫描与 Stage 3 校准也改用 Spectre（`ORFADC_SPECTRE_ANCHORS=1`） | v1 3 个设计、v2 2 个设计：没有一个因此从失败变成通过；用 Spectre 换掉引擎锚点不改变结论（docs/133 §12） |
 

@@ -10,7 +10,7 @@ description: Run, extend or debug the Cadence/Spectre backends of the orfadc.rep
   `bench cadence-check --spec S2` cross-checks the two-port engine; `bench design --backend cadence` (docs/119 §4.1).
 - PDK backend: `repro/pdk_v2.py` (inventory, characterisation, `PdkCadenceBackend`, `--backend pdk`),
   `repro/pdk3.py` (stage-1 three-port Y, diff-stage Y, cascode noise), `repro/pdk_fit.py` (device fit, large-signal 1 dB).
-  Results: docs/120–127 (illustrative-PDK pass@1 34/40 on TSMC 40 nm LP RF). New VM IC618_rf: docs/128.
+  Results: docs/120–127 (illustrative-PDK pass@1 29/40 on TSMC 40 nm LP RF; an earlier 34/40 was an addition error). New VM IC618_rf: docs/128.
 - Runs only from the Windows host that can SSH to the Cadence VM; host/port/user come from the git-ignored
   `config/remote_cadence.local.yaml`, PDK paths from `config/model_paths.local.yaml` (templates: `*.example.yaml`).
 
