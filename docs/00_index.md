@@ -31,3 +31,29 @@
 | `138_experiment_report_prompt.md` | 提示词：生成提交导师的《v2 阶段实验报告》（重算数字、统计检验、过程记录、有效性分析；输出到 docs/139） |
 | `139_experiment_report.md` | v2 阶段实验报告（提交导师）：摘要、引言、方法、环境、实验设计、过程记录与异常汇总、结果（Wilson 区间、Fisher 检验）、分析、有效性威胁、结论与后续工作、附录；数字与图由 `scripts/report/` 从原始文件重算；更正 crn40lp 合计为 29/40 |
 | `LEGACY.md`、`LEGACY_files.txt` | v1.1 删除内容与找回方法 |
+
+## 十一月接管与标称复现
+
+| 文档 | 内容 |
+|---|---|
+| [140_takeover_review_2026-11-19.md](140_takeover_review_2026-11-19.md) | 接手准备：源快照与论文核对、论文到代码映射、Linux 离线回归与 v1/v2 S2 冒烟、存量结果重算、Mac 运行方案、PDK 数据选择和资源记账风险、下一步接管顺序 |
+| [141_mac_locations_and_git_recovery_2026-11-19.md](141_mac_locations_and_git_recovery_2026-11-19.md) | 原 Mac 项目/VM/文档位置、Git 历史与标签补全、可恢复与本地独有资产、Mac 定位及缺失文件恢复脚本 |
+| [142_s5_matching_diagnosis_2026-11-19.md](142_s5_matching_diagnosis_2026-11-19.md) | S5 十次 N65 历史运行的离线诊断、带边 S11 和回退证据；独立 Refiner S11 提示开关、回归验证、尚未执行的单 seed 试验入口 |
+| [143_environment_run_2026-11-23.md](143_environment_run_2026-11-23.md) | 云端 106 次离线设计与同日原 Mac 首次验收，S2 宏模型及 S5 首轮 N65 实测 |
+| [144_s5_workflow_improvement_2026-11-23.md](144_s5_workflow_improvement_2026-11-23.md) | S5 反馈、预算退出、最佳方案与日志改进；历史 N65 回放、离线完整流程及初学者工作日志；新增真实调用为零 |
+| [145_s5_verified_run_2026-11-23.md](145_s5_verified_run_2026-11-23.md) | S5新工作流真实限时运行；自主搜索未过；历史方案MCR3耦合+3%后N65两次通过，资源账本与学习日志 |
+| [146_s5_resume_refiner.md](146_s5_resume_refiner.md) | S5 seed0 历史方案续调，局部 Refiner 自主选择 MCR2 −3% 并经 N65 两次确认 |
+| [147_s1_s8_ordered_optimization.md](147_s1_s8_ordered_optimization.md) | N65 S1–S8 seed0 逐项优化，原始基线与候选 |
+| [148_s1_s8_spectre_results.md](148_s1_s8_spectre_results.md) | N65 逐规格实测与难例优化，S6 标称通过及重复确认 |
+| [149_s3_noise_20261124.md](149_s3_noise_20261124.md) | S3 噪声优化及独立复测，中心 NF 5.683 dB |
+| [150_s3_noise_contributions.md](150_s3_noise_contributions.md) | S3 噪声来源与实测匹配优化，两种候选独立复测 |
+| [151_s7_noise_20261124.md](151_s7_noise_20261124.md) | S7 扩展偏置标称六项通过，原网格与全带噪声分别复核 |
+| [152_s3_fullband_20261124.md](152_s3_fullband_20261124.md) | S3 原偏置六项通过，扩展偏置另达 45–55 GHz 全带增益和噪声要求 |
+| [153 十月报告证据复核](153_october_report_evidence_review.md) | 锚点、器件限制、仿真成本及通过率的统计口径 |
+| [154 N65 宽带低噪声放大器自动设计复现实验总报告](154_november_experiment_report.md) · [Word 版](154_november_experiment_report.docx) | 电路拓扑、多种子基线、S3 首级几何、S5 从零决策、S10 增益整形与全带验收 |
+| [155 S10 定向优化与验证](155_s10_n65_optimization.md) | 接续 154 的待解规格；N65 原偏置网格六项与全带 NF 均通过，增益整形、HB 和独立复测 |
+| [156 限时从零设计与首级几何对照](156_cold_start_pilot.md) | S3/S5 配对运行、S5 自主通过回放、S3 提前退出候选补测与首级两管的四点对照 |
+| [157 S4 前仿与首级器件版图](157_s4_layout_start.md) | 加密前仿、隔离 RF 版图库、六个 PCell、GDS 导出及 Calibre 许可诊断 |
+| [158 S4 首级布线与匹配](158_s4_layout_closeout.md) | 首级几何连通核查与输入电感替换估算 |
+| [159 单智能体与三智能体对照](159_agent_comparison.md) | S9 与 S10 的配对代理试验 |
+| [160 N65 宽带低噪声放大器自动设计方法复现](160_rfa_final_report_draft.md) · [Word 版](160_rfa_final_report_draft.docx) | 论文格式总报告，含逐规格验收、从零设计和版图验证范围 |

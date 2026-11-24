@@ -1,0 +1,2631 @@
+{
+ "protocol": {
+  "start_epoch": 1795497765.192479,
+  "arms_spec_rev_backtrack": {
+   "s5_original": [
+    "S5",
+    1,
+    0
+   ],
+   "s5_backtrack": [
+    "S5",
+    1,
+    1
+   ],
+   "s3_original": [
+    "S3",
+    1,
+    0
+   ],
+   "s3_refine": [
+    "S3",
+    2,
+    0
+   ]
+  },
+  "limits": {
+   "wall_seconds": 960,
+   "max_llm": 180,
+   "max_spectre": 30,
+   "eda_equivalent_s": 3600,
+   "mode": 1,
+   "seed": 17
+  },
+  "model": "gpt-6.2-sol",
+  "s5_workflow": false,
+  "score": "six project checks on N65; report trigger exposure and failures"
+ },
+ "arms": {
+  "s5_original": {
+   "file": "results/runs/cold_start_pilot_r1b/s5_original/design_S5_seed17_mode1_codex-mcp_pdk_n65_v2_calls180_smax30.json",
+   "spec": "S5",
+   "seed": 17,
+   "success": false,
+   "termination": "wall_time_budget",
+   "wall_s": 960.129,
+   "eda_equiv_s": 2444.11,
+   "n_search": 2,
+   "n_refine": 3,
+   "usage": {
+    "calls": 64,
+    "errors": 0,
+    "invalid_actions": 0,
+    "fallbacks": 0,
+    "transient_retries": 0,
+    "rule_after_disable": 0,
+    "calls_by_role": {
+     "manager": 5,
+     "searcher": 22,
+     "refiner": 37
+    }
+   },
+   "spectre": 14,
+   "raw_run": "20261124T132245_ac7be6",
+   "raw_warnings": [
+    16,
+    14,
+    15,
+    14,
+    11,
+    9,
+    14,
+    13,
+    12,
+    12,
+    10,
+    10,
+    13,
+    9
+   ],
+   "first_evaluation_s": 240.167,
+   "evaluated_best": {
+    "did": "D010",
+    "cid": "C009",
+    "metrics": {
+     "gain_fc_db": 22.5422,
+     "gain_min_db": 21.9098,
+     "gain_max_db": 26.0249,
+     "ripple_db": 4.1151,
+     "s11_fc_db": -29.9873,
+     "s11_max_inband_db": -7.392,
+     "nf_fc_db": 4.7885,
+     "nfmin_fc_db": 4.7775,
+     "nf_max_inband_db": 6.7551,
+     "ip1db_dbm": -14.3684,
+     "power_ma": 26.4546,
+     "power_ma_planned": 28.7345
+    },
+    "violations": {
+     "gain": 0.0902,
+     "ripple": 1.1151,
+     "nf": 0.0,
+     "ip1db": 0.0,
+     "s11": 2.608,
+     "power": 0.0
+    },
+    "passed": false
+   },
+   "returned_report": {
+    "cid": "C009",
+    "did": "D017",
+    "success": false,
+    "bottleneck": "nf",
+    "metrics": {
+     "gain_fc_db": 25.7389,
+     "gain_min_db": 22.6154,
+     "gain_max_db": 27.2969,
+     "ripple_db": 4.6815,
+     "s11_fc_db": -28.5377,
+     "s11_max_inband_db": -7.4047,
+     "nf_fc_db": 4.448,
+     "nfmin_fc_db": 4.4347,
+     "nf_max_inband_db": 6.641,
+     "ip1db_dbm": -18.5508,
+     "power_ma": 26.4897,
+     "power_ma_planned": 28.7345
+    },
+    "violations": {
+     "gain": 0.0,
+     "ripple": 1.6815,
+     "nf": 0.0,
+     "ip1db": 0.0,
+     "s11": 2.5953,
+     "power": 0.0
+    }
+   },
+   "searches_before_first_refinement": 1,
+   "s11_electrical_condition_pairs": [
+    {
+     "pair": [
+      "D012",
+      "D014"
+     ],
+     "next": "impedance_matching"
+    },
+    {
+     "pair": [
+      "D014",
+      "D017"
+     ],
+     "next": "band_planning"
+    },
+    {
+     "pair": [
+      "D017",
+      "D018"
+     ],
+     "next": "terminated"
+    }
+   ],
+   "events": [
+    {
+     "t": 39.142,
+     "agent": "searcher",
+     "event": "active_sizing"
+    },
+    {
+     "t": 51.665,
+     "agent": "searcher",
+     "event": "impedance_matching",
+     "cid": "C000",
+     "stage2_feasible": false,
+     "nf_cp_db": 4.511,
+     "gain_cp_db": 11.19,
+     "nf_headroom_db": 0.7,
+     "gain_require_db": null
+    },
+    {
+     "t": 69.996,
+     "agent": "searcher",
+     "event": "impedance_matching",
+     "cid": "C001",
+     "stage2_feasible": false,
+     "nf_cp_db": 4.671,
+     "gain_cp_db": 12.9,
+     "nf_headroom_db": 0.7,
+     "gain_require_db": 13
+    },
+    {
+     "t": 83.582,
+     "agent": "searcher",
+     "event": "impedance_matching",
+     "cid": "C002",
+     "stage2_feasible": false,
+     "nf_cp_db": 4.356,
+     "gain_cp_db": 20.26,
+     "nf_headroom_db": 0.7,
+     "gain_require_db": null
+    },
+    {
+     "t": 102.775,
+     "agent": "searcher",
+     "event": "impedance_matching",
+     "cid": "C003",
+     "stage2_feasible": false,
+     "nf_cp_db": 4.457,
+     "gain_cp_db": 18.4,
+     "nf_headroom_db": 0.7,
+     "gain_require_db": 15
+    },
+    {
+     "t": 117.136,
+     "agent": "searcher",
+     "event": "impedance_matching",
+     "cid": "C004",
+     "stage2_feasible": false,
+     "nf_cp_db": 4.63,
+     "gain_cp_db": 16.79,
+     "nf_headroom_db": 0.5,
+     "gain_require_db": 15
+    },
+    {
+     "t": 134.824,
+     "agent": "searcher",
+     "event": "impedance_matching",
+     "cid": "C005",
+     "stage2_feasible": true,
+     "nf_cp_db": 4.467,
+     "gain_cp_db": 19.67,
+     "nf_headroom_db": 0.5,
+     "gain_require_db": null
+    },
+    {
+     "t": 149.309,
+     "agent": "searcher",
+     "event": "impedance_matching",
+     "cid": "C006",
+     "stage2_feasible": false,
+     "nf_cp_db": 4.474,
+     "gain_cp_db": 17.65,
+     "nf_headroom_db": 0.5,
+     "gain_require_db": 15
+    },
+    {
+     "t": 162.22,
+     "agent": "searcher",
+     "event": "impedance_matching",
+     "cid": "C007",
+     "stage2_feasible": true,
+     "nf_cp_db": 4.486,
+     "gain_cp_db": 14.11,
+     "nf_headroom_db": 0.5,
+     "gain_require_db": null
+    },
+    {
+     "t": 174.281,
+     "agent": "searcher",
+     "event": "impedance_matching",
+     "cid": "C008",
+     "stage2_feasible": false,
+     "nf_cp_db": 4.578,
+     "gain_cp_db": 13.49,
+     "nf_headroom_db": 0.5,
+     "gain_require_db": 15
+    },
+    {
+     "t": 187.237,
+     "agent": "searcher",
+     "event": "impedance_matching",
+     "cid": "C009",
+     "stage2_feasible": true,
+     "nf_cp_db": 4.326,
+     "gain_cp_db": 12.28,
+     "nf_headroom_db": 0.5,
+     "gain_require_db": 13
+    },
+    {
+     "t": 200.554,
+     "agent": "searcher",
+     "event": "terminated",
+     "reason": "finish",
+     "steps": 12
+    },
+    {
+     "t": 200.555,
+     "agent": "manager",
+     "event": "search_report",
+     "new": [
+      "C009",
+      "C007",
+      "C005"
+     ],
+     "terminated": "finish"
+    },
+    {
+     "t": 216.153,
+     "agent": "manager",
+     "event": "refine_candidate",
+     "cid": "C009",
+     "stage2_feasible": true,
+     "nf_cp_db": 4.326,
+     "gain_cp_db": 12.28,
+     "nf_headroom_db": 0.5,
+     "gain_require_db": 13
+    },
+    {
+     "t": 225.615,
+     "agent": "refiner",
+     "event": "band_planning",
+     "cid": "C009",
+     "did": "D010",
+     "gain_user_db": 25,
+     "gain_req_list": null
+    },
+    {
+     "t": 240.167,
+     "agent": "refiner",
+     "event": "evaluate",
+     "cid": "C009",
+     "did": "D010",
+     "passed": false,
+     "violations": {
+      "gain": 0.0902,
+      "ripple": 1.1151,
+      "nf": 0.0,
+      "ip1db": 0.0,
+      "s11": 2.608,
+      "power": 0.0
+     },
+     "metrics": {
+      "gain_fc_db": 22.5422,
+      "gain_min_db": 21.9098,
+      "gain_max_db": 26.0249,
+      "ripple_db": 4.1151,
+      "s11_fc_db": -29.9873,
+      "s11_max_inband_db": -7.392,
+      "nf_fc_db": 4.7885,
+      "nfmin_fc_db": 4.7775,
+      "nf_max_inband_db": 6.7551,
+      "ip1db_dbm": -14.3684,
+      "power_ma": 26.4546,
+      "power_ma_planned": 28.7345
+     }
+    },
+    {
+     "t": 251.136,
+     "agent": "refiner",
+     "event": "impedance_matching",
+     "cid": "C011",
+     "stage2_feasible": false,
+     "nf_cp_db": 4.643,
+     "gain_cp_db": 11.72,
+     "nf_headroom_db": 2.2551,
+     "gain_require_db": 13
+    },
+    {
+     "t": 267.415,
+     "agent": "refiner",
+     "event": "band_planning",
+     "cid": "C009",
+     "did": "D012",
+     "gain_user_db": 28.09,
+     "gain_req_list": [
+      null,
+      7,
+      null
+     ]
+    },
+    {
+     "t": 284.412,
+     "agent": "refiner",
+     "event": "evaluate",
+     "cid": "C009",
+     "did": "D012",
+     "passed": false,
+     "violations": {
+      "gain": 0.0,
+      "ripple": 2.9446,
+      "nf": 0.0,
+      "ip1db": 0.0,
+      "s11": 2.6345,
+      "power": 0.0
+     },
+     "metrics": {
+      "gain_fc_db": 28.8486,
+      "gain_min_db": 23.1173,
+      "gain_max_db": 29.0619,
+      "ripple_db": 5.9446,
+      "s11_fc_db": -30.1076,
+      "s11_max_inband_db": -7.3655,
+      "nf_fc_db": 4.4276,
+      "nfmin_fc_db": 4.4138,
+      "nf_max_inband_db": 6.6373,
+      "ip1db_dbm": -19.2002,
+      "power_ma": 26.4413,
+      "power_ma_planned": 28.7345
+     }
+    },
+    {
+     "t": 300.786,
+     "agent": "refiner",
+     "event": "impedance_matching",
+     "cid": "C013",
+     "stage2_feasible": false,
+     "nf_cp_db": 5.37,
+     "gain_cp_db": 11.22,
+     "nf_headroom_db": 0.65,
+     "gain_require_db": 13
+    },
+    {
+     "t": 314.883,
+     "agent": "refiner",
+     "event": "band_planning",
+     "cid": "C009",
+     "did": "D014",
+     "gain_user_db": 27.5,
+     "gain_req_list": [
+      null,
+      8.5,
+      null
+     ]
+    },
+    {
+     "t": 330.608,
+     "agent": "refiner",
+     "event": "evaluate",
+     "cid": "C009",
+     "did": "D014",
+     "passed": false,
+     "violations": {
+      "gain": 0.0,
+      "ripple": 3.0222,
+      "nf": 0.0,
+      "ip1db": 0.0,
+      "s11": 2.6294,
+      "power": 0.0
+     },
+     "metrics": {
+      "gain_fc_db": 28.1046,
+      "gain_min_db": 23.3783,
+      "gain_max_db": 29.4005,
+      "ripple_db": 6.0222,
+      "s11_fc_db": -30.1541,
+      "s11_max_inband_db": -7.3706,
+      "nf_fc_db": 4.4467,
+      "nfmin_fc_db": 4.433,
+      "nf_max_inband_db": 6.6741,
+      "ip1db_dbm": -17.8414,
+      "power_ma": 26.4604,
+      "power_ma_planned": 28.7345
+     }
+    },
+    {
+     "t": 349.363,
+     "agent": "refiner",
+     "event": "impedance_matching",
+     "cid": "C015",
+     "stage2_feasible": false,
+     "nf_cp_db": 4.597,
+     "gain_cp_db": 11.93,
+     "nf_headroom_db": 1.0,
+     "gain_require_db": 11.5
+    },
+    {
+     "t": 367.364,
+     "agent": "refiner",
+     "event": "impedance_matching",
+     "cid": "C016",
+     "stage2_feasible": false,
+     "nf_cp_db": 4.501,
+     "gain_cp_db": 12.34,
+     "nf_headroom_db": 0.65,
+     "gain_require_db": 11.5
+    },
+    {
+     "t": 381.989,
+     "agent": "refiner",
+     "event": "band_planning",
+     "cid": "C009",
+     "did": "D017",
+     "gain_user_db": 25,
+     "gain_req_list": [
+      null,
+      8.5,
+      null
+     ]
+    },
+    {
+     "t": 394.822,
+     "agent": "refiner",
+     "event": "evaluate",
+     "cid": "C009",
+     "did": "D017",
+     "passed": false,
+     "violations": {
+      "gain": 0.0,
+      "ripple": 1.6815,
+      "nf": 0.0,
+      "ip1db": 0.0,
+      "s11": 2.5953,
+      "power": 0.0
+     },
+     "metrics": {
+      "gain_fc_db": 25.7389,
+      "gain_min_db": 22.6154,
+      "gain_max_db": 27.2969,
+      "ripple_db": 4.6815,
+      "s11_fc_db": -28.5377,
+      "s11_max_inband_db": -7.4047,
+      "nf_fc_db": 4.448,
+      "nfmin_fc_db": 4.4347,
+      "nf_max_inband_db": 6.641,
+      "ip1db_dbm": -18.5508,
+      "power_ma": 26.4897,
+      "power_ma_planned": 28.7345
+     }
+    },
+    {
+     "t": 410.811,
+     "agent": "refiner",
+     "event": "band_planning",
+     "cid": "C009",
+     "did": "D018",
+     "gain_user_db": 28,
+     "gain_req_list": [
+      null,
+      8.5,
+      null
+     ]
+    },
+    {
+     "t": 423.211,
+     "agent": "refiner",
+     "event": "evaluate",
+     "cid": "C009",
+     "did": "D018",
+     "passed": false,
+     "violations": {
+      "gain": 0.0,
+      "ripple": 4.1608,
+      "nf": 0.0,
+      "ip1db": 0.0,
+      "s11": 2.5766,
+      "power": 0.0
+     },
+     "metrics": {
+      "gain_fc_db": 27.8507,
+      "gain_min_db": 23.0761,
+      "gain_max_db": 30.2369,
+      "ripple_db": 7.1608,
+      "s11_fc_db": -28.3675,
+      "s11_max_inband_db": -7.4234,
+      "nf_fc_db": 4.3473,
+      "nfmin_fc_db": 4.333,
+      "nf_max_inband_db": 6.6219,
+      "ip1db_dbm": -19.5671,
+      "power_ma": 26.3964,
+      "power_ma_planned": 28.7345
+     }
+    },
+    {
+     "t": 440.284,
+     "agent": "refiner",
+     "event": "terminated",
+     "reason": "finish",
+     "steps": 15
+    },
+    {
+     "t": 440.284,
+     "agent": "manager",
+     "event": "refine_report",
+     "cid": "C009",
+     "did": "D017",
+     "terminated": "finish",
+     "steps": 5,
+     "violations": {
+      "gain": 0.0,
+      "ripple": 1.6815,
+      "nf": 0.0,
+      "ip1db": 0.0,
+      "s11": 2.5953,
+      "power": 0.0
+     },
+     "metrics": {
+      "gain_fc_db": 25.7389,
+      "gain_min_db": 22.6154,
+      "gain_max_db": 27.2969,
+      "ripple_db": 4.6815,
+      "s11_fc_db": -28.5377,
+      "s11_max_inband_db": -7.4047,
+      "nf_fc_db": 4.448,
+      "nfmin_fc_db": 4.4347,
+      "nf_max_inband_db": 6.641,
+      "ip1db_dbm": -18.5508,
+      "power_ma": 26.4897,
+      "power_ma_planned": 28.7345
+     }
+    },
+    {
+     "t": 462.146,
+     "agent": "searcher",
+     "event": "active_sizing"
+    },
+    {
+     "t": 472.783,
+     "agent": "searcher",
+     "event": "impedance_matching",
+     "cid": "C019",
+     "stage2_feasible": false,
+     "nf_cp_db": 4.2,
+     "gain_cp_db": 13.26,
+     "nf_headroom_db": 1,
+     "gain_require_db": null
+    },
+    {
+     "t": 500.935,
+     "agent": "searcher",
+     "event": "impedance_matching",
+     "cid": "C020",
+     "stage2_feasible": false,
+     "nf_cp_db": 4.319,
+     "gain_cp_db": 20.25,
+     "nf_headroom_db": 1,
+     "gain_require_db": null
+    },
+    {
+     "t": 516.827,
+     "agent": "searcher",
+     "event": "impedance_matching",
+     "cid": "C021",
+     "stage2_feasible": false,
+     "nf_cp_db": 4.229,
+     "gain_cp_db": 14.22,
+     "nf_headroom_db": 1,
+     "gain_require_db": 15
+    },
+    {
+     "t": 531.472,
+     "agent": "searcher",
+     "event": "impedance_matching",
+     "cid": "C022",
+     "stage2_feasible": false,
+     "nf_cp_db": 4.507,
+     "gain_cp_db": 16.32,
+     "nf_headroom_db": 0.5,
+     "gain_require_db": 15
+    },
+    {
+     "t": 547.667,
+     "agent": "searcher",
+     "event": "impedance_matching",
+     "cid": "C023",
+     "stage2_feasible": true,
+     "nf_cp_db": 3.995,
+     "gain_cp_db": 13.26,
+     "nf_headroom_db": 0.75,
+     "gain_require_db": 13
+    },
+    {
+     "t": 563.52,
+     "agent": "searcher",
+     "event": "impedance_matching",
+     "cid": "C024",
+     "stage2_feasible": true,
+     "nf_cp_db": 4.245,
+     "gain_cp_db": 14.06,
+     "nf_headroom_db": 0.75,
+     "gain_require_db": 15
+    },
+    {
+     "t": 577.221,
+     "agent": "searcher",
+     "event": "impedance_matching",
+     "cid": "C025",
+     "stage2_feasible": false,
+     "nf_cp_db": 4.509,
+     "gain_cp_db": 11.96,
+     "nf_headroom_db": 0.75,
+     "gain_require_db": 13
+    },
+    {
+     "t": 593.715,
+     "agent": "searcher",
+     "event": "impedance_matching",
+     "cid": "C026",
+     "stage2_feasible": true,
+     "nf_cp_db": 4.203,
+     "gain_cp_db": 13.92,
+     "nf_headroom_db": 0.75,
+     "gain_require_db": null
+    },
+    {
+     "t": 606.794,
+     "agent": "searcher",
+     "event": "terminated",
+     "reason": "finish",
+     "steps": 10
+    },
+    {
+     "t": 606.795,
+     "agent": "manager",
+     "event": "search_report",
+     "new": [
+      "C023",
+      "C026",
+      "C024"
+     ],
+     "terminated": "finish"
+    },
+    {
+     "t": 619.058,
+     "agent": "manager",
+     "event": "refine_candidate",
+     "cid": "C023",
+     "stage2_feasible": true,
+     "nf_cp_db": 3.995,
+     "gain_cp_db": 13.26,
+     "nf_headroom_db": 0.75,
+     "gain_require_db": 13
+    },
+    {
+     "t": 631.795,
+     "agent": "refiner",
+     "event": "band_planning",
+     "cid": "C023",
+     "did": "D027",
+     "gain_user_db": 25,
+     "gain_req_list": null
+    },
+    {
+     "t": 646.752,
+     "agent": "refiner",
+     "event": "evaluate",
+     "cid": "C023",
+     "did": "D027",
+     "passed": false,
+     "violations": {
+      "gain": 6.5956,
+      "ripple": 1.5639,
+      "nf": 0.0,
+      "ip1db": 0.0,
+      "s11": 3.6619,
+      "power": 0.0
+     },
+     "metrics": {
+      "gain_fc_db": 18.6726,
+      "gain_min_db": 15.4044,
+      "gain_max_db": 19.9683,
+      "ripple_db": 4.5639,
+      "s11_fc_db": -33.5106,
+      "s11_max_inband_db": -6.3381,
+      "nf_fc_db": 4.3533,
+      "nfmin_fc_db": 4.3294,
+      "nf_max_inband_db": 6.7578,
+      "ip1db_dbm": -9.12,
+      "power_ma": 25.5507,
+      "power_ma_planned": 28.0738
+     }
+    },
+    {
+     "t": 661.235,
+     "agent": "refiner",
+     "event": "band_planning",
+     "cid": "C023",
+     "did": "D028",
+     "gain_user_db": 31.6,
+     "gain_req_list": null
+    },
+    {
+     "t": 676.554,
+     "agent": "refiner",
+     "event": "evaluate",
+     "cid": "C023",
+     "did": "D028",
+     "passed": false,
+     "violations": {
+      "gain": 8.1142,
+      "ripple": 0.7354,
+      "nf": 0.0,
+      "ip1db": 0.0,
+      "s11": 3.6759,
+      "power": 0.0
+     },
+     "metrics": {
+      "gain_fc_db": 16.8604,
+      "gain_min_db": 13.8858,
+      "gain_max_db": 17.6212,
+      "ripple_db": 3.7354,
+      "s11_fc_db": -33.6426,
+      "s11_max_inband_db": -6.3241,
+      "nf_fc_db": 4.4241,
+      "nfmin_fc_db": 4.4012,
+      "nf_max_inband_db": 6.9073,
+      "ip1db_dbm": -8.061,
+      "power_ma": 25.5681,
+      "power_ma_planned": 28.0738
+     }
+    },
+    {
+     "t": 691.136,
+     "agent": "refiner",
+     "event": "impedance_matching",
+     "cid": "C029",
+     "stage2_feasible": false,
+     "nf_cp_db": 4.087,
+     "gain_cp_db": 13.41,
+     "nf_headroom_db": 1.25,
+     "gain_require_db": 13
+    },
+    {
+     "t": 704.83,
+     "agent": "refiner",
+     "event": "band_planning",
+     "cid": "C023",
+     "did": "D030",
+     "gain_user_db": 25,
+     "gain_req_list": [
+      null,
+      8.5,
+      null
+     ]
+    },
+    {
+     "t": 717.26,
+     "agent": "refiner",
+     "event": "evaluate",
+     "cid": "C023",
+     "did": "D030",
+     "passed": false,
+     "violations": {
+      "gain": 8.9094,
+      "ripple": 1.5261,
+      "nf": 0.0,
+      "ip1db": 0.0,
+      "s11": 3.68,
+      "power": 0.0
+     },
+     "metrics": {
+      "gain_fc_db": 17.0899,
+      "gain_min_db": 13.0906,
+      "gain_max_db": 17.6167,
+      "ripple_db": 4.5261,
+      "s11_fc_db": -33.1358,
+      "s11_max_inband_db": -6.32,
+      "nf_fc_db": 4.279,
+      "nfmin_fc_db": 4.2541,
+      "nf_max_inband_db": 6.877,
+      "ip1db_dbm": -7.7823,
+      "power_ma": 25.5864,
+      "power_ma_planned": 28.0738
+     }
+    },
+    {
+     "t": 731.37,
+     "agent": "refiner",
+     "event": "impedance_matching",
+     "cid": "C031",
+     "stage2_feasible": true,
+     "nf_cp_db": 4.094,
+     "gain_cp_db": 13.75,
+     "nf_headroom_db": 0.85,
+     "gain_require_db": 14.5
+    },
+    {
+     "t": 742.196,
+     "agent": "refiner",
+     "event": "band_planning",
+     "cid": "C031",
+     "did": "D032",
+     "gain_user_db": 25,
+     "gain_req_list": null
+    },
+    {
+     "t": 755.766,
+     "agent": "refiner",
+     "event": "evaluate",
+     "cid": "C031",
+     "did": "D032",
+     "passed": false,
+     "violations": {
+      "gain": 9.8024,
+      "ripple": 7.0611,
+      "nf": 0.0,
+      "ip1db": 0.0,
+      "s11": 1.5618,
+      "power": 0.0
+     },
+     "metrics": {
+      "gain_fc_db": 17.0525,
+      "gain_min_db": 12.1976,
+      "gain_max_db": 22.2587,
+      "ripple_db": 10.0611,
+      "s11_fc_db": -20.9602,
+      "s11_max_inband_db": -8.4382,
+      "nf_fc_db": 4.4546,
+      "nfmin_fc_db": 4.4405,
+      "nf_max_inband_db": 7.9636,
+      "ip1db_dbm": -6.3697,
+      "power_ma": 25.2543,
+      "power_ma_planned": 28.0738
+     }
+    },
+    {
+     "t": 771.881,
+     "agent": "refiner",
+     "event": "band_planning",
+     "cid": "C031",
+     "did": "D033",
+     "gain_user_db": 24,
+     "gain_req_list": [
+      null,
+      7.5,
+      6.5
+     ]
+    },
+    {
+     "t": 786.167,
+     "agent": "refiner",
+     "event": "evaluate",
+     "cid": "C031",
+     "did": "D033",
+     "passed": false,
+     "violations": {
+      "gain": 8.3545,
+      "ripple": 8.9686,
+      "nf": 0.0,
+      "ip1db": 0.0,
+      "s11": 1.5702,
+      "power": 0.0
+     },
+     "metrics": {
+      "gain_fc_db": 19.3984,
+      "gain_min_db": 13.6455,
+      "gain_max_db": 25.6141,
+      "ripple_db": 11.9686,
+      "s11_fc_db": -21.0042,
+      "s11_max_inband_db": -8.4298,
+      "nf_fc_db": 4.3769,
+      "nfmin_fc_db": 4.3629,
+      "nf_max_inband_db": 7.7737,
+      "ip1db_dbm": -7.4458,
+      "power_ma": 25.2454,
+      "power_ma_planned": 28.0738
+     }
+    },
+    {
+     "t": 805.695,
+     "agent": "refiner",
+     "event": "band_planning",
+     "cid": "C031",
+     "did": "D034",
+     "gain_user_db": 23,
+     "gain_req_list": [
+      null,
+      7.5,
+      null
+     ]
+    },
+    {
+     "t": 833.66,
+     "agent": "refiner",
+     "event": "evaluate",
+     "cid": "C031",
+     "did": "D034",
+     "passed": false,
+     "violations": {
+      "gain": 8.7159,
+      "ripple": 10.0044,
+      "nf": 0.0,
+      "ip1db": 0.0,
+      "s11": 1.5716,
+      "power": 0.0
+     },
+     "metrics": {
+      "gain_fc_db": 20.6211,
+      "gain_min_db": 13.2841,
+      "gain_max_db": 26.2885,
+      "ripple_db": 13.0044,
+      "s11_fc_db": -21.4422,
+      "s11_max_inband_db": -8.4284,
+      "nf_fc_db": 4.2579,
+      "nfmin_fc_db": 4.2443,
+      "nf_max_inband_db": 7.6229,
+      "ip1db_dbm": -7.8311,
+      "power_ma": 25.2909,
+      "power_ma_planned": 28.0738
+     }
+    },
+    {
+     "t": 848.1,
+     "agent": "refiner",
+     "event": "terminated",
+     "reason": "finish",
+     "steps": 15
+    },
+    {
+     "t": 848.101,
+     "agent": "manager",
+     "event": "refine_report",
+     "cid": "C031",
+     "did": "D027",
+     "terminated": "finish",
+     "steps": 6,
+     "violations": {
+      "gain": 6.5956,
+      "ripple": 1.5639,
+      "nf": 0.0,
+      "ip1db": 0.0,
+      "s11": 3.6619,
+      "power": 0.0
+     },
+     "metrics": {
+      "gain_fc_db": 18.6726,
+      "gain_min_db": 15.4044,
+      "gain_max_db": 19.9683,
+      "ripple_db": 4.5639,
+      "s11_fc_db": -33.5106,
+      "s11_max_inband_db": -6.3381,
+      "nf_fc_db": 4.3533,
+      "nfmin_fc_db": 4.3294,
+      "nf_max_inband_db": 6.7578,
+      "ip1db_dbm": -9.12,
+      "power_ma": 25.5507,
+      "power_ma_planned": 28.0738
+     }
+    },
+    {
+     "t": 865.655,
+     "agent": "manager",
+     "event": "refine_candidate",
+     "cid": "C005",
+     "stage2_feasible": true,
+     "nf_cp_db": 4.467,
+     "gain_cp_db": 19.67,
+     "nf_headroom_db": 0.5,
+     "gain_require_db": null
+    },
+    {
+     "t": 876.442,
+     "agent": "refiner",
+     "event": "band_planning",
+     "cid": "C005",
+     "did": "D035",
+     "gain_user_db": 25,
+     "gain_req_list": null
+    },
+    {
+     "t": 889.467,
+     "agent": "refiner",
+     "event": "evaluate",
+     "cid": "C005",
+     "did": "D035",
+     "passed": false,
+     "violations": {
+      "gain": 0.0,
+      "ripple": 3.0003,
+      "nf": 0.0,
+      "ip1db": 0.0,
+      "s11": 5.0644,
+      "power": 0.0
+     },
+     "metrics": {
+      "gain_fc_db": 26.097,
+      "gain_min_db": 22.0586,
+      "gain_max_db": 28.0588,
+      "ripple_db": 6.0003,
+      "s11_fc_db": -38.776,
+      "s11_max_inband_db": -4.9356,
+      "nf_fc_db": 4.6946,
+      "nfmin_fc_db": 4.5774,
+      "nf_max_inband_db": 7.0606,
+      "ip1db_dbm": -18.3522,
+      "power_ma": 25.8119,
+      "power_ma_planned": 28.3133
+     }
+    },
+    {
+     "t": 902.467,
+     "agent": "refiner",
+     "event": "band_planning",
+     "cid": "C005",
+     "did": "D036",
+     "gain_user_db": 24,
+     "gain_req_list": [
+      13,
+      4,
+      7
+     ]
+    },
+    {
+     "t": 917.461,
+     "agent": "refiner",
+     "event": "evaluate",
+     "cid": "C005",
+     "did": "D036",
+     "passed": false,
+     "violations": {
+      "gain": 0.7418,
+      "ripple": 3.2057,
+      "nf": 0.0,
+      "ip1db": 0.0,
+      "s11": 5.0628,
+      "power": 0.0
+     },
+     "metrics": {
+      "gain_fc_db": 25.4105,
+      "gain_min_db": 21.2582,
+      "gain_max_db": 27.464,
+      "ripple_db": 6.2057,
+      "s11_fc_db": -39.0309,
+      "s11_max_inband_db": -4.9372,
+      "nf_fc_db": 4.6185,
+      "nfmin_fc_db": 4.4962,
+      "nf_max_inband_db": 6.9284,
+      "ip1db_dbm": -19.551,
+      "power_ma": 25.823,
+      "power_ma_planned": 28.3133
+     }
+    },
+    {
+     "t": 931.879,
+     "agent": "refiner",
+     "event": "band_planning",
+     "cid": "C005",
+     "did": "D037",
+     "gain_user_db": 25,
+     "gain_req_list": [
+      13,
+      5,
+      7
+     ]
+    },
+    {
+     "t": 947.29,
+     "agent": "refiner",
+     "event": "evaluate",
+     "cid": "C005",
+     "did": "D037",
+     "passed": false,
+     "violations": {
+      "gain": 1.9123,
+      "ripple": 4.3356,
+      "nf": 0.0,
+      "ip1db": 0.0,
+      "s11": 5.0569,
+      "power": 0.0
+     },
+     "metrics": {
+      "gain_fc_db": 22.663,
+      "gain_min_db": 20.0877,
+      "gain_max_db": 27.4233,
+      "ripple_db": 7.3356,
+      "s11_fc_db": -38.9499,
+      "s11_max_inband_db": -4.9431,
+      "nf_fc_db": 4.6313,
+      "nfmin_fc_db": 4.5098,
+      "nf_max_inband_db": 6.9952,
+      "ip1db_dbm": -19.4343,
+      "power_ma": 25.8363,
+      "power_ma_planned": 28.3133
+     }
+    },
+    {
+     "t": 961.259,
+     "agent": "refiner",
+     "event": "band_planning",
+     "cid": "C005",
+     "did": "D038",
+     "gain_user_db": 26,
+     "gain_req_list": [
+      13,
+      4,
+      9
+     ]
+    },
+    {
+     "t": 961.259,
+     "agent": "refiner",
+     "event": "terminated",
+     "reason": "wall_time_budget",
+     "steps": 7
+    },
+    {
+     "t": 961.26,
+     "agent": "manager",
+     "event": "refine_report",
+     "cid": "C005",
+     "did": "D035",
+     "terminated": "wall_time_budget",
+     "steps": 3,
+     "violations": {
+      "gain": 0.0,
+      "ripple": 3.0003,
+      "nf": 0.0,
+      "ip1db": 0.0,
+      "s11": 5.0644,
+      "power": 0.0
+     },
+     "metrics": {
+      "gain_fc_db": 26.097,
+      "gain_min_db": 22.0586,
+      "gain_max_db": 28.0588,
+      "ripple_db": 6.0003,
+      "s11_fc_db": -38.776,
+      "s11_max_inband_db": -4.9356,
+      "nf_fc_db": 4.6946,
+      "nfmin_fc_db": 4.5774,
+      "nf_max_inband_db": 7.0606,
+      "ip1db_dbm": -18.3522,
+      "power_ma": 25.8119,
+      "power_ma_planned": 28.3133
+     }
+    },
+    {
+     "t": 961.261,
+     "agent": "manager",
+     "event": "terminated",
+     "reason": "wall_time_budget",
+     "steps": 5
+    }
+   ]
+  },
+  "s5_backtrack": {
+   "file": "results/runs/cold_start_pilot_r1b/s5_backtrack/design_S5_seed17_mode1_codex-mcp_pdk_n65_v2_s11bt_calls180_smax30.json",
+   "spec": "S5",
+   "seed": 17,
+   "success": true,
+   "termination": "spec_met",
+   "wall_s": 336.578,
+   "eda_equiv_s": 1018.01,
+   "n_search": 1,
+   "n_refine": 1,
+   "usage": {
+    "calls": 22,
+    "errors": 0,
+    "invalid_actions": 0,
+    "fallbacks": 0,
+    "transient_retries": 0,
+    "rule_after_disable": 0,
+    "calls_by_role": {
+     "manager": 2,
+     "searcher": 15,
+     "refiner": 5
+    }
+   },
+   "spectre": 2,
+   "raw_run": "20261124T132245_2e2d2d",
+   "raw_warnings": [
+    5,
+    12
+   ],
+   "first_evaluation_s": 293.264,
+   "evaluated_best": {
+    "did": "D015",
+    "cid": "C012",
+    "metrics": {
+     "gain_fc_db": 25.2081,
+     "gain_min_db": 23.5459,
+     "gain_max_db": 26.2087,
+     "ripple_db": 2.6628,
+     "s11_fc_db": -44.6333,
+     "s11_max_inband_db": -10.1181,
+     "nf_fc_db": 4.6564,
+     "nfmin_fc_db": 4.6405,
+     "nf_max_inband_db": 6.8393,
+     "ip1db_dbm": -20.4772,
+     "power_ma": 25.7563,
+     "power_ma_planned": 28.3133
+    },
+    "violations": {
+     "gain": 0.0,
+     "ripple": 0.0,
+     "nf": 0.0,
+     "ip1db": 0.0,
+     "s11": 0.0,
+     "power": 0.0
+    },
+    "passed": true
+   },
+   "returned_report": {
+    "cid": "C012",
+    "did": "D015",
+    "success": true,
+    "bottleneck": null,
+    "metrics": {
+     "gain_fc_db": 25.2081,
+     "gain_min_db": 23.5459,
+     "gain_max_db": 26.2087,
+     "ripple_db": 2.6628,
+     "s11_fc_db": -44.6333,
+     "s11_max_inband_db": -10.1181,
+     "nf_fc_db": 4.6564,
+     "nfmin_fc_db": 4.6405,
+     "nf_max_inband_db": 6.8393,
+     "ip1db_dbm": -20.4772,
+     "power_ma": 25.7563,
+     "power_ma_planned": 28.3133
+    },
+    "violations": {
+     "gain": 0.0,
+     "ripple": 0.0,
+     "nf": 0.0,
+     "ip1db": 0.0,
+     "s11": 0.0,
+     "power": 0.0
+    }
+   },
+   "searches_before_first_refinement": 1,
+   "s11_electrical_condition_pairs": [],
+   "events": [
+    {
+     "t": 38.237,
+     "agent": "searcher",
+     "event": "active_sizing"
+    },
+    {
+     "t": 53.381,
+     "agent": "searcher",
+     "event": "impedance_matching",
+     "cid": "C000",
+     "stage2_feasible": false,
+     "nf_cp_db": 4.511,
+     "gain_cp_db": 11.19,
+     "nf_headroom_db": 0.8,
+     "gain_require_db": null
+    },
+    {
+     "t": 72.789,
+     "agent": "searcher",
+     "event": "impedance_matching",
+     "cid": "C001",
+     "stage2_feasible": false,
+     "nf_cp_db": 4.389,
+     "gain_cp_db": 19.66,
+     "nf_headroom_db": 0.8,
+     "gain_require_db": null
+    },
+    {
+     "t": 92.213,
+     "agent": "searcher",
+     "event": "impedance_matching",
+     "cid": "C002",
+     "stage2_feasible": false,
+     "nf_cp_db": 4.412,
+     "gain_cp_db": 18.37,
+     "nf_headroom_db": 0.8,
+     "gain_require_db": 18
+    },
+    {
+     "t": 107.204,
+     "agent": "searcher",
+     "event": "impedance_matching",
+     "cid": "C003",
+     "stage2_feasible": false,
+     "nf_cp_db": 4.342,
+     "gain_cp_db": 20.0,
+     "nf_headroom_db": 0.8,
+     "gain_require_db": null
+    },
+    {
+     "t": 121.916,
+     "agent": "searcher",
+     "event": "impedance_matching",
+     "cid": "C004",
+     "stage2_feasible": false,
+     "nf_cp_db": 4.593,
+     "gain_cp_db": 18.88,
+     "nf_headroom_db": 0.6,
+     "gain_require_db": 18
+    },
+    {
+     "t": 136.678,
+     "agent": "searcher",
+     "event": "impedance_matching",
+     "cid": "C005",
+     "stage2_feasible": false,
+     "nf_cp_db": 4.529,
+     "gain_cp_db": 18.08,
+     "nf_headroom_db": 0.5,
+     "gain_require_db": 16
+    },
+    {
+     "t": 152.006,
+     "agent": "searcher",
+     "event": "impedance_matching",
+     "cid": "C006",
+     "stage2_feasible": true,
+     "nf_cp_db": 4.396,
+     "gain_cp_db": 21.26,
+     "nf_headroom_db": 0.5,
+     "gain_require_db": null
+    },
+    {
+     "t": 168.063,
+     "agent": "searcher",
+     "event": "impedance_matching",
+     "cid": "C007",
+     "stage2_feasible": false,
+     "nf_cp_db": 4.778,
+     "gain_cp_db": 17.55,
+     "nf_headroom_db": 0.5,
+     "gain_require_db": 18
+    },
+    {
+     "t": 180.465,
+     "agent": "searcher",
+     "event": "impedance_matching",
+     "cid": "C008",
+     "stage2_feasible": false,
+     "nf_cp_db": 4.397,
+     "gain_cp_db": 17.76,
+     "nf_headroom_db": 0.5,
+     "gain_require_db": 16
+    },
+    {
+     "t": 195.164,
+     "agent": "searcher",
+     "event": "impedance_matching",
+     "cid": "C009",
+     "stage2_feasible": false,
+     "nf_cp_db": 4.492,
+     "gain_cp_db": 17.43,
+     "nf_headroom_db": 0.5,
+     "gain_require_db": 14
+    },
+    {
+     "t": 209.602,
+     "agent": "searcher",
+     "event": "impedance_matching",
+     "cid": "C010",
+     "stage2_feasible": true,
+     "nf_cp_db": 4.42,
+     "gain_cp_db": 20.82,
+     "nf_headroom_db": 0.4,
+     "gain_require_db": null
+    },
+    {
+     "t": 227.342,
+     "agent": "searcher",
+     "event": "impedance_matching",
+     "cid": "C011",
+     "stage2_feasible": false,
+     "nf_cp_db": 4.686,
+     "gain_cp_db": 17.12,
+     "nf_headroom_db": 0.4,
+     "gain_require_db": null
+    },
+    {
+     "t": 241.246,
+     "agent": "searcher",
+     "event": "impedance_matching",
+     "cid": "C012",
+     "stage2_feasible": true,
+     "nf_cp_db": 4.424,
+     "gain_cp_db": 18.89,
+     "nf_headroom_db": 0.4,
+     "gain_require_db": 18
+    },
+    {
+     "t": 253.196,
+     "agent": "searcher",
+     "event": "terminated",
+     "reason": "finish",
+     "steps": 15
+    },
+    {
+     "t": 253.196,
+     "agent": "manager",
+     "event": "search_report",
+     "new": [
+      "C012",
+      "C010",
+      "C006"
+     ],
+     "terminated": "finish"
+    },
+    {
+     "t": 266.717,
+     "agent": "manager",
+     "event": "refine_candidate",
+     "cid": "C012",
+     "stage2_feasible": true,
+     "nf_cp_db": 4.424,
+     "gain_cp_db": 18.89,
+     "nf_headroom_db": 0.4,
+     "gain_require_db": 18
+    },
+    {
+     "t": 279.083,
+     "agent": "refiner",
+     "event": "band_planning",
+     "cid": "C012",
+     "did": "D013",
+     "gain_user_db": 25,
+     "gain_req_list": null
+    },
+    {
+     "t": 293.264,
+     "agent": "refiner",
+     "event": "evaluate",
+     "cid": "C012",
+     "did": "D013",
+     "passed": false,
+     "violations": {
+      "gain": 0.7168,
+      "ripple": 0.3709,
+      "nf": 0.0,
+      "ip1db": 0.0,
+      "s11": 0.1051,
+      "power": 0.0
+     },
+     "metrics": {
+      "gain_fc_db": 23.253,
+      "gain_min_db": 21.2832,
+      "gain_max_db": 24.6541,
+      "ripple_db": 3.3709,
+      "s11_fc_db": -47.4706,
+      "s11_max_inband_db": -9.8949,
+      "nf_fc_db": 4.9401,
+      "nfmin_fc_db": 4.9262,
+      "nf_max_inband_db": 6.85,
+      "ip1db_dbm": -18.5352,
+      "power_ma": 25.6748,
+      "power_ma_planned": 28.3133
+     }
+    },
+    {
+     "t": 309.431,
+     "agent": "refiner",
+     "event": "impedance_matching",
+     "cid": "C014",
+     "stage2_feasible": false,
+     "nf_cp_db": 4.37,
+     "gain_cp_db": 18.92,
+     "nf_headroom_db": 2.25,
+     "gain_require_db": 18
+    },
+    {
+     "t": 323.565,
+     "agent": "refiner",
+     "event": "band_planning",
+     "cid": "C012",
+     "did": "D015",
+     "gain_user_db": 25.7,
+     "gain_req_list": [
+      null,
+      5,
+      null
+     ]
+    },
+    {
+     "t": 337.693,
+     "agent": "refiner",
+     "event": "evaluate",
+     "cid": "C012",
+     "did": "D015",
+     "passed": true,
+     "violations": {
+      "gain": 0.0,
+      "ripple": 0.0,
+      "nf": 0.0,
+      "ip1db": 0.0,
+      "s11": 0.0,
+      "power": 0.0
+     },
+     "metrics": {
+      "gain_fc_db": 25.2081,
+      "gain_min_db": 23.5459,
+      "gain_max_db": 26.2087,
+      "ripple_db": 2.6628,
+      "s11_fc_db": -44.6333,
+      "s11_max_inband_db": -10.1181,
+      "nf_fc_db": 4.6564,
+      "nfmin_fc_db": 4.6405,
+      "nf_max_inband_db": 6.8393,
+      "ip1db_dbm": -20.4772,
+      "power_ma": 25.7563,
+      "power_ma_planned": 28.3133
+     }
+    },
+    {
+     "t": 337.694,
+     "agent": "refiner",
+     "event": "terminated",
+     "reason": "spec_met",
+     "steps": 5
+    },
+    {
+     "t": 337.694,
+     "agent": "manager",
+     "event": "refine_report",
+     "cid": "C012",
+     "did": "D015",
+     "terminated": "spec_met",
+     "steps": 2,
+     "violations": {
+      "gain": 0.0,
+      "ripple": 0.0,
+      "nf": 0.0,
+      "ip1db": 0.0,
+      "s11": 0.0,
+      "power": 0.0
+     },
+     "metrics": {
+      "gain_fc_db": 25.2081,
+      "gain_min_db": 23.5459,
+      "gain_max_db": 26.2087,
+      "ripple_db": 2.6628,
+      "s11_fc_db": -44.6333,
+      "s11_max_inband_db": -10.1181,
+      "nf_fc_db": 4.6564,
+      "nfmin_fc_db": 4.6405,
+      "nf_max_inband_db": 6.8393,
+      "ip1db_dbm": -20.4772,
+      "power_ma": 25.7563,
+      "power_ma_planned": 28.3133
+     }
+    },
+    {
+     "t": 337.696,
+     "agent": "manager",
+     "event": "terminated",
+     "reason": "spec_met",
+     "steps": 2
+    }
+   ]
+  },
+  "s3_original": {
+   "file": "results/runs/cold_start_pilot_r1b/s3_original/design_S3_seed17_mode1_codex-mcp_pdk_n65_v2_calls180_smax30.json",
+   "spec": "S3",
+   "seed": 17,
+   "success": false,
+   "termination": "wall_time_budget",
+   "wall_s": 962.883,
+   "eda_equiv_s": 2773.5,
+   "n_search": 8,
+   "n_refine": 1,
+   "usage": {
+    "calls": 69,
+    "errors": 0,
+    "invalid_actions": 0,
+    "fallbacks": 0,
+    "transient_retries": 0,
+    "rule_after_disable": 0,
+    "calls_by_role": {
+     "manager": 9,
+     "searcher": 59,
+     "refiner": 1
+    }
+   },
+   "spectre": 0,
+   "raw_run": null,
+   "raw_warnings": [],
+   "first_evaluation_s": null,
+   "evaluated_best": null,
+   "returned_report": null,
+   "searches_before_first_refinement": 8,
+   "s11_electrical_condition_pairs": [],
+   "events": [
+    {
+     "t": 36.491,
+     "agent": "searcher",
+     "event": "active_sizing"
+    },
+    {
+     "t": 51.02,
+     "agent": "searcher",
+     "event": "impedance_matching",
+     "cid": "C000",
+     "stage2_feasible": false,
+     "nf_cp_db": 10.036,
+     "gain_cp_db": -3.71,
+     "nf_headroom_db": 0.75,
+     "gain_require_db": null
+    },
+    {
+     "t": 71.408,
+     "agent": "searcher",
+     "event": "impedance_matching",
+     "cid": "C001",
+     "stage2_feasible": false,
+     "nf_cp_db": 7.909,
+     "gain_cp_db": 7.4,
+     "nf_headroom_db": 0.75,
+     "gain_require_db": 10
+    },
+    {
+     "t": 84.723,
+     "agent": "searcher",
+     "event": "impedance_matching",
+     "cid": "C002",
+     "stage2_feasible": false,
+     "nf_cp_db": 8.782,
+     "gain_cp_db": 5.66,
+     "nf_headroom_db": 0.75,
+     "gain_require_db": null
+    },
+    {
+     "t": 104.906,
+     "agent": "searcher",
+     "event": "impedance_matching",
+     "cid": "C003",
+     "stage2_feasible": false,
+     "nf_cp_db": 7.976,
+     "gain_cp_db": 9.37,
+     "nf_headroom_db": 0.75,
+     "gain_require_db": 12
+    },
+    {
+     "t": 119.705,
+     "agent": "searcher",
+     "event": "impedance_matching",
+     "cid": "C004",
+     "stage2_feasible": false,
+     "nf_cp_db": 7.914,
+     "gain_cp_db": 7.27,
+     "nf_headroom_db": 0.75,
+     "gain_require_db": 14
+    },
+    {
+     "t": 133.027,
+     "agent": "searcher",
+     "event": "impedance_matching",
+     "cid": "C005",
+     "stage2_feasible": false,
+     "nf_cp_db": 8.028,
+     "gain_cp_db": 8.89,
+     "nf_headroom_db": 0.75,
+     "gain_require_db": 12
+    },
+    {
+     "t": 148.147,
+     "agent": "searcher",
+     "event": "impedance_matching",
+     "cid": "C006",
+     "stage2_feasible": false,
+     "nf_cp_db": 8.559,
+     "gain_cp_db": 6.9,
+     "nf_headroom_db": 0.75,
+     "gain_require_db": null
+    },
+    {
+     "t": 163.587,
+     "agent": "searcher",
+     "event": "impedance_matching",
+     "cid": "C007",
+     "stage2_feasible": false,
+     "nf_cp_db": 10.625,
+     "gain_cp_db": -4.49,
+     "nf_headroom_db": 0.75,
+     "gain_require_db": null
+    },
+    {
+     "t": 176.613,
+     "agent": "searcher",
+     "event": "impedance_matching",
+     "cid": "C008",
+     "stage2_feasible": false,
+     "nf_cp_db": 7.508,
+     "gain_cp_db": 10.18,
+     "nf_headroom_db": 0.75,
+     "gain_require_db": 10
+    },
+    {
+     "t": 188.791,
+     "agent": "searcher",
+     "event": "impedance_matching",
+     "cid": "C009",
+     "stage2_feasible": false,
+     "nf_cp_db": 8.018,
+     "gain_cp_db": 7.83,
+     "nf_headroom_db": 0.75,
+     "gain_require_db": 14
+    },
+    {
+     "t": 207.279,
+     "agent": "searcher",
+     "event": "terminated",
+     "reason": "finish",
+     "steps": 12
+    },
+    {
+     "t": 207.279,
+     "agent": "manager",
+     "event": "search_report",
+     "new": [
+      "C008",
+      "C003",
+      "C004"
+     ],
+     "terminated": "finish"
+    },
+    {
+     "t": 231.616,
+     "agent": "searcher",
+     "event": "active_sizing"
+    },
+    {
+     "t": 247.694,
+     "agent": "searcher",
+     "event": "impedance_matching",
+     "cid": "C010",
+     "stage2_feasible": false,
+     "nf_cp_db": 8.47,
+     "gain_cp_db": 3.89,
+     "nf_headroom_db": 0.75,
+     "gain_require_db": null
+    },
+    {
+     "t": 263.213,
+     "agent": "searcher",
+     "event": "impedance_matching",
+     "cid": "C011",
+     "stage2_feasible": false,
+     "nf_cp_db": 10.302,
+     "gain_cp_db": -3.74,
+     "nf_headroom_db": 0.75,
+     "gain_require_db": null
+    },
+    {
+     "t": 277.802,
+     "agent": "searcher",
+     "event": "impedance_matching",
+     "cid": "C012",
+     "stage2_feasible": false,
+     "nf_cp_db": 8.939,
+     "gain_cp_db": 3.36,
+     "nf_headroom_db": 0.75,
+     "gain_require_db": 9
+    },
+    {
+     "t": 294.063,
+     "agent": "searcher",
+     "event": "impedance_matching",
+     "cid": "C013",
+     "stage2_feasible": false,
+     "nf_cp_db": 8.2,
+     "gain_cp_db": 5.84,
+     "nf_headroom_db": 0.75,
+     "gain_require_db": null
+    },
+    {
+     "t": 306.537,
+     "agent": "searcher",
+     "event": "impedance_matching",
+     "cid": "C014",
+     "stage2_feasible": false,
+     "nf_cp_db": 7.946,
+     "gain_cp_db": 5.44,
+     "nf_headroom_db": 0.75,
+     "gain_require_db": 9
+    },
+    {
+     "t": 319.278,
+     "agent": "searcher",
+     "event": "terminated",
+     "reason": "finish",
+     "steps": 7
+    },
+    {
+     "t": 319.279,
+     "agent": "manager",
+     "event": "search_report",
+     "new": [],
+     "terminated": "finish"
+    },
+    {
+     "t": 345.704,
+     "agent": "searcher",
+     "event": "active_sizing"
+    },
+    {
+     "t": 358.039,
+     "agent": "searcher",
+     "event": "impedance_matching",
+     "cid": "C015",
+     "stage2_feasible": false,
+     "nf_cp_db": 10.577,
+     "gain_cp_db": -4.31,
+     "nf_headroom_db": 0.5,
+     "gain_require_db": null
+    },
+    {
+     "t": 369.747,
+     "agent": "searcher",
+     "event": "impedance_matching",
+     "cid": "C016",
+     "stage2_feasible": false,
+     "nf_cp_db": 7.394,
+     "gain_cp_db": 8.26,
+     "nf_headroom_db": 0.5,
+     "gain_require_db": null
+    },
+    {
+     "t": 381.431,
+     "agent": "searcher",
+     "event": "impedance_matching",
+     "cid": "C017",
+     "stage2_feasible": false,
+     "nf_cp_db": 8.114,
+     "gain_cp_db": 6.79,
+     "nf_headroom_db": 0.5,
+     "gain_require_db": 9.0
+    },
+    {
+     "t": 394.25,
+     "agent": "searcher",
+     "event": "terminated",
+     "reason": "finish",
+     "steps": 5
+    },
+    {
+     "t": 394.25,
+     "agent": "manager",
+     "event": "search_report",
+     "new": [
+      "C016",
+      "C017"
+     ],
+     "terminated": "finish"
+    },
+    {
+     "t": 421.05,
+     "agent": "searcher",
+     "event": "active_sizing"
+    },
+    {
+     "t": 432.414,
+     "agent": "searcher",
+     "event": "impedance_matching",
+     "cid": "C018",
+     "stage2_feasible": false,
+     "nf_cp_db": 8.427,
+     "gain_cp_db": -0.04,
+     "nf_headroom_db": 0.5,
+     "gain_require_db": null
+    },
+    {
+     "t": 443.701,
+     "agent": "searcher",
+     "event": "impedance_matching",
+     "cid": "C019",
+     "stage2_feasible": false,
+     "nf_cp_db": 7.672,
+     "gain_cp_db": 7.73,
+     "nf_headroom_db": 0.5,
+     "gain_require_db": null
+    },
+    {
+     "t": 455.024,
+     "agent": "searcher",
+     "event": "impedance_matching",
+     "cid": "C020",
+     "stage2_feasible": false,
+     "nf_cp_db": 7.904,
+     "gain_cp_db": 6.97,
+     "nf_headroom_db": 0.5,
+     "gain_require_db": 9.0
+    },
+    {
+     "t": 466.316,
+     "agent": "searcher",
+     "event": "terminated",
+     "reason": "finish",
+     "steps": 5
+    },
+    {
+     "t": 466.316,
+     "agent": "manager",
+     "event": "search_report",
+     "new": [
+      "C019",
+      "C020"
+     ],
+     "terminated": "finish"
+    },
+    {
+     "t": 493.866,
+     "agent": "searcher",
+     "event": "active_sizing"
+    },
+    {
+     "t": 508.763,
+     "agent": "searcher",
+     "event": "impedance_matching",
+     "cid": "C021",
+     "stage2_feasible": false,
+     "nf_cp_db": 7.866,
+     "gain_cp_db": 6.51,
+     "nf_headroom_db": 0.25,
+     "gain_require_db": null
+    },
+    {
+     "t": 522.959,
+     "agent": "searcher",
+     "event": "impedance_matching",
+     "cid": "C022",
+     "stage2_feasible": false,
+     "nf_cp_db": 10.317,
+     "gain_cp_db": -2.88,
+     "nf_headroom_db": 0.25,
+     "gain_require_db": null
+    },
+    {
+     "t": 534.684,
+     "agent": "searcher",
+     "event": "impedance_matching",
+     "cid": "C023",
+     "stage2_feasible": false,
+     "nf_cp_db": 7.952,
+     "gain_cp_db": 6.74,
+     "nf_headroom_db": 0.25,
+     "gain_require_db": 9.0
+    },
+    {
+     "t": 548.855,
+     "agent": "searcher",
+     "event": "impedance_matching",
+     "cid": "C024",
+     "stage2_feasible": false,
+     "nf_cp_db": 8.648,
+     "gain_cp_db": 8.06,
+     "nf_headroom_db": 0.25,
+     "gain_require_db": null
+    },
+    {
+     "t": 560.668,
+     "agent": "searcher",
+     "event": "impedance_matching",
+     "cid": "C025",
+     "stage2_feasible": false,
+     "nf_cp_db": 7.996,
+     "gain_cp_db": 8.09,
+     "nf_headroom_db": 0.25,
+     "gain_require_db": 9.0
+    },
+    {
+     "t": 575.27,
+     "agent": "searcher",
+     "event": "impedance_matching",
+     "cid": "C026",
+     "stage2_feasible": false,
+     "nf_cp_db": 8.095,
+     "gain_cp_db": 1.34,
+     "nf_headroom_db": 0.25,
+     "gain_require_db": 9.0
+    },
+    {
+     "t": 588.106,
+     "agent": "searcher",
+     "event": "impedance_matching",
+     "cid": "C027",
+     "stage2_feasible": false,
+     "nf_cp_db": 9.19,
+     "gain_cp_db": -2.34,
+     "nf_headroom_db": 0.25,
+     "gain_require_db": null
+    },
+    {
+     "t": 600.284,
+     "agent": "searcher",
+     "event": "impedance_matching",
+     "cid": "C028",
+     "stage2_feasible": false,
+     "nf_cp_db": 12.977,
+     "gain_cp_db": -3.75,
+     "nf_headroom_db": 0.25,
+     "gain_require_db": 9.0
+    },
+    {
+     "t": 611.598,
+     "agent": "searcher",
+     "event": "terminated",
+     "reason": "finish",
+     "steps": 10
+    },
+    {
+     "t": 611.599,
+     "agent": "manager",
+     "event": "search_report",
+     "new": [
+      "C021",
+      "C023",
+      "C025"
+     ],
+     "terminated": "finish"
+    },
+    {
+     "t": 637.846,
+     "agent": "searcher",
+     "event": "active_sizing"
+    },
+    {
+     "t": 651.655,
+     "agent": "searcher",
+     "event": "impedance_matching",
+     "cid": "C029",
+     "stage2_feasible": false,
+     "nf_cp_db": 8.924,
+     "gain_cp_db": -1.32,
+     "nf_headroom_db": 0.25,
+     "gain_require_db": null
+    },
+    {
+     "t": 664.248,
+     "agent": "searcher",
+     "event": "impedance_matching",
+     "cid": "C030",
+     "stage2_feasible": false,
+     "nf_cp_db": 7.165,
+     "gain_cp_db": 9.07,
+     "nf_headroom_db": 0.25,
+     "gain_require_db": null
+    },
+    {
+     "t": 686.627,
+     "agent": "searcher",
+     "event": "impedance_matching",
+     "cid": "C031",
+     "stage2_feasible": false,
+     "nf_cp_db": 7.298,
+     "gain_cp_db": 8.67,
+     "nf_headroom_db": 0.25,
+     "gain_require_db": 9.0
+    },
+    {
+     "t": 700.392,
+     "agent": "searcher",
+     "event": "impedance_matching",
+     "cid": "C032",
+     "stage2_feasible": false,
+     "nf_cp_db": 8.58,
+     "gain_cp_db": 6.23,
+     "nf_headroom_db": 0.25,
+     "gain_require_db": null
+    },
+    {
+     "t": 716.053,
+     "agent": "searcher",
+     "event": "impedance_matching",
+     "cid": "C033",
+     "stage2_feasible": false,
+     "nf_cp_db": 14.509,
+     "gain_cp_db": -5.17,
+     "nf_headroom_db": 0.25,
+     "gain_require_db": null
+    },
+    {
+     "t": 727.612,
+     "agent": "searcher",
+     "event": "terminated",
+     "reason": "finish",
+     "steps": 7
+    },
+    {
+     "t": 727.612,
+     "agent": "manager",
+     "event": "search_report",
+     "new": [
+      "C030",
+      "C031"
+     ],
+     "terminated": "finish"
+    },
+    {
+     "t": 754.203,
+     "agent": "searcher",
+     "event": "active_sizing"
+    },
+    {
+     "t": 768.198,
+     "agent": "searcher",
+     "event": "impedance_matching",
+     "cid": "C034",
+     "stage2_feasible": false,
+     "nf_cp_db": 10.018,
+     "gain_cp_db": -1.6,
+     "nf_headroom_db": 0,
+     "gain_require_db": null
+    },
+    {
+     "t": 780.854,
+     "agent": "searcher",
+     "event": "impedance_matching",
+     "cid": "C035",
+     "stage2_feasible": false,
+     "nf_cp_db": 7.444,
+     "gain_cp_db": 9.73,
+     "nf_headroom_db": 0,
+     "gain_require_db": null
+    },
+    {
+     "t": 794.548,
+     "agent": "searcher",
+     "event": "impedance_matching",
+     "cid": "C036",
+     "stage2_feasible": false,
+     "nf_cp_db": 8.184,
+     "gain_cp_db": 8.2,
+     "nf_headroom_db": 0,
+     "gain_require_db": 9.0
+    },
+    {
+     "t": 809.583,
+     "agent": "searcher",
+     "event": "impedance_matching",
+     "cid": "C037",
+     "stage2_feasible": false,
+     "nf_cp_db": 8.722,
+     "gain_cp_db": 5.64,
+     "nf_headroom_db": 0,
+     "gain_require_db": null
+    },
+    {
+     "t": 820.961,
+     "agent": "searcher",
+     "event": "impedance_matching",
+     "cid": "C038",
+     "stage2_feasible": false,
+     "nf_cp_db": 11.812,
+     "gain_cp_db": 3.17,
+     "nf_headroom_db": 0,
+     "gain_require_db": 9.0
+    },
+    {
+     "t": 839.267,
+     "agent": "searcher",
+     "event": "impedance_matching",
+     "cid": "C039",
+     "stage2_feasible": false,
+     "nf_cp_db": 8.959,
+     "gain_cp_db": 1.15,
+     "nf_headroom_db": 0,
+     "gain_require_db": null
+    },
+    {
+     "t": 851.56,
+     "agent": "searcher",
+     "event": "terminated",
+     "reason": "finish",
+     "steps": 8
+    },
+    {
+     "t": 851.56,
+     "agent": "manager",
+     "event": "search_report",
+     "new": [
+      "C035",
+      "C036",
+      "C037"
+     ],
+     "terminated": "finish"
+    },
+    {
+     "t": 879.609,
+     "agent": "searcher",
+     "event": "active_sizing"
+    },
+    {
+     "t": 891.611,
+     "agent": "searcher",
+     "event": "impedance_matching",
+     "cid": "C040",
+     "stage2_feasible": false,
+     "nf_cp_db": 9.872,
+     "gain_cp_db": -1.78,
+     "nf_headroom_db": 0,
+     "gain_require_db": null
+    },
+    {
+     "t": 906.584,
+     "agent": "searcher",
+     "event": "impedance_matching",
+     "cid": "C041",
+     "stage2_feasible": false,
+     "nf_cp_db": 8.464,
+     "gain_cp_db": 7.16,
+     "nf_headroom_db": 0,
+     "gain_require_db": null
+    },
+    {
+     "t": 919.267,
+     "agent": "searcher",
+     "event": "impedance_matching",
+     "cid": "C042",
+     "stage2_feasible": false,
+     "nf_cp_db": 8.361,
+     "gain_cp_db": 7.86,
+     "nf_headroom_db": 0,
+     "gain_require_db": 9.0
+    },
+    {
+     "t": 933.575,
+     "agent": "searcher",
+     "event": "terminated",
+     "reason": "finish",
+     "steps": 5
+    },
+    {
+     "t": 933.576,
+     "agent": "manager",
+     "event": "search_report",
+     "new": [
+      "C042",
+      "C041"
+     ],
+     "terminated": "finish"
+    },
+    {
+     "t": 950.425,
+     "agent": "manager",
+     "event": "refine_candidate",
+     "cid": "C030",
+     "stage2_feasible": false,
+     "nf_cp_db": 7.165,
+     "gain_cp_db": 9.07,
+     "nf_headroom_db": 0.25,
+     "gain_require_db": null
+    },
+    {
+     "t": 964.005,
+     "agent": "refiner",
+     "event": "terminated",
+     "reason": "wall_time_budget",
+     "steps": 0
+    },
+    {
+     "t": 964.005,
+     "agent": "manager",
+     "event": "refine_report",
+     "cid": "C030",
+     "did": null,
+     "terminated": "wall_time_budget",
+     "steps": 0,
+     "violations": null,
+     "metrics": null
+    },
+    {
+     "t": 964.006,
+     "agent": "manager",
+     "event": "terminated",
+     "reason": "wall_time_budget",
+     "steps": 9
+    }
+   ]
+  },
+  "s3_refine": {
+   "file": "results/runs/cold_start_pilot_r1b/s3_refine/design_S3_seed17_mode1_codex-mcp_pdk_n65_v2_r2_calls180_smax30.json",
+   "spec": "S3",
+   "seed": 17,
+   "success": false,
+   "termination": "finish",
+   "wall_s": 351.247,
+   "eda_equiv_s": 774.0,
+   "n_search": 3,
+   "n_refine": 1,
+   "usage": {
+    "calls": 24,
+    "errors": 0,
+    "invalid_actions": 0,
+    "fallbacks": 0,
+    "transient_retries": 0,
+    "rule_after_disable": 0,
+    "calls_by_role": {
+     "manager": 5,
+     "searcher": 18,
+     "refiner": 1
+    }
+   },
+   "spectre": 0,
+   "raw_run": null,
+   "raw_warnings": [],
+   "first_evaluation_s": null,
+   "evaluated_best": null,
+   "returned_report": null,
+   "searches_before_first_refinement": 3,
+   "s11_electrical_condition_pairs": [],
+   "events": [
+    {
+     "t": 43.776,
+     "agent": "searcher",
+     "event": "active_sizing"
+    },
+    {
+     "t": 57.495,
+     "agent": "searcher",
+     "event": "impedance_matching",
+     "cid": "C000",
+     "stage2_feasible": false,
+     "nf_cp_db": 9.984,
+     "gain_cp_db": -3.21,
+     "nf_headroom_db": 0.5,
+     "gain_require_db": null
+    },
+    {
+     "t": 75.291,
+     "agent": "searcher",
+     "event": "impedance_matching",
+     "cid": "C001",
+     "stage2_feasible": false,
+     "nf_cp_db": 7.97,
+     "gain_cp_db": 6.87,
+     "nf_headroom_db": 0.5,
+     "gain_require_db": null
+    },
+    {
+     "t": 98.668,
+     "agent": "searcher",
+     "event": "impedance_matching",
+     "cid": "C002",
+     "stage2_feasible": false,
+     "nf_cp_db": 8.858,
+     "gain_cp_db": 5.12,
+     "nf_headroom_db": 0.5,
+     "gain_require_db": 9.0
+    },
+    {
+     "t": 116.834,
+     "agent": "searcher",
+     "event": "impedance_matching",
+     "cid": "C003",
+     "stage2_feasible": false,
+     "nf_cp_db": 8.107,
+     "gain_cp_db": 8.14,
+     "nf_headroom_db": 0.5,
+     "gain_require_db": null
+    },
+    {
+     "t": 129.7,
+     "agent": "searcher",
+     "event": "impedance_matching",
+     "cid": "C004",
+     "stage2_feasible": false,
+     "nf_cp_db": 7.976,
+     "gain_cp_db": 6.74,
+     "nf_headroom_db": 0.5,
+     "gain_require_db": 9.0
+    },
+    {
+     "t": 142.246,
+     "agent": "searcher",
+     "event": "terminated",
+     "reason": "finish",
+     "steps": 7
+    },
+    {
+     "t": 142.247,
+     "agent": "manager",
+     "event": "search_report",
+     "new": [],
+     "terminated": "finish"
+    },
+    {
+     "t": 166.015,
+     "agent": "searcher",
+     "event": "active_sizing"
+    },
+    {
+     "t": 178.783,
+     "agent": "searcher",
+     "event": "impedance_matching",
+     "cid": "C005",
+     "stage2_feasible": false,
+     "nf_cp_db": 9.505,
+     "gain_cp_db": -2.78,
+     "nf_headroom_db": 0.5,
+     "gain_require_db": null
+    },
+    {
+     "t": 192.572,
+     "agent": "searcher",
+     "event": "impedance_matching",
+     "cid": "C006",
+     "stage2_feasible": false,
+     "nf_cp_db": 8.94,
+     "gain_cp_db": 3.91,
+     "nf_headroom_db": 0.5,
+     "gain_require_db": null
+    },
+    {
+     "t": 206.037,
+     "agent": "searcher",
+     "event": "impedance_matching",
+     "cid": "C007",
+     "stage2_feasible": false,
+     "nf_cp_db": 9.325,
+     "gain_cp_db": 4.51,
+     "nf_headroom_db": 0.5,
+     "gain_require_db": 9.0
+    },
+    {
+     "t": 221.692,
+     "agent": "searcher",
+     "event": "terminated",
+     "reason": "finish",
+     "steps": 5
+    },
+    {
+     "t": 221.692,
+     "agent": "manager",
+     "event": "search_report",
+     "new": [],
+     "terminated": "finish"
+    },
+    {
+     "t": 246.756,
+     "agent": "searcher",
+     "event": "active_sizing"
+    },
+    {
+     "t": 258.527,
+     "agent": "searcher",
+     "event": "impedance_matching",
+     "cid": "C008",
+     "stage2_feasible": false,
+     "nf_cp_db": 8.158,
+     "gain_cp_db": 0.34,
+     "nf_headroom_db": 0,
+     "gain_require_db": null
+    },
+    {
+     "t": 272.553,
+     "agent": "searcher",
+     "event": "impedance_matching",
+     "cid": "C009",
+     "stage2_feasible": false,
+     "nf_cp_db": 9.142,
+     "gain_cp_db": 3.8,
+     "nf_headroom_db": 0,
+     "gain_require_db": null
+    },
+    {
+     "t": 291.935,
+     "agent": "searcher",
+     "event": "impedance_matching",
+     "cid": "C010",
+     "stage2_feasible": false,
+     "nf_cp_db": 10.638,
+     "gain_cp_db": -4.98,
+     "nf_headroom_db": 0,
+     "gain_require_db": 9.0
+    },
+    {
+     "t": 304.039,
+     "agent": "searcher",
+     "event": "impedance_matching",
+     "cid": "C011",
+     "stage2_feasible": false,
+     "nf_cp_db": 9.04,
+     "gain_cp_db": 5.67,
+     "nf_headroom_db": 0,
+     "gain_require_db": 9.0
+    },
+    {
+     "t": 315.959,
+     "agent": "searcher",
+     "event": "terminated",
+     "reason": "finish",
+     "steps": 6
+    },
+    {
+     "t": 315.959,
+     "agent": "manager",
+     "event": "search_report",
+     "new": [
+      "C008"
+     ],
+     "terminated": "finish"
+    },
+    {
+     "t": 329.616,
+     "agent": "manager",
+     "event": "refine_candidate",
+     "cid": "C008",
+     "stage2_feasible": false,
+     "nf_cp_db": 8.158,
+     "gain_cp_db": 0.34,
+     "nf_headroom_db": 0,
+     "gain_require_db": null
+    },
+    {
+     "t": 340.329,
+     "agent": "refiner",
+     "event": "terminated",
+     "reason": "finish",
+     "steps": 1
+    },
+    {
+     "t": 340.329,
+     "agent": "manager",
+     "event": "refine_report",
+     "cid": "C008",
+     "did": null,
+     "terminated": "finish",
+     "steps": 0,
+     "violations": null,
+     "metrics": null
+    },
+    {
+     "t": 352.364,
+     "agent": "manager",
+     "event": "terminated",
+     "reason": "finish",
+     "steps": 5
+    }
+   ]
+  }
+ },
+ "setup_failure": {
+  "attempts": 4,
+  "transport_errors": 12,
+  "successful_model_responses": 0,
+  "spectre": 0
+ },
+ "totals": {
+  "autonomous_llm": 179,
+  "autonomous_spectre": 16,
+  "s3_geometry_spectre": 4,
+  "s5_replay_spectre": 2,
+  "s3_deferred_spectre": 1
+ },
+ "completion": {
+  "end_epoch": 1795498731.122427,
+  "exits": {
+   "s5_original": 3,
+   "s5_backtrack": 0,
+   "s3_original": 3,
+   "s3_refine": 3
+  },
+  "forced": []
+ }
+}
